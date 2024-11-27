@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BoltBot⚡ - Advanced AI Discord Bot</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20'>⚡</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ffcc00;
+      --primary-dark: #ff9900;
+      --dark: #0a0a0a;
+      --light: #ffffff;
+      --card-bg: rgba(255, 204, 0, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeOut 1s ease-in-out 2s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    .lightning {
+      width: 100px;
+      height: 100px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .navbar {
+      padding: 1rem 2rem;
+      background: rgba(10,10,10,0.95);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,204,0,0.1);
+    }
+
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--light);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 101;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: var(--primary);
+      margin: 5px 0;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 6rem 2rem;
+    }
+
+    .hero-content {
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: slideUp 1s ease-out;
+      background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      animation: slideUp 1s ease-out 0.2s forwards;
+      opacity: 0;
+    }
+
+    .features {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 15px;
+      transition: all 0.3s;
+      border: 1px solid rgba(255,204,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 20px rgba(255,204,0,0.1);
+    }
+
+    .feature-card h3 {
+      color: var(--primary);
+      font-size: 1.3rem;
+    }
+
+    .feature-card p {
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+    }
+
+    .tools-section {
+      padding: 5rem 2rem;
+      background: rgba(255,204,0,0.02);
+    }
+
+    .tools-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,204,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .developers-grid {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    #developers p {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+    }
+
+    .lanyard-frame {
+      width: 300px;
+      height: 250px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .cta-button {
+      background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+      color: var(--dark);
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255,204,0,0.2);
+    }
+
+    .footer {
+      background: rgba(10,10,10,0.95);
+      border-top: 1px solid rgba(255,204,0,0.1);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-text {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+
+    .footer-credits {
+      color: var(--primary);
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .bot-avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 0 auto 2rem;
+      border: 3px solid var(--primary);
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 20px rgba(255,204,0,0.2);
+      }
+      to {
+        box-shadow: 0 0 30px rgba(255,204,0,0.4);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: rgba(10,10,10,0.98);
+        padding: 80px 2rem 2rem;
+        transition: right 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links a {
+        padding: 1rem 0;
+        font-size: 1.2rem;
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-links .cta-button {
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+        padding: 0 1rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+      }
+
+      .bot-avatar {
+        width: 150px;
+        height: 150px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        padding: 0 1rem;
+      }
+
+      .features-grid, .tools-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+
+      .feature-card, .tool-card {
+        margin: 0 1rem;
+      }
+
+      .developers-grid {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 1rem;
+      }
+
+      .lanyard-frame {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .footer-content {
+        padding: 0 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .cta-button {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .feature-card, .tool-card {
+        margin: 0 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const imageConfig = {
+      botLogo: "https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png?ex=6748df9a&is=67478e1a&hm=7a294c39ef68f629a3eb81d3b6354e263ddfa91c05a82012bdcc08e11a583857&",
+      botAvatar: "https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png?ex=6748df9a&is=67478e1a&hm=7a294c39ef68f629a3eb81d3b6354e263ddfa91c05a82012bdcc08e11a583857&",
+    };
+  </script>
+
+  <div class="loading-screen">
+    <svg class="lightning" viewBox="0 0 24 24" fill="var(--primary)">
+      <path d="M13 0L0 13h9v11l13-13h-9z"/>
+    </svg>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-content">
+      <a href="#" class="logo">
+        <img src="" alt="BoltBot Logo" id="navLogo">
+        BoltBot⚡
+      </a>
+      <button class="mobile-menu-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#tools">Tools</a>
+        <a href="#developers">Developers</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1250114494081007697" class="cta-button">Add to Discord</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div id="particles-js" class="particles"></div>
+    <div class="hero-content">
+<img src="" alt="BoltBot Avatar" class="bot-avatar" id="heroAvatar">
+      <h1>Meet BoltBot⚡</h1>
+      <p>Your advanced AI-powered Discord companion with powerful features including text generation, image creation, and real-time tools.</p>
+      <a href="https://discord.com/api/oauth2/authorize" class="cta-button">Add to Your Server</a>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <h2 class="section-title">Powerful Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>🤖 AI Text Generation</h3>
+        <p>Generate human-like text responses across various topics with advanced AI capabilities.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🎨 Image Generation</h3>
+        <p>Create stunning images using DALL-E 3 with detailed text prompts.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🖼️ Image Recognition</h3>
+        <p>Analyze and provide detailed descriptions of images shared in your server.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🌐 Internet Browsing</h3>
+        <p>Retrieve current information and verify facts in real-time.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🐍 Python Code Execution</h3>
+        <p>Run Python code snippets in a secure environment directly in Discord.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📄 File Management</h3>
+        <p>Create and manage text-based files with ease.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools-section" id="tools">
+    <h2 class="section-title">Powerful Tools</h2>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <h3>💱 Currency Converter</h3>
+        <p>Convert between different currencies in real-time.</p>
+      </div>
+      <div class="tool-card">
+        <h3>☀️ Weather Updates</h3>
+        <p>Get current weather conditions for any location.</p>
+      </div>
+      <div class="tool-card">
+        <h3>🕒 Time Retrieval</h3>
+        <p>Check current time across different time zones.</p>
+      </div>
+      <div class="tool-card">
+        <h3>😊 React Emojis</h3>
+        <p>Add visual expression reactions to messages.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="developers">
+    <h2 class="section-title">Developers</h2>
+    <p>If you need help or would like to contact us, feel free to reach out to our developers.</p>
+    <div class="developers-grid">
+      <iframe src="https://lanyard.cnrad.dev/api/1146944562951106721" frameborder="0" class="lanyard-frame"></iframe>
+      <iframe src="https://lanyard.cnrad.dev/api/794543886742585366" frameborder="0" class="lanyard-frame"></iframe>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-text">
+        © 2024 BoltBot⚡ Development Team. All rights reserved.
+      </div>
+      <div class="footer-credits">
+        Website designed by Claude | Anthropic's AI Assistant
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    document.getElementById('navLogo').src = imageConfig.botLogo;
+    document.getElementById('heroAvatar').src = imageConfig.botAvatar;
+
+    particlesJS('particles-js', {
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800
+          }
+        },
+        color: {
+          value: '#ffcc00'
+        },
+        shape: {
+          type: 'circle'
+        },
+        opacity: {
+          value: 0.5,
+          random: false
+        },
+        size: {
+          value: 3,
+          random: true
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#ffcc00',
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 6,
+          direction: 'none',
+          random: false,
+          straight: false,
+          out_mode: 'out',
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: {
+            enable: true,
+            mode: 'repulse'
+          },
+          onclick: {
+            enable: true,
+            mode: 'push'
+          },
+          resize: true
+        }
+      },
+      retina_detect: true
+    });
+
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const navLinksItems = document.querySelectorAll('.nav-links a');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenuBtn.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    navLinksItems.forEach(item => {
+      item.addEventListener('click', () => {
+        mobileMenuBtn.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        mobileMenuBtn.classList.remove('active');
+        navLinks.classList.remove('active');
+      }
+    });
+
+    navLinks.addEventListener('touchmove', (e) => {
+      if (navLinks.classList.contains('active')) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    const observerOptions = {
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card, .tool-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>
