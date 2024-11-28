@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const imageConfig = {
-       botAvatar: "assets/media/images/boltbot.webp"
+       botAvatar: "../assets/media/images/boltbot.webp"
   };
 
   useEffect(() => {
