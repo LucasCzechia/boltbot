@@ -1,3 +1,4 @@
+// components/Statistics.jsx
 import { useState, useEffect } from 'react';
 
 const API_URL = 'https://www.boltbot.app/api/stats';
