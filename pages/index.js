@@ -1,7 +1,7 @@
 // pages/index.js
 import Head from 'next/head'
 import Script from 'next/script'
-import Navbar from '../components/Navbar'  // Changed from @/components/Navbar
+import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import Features from '../components/Features'
 import Tools from '../components/Tools'
@@ -74,4 +74,4 @@ export default function Home() {
       />
     </>
   )
-} 
+}
