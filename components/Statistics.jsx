@@ -44,7 +44,7 @@ const Statistics = () => {
     };
 
     fetchStats();
-    const fetchInterval = setInterval(fetchStats, 10000);
+    const fetchInterval = setInterval(fetchStats, 5 * 60 * 1000);
     
     const timeInterval = setInterval(() => {
       setCurrentTime(Date.now());
