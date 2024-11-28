@@ -27,8 +27,6 @@ const Statistics = () => {
 
         const data = await response.json();
         setStats(data);
-        setSecondsOffset(0);
-        setMinutesOffset(0);
         setError(null);
       } catch (err) {
         setError(err.message);
@@ -43,7 +41,13 @@ const Statistics = () => {
     const secondsInterval = setInterval(() => {
       setSecondsOffset(prev => {
         if (prev === 59) {
-          setMinutesOffset(prevMin => (prevMin + 1) % 60);
+          setMinutesOffset(prevMin => {
+            if (prevMin === 59) {
+              fetchStats(); // Fetch new stats when we reach a new hour
+              return 0;
+            }
+            return prevMin + 1;
+          });
           return 0;
         }
         return prev + 1;
