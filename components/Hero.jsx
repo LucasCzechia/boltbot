@@ -1,6 +1,7 @@
 // components/Hero.jsx
 import Link from 'next/link';
 import Image from 'next/image';
+import ScrollButtons from './ScrollButtons';
 
 export default function Hero() {
   return (
@@ -24,6 +25,7 @@ export default function Hero() {
           Add to Your Server
         </Link>
       </div>
+      <ScrollButtons />
     </section>
   );
 }
