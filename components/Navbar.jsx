@@ -1,12 +1,10 @@
 // components/Navbar.jsx
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const imageConfig = {
-       botAvatar: "../assets/media/images/boltbot.webp"
-  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -23,7 +21,13 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-content">
         <Link href="/" className="logo">
-          <img src={imageConfig.botLogo} alt="BoltBot Logo" />
+          <Image
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
+            width={40}
+            height={40}
+            priority
+          />
           BoltBot⚡
         </Link>
         
