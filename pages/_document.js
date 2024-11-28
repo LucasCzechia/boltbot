@@ -18,9 +18,9 @@ export default function Document() {
         <meta property="og:title" content="BoltBot⚡ Dashboard" />
         <meta property="og:description" content="BoltBot⚡ is an advanced AI-powered Discord bot featuring text generation, DALL-E image creation, Python code execution, and powerful utility tools." />
         <meta property="og:image" content="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png" />
-        <meta property="og:image:width" content="600" />
-        <meta property="og:image:height" content="600" />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
+        <meta name="twitter:card" content="summary" />
 
         {/* Discord specific */}
         <meta name="og:site_name" content="BoltBot⚡" />
