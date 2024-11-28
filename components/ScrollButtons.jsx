@@ -23,10 +23,10 @@ export default function ScrollButtons() {
   };
 
   const scrollToContent = () => {
-    window.scrollTo({ 
-      top: window.innerHeight, 
-      behavior: 'smooth' 
-    });
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
