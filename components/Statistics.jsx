@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
 const API_URL = 'https://www.boltbot.app/api/stats';
+const UPTIME_KEY = 'bot_uptime_start';
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(Date.now());
-  const [initialServerTime, setInitialServerTime] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -26,12 +26,15 @@ const Statistics = () => {
         }
 
         const data = await response.json();
-        setStats(data);
         
-        if (!initialServerTime) {
-          setInitialServerTime(data.status.lastUpdated || Date.now());
+          if (!localStorage.getItem(UPTIME_KEY)) {
+          const totalSeconds = (data.status.uptimeDays * 24 * 60 * 60) + 
+                             (data.status.uptimeHours * 60 * 60);
+          const uptimeStart = Date.now() - (totalSeconds * 1000);
+          localStorage.setItem(UPTIME_KEY, uptimeStart.toString());
         }
         
+        setStats(data);
         setError(null);
       } catch (err) {
         setError(err.message);
@@ -51,15 +54,13 @@ const Statistics = () => {
       clearInterval(fetchInterval);
       clearInterval(timeInterval);
     };
-  }, [initialServerTime]);
+  }, []);
 
   const formatUptime = () => {
-    if (!stats?.status || !initialServerTime) return '0d, 0h, 0m, 0s';
+    if (!stats?.status) return '0d, 0h, 0m, 0s';
     
-    const elapsedMs = currentTime - new Date(initialServerTime).getTime();
-    const totalSeconds = Math.floor(elapsedMs / 1000) +
-                        (stats.status.uptimeDays * 24 * 60 * 60) +
-                        (stats.status.uptimeHours * 60 * 60);
+    const uptimeStart = parseInt(localStorage.getItem(UPTIME_KEY) || Date.now());
+    const totalSeconds = Math.floor((currentTime - uptimeStart) / 1000);
     
     const days = Math.floor(totalSeconds / (24 * 60 * 60));
     const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
