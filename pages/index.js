@@ -1,13 +1,13 @@
 // pages/index.js
 import Head from 'next/head'
 import Script from 'next/script'
-import Navbar from '@/components/Navbar'
-import Hero from '@/components/Hero'
-import Features from '@/components/Features'
-import Tools from '@/components/Tools'
-import Statistics from '@/components/Statistics'
-import Developers from '@/components/Developers'
-import Footer from '@/components/Footer'
+import Navbar from '../components/Navbar'  // Changed from @/components/Navbar
+import Hero from '../components/Hero'
+import Features from '../components/Features'
+import Tools from '../components/Tools'
+import Statistics from '../components/Statistics'
+import Developers from '../components/Developers'
+import Footer from '../components/Footer'
 
 export default function Home() {
   return (
