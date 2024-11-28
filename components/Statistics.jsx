@@ -6,13 +6,13 @@ const Statistics = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [secondsOffset, setSecondsOffset] = useState(0);
+  const [minutesOffset, setMinutesOffset] = useState(0);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         setIsLoading(true);
-        console.log('Fetching stats from:', API_URL);
-        
         const response = await fetch(API_URL, {
           method: 'GET',
           headers: {
@@ -20,20 +20,17 @@ const Statistics = () => {
             'Cache-Control': 'no-cache'
           },
         });
-
-        console.log('Response status:', response.status);
         
         if (!response.ok) {
           throw new Error(`Failed to fetch stats: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
-        console.log('Received stats:', data);
-        
         setStats(data);
+        setSecondsOffset(0);
+        setMinutesOffset(0);
         setError(null);
       } catch (err) {
-        console.error('Error fetching statistics:', err);
         setError(err.message);
       } finally {
         setIsLoading(false);
@@ -41,10 +38,30 @@ const Statistics = () => {
     };
 
     fetchStats();
-    const interval = setInterval(fetchStats, 10000);
+    const fetchInterval = setInterval(fetchStats, 10000);
     
-    return () => clearInterval(interval);
+    const secondsInterval = setInterval(() => {
+      setSecondsOffset(prev => {
+        if (prev === 59) {
+          setMinutesOffset(prevMin => (prevMin + 1) % 60);
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 1000);
+    
+    return () => {
+      clearInterval(fetchInterval);
+      clearInterval(secondsInterval);
+    };
   }, []);
+
+  const formatUptime = () => {
+    if (!stats?.status) return '0d, 0h, 0m, 0s';
+    
+    const { uptimeDays, uptimeHours } = stats.status;
+    return `${uptimeDays || 0}d, ${uptimeHours || 0}h, ${minutesOffset}m, ${secondsOffset}s`;
+  };
 
   if (isLoading) {
     return (
@@ -119,9 +136,7 @@ const Statistics = () => {
         </div>
         <div className="status-item">
           <span>Uptime:</span>
-          <span className="text-primary">
-            {stats?.status?.uptimeDays || 0}d {stats?.status?.uptimeHours || 0}h
-          </span>
+          <span className="text-primary">{formatUptime()}</span>
         </div>
       </div>
       <div className="stats-grid">
