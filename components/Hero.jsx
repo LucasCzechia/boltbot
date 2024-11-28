@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Hero() {
   const imageConfig = {
-    botAvatar: "assets/media/images/boltbot.webp"
+    botAvatar: "../assets/media/images/boltbot.webp"
  };
 
   return (
