@@ -7,7 +7,7 @@ export default function Statistics() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/stats');
+        const response = await fetch('boltBot.app/api/stats');
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
