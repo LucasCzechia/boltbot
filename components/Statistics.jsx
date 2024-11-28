@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_URL = 'https://www.boltbot.app/api/stats';
+
 const Statistics = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
@@ -9,7 +11,9 @@ const Statistics = () => {
     const fetchStats = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('https://boltbot.app/api/stats', {
+        console.log('Fetching stats from:', API_URL);
+        
+        const response = await fetch(API_URL, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -17,11 +21,15 @@ const Statistics = () => {
           },
         });
 
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
           throw new Error(`Failed to fetch stats: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
+        console.log('Received stats:', data);
+        
         setStats(data);
         setError(null);
       } catch (err) {
