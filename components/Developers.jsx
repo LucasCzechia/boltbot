@@ -1,4 +1,6 @@
 // components/Developers.jsx
+import Link from 'next/link';
+
 export default function Developers() {
   return (
     <section id="developers">
@@ -15,6 +17,16 @@ export default function Developers() {
           frameBorder="0" 
           className="lanyard-frame"
         />
+      </div>
+      <div className="support-server">
+        <Link 
+          href="https://discord.gg/bolt" 
+          className="support-button"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Join Support Server
+        </Link>
       </div>
     </section>
   );
