@@ -1,16 +1,20 @@
 // components/Hero.jsx
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Hero() {
-  const imageConfig = {
-    botAvatar: "../assets/media/images/boltbot.webp"
- };
-
   return (
     <section className="hero">
       <div id="particles-js" className="particles"></div>
       <div className="hero-content">
-        <img src={imageConfig.botAvatar} alt="BoltBot Avatar" className="bot-avatar" />
+        <Image
+          src="/images/boltbot.webp"
+          alt="BoltBot Avatar"
+          width={200}
+          height={200}
+          className="bot-avatar"
+          priority
+        />
         <h1>Meet BoltBot⚡</h1>
         <p>Your advanced AI-powered Discord companion with powerful features including text generation, image creation, and real-time tools.</p>
         <Link 
