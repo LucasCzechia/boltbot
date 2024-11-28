@@ -8,7 +8,6 @@ import Tools from '../components/Tools'
 import Statistics from '../components/Statistics'
 import Developers from '../components/Developers'
 import Footer from '../components/Footer'
-import { Analytics } from "@vercel/analytics/react"
 
 export default function Home() {
   return (
