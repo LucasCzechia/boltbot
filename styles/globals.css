@@ -431,6 +431,31 @@ body {
   border-radius: 8px;
 }
 
+.support-server {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.support-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 204, 0, 0.1);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  color: var(--primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.support-button:hover {
+  background: var(--primary);
+  color: var(--dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 204, 0, 0.2);
+}
+
 /* Footer */
 .footer {
   background: rgba(10,10,10,0.95);
