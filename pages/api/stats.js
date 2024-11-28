@@ -1,6 +1,7 @@
-// pages/api/stats.js
 import { QuickDB } from 'quick.db';
-const db = new QuickDB();
+const db = new QuickDB({
+  filePath: '/tmp/yourdb.sqlite',  // Ensure you're using a writable path on Vercel
+});
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
