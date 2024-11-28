@@ -6,7 +6,8 @@ const Statistics = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  const [initialServerTime, setInitialServerTime] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -26,6 +27,11 @@ const Statistics = () => {
 
         const data = await response.json();
         setStats(data);
+        
+        if (!initialServerTime) {
+          setInitialServerTime(data.status.lastUpdated || Date.now());
+        }
+        
         setError(null);
       } catch (err) {
         setError(err.message);
@@ -37,22 +43,23 @@ const Statistics = () => {
     fetchStats();
     const fetchInterval = setInterval(fetchStats, 10000);
     
-    const secondsInterval = setInterval(() => {
-      setElapsedSeconds(prev => prev + 1);
+    const timeInterval = setInterval(() => {
+      setCurrentTime(Date.now());
     }, 1000);
     
     return () => {
       clearInterval(fetchInterval);
-      clearInterval(secondsInterval);
+      clearInterval(timeInterval);
     };
-  }, []);
+  }, [initialServerTime]);
 
   const formatUptime = () => {
-    if (!stats?.status) return '0d, 0h, 0m, 0s';
+    if (!stats?.status || !initialServerTime) return '0d, 0h, 0m, 0s';
     
-    const totalSeconds = (stats.status.uptimeDays * 24 * 60 * 60) + 
-                        (stats.status.uptimeHours * 60 * 60) + 
-                        elapsedSeconds;
+    const elapsedMs = currentTime - new Date(initialServerTime).getTime();
+    const totalSeconds = Math.floor(elapsedMs / 1000) +
+                        (stats.status.uptimeDays * 24 * 60 * 60) +
+                        (stats.status.uptimeHours * 60 * 60);
     
     const days = Math.floor(totalSeconds / (24 * 60 * 60));
     const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
