@@ -564,6 +564,127 @@ body {
   }
 }
 
+/* Credits Page */
+.credits-page {
+  min-height: 100vh;
+  padding: 120px 2rem 4rem;
+  background: var(--dark);
+}
+
+.credits-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.credits-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.credits-hero p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+}
+
+.team-section {
+  max-width: 1200px;
+  margin: 0 auto 6rem;
+}
+
+.team-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  color: var(--primary);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.team-card {
+  background: rgba(255, 204, 0, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
+}
+
+.member-image {
+  margin-bottom: 1.5rem;
+}
+
+.avatar {
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+  transition: all 0.3s ease;
+}
+
+.team-card:hover .avatar {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+}
+
+.team-card h3 {
+  font-size: 1.5rem;
+  color: var(--light);
+  margin-bottom: 0.5rem;
+}
+
+.role {
+  color: var(--primary);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.social-links a {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--light);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: var(--primary);
+  color: var(--dark);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .credits-hero h1 {
+    font-size: 2rem;
+  }
+
+  .credits-hero p {
+    font-size: 1rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .mobile-menu-btn {
