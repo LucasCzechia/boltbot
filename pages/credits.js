@@ -33,7 +33,7 @@ const TEAM_MEMBERS = {
     {
       name: "Claude",
       role: "AI Assistant",
-      image: "/images/boltbot.webp",
+      image: "/images/claude.webp",
       description: "Helping with development, design, and bringing ideas to life. Always here to assist!",
       special: true
     }
