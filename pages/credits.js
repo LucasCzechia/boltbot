@@ -4,51 +4,62 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { Github, Discord, Heart } from 'lucide-react';
 
 const TEAM_MEMBERS = {
   developers: [
     {
       name: "Lucas",
       role: "Lead Developer",
-      image: "/images/lucas.webp", 
+      image: "/images/lucas.webp",
+      description: "Hey! I'm the lead developer of BoltBot⚡. I love coding and creating amazing experiences for users!",
       discord: "lucaaczech",
       github: "LucasCzechia"
     },
     {
       name: "Alolo",
       role: "Backend Developer",
-      image: "/images/alolo.webp", 
+      image: "/images/alolo.webp",
+      description: "Focusing on making BoltBot's backend robust and efficient. Always learning and improving!",
       discord: "alolohere",
-     // github: "dev2github"
-    }, 
+    },
     {
       name: "ProTon",
       role: "Retired Developer",
-      image: "/images/proton.webp", 
+      image: "/images/proton.webp",
+      description: "Former developer who helped shape BoltBot's early features. Thank you for your contributions!",
       discord: "wrench.x.x",
-     // github: "dev2github"
-    } 
+    },
+    {
+      name: "Claude",
+      role: "AI Assistant",
+      image: "/images/boltbot.webp",
+      description: "Helping with development, design, and bringing ideas to life. Always here to assist!",
+      special: true
+    }
   ],
   testers: [
     {
       name: "fat.penguin",
       role: "Lead Tester",
-      image: "/images/fatto.webp", 
+      image: "/images/fatto.webp",
+      description: "Leading the testing team to ensure BoltBot runs smoothly. Quality is my priority!",
       discord: "fat.penguin",
     },
     {
       name: "Mahmoud",
       role: "Tester",
-      image: "/images/mahmoud.webp", 
+      image: "/images/mahmoud.webp",
+      description: "Dedicated to finding and reporting issues to make BoltBot better every day.",
       discord: "mahmoudsatty",
     },
     {
       name: "Crayth",
       role: "Tester",
-      image: "/images/crayth.webp", 
+      image: "/images/crayth.webp",
+      description: "Passionate about testing and improving user experience. Every detail matters!",
       discord: "craythh",
-    },
-   // add more 
+    }
   ]
 };
 
@@ -68,6 +79,21 @@ export default function Credits() {
           <p>Meet the amazing people who make BoltBot⚡ possible</p>
         </div>
 
+        <section className="thank-you-section">
+          <div className="thank-you-content">
+            <h2><Heart className="heart-icon" /> Thank You!</h2>
+            <p>
+              From the bottom of our hearts, we want to thank every single person who has contributed
+              to making BoltBot⚡ what it is today. Our developers, testers, and especially YOU - 
+              our amazing community - have made this journey incredible.
+            </p>
+            <p>
+              Every bug report, suggestion, and word of encouragement has pushed us to make BoltBot
+              better. We couldn't have done it without you!
+            </p>
+          </div>
+        </section>
+
         <section className="team-section">
           <h2>Development Team</h2>
           <div className="team-grid">
@@ -83,17 +109,20 @@ export default function Credits() {
                       className="avatar"
                     />
                   </div>
-                  <h3>{member.name}</h3>
+                  <h3>{member.name} {member.special && '✨'}</h3>
                   <p className="role">{member.role}</p>
+                  <p className="description">{member.description}</p>
                   <div className="social-links">
                     {member.discord && (
-                      <Link href={`https://discord.com/users/${member.discord}`} target="_blank">
-                        Discord
+                      <Link href={`https://discord.com/users/${member.discord}`} target="_blank" className="social-link">
+                        <Discord size={16} />
+                        <span>Discord</span>
                       </Link>
                     )}
                     {member.github && (
-                      <Link href={`https://github.com/${member.github}`} target="_blank">
-                        GitHub
+                      <Link href={`https://github.com/${member.github}`} target="_blank" className="social-link">
+                        <Github size={16} />
+                        <span>GitHub</span>
                       </Link>
                     )}
                   </div>
@@ -120,16 +149,35 @@ export default function Credits() {
                   </div>
                   <h3>{member.name}</h3>
                   <p className="role">{member.role}</p>
+                  <p className="description">{member.description}</p>
                   <div className="social-links">
                     {member.discord && (
-                      <Link href={`https://discord.com/users/${member.discord}`} target="_blank">
-                        Discord
+                      <Link href={`https://discord.com/users/${member.discord}`} target="_blank" className="social-link">
+                        <Discord size={16} />
+                        <span>Discord</span>
                       </Link>
                     )}
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="community-section">
+          <div className="community-content">
+            <h2>And You! 💖</h2>
+            <p>
+              Yes, you reading this! You're part of what makes BoltBot⚡ special. Whether you're
+              a server owner, user, or just checking us out - thank you for being here!
+            </p>
+            <p>
+              Join our growing community and be part of our journey!
+            </p>
+            <Link href="https://discord.gg/bolt" target="_blank" className="community-button">
+              <Discord size={20} />
+              Join Our Community
+            </Link>
           </div>
         </section>
       </main>
