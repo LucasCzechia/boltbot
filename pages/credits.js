@@ -50,7 +50,7 @@ const TEAM_MEMBERS = {
       name: "Mahmoud",
       role: "Tester",
       image: "/images/mahmoud.webp",
-      description: "Dedicated to finding and reporting issues to make BoltBot better every day.",
+      description: "🐈",
       discord: "mahmoudsatty"
     },
     {
