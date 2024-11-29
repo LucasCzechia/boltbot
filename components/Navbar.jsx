@@ -12,6 +12,7 @@ export default function Navbar() {
         setIsMenuOpen(false);
       }
     };
+
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMenuOpen]);
@@ -49,14 +50,6 @@ export default function Navbar() {
             className="cta-button"
           >
             Add to Discord
-          </Link>
-          <Link 
-            href="https://discord.gg/bolt"
-            className="cta-button"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Support Server
           </Link>
         </div>
       </div>
