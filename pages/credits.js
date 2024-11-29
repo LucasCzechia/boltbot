@@ -79,21 +79,6 @@ export default function Credits() {
           <p>Meet the amazing people who make BoltBot⚡ possible</p>
         </div>
 
-        <section className="thank-you-section">
-          <div className="thank-you-content">
-            <h2><HeartIcon className="heart-icon" /> Thank You!</h2>
-            <p>
-              From the bottom of our hearts, we want to thank every single person who has contributed
-              to making BoltBot⚡ what it is today. Our developers, testers, and especially YOU - 
-              our amazing community - have made this journey incredible.
-            </p>
-            <p>
-              Every bug report, suggestion, and word of encouragement has pushed us to make BoltBot
-              better. We couldn't have done it without you!
-            </p>
-          </div>
-        </section>
-
         <section className="team-section">
           <h2>Development Team</h2>
           <div className="team-grid">
@@ -164,12 +149,31 @@ export default function Credits() {
           </div>
         </section>
 
+        <section className="thank-you-section">
+          <div className="thank-you-content">
+            <h2><HeartIcon className="heart-icon" /> Thank You!</h2>
+            <p>
+              From the bottom of our hearts, we want to thank every single person who has contributed
+              to making BoltBot⚡ what it is today. 
+              Our developers, testers, and especially YOU -
+              
+              our amazing community - have made this journey incredible.
+            </p>
+            <p>
+              Every bug report, suggestion, and word of encouragement has pushed us to make BoltBot⚡
+              better. 
+              We couldn't have done it without you!
+            </p>
+          </div>
+        </section> 
+
         <section className="community-section">
           <div className="community-content">
             <h2>And You! 💖</h2>
             <p>
-              Yes, you reading this! You're part of what makes BoltBot⚡ special. Whether you're
-              a server owner, user, or just checking us out - thank you for being here!
+            Yes, you reading this! You're part of what makes BoltBot⚡ special. 
+                
+            Whether you're a server owner, user, or just checking us out - thank you for being here!
             </p>
             <p>
               Join our growing community and be part of our journey!
