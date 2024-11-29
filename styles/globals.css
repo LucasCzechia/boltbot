@@ -447,6 +447,7 @@ body {
   color: var(--primary);
   font-weight: 500;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .support-button:hover {
@@ -454,6 +455,7 @@ body {
   color: var(--dark);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 204, 0, 0.2);
+  text-decoration: none;
 }
 
 /* Footer */
