@@ -8,18 +8,18 @@ import Footer from '../components/Footer';
 const TEAM_MEMBERS = {
   developers: [
     {
-      name: "Lucax",
+      name: "Lucas",
       role: "Lead Developer",
-      image: "/images/boltbot.webp", 
-      discord: "lucax",
+      image: "/images/lucas.webp", 
+      discord: "lucaaczech",
       github: "LucasCzechia"
     },
     {
-      name: "Dev2Name",
+      name: "Alolo",
       role: "Backend Developer",
-      image: "/images/boltbot.webp", 
-      discord: "dev2",
-      github: "dev2github"
+      image: "/images/alolo.webp", 
+      discord: "alolohere",
+     // github: "dev2github"
     }
   ],
   testers: [
