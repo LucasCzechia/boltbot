@@ -44,22 +44,20 @@ export default function Navbar() {
           <Link href="#tools">Tools</Link>
           <Link href="#statistics">Statistics</Link>
           <Link href="#developers">Developers</Link>
-          <div className="nav-buttons">
-            <Link 
-              href="https://discord.gg/bolt"
-              className="support-button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Support Server
-            </Link>
-            <Link 
-              href="https://discord.com/oauth2/authorize?client_id=1250114494081007697" 
-              className="cta-button"
-            >
-              Add to Discord
-            </Link>
-          </div>
+          <Link 
+            href="https://discord.com/oauth2/authorize?client_id=1250114494081007697" 
+            className="cta-button"
+          >
+            Add to Discord
+          </Link>
+          <Link 
+            href="https://discord.gg/bolt"
+            className="cta-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Support Server
+          </Link>
         </div>
       </div>
     </nav>
