@@ -589,6 +589,23 @@ body {
   font-size: 1.2rem;
 }
 
+.thank-you-section {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 204, 0, 0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+}
+
+.heart-icon {
+  color: var(--primary);
+  display: inline;
+  margin-right: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
 .team-section {
   max-width: 1200px;
   margin: 0 auto 6rem;
@@ -603,7 +620,7 @@ body {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   padding: 0 1rem;
 }
@@ -647,59 +664,7 @@ body {
 .role {
   color: var(--primary);
   font-size: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.social-links {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.social-links a {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--light);
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.social-links a:hover {
-  background: var(--primary);
-  color: var(--dark);
-  transform: translateY(-2px);
-}
-
-@media (max-width: 768px) {
-  .credits-hero h1 {
-    font-size: 2rem;
-  }
-
-  .credits-hero p {
-    font-size: 1rem;
-  }
-
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.thank-you-section {
-  max-width: 800px;
-  margin: 0 auto 6rem;
-  text-align: center;
-  padding: 2rem;
-  background: rgba(255, 204, 0, 0.05);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 204, 0, 0.1);
-}
-
-.heart-icon {
-  color: var(--primary);
-  display: inline;
-  margin-right: 0.5rem;
-  animation: pulse 2s infinite;
+  margin-bottom: 1rem;
 }
 
 .description {
@@ -707,6 +672,12 @@ body {
   font-size: 0.9rem;
   margin: 1rem 0;
   line-height: 1.6;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .social-link {
@@ -759,6 +730,24 @@ body {
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.2); }
+}
+
+@media (max-width: 768px) {
+  .credits-hero h1 {
+    font-size: 2rem;
+  }
+
+  .credits-hero p {
+    font-size: 1rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-card {
+    margin: 0;
+  }
 }
 
 /* Responsive Design */
