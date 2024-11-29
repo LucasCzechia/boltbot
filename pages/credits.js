@@ -20,13 +20,33 @@ const TEAM_MEMBERS = {
       image: "/images/alolo.webp", 
       discord: "alolohere",
      // github: "dev2github"
-    }
+    }, 
+    {
+      name: "ProTon",
+      role: "Retired Developer",
+      image: "/images/proton.webp", 
+      discord: "wrench.x.x",
+     // github: "dev2github"
+    } 
   ],
   testers: [
     {
-      name: "Tester1",
+      name: "fat.penguin",
       role: "Lead Tester",
-      image: "/images/boltbot.webp", 
+      image: "/images/fatto.webp", 
+      discord: "fat.penguin",
+    },
+    {
+      name: "Mahmoud",
+      role: "Tester",
+      image: "/images/mahmoud.webp", 
+      discord: "mahmoudsatty",
+    },
+    {
+      name: "Crayth",
+      role: "Tester",
+      image: "/images/crayth.webp", 
+      discord: "craythh",
     },
    // add more 
   ]
