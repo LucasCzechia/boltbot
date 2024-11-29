@@ -27,7 +27,7 @@ const TEAM_MEMBERS = {
       name: "ProTon",
       role: "Retired Developer",
       image: "/images/proton.webp",
-      description: "Former developer who helped shape BoltBot's early features. Thank you for your contributions!",
+      description: "bro thinks he's him",
       discord: "wrench.x.x"
     },
     {
