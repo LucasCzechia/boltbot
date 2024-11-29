@@ -2,9 +2,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { MessageSquare, GithubIcon, HeartIcon } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Github, Discord, Heart } from 'lucide-react';
 
 const TEAM_MEMBERS = {
   developers: [
@@ -21,14 +21,14 @@ const TEAM_MEMBERS = {
       role: "Backend Developer",
       image: "/images/alolo.webp",
       description: "Focusing on making BoltBot's backend robust and efficient. Always learning and improving!",
-      discord: "alolohere",
+      discord: "alolohere"
     },
     {
       name: "ProTon",
       role: "Retired Developer",
       image: "/images/proton.webp",
       description: "Former developer who helped shape BoltBot's early features. Thank you for your contributions!",
-      discord: "wrench.x.x",
+      discord: "wrench.x.x"
     },
     {
       name: "Claude",
@@ -44,21 +44,21 @@ const TEAM_MEMBERS = {
       role: "Lead Tester",
       image: "/images/fatto.webp",
       description: "Leading the testing team to ensure BoltBot runs smoothly. Quality is my priority!",
-      discord: "fat.penguin",
+      discord: "fat.penguin"
     },
     {
       name: "Mahmoud",
       role: "Tester",
       image: "/images/mahmoud.webp",
       description: "Dedicated to finding and reporting issues to make BoltBot better every day.",
-      discord: "mahmoudsatty",
+      discord: "mahmoudsatty"
     },
     {
       name: "Crayth",
       role: "Tester",
       image: "/images/crayth.webp",
       description: "Passionate about testing and improving user experience. Every detail matters!",
-      discord: "craythh",
+      discord: "craythh"
     }
   ]
 };
@@ -81,7 +81,7 @@ export default function Credits() {
 
         <section className="thank-you-section">
           <div className="thank-you-content">
-            <h2><Heart className="heart-icon" /> Thank You!</h2>
+            <h2><HeartIcon className="heart-icon" /> Thank You!</h2>
             <p>
               From the bottom of our hearts, we want to thank every single person who has contributed
               to making BoltBot⚡ what it is today. Our developers, testers, and especially YOU - 
@@ -115,13 +115,13 @@ export default function Credits() {
                   <div className="social-links">
                     {member.discord && (
                       <Link href={`https://discord.com/users/${member.discord}`} target="_blank" className="social-link">
-                        <Discord size={16} />
+                        <MessageSquare size={16} />
                         <span>Discord</span>
                       </Link>
                     )}
                     {member.github && (
                       <Link href={`https://github.com/${member.github}`} target="_blank" className="social-link">
-                        <Github size={16} />
+                        <GithubIcon size={16} />
                         <span>GitHub</span>
                       </Link>
                     )}
@@ -153,7 +153,7 @@ export default function Credits() {
                   <div className="social-links">
                     {member.discord && (
                       <Link href={`https://discord.com/users/${member.discord}`} target="_blank" className="social-link">
-                        <Discord size={16} />
+                        <MessageSquare size={16} />
                         <span>Discord</span>
                       </Link>
                     )}
@@ -175,7 +175,7 @@ export default function Credits() {
               Join our growing community and be part of our journey!
             </p>
             <Link href="https://discord.gg/bolt" target="_blank" className="community-button">
-              <Discord size={20} />
+              <MessageSquare size={20} />
               Join Our Community
             </Link>
           </div>
