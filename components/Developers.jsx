@@ -17,6 +17,11 @@ export default function Developers() {
           frameBorder="0" 
           className="lanyard-frame"
         />
+        <iframe 
+          src="https://lanyard.cnrad.dev/api/946789084876144641" 
+          frameBorder="0" 
+          className="lanyard-frame"
+        />
       </div>
       <div className="support-server">
         <Link 
