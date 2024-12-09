@@ -7,7 +7,7 @@ export default function DashboardLayout({ children, navigationItems, activeTab, 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="dashboard-page">
       {/* Mobile menu button */}
       <button
         className="md:hidden fixed top-4 right-4 z-50 p-2 rounded-lg bg-gray-800 text-primary"
@@ -52,7 +52,7 @@ export default function DashboardLayout({ children, navigationItems, activeTab, 
 
       {/* Main content */}
       <main className={`
-        flex-1 p-6 md:ml-64 transition-all duration-300
+        dashboard-content transition-all duration-300
         ${isSidebarOpen ? 'ml-64' : 'ml-0'}
       `}>
         {children}
@@ -67,4 +67,4 @@ export default function DashboardLayout({ children, navigationItems, activeTab, 
       )}
     </div>
   );
-        }
+}
