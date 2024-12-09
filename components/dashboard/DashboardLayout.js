@@ -1,68 +1,103 @@
 // components/dashboard/DashboardLayout.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Menu, X, Bell } from 'lucide-react';
 import Link from 'next/link';
-import { Menu } from 'lucide-react';
 
-export default function DashboardLayout({ children, navigationItems, activeTab, onTabChange }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+interface NavItem {
+  id: string;
+  label: string;
+  icon: any;
+  disabled?: boolean;
+}
+
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+  navigationItems: NavItem[];
+  activeTab: string;
+  onTabChange: (tabId: string) => void;
+}
+
+export default function DashboardLayout({
+  children,
+  navigationItems,
+  activeTab,
+  onTabChange
+}: DashboardLayoutProps) {
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [notifications, setNotifications] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <div className="dashboard-page">
-      {/* Mobile menu button */}
-      <button
-        className="md:hidden fixed top-4 right-4 z-50 p-2 rounded-lg bg-gray-800 text-primary"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        <Menu size={24} />
-      </button>
-
+    <div className="dashboard">
       {/* Sidebar */}
-      <aside className={`
-        fixed top-0 left-0 h-full w-64 bg-gray-800 border-r border-primary/10 transform transition-transform duration-300 z-40
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0 md:static
-      `}>
-        <div className="p-6">
-          <Link href="/" className="flex items-center gap-2 text-primary font-bold text-xl">
+      <aside className={`sidebar ${isMobileSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <Link href="/" className="sidebar-logo">
             BoltBot⚡ Dashboard
           </Link>
         </div>
-
-        <nav className="mt-6">
-          <ul className="space-y-1 px-3">
-            {navigationItems.map((item) => (
-              <li key={item.id}>
-                <button
-                  className={`
-                    w-full px-4 py-3 rounded-lg flex items-center gap-3 transition-all
-                    ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-primary/10'}
-                    ${activeTab === item.id ? 'bg-primary text-dark font-medium' : 'text-light/80'}
-                  `}
-                  onClick={() => !item.disabled && onTabChange(item.id)}
-                  disabled={item.disabled}
-                >
-                  <item.icon size={18} />
-                  {item.label}
-                </button>
-              </li>
-            ))}
-          </ul>
+        
+        <nav className="nav-menu">
+          {navigationItems.map((item) => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeTab === item.id ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
+              onClick={() => !item.disabled && onTabChange(item.id)}
+              disabled={item.disabled}
+            >
+              <item.icon size={20} />
+              {item.label}
+            </button>
+          ))}
         </nav>
       </aside>
 
-      {/* Main content */}
-      <main className={`
-        dashboard-content transition-all duration-300
-        ${isSidebarOpen ? 'ml-64' : 'ml-0'}
-      `}>
-        {children}
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Top Bar */}
+        <div className="topbar">
+          <div className="topbar-left">
+            <button
+              className="md:hidden"
+              onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+            >
+              {isMobileSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          <div className="topbar-right">
+            <button className="relative">
+              <Bell size={20} />
+              {notifications > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full text-dark text-xs flex items-center justify-center">
+                  {notifications}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Page Content */}
+        <div className="content-area animate-fade-in">
+          {children}
+        </div>
       </main>
 
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
+      {/* Mobile Overlay */}
+      {isMobileSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-20 md:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}
     </div>
