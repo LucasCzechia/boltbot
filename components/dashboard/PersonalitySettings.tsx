@@ -1,87 +1,95 @@
 // components/dashboard/PersonalitySettings.tsx
-import { useState } from 'react';
-import { Save, Bot, MessageCircle, Brain } from 'lucide-react';
+import { Bot, MessageCircle, Brain } from 'lucide-react';
 import SettingsCard from './SettingsCard';
-import { toast } from 'react-hot-toast';
 
 const PERSONALITY_TYPES = [
-  { 
+  {
     id: 'default',
     label: 'Default (Balanced)',
-    description: 'Balanced responses suitable for most interactions'
+    description: 'A balanced approach suitable for most interactions. Provides clear, helpful responses while maintaining a professional tone.',
+    features: ['Professional responses', 'Balanced conversation', 'Clear communication']
   },
   {
     id: 'chatty',
     label: 'Chatty',
-    description: 'More casual and conversational style'
+    description: 'More casual and conversational. Uses a friendlier tone and engages in more natural dialogue.',
+    features: ['Casual tone', 'Engaging dialogue', 'Natural conversations']
   },
   {
     id: 'assistant',
     label: 'Assistant',
-    description: 'Focused on efficiency and task completion'
+    description: 'Focused on efficiency and task completion. Provides direct, concise responses optimized for productivity.',
+    features: ['Concise responses', 'Task-focused', 'Efficient communication']
   }
-];
+] as const;
 
 interface PersonalitySettingsProps {
   settings: {
-    type: string;
+    type: 'default' | 'chatty' | 'assistant';
   };
-  onSave: (settings: any) => void;
+  isLoading: boolean;
+  onSave: (settings: { type: 'default' | 'chatty' | 'assistant' }) => void;
 }
 
-export default function PersonalitySettings({ settings, onSave }: PersonalitySettingsProps) {
-  const [selectedType, setSelectedType] = useState(settings.type);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave({ type: selectedType });
-    toast.success('Personality settings updated!');
-  };
-
+export default function PersonalitySettings({ settings, isLoading, onSave }: PersonalitySettingsProps) {
   return (
-    <div className="space-y-6">
-      <div className="settings-header">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-          AI & Personality
-        </h1>
-        <p className="text-light/80">Configure how BoltBot⚡ interacts</p>
+    <div className="animate-fade-in">
+      <div className="page-header">
+        <h1 className="page-title">AI & Personality</h1>
+        <p className="page-description">Configure how BoltBot⚡ interacts</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="max-w-3xl">
         <SettingsCard
           title="Personality Type"
           icon={Brain}
-          className="md:max-w-2xl"
+          description="Choose how BoltBot communicates with users"
         >
-          <div className="space-y-4">
+          <div className="space-y-4 mt-6">
             {PERSONALITY_TYPES.map((type) => (
               <div
                 key={type.id}
                 className={`
-                  personality-option
-                  ${selectedType === type.id ? 'selected' : ''}
+                  p-4 rounded-lg border cursor-pointer transition-all
+                  ${settings.type === type.id 
+                    ? 'border-primary bg-primary/10' 
+                    : 'border-primary/10 hover:border-primary/30'
+                  }
                 `}
-                onClick={() => setSelectedType(type.id)}
+                onClick={() => !isLoading && onSave({ type: type.id })}
               >
-                <div className="flex items-center gap-3">
-                  <div className="radio-circle">
-                    <div className="radio-dot" />
+                <div className="flex items-start gap-3">
+                  <div className="mt-1">
+                    <div className="w-4 h-4 rounded-full border-2 border-primary relative">
+                      {settings.type === type.id && (
+                        <div className="absolute inset-1 rounded-full bg-primary" />
+                      )}
+                    </div>
                   </div>
                   <div>
-                    <h4 className="font-medium text-light">{type.label}</h4>
-                    <p className="text-sm text-light/60">{type.description}</p>
+                    <h3 className="font-medium text-light mb-1">
+                      {type.label}
+                    </h3>
+                    <p className="text-sm text-light/70 mb-3">
+                      {type.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {type.features.map((feature, idx) => (
+                        <span 
+                          key={idx}
+                          className="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </SettingsCard>
-
-        <button type="submit" className="save-button">
-          <Save size={18} />
-          Save Changes
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
