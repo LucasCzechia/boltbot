@@ -1,10 +1,5 @@
 /* styles/globals.css */
-@import './dashboard/dashboard.css';
-@import './dashboard/layout.css';
-@import './dashboard/components.css';
-@import './dashboard/forms.css';
-@import './dashboard/animations.css';
-@import './dashboard/utils.css';
+@import './dashboard/servers.css';
 
 :root {
   --primary: #ffcc00;
