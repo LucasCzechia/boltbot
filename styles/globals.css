@@ -564,7 +564,34 @@ body {
   }
 }
 
-/* Dashboard Styles */
+/* Dashboard Page */
+.dashboard-page {
+  min-height: 100vh;
+  padding: 120px 2rem 4rem;
+  background: var(--dark);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-content {
+  background: rgba(255, 204, 0, 0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  padding: 2rem;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
