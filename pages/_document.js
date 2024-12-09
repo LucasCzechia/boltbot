@@ -1,5 +1,6 @@
 // pages/_document.js
 import { Html, Head, Main, NextScript } from 'next/document'
+import Image from 'next/image'
 
 export default function Document() {
   return (
@@ -17,7 +18,7 @@ export default function Document() {
         <meta property="og:url" content="https://boltbot.app/" />
         <meta property="og:title" content="BoltBot⚡ Dashboard" />
         <meta property="og:description" content="BoltBot⚡ is an advanced AI-powered Discord bot featuring text generation, DALL-E image creation, Python code execution, and powerful utility tools." />
-        <meta property="og:image" content="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png" />
+        <meta property="og:image" content="/images/boltbot.webp" />
         <meta property="og:image:width" content="300" />
         <meta property="og:image:height" content="300" />
         <meta name="twitter:card" content="summary" />
