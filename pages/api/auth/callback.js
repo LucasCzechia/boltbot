@@ -86,12 +86,12 @@ export default async function handler(req, res) {
 
     res.setHeader(
       'Set-Cookie',
-      `auth_token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict`
+      `auth_token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Domain=boltbot.app`
     );
 
-    logger.info('Redirecting to complete page');
+    logger.info('Set auth cookie, redirecting');
     return res.redirect('/auth/complete');
-
+    
   } catch (error) {
     logger.error('Auth callback error', { 
       message: error.message,
