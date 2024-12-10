@@ -6,7 +6,7 @@ import { logger } from '../../../utils/logger';
 export default async function handler(req, res) {
   const { code } = req.query;
 
-  logger.info('Auth callback started', { code: !!code });
+  logger.info('Auth callback started', { hasCode: !!code });
 
   if (!code) {
     logger.error('No code provided');
@@ -14,7 +14,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    logger.info('Exchanging code for token');
     const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
       method: 'POST',
       headers: {
@@ -29,18 +28,15 @@ export default async function handler(req, res) {
       }),
     });
 
-    const tokenData = await tokenRes.text();
-    logger.info('Token response', { status: tokenRes.status });
-    
     if (!tokenRes.ok) {
-      logger.error('Token error', { status: tokenRes.status, body: tokenData });
+      const error = await tokenRes.text();
+      logger.error('Token error', { status: tokenRes.status, error });
       return res.redirect('/auth/error?error=token_error');
     }
 
-    const { access_token } = JSON.parse(tokenData);
+    const { access_token } = await tokenRes.json();
     logger.info('Token obtained successfully');
 
-    logger.info('Fetching user data');
     const userRes = await fetch('https://discord.com/api/users/@me', {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -48,15 +44,13 @@ export default async function handler(req, res) {
     });
 
     if (!userRes.ok) {
-      const userError = await userRes.text();
-      logger.error('User data error', { status: userRes.status, body: userError });
+      logger.error('User data error', { status: userRes.status });
       return res.redirect('/auth/error?error=user_error');
     }
 
     const user = await userRes.json();
     logger.info('User data obtained', { userId: user.id });
 
-    logger.info('Fetching guilds');
     const guildsRes = await fetch('https://discord.com/api/users/@me/guilds', {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -64,8 +58,7 @@ export default async function handler(req, res) {
     });
 
     if (!guildsRes.ok) {
-      const guildsError = await guildsRes.text();
-      logger.error('Guilds error', { status: guildsRes.status, body: guildsError });
+      logger.error('Guilds error', { status: guildsRes.status });
       return res.redirect('/auth/error?error=guilds_error');
     }
 
@@ -84,19 +77,21 @@ export default async function handler(req, res) {
 
     logger.info('Session token created');
 
-    res.setHeader(
-      'Set-Cookie',
-      `auth_token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Domain=boltbot.app`
-    );
+    const cookieString = [
+      `auth_token=${token}`,
+      'Path=/',
+      'Max-Age=43200',
+      'SameSite=Lax',
+      process.env.NODE_ENV === 'production' ? 'Secure' : '',
+    ].filter(Boolean).join('; ');
 
+    res.setHeader('Set-Cookie', cookieString);
     logger.info('Set auth cookie, redirecting');
-    return res.redirect('/auth/complete');
     
+    return res.redirect('/auth/complete');
+
   } catch (error) {
-    logger.error('Auth callback error', { 
-      message: error.message,
-      stack: error.stack 
-    });
+    logger.error('Auth callback error', error);
     return res.redirect('/auth/error?error=server_error');
   }
 }
