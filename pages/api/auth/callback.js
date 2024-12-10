@@ -8,36 +8,49 @@ export default async function handler(req, res) {
   }
 
   const { code } = req.query;
+  console.log('Received code:', code);
 
   try {
+    const tokenParams = new URLSearchParams({
+      client_id: process.env.DISCORD_CLIENT_ID,
+      client_secret: process.env.DISCORD_CLIENT_SECRET,
+      code,
+      grant_type: 'authorization_code',
+      redirect_uri: 'https://boltbot.app/api/auth/callback',
+      scope: 'identify guilds',
+    });
+
+    console.log('Token request params:', tokenParams.toString());
+
     const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
       method: 'POST',
-      body: new URLSearchParams({
-        client_id: authConfig.discord.clientId,
-        client_secret: authConfig.discord.clientSecret,
-        code,
-        grant_type: 'authorization_code',
-        redirect_uri: authConfig.discord.callbackUrl,
-        scope: authConfig.discord.scope.join(' '),
-      }),
+      body: tokenParams,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
 
+    console.log('Token response status:', tokenResponse.status);
     const tokens = await tokenResponse.json();
+    console.log('Token response:', tokens);
+
+    if (!tokenResponse.ok) {
+      throw new Error(`Discord token error: ${tokens.error}`);
+    }
 
     const userResponse = await fetch('https://discord.com/api/users/@me', {
       headers: { Authorization: `Bearer ${tokens.access_token}` },
     });
 
     const userData = await userResponse.json();
+    console.log('User data:', userData);
 
     const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
       headers: { Authorization: `Bearer ${tokens.access_token}` },
     });
 
     const guildsData = await guildsResponse.json();
+    console.log('Guilds count:', guildsData.length);
 
     const sessionToken = jwt.sign(
       {
