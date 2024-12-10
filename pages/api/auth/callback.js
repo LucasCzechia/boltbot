@@ -1,75 +1,102 @@
 // pages/api/auth/callback.js
-import { authConfig } from '../../../config/auth';
 import jwt from 'jsonwebtoken';
+import { authConfig } from '../../../config/auth';
+import { logger } from '../../../utils/logger';
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).end();
+  const { code } = req.query;
+
+  logger.info('Auth callback started', { code: !!code });
+
+  if (!code) {
+    logger.error('No code provided');
+    return res.redirect('/auth/error?error=no_code');
   }
 
-  const { code } = req.query;
-  console.log('Received code:', code);
-
   try {
-    const tokenParams = new URLSearchParams({
-      client_id: process.env.DISCORD_CLIENT_ID,
-      client_secret: process.env.DISCORD_CLIENT_SECRET,
-      code,
-      grant_type: 'authorization_code',
-      redirect_uri: 'https://boltbot.app/api/auth/callback',
-      scope: 'identify guilds',
-    });
-
-    console.log('Token request params:', tokenParams.toString());
-
-    const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
+    logger.info('Exchanging code for token');
+    const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
       method: 'POST',
-      body: tokenParams,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
+      body: new URLSearchParams({
+        client_id: process.env.DISCORD_CLIENT_ID,
+        client_secret: process.env.DISCORD_CLIENT_SECRET,
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: 'https://boltbot.app/api/auth/callback',
+      }),
     });
 
-    console.log('Token response status:', tokenResponse.status);
-    const tokens = await tokenResponse.json();
-    console.log('Token response:', tokens);
-
-    if (!tokenResponse.ok) {
-      throw new Error(`Discord token error: ${tokens.error}`);
+    const tokenData = await tokenRes.text();
+    logger.info('Token response', { status: tokenRes.status });
+    
+    if (!tokenRes.ok) {
+      logger.error('Token error', { status: tokenRes.status, body: tokenData });
+      return res.redirect('/auth/error?error=token_error');
     }
 
-    const userResponse = await fetch('https://discord.com/api/users/@me', {
-      headers: { Authorization: `Bearer ${tokens.access_token}` },
+    const { access_token } = JSON.parse(tokenData);
+    logger.info('Token obtained successfully');
+
+    logger.info('Fetching user data');
+    const userRes = await fetch('https://discord.com/api/users/@me', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
     });
 
-    const userData = await userResponse.json();
-    console.log('User data:', userData);
+    if (!userRes.ok) {
+      const userError = await userRes.text();
+      logger.error('User data error', { status: userRes.status, body: userError });
+      return res.redirect('/auth/error?error=user_error');
+    }
 
-    const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
-      headers: { Authorization: `Bearer ${tokens.access_token}` },
+    const user = await userRes.json();
+    logger.info('User data obtained', { userId: user.id });
+
+    logger.info('Fetching guilds');
+    const guildsRes = await fetch('https://discord.com/api/users/@me/guilds', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
     });
 
-    const guildsData = await guildsResponse.json();
-    console.log('Guilds count:', guildsData.length);
+    if (!guildsRes.ok) {
+      const guildsError = await guildsRes.text();
+      logger.error('Guilds error', { status: guildsRes.status, body: guildsError });
+      return res.redirect('/auth/error?error=guilds_error');
+    }
 
-    const sessionToken = jwt.sign(
+    const guilds = await guildsRes.json();
+    logger.info('Guilds obtained', { count: guilds.length });
+
+    const token = jwt.sign(
       {
-        userId: userData.id,
-        username: userData.username,
-        guilds: guildsData,
+        userId: user.id,
+        username: user.username,
+        guilds: guilds
       },
       authConfig.jwt.getSecret(),
       { expiresIn: authConfig.jwt.expiresIn }
     );
 
+    logger.info('Session token created');
+
     res.setHeader(
       'Set-Cookie',
-      `auth_token=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${60 * 60 * 12}`
+      `auth_token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict`
     );
-    
-    res.redirect('/auth/complete');
+
+    logger.info('Redirecting to complete page');
+    return res.redirect('/auth/complete');
+
   } catch (error) {
-    console.error('Auth error:', error);
-    res.redirect('/auth/error');
+    logger.error('Auth callback error', { 
+      message: error.message,
+      stack: error.stack 
+    });
+    return res.redirect('/auth/error?error=server_error');
   }
 }
