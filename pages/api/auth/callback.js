@@ -1,5 +1,5 @@
 // pages/api/auth/callback.js
-import { authConfig } from '@/config/auth';
+import { authConfig } from '../../../config/auth';
 import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
@@ -49,8 +49,14 @@ export default async function handler(req, res) {
       { expiresIn: authConfig.jwt.expiresIn }
     );
 
-    res.redirect(`/dashboard?token=${sessionToken}`);
+    res.setHeader(
+      'Set-Cookie',
+      `auth_token=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${60 * 60 * 12}`
+    );
+    
+    res.redirect('/auth/complete');
   } catch (error) {
+    console.error('Auth error:', error);
     res.redirect('/auth/error');
   }
 }
