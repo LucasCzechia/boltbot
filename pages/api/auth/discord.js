@@ -1,5 +1,5 @@
 // pages/api/auth/discord.js
-import { authConfig } from '@/config/auth';
+import { authConfig } from '../../../config/auth';
 
 export default function handler(req, res) {
   if (req.method !== 'GET') {
