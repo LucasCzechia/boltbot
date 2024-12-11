@@ -1,13 +1,17 @@
 // pages/dashboard/servers.js
-import { useSession, getSession } from 'next-auth/react'
+import { useSession, getServerSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import DashboardNav from '../../components/dashboard/DashboardNav'
 import ServerGrid from '../../components/dashboard/ServerGrid'
 import Head from 'next/head'
 
 export default function ServersPage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.replace('/auth/login')
+    },
+  })
 
   if (status === 'loading') {
     return (
@@ -17,11 +21,6 @@ export default function ServersPage() {
         </svg>
       </div>
     )
-  }
-
-  if (!session) {
-    router.push('/auth/login')
-    return null
   }
 
   return (
@@ -42,7 +41,7 @@ export default function ServersPage() {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context)
+  const session = await getServerSession(context.req, context.res)
   
   if (!session) {
     return {
