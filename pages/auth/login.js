@@ -39,7 +39,7 @@ export default function Login() {
         <div className="nav-content">
           <a href="/" className="logo">
             <Image 
-              src="/bot-logo.png" 
+              src="/images/boltbot.webp" 
               alt="BoltBot Logo" 
               width={40} 
               height={40}
@@ -55,7 +55,7 @@ export default function Login() {
         
         <div className="auth-card">
           <Image 
-            src="/bot-logo.png"
+            src="/images/boltbot.webp"
             alt="BoltBot Avatar"
             width={120}
             height={120}
