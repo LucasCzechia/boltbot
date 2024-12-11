@@ -4,11 +4,12 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { useRouter } from 'next/router'
 import DashboardNav from '../../components/dashboard/DashboardNav'
+import GreetingBanner from '../../components/dashboard/GreetingBanner'
 import ServerGrid from '../../components/dashboard/ServerGrid'
 import Head from 'next/head'
 
 export default function ServersPage() {
-  const { status } = useSession({
+  const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
       router.replace('/auth/login')
@@ -34,6 +35,7 @@ export default function ServersPage() {
       <DashboardNav />
       
       <div className="servers-container">
+        <GreetingBanner username={session?.user?.global_name || session?.user?.username} />
         <h1 className="page-title">Select a Server</h1>
         <p className="page-subtitle">Choose a server to manage BoltBot⚡ settings</p>
         <ServerGrid />
