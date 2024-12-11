@@ -25,6 +25,13 @@ export default function ServerGrid() {
     }
   }
 
+  const getServerIcon = (server) => {
+    if (server.icon) {
+      return `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128`
+    }
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
+  }
+
   const handleServerClick = (server) => {
     if (server.botPresent) {
       router.push(`/dashboard/servers/${server.id}`)
@@ -53,14 +60,12 @@ export default function ServerGrid() {
         >
           <div className="server-header">
             <Image 
-              src={server.icon 
-                ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png` 
-                : '/api/placeholder/50/50'
-              } 
+              src={getServerIcon(server)}
               alt={server.name}
               width={50}
               height={50}
               className="server-icon"
+              unoptimized
             />
             <div className="server-info">
               <div className="server-name">{server.name}</div>
