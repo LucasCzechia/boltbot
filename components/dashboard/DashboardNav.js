@@ -6,8 +6,8 @@ import Link from 'next/link'
 export default function DashboardNav() {
   const { data: session } = useSession()
 
-  const displayName = session?.user?.global_name || session?.user?.username || 'User'
-  const handle = session?.user?.username ? `@${session?.user?.username}` : '@username'
+  const displayName = session?.user?.global_name || session?.user?.name || 'Unknown User'
+  const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
 
   const getUserAvatar = () => {
     if (!session?.user?.image) {
