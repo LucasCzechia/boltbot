@@ -6,16 +6,13 @@ import Link from 'next/link'
 export default function DashboardNav() {
   const { data: session } = useSession()
 
-  const username = session?.user?.name?.split('#')[0]
-  const handle = session?.user?.name?.split('#')[1] 
-    ? `@${session?.user?.name?.split('#')[0].toLowerCase()}` 
-    : '@username'
+  const displayName = session?.user?.global_name || session?.user?.username || 'User'
+  const handle = session?.user?.username ? `@${session?.user?.username}` : '@username'
 
   const getUserAvatar = () => {
     if (!session?.user?.image) {
       return "https://cdn.discordapp.com/embed/avatars/0.png"
     }
-
     return session.user.image
   }
 
@@ -42,7 +39,7 @@ export default function DashboardNav() {
             unoptimized
           />
           <div>
-            <div className="user-name">{username}</div>
+            <div className="user-name">{displayName}</div>
             <div className="user-tag">{handle}</div>
           </div>
           <div className="dropdown-menu">
@@ -72,4 +69,4 @@ export default function DashboardNav() {
       </div>
     </nav>
   )
-}
+                }
