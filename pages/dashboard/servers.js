@@ -30,7 +30,7 @@ export default function ServersPage() {
       <Head>
         <title>Select Server - BoltBot⚡</title>
       </Head>
-
+      
       <DashboardNav />
       
       <div className="servers-container">
