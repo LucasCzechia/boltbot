@@ -57,6 +57,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .user-name {
@@ -64,12 +65,18 @@
   font-weight: 500;
   color: var(--light);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-tag {
   font-size: 0.8rem;
   color: rgba(255,255,255,0.5);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-menu {
@@ -131,7 +138,7 @@
 
 @media (max-width: 768px) {
   .dashboard-nav {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
   }
 
   .logo {
@@ -144,14 +151,61 @@
   }
 
   .user-profile {
-    padding: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    max-width: 160px;
   }
 
-  .user-name, .user-tag {
-    display: none;
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .user-name {
+    font-size: 0.8rem;
+    max-width: 80px;
+  }
+
+  .user-tag {
+    font-size: 0.7rem;
+    max-width: 80px;
   }
 
   .dropdown-menu {
-    right: -75px;
+    right: 0;
+    min-width: 180px;
+  }
+
+  .dropdown-item {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-nav {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .user-profile {
+    padding: 0.4rem 0.6rem;
+    max-width: 140px;
+  }
+
+  .user-avatar {
+    width: 24px;
+    height: 24px;
+  }
+
+  .user-name {
+    max-width: 70px;
+  }
+
+  .user-tag {
+    max-width: 70px;
+  }
+
+  .dropdown-menu {
+    right: -20px;
+    min-width: 160px;
   }
 }
