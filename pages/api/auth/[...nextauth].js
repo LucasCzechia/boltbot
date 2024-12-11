@@ -10,6 +10,9 @@ export const authOptions = {
       authorization: {
         params: {
           scope: 'identify email guilds',
+          redirect_uri: process.env.VERCEL_URL 
+            ? `https://${process.env.VERCEL_URL}/api/auth/callback/discord`
+            : 'http://localhost:3000/api/auth/callback/discord'
         },
       },
     }),
