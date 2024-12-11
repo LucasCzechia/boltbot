@@ -1,7 +1,7 @@
 // pages/_app.js
-import '../styles/globals.css'; 
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import '../styles/globals.css';
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
       <Analytics />
       <SpeedInsights />
     </>
-  )
+  );
 }
 
-expo rt default MyApp
+export default MyApp;
