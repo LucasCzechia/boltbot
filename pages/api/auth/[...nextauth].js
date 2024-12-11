@@ -7,33 +7,22 @@ export const authOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      authorization: {
-        params: {
-          scope: 'identify email guilds',
-          redirect_uri: process.env.VERCEL_URL 
-            ? `https://${process.env.VERCEL_URL}/api/auth/callback/discord`
-            : 'http://localhost:3000/api/auth/callback/discord'
-        },
-      },
+      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
     }),
   ],
   callbacks: {
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token;
-        token.tokenType = account.token_type;
       }
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
-      session.tokenType = token.tokenType;
       return session;
     },
   },
-  pages: {
-    signIn: '/auth/login',
-  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);
