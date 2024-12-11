@@ -1,5 +1,7 @@
 // pages/dashboard/servers.js
-import { useSession, getServerSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { getServerSession } from "next-auth/next"
+import { authOptions } from '../api/auth/[...nextauth]'
 import { useRouter } from 'next/router'
 import DashboardNav from '../../components/dashboard/DashboardNav'
 import ServerGrid from '../../components/dashboard/ServerGrid'
@@ -40,8 +42,8 @@ export default function ServersPage() {
   )
 }
 
-export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res)
+export async function getServerSideProps({ req, res }) {
+  const session = await getServerSession(req, res, authOptions)
   
   if (!session) {
     return {
@@ -53,6 +55,8 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {}
+    props: {
+      session,
+    }
   }
 }
