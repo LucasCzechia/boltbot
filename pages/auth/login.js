@@ -1,33 +1,21 @@
 // pages/auth/login.js
-import { useEffect } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Image from 'next/image';
+import { useEffect } from 'react'
+import { useSession, signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import Image from 'next/image'
 
 export default function Login() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { status } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/dashboard/servers');
+      router.replace('/dashboard/servers')
     }
-  }, [status, router]);
+  }, [status, router])
 
-  const handleLogin = () => {
-    signIn('discord', { callbackUrl: '/dashboard/servers' });
-  };
-
-  if (status === 'loading') {
-    return (
-      <div className="loading-screen">
-        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
-          <path d="M13 0L0 13h9v11l13-13h-9z"/>
-        </svg>
-      </div>
-    );
-  }
+  if (status === 'authenticated') return null
 
   return (
     <>
@@ -39,11 +27,10 @@ export default function Login() {
         <div className="nav-content">
           <a href="/" className="logo">
             <Image 
-              src="/bot-logo.png" 
-              alt="BoltBot Logo" 
-              width={40} 
+              src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
+              alt="BoltBot Logo"
+              width={40}
               height={40}
-              className="logo-img"
             />
             BoltBot⚡
           </a>
@@ -55,7 +42,7 @@ export default function Login() {
         
         <div className="auth-card">
           <Image 
-            src="/bot-logo.png"
+            src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
             alt="BoltBot Avatar"
             width={120}
             height={120}
@@ -87,7 +74,7 @@ export default function Login() {
             </div>
           </div>
 
-          <button className="discord-button" onClick={handleLogin}>
+          <button onClick={() => signIn('discord')} className="discord-button">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4C14.89 4.21 14.76 4.49 14.67 4.71C13.06 4.47 11.47 4.47 9.88 4.71C9.79 4.49 9.66 4.21 9.55 4C8.04 4.26 6.6 4.71 5.27 5.33C1.96 10.18 1.07 14.91 1.52 19.57C3.27 20.84 4.97 21.63 6.65 22.14C7.07 21.54 7.45 20.9 7.77 20.23C7.13 19.98 6.52 19.67 5.94 19.31C6.11 19.18 6.27 19.05 6.42 18.92C10.05 20.61 13.95 20.61 17.54 18.92C17.7 19.06 17.86 19.18 18.02 19.31C17.44 19.67 16.82 19.99 16.19 20.23C16.51 20.9 16.88 21.54 17.31 22.14C18.99 21.63 20.7 20.84 22.44 19.57C22.97 14.15 21.56 9.46 19.27 5.33Z"/>
             </svg>
@@ -96,5 +83,5 @@ export default function Login() {
         </div>
       </div>
     </>
-  );
-}
+  )
+              }
