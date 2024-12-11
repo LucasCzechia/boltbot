@@ -1,12 +1,37 @@
 // pages/auth/login.js
-import { getSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export default function Login() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/dashboard/servers')
+    }
+  }, [status, router])
+
   const handleLogin = () => {
     signIn('discord', { callbackUrl: '/dashboard/servers' })
+  }
+
+  if (status === 'loading') {
+    return (
+      <div className="loading-screen">
+        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
+          <path d="M13 0L0 13h9v11l13-13h-9z"/>
+        </svg>
+      </div>
+    )
+  }
+
+  if (status === 'authenticated') {
+    return null
   }
 
   return (
@@ -19,7 +44,7 @@ export default function Login() {
         <div className="nav-content">
           <a href="/" className="logo">
             <Image 
-              src="/images/boltbot.webp"
+              src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
               alt="BoltBot Logo"
               width={40}
               height={40}
@@ -34,7 +59,7 @@ export default function Login() {
         
         <div className="auth-card">
           <Image 
-            src="/images/boltbot.webp"
+            src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
             alt="BoltBot Avatar"
             width={120}
             height={120}
@@ -76,21 +101,4 @@ export default function Login() {
       </div>
     </>
   )
-}
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context)
-
-  if (session) {
-    return {
-      redirect: {
-        destination: '/dashboard/servers',
-        permanent: false,
-      },
-    }
-  }
-
-  return {
-    props: {}
-  }
 }
