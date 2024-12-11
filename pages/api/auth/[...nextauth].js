@@ -7,7 +7,11 @@ export const authOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
+      authorization: {
+        params: {
+          scope: 'identify email guilds',
+        },
+      },
     }),
   ],
   callbacks: {
@@ -23,6 +27,10 @@ export const authOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: '/auth/login',
+  },
+  debug: process.env.NODE_ENV === 'development',
 };
 
 export default NextAuth(authOptions);
