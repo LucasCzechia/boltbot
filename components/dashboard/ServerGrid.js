@@ -36,7 +36,7 @@ export default function ServerGrid() {
     if (server.botPresent) {
       router.push(`/dashboard/servers/${server.id}`)
     } else {
-      window.location.href = `https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&permissions=8&scope=bot&guild_id=${server.id}`
+      window.location.href = `https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot&guild_id=${server.id}`
     }
   }
 
@@ -88,4 +88,4 @@ export default function ServerGrid() {
       ))}
     </div>
   )
-}
+                }
