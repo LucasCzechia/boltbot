@@ -7,10 +7,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Component {...pageProps} />
-      </AuthProvider>
       <Analytics />
+      <SpeedInsights />
     </>
   )
 }
 
-export default MyApp
+expo rt default MyApp
