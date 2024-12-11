@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import DashboardNav from '../../components/dashboard/DashboardNav'
 import GreetingBanner from '../../components/dashboard/GreetingBanner'
 import ServerGrid from '../../components/dashboard/ServerGrid'
+import DashboardFooter from '../../components/dashboard/DashboardFooter'
 import Head from 'next/head'
 
 export default function ServersPage() {
@@ -35,11 +36,13 @@ export default function ServersPage() {
       <DashboardNav />
       
       <div className="servers-container">
-        <GreetingBanner username={session?.user?.global_name || session?.user?.name} />
+        <GreetingBanner username={session?.user?.global_name || session?.user?.username} />
         <h1 className="page-title">Select a Server</h1>
         <p className="page-subtitle">Choose a server to manage BoltBot⚡ settings</p>
         <ServerGrid />
       </div>
+
+      <DashboardFooter />
     </>
   )
 }
