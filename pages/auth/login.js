@@ -27,7 +27,7 @@ export default function Login() {
         <div className="nav-content">
           <a href="/" className="logo">
             <Image 
-              src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
+              src="/images/boltbot.webp"
               alt="BoltBot Logo"
               width={40}
               height={40}
@@ -42,7 +42,7 @@ export default function Login() {
         
         <div className="auth-card">
           <Image 
-            src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
+            src="/images/boltbot.webp"
             alt="BoltBot Avatar"
             width={120}
             height={120}
