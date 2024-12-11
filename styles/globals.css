@@ -1,6 +1,7 @@
 /* styles/globals.css */
 @import './dashboard/auth.css';
 @import './dashboard/servers.css';
+@import './dashboard/nav.css';
 
 :root {
   --primary: #ffcc00;
