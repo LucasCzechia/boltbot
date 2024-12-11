@@ -13,17 +13,18 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' })
     }
 
-    const userGuildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`
-      }
-    })
-
-    const botGuildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`
-      }
-    })
+    const [userGuildsResponse, botGuildsResponse] = await Promise.all([
+      fetch('https://discord.com/api/v10/users/@me/guilds', {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`
+        }
+      }),
+      fetch('https://discord.com/api/v10/users/@me/guilds', {
+        headers: {
+          Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`
+        }
+      })
+    ])
 
     if (!userGuildsResponse.ok || !botGuildsResponse.ok) {
       throw new Error('Failed to fetch guilds')
@@ -31,17 +32,39 @@ export default async function handler(req, res) {
 
     const userGuilds = await userGuildsResponse.json()
     const botGuilds = await botGuildsResponse.json()
-    const botGuildIds = botGuilds.map(guild => guild.id)
 
-    const adminGuilds = userGuilds
-      .filter(guild => (BigInt(guild.permissions) & BigInt(0x8)) === BigInt(0x8))
-      .map(guild => ({
-        id: guild.id,
-        name: guild.name,
-        icon: guild.icon,
-        memberCount: guild.approximate_member_count || 0,
-        botPresent: botGuildIds.includes(guild.id)
-      }))
+    const adminGuilds = await Promise.all(
+      userGuilds
+        .filter(guild => (BigInt(guild.permissions) & BigInt(0x8)) === BigInt(0x8))
+        .map(async guild => {
+          const isBotPresent = botGuilds.some(botGuild => botGuild.id === guild.id)
+          let memberCount = 0
+
+          if (isBotPresent) {
+            try {
+              const guildResponse = await fetch(`https://discord.com/api/v10/guilds/${guild.id}?with_counts=true`, {
+                headers: {
+                  Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`
+                }
+              })
+              if (guildResponse.ok) {
+                const guildData = await guildResponse.json()
+                memberCount = guildData.approximate_member_count
+              }
+            } catch (error) {
+              console.error(`Failed to fetch member count for guild ${guild.id}:`, error)
+            }
+          }
+
+          return {
+            id: guild.id,
+            name: guild.name,
+            icon: guild.icon,
+            memberCount,
+            botPresent: isBotPresent
+          }
+        })
+    )
 
     res.json(adminGuilds)
   } catch (error) {
