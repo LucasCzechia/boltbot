@@ -56,7 +56,7 @@ export default function GreetingBanner({ username }) {
     }
 
     getTimeBasedContent()
-    const interval = setInterval(getTimeBasedContent, 60000) // Update every minute
+    const interval = setInterval(getTimeBasedContent, 60000) 
 
     return () => clearInterval(interval)
   }, [])
