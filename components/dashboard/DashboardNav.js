@@ -11,7 +11,7 @@ export default function DashboardNav() {
       <div className="nav-content">
         <Link href="/" className="logo">
           <Image 
-            src="https://cdn.discordapp.com/attachments/1309823577687851028/1311442603606282290/1000020718-removebg-preview.png"
+            src="/images/boltbot.webp"
             alt="BoltBot Logo"
             width={40}
             height={40}
