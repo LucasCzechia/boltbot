@@ -6,10 +6,18 @@ import Link from 'next/link'
 export default function DashboardNav() {
   const { data: session } = useSession()
 
-  const username = session?.user?.name?.split('#')[0] // Get everything before the #
+  const username = session?.user?.name?.split('#')[0]
   const handle = session?.user?.name?.split('#')[1] 
     ? `@${session?.user?.name?.split('#')[0].toLowerCase()}` 
     : '@username'
+
+  const getUserAvatar = () => {
+    if (!session?.user?.image) {
+      return "https://cdn.discordapp.com/embed/avatars/0.png"
+    }
+
+    return session.user.image
+  }
 
   return (
     <nav className="dashboard-nav">
@@ -26,11 +34,12 @@ export default function DashboardNav() {
 
         <div className="user-profile">
           <Image 
-            src={session?.user?.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+            src={getUserAvatar()}
             alt="User Avatar"
             width={32}
             height={32}
             className="user-avatar"
+            unoptimized
           />
           <div>
             <div className="user-name">{username}</div>
