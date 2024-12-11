@@ -6,6 +6,11 @@ import Link from 'next/link'
 export default function DashboardNav() {
   const { data: session } = useSession()
 
+  const username = session?.user?.name?.split('#')[0] // Get everything before the #
+  const handle = session?.user?.name?.split('#')[1] 
+    ? `@${session?.user?.name?.split('#')[0].toLowerCase()}` 
+    : '@username'
+
   return (
     <nav className="dashboard-nav">
       <div className="nav-content">
@@ -27,7 +32,10 @@ export default function DashboardNav() {
             height={32}
             className="user-avatar"
           />
-          <div className="user-name">{session?.user?.name}</div>
+          <div>
+            <div className="user-name">{username}</div>
+            <div className="user-tag">{handle}</div>
+          </div>
           <div className="dropdown-menu">
             <Link href="/dashboard/profile" className="dropdown-item">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -35,6 +43,12 @@ export default function DashboardNav() {
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
               Profile Settings
+            </Link>
+            <Link href="#" className="dropdown-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+              </svg>
+              Preferences
             </Link>
             <button onClick={() => signOut()} className="dropdown-item danger">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -49,4 +63,4 @@ export default function DashboardNav() {
       </div>
     </nav>
   )
-                }
+}
