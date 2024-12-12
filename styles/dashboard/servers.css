@@ -120,7 +120,7 @@
 
 .dropdown-item {
   display: flex;
-  align-items: center;na 
+  align-items: center;
   gap: 0.8rem;
   padding: 0.8rem 1rem;
   color: var(--light);
