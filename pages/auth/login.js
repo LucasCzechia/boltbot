@@ -4,7 +4,6 @@ import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
-import Footer from '../../components/Footer'
 
 export default function Login() {
   const { status } = useSession()
@@ -89,8 +88,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   )
 }
