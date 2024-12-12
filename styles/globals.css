@@ -1,5 +1,6 @@
 /* styles/globals.css */
 @import './dashboard/auth.css';
+@import './dashboard/auth-complete.css';
 @import './dashboard/nav.css';
 @import './dashboard/greeting.css';
 @import './dashboard/scroll-to-top.css';
