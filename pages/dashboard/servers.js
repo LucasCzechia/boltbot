@@ -7,6 +7,7 @@ import DashboardNav from '../../components/dashboard/DashboardNav'
 import GreetingBanner from '../../components/dashboard/GreetingBanner'
 import ServerGrid from '../../components/dashboard/ServerGrid'
 import DashboardFooter from '../../components/dashboard/DashboardFooter'
+import ScrollToTop from '../../components/dashboard/ScrollToTop'
 import Head from 'next/head'
 
 export default function ServersPage() {
@@ -41,6 +42,8 @@ export default function ServersPage() {
         <p className="page-subtitle">Choose a server to manage BoltBot⚡ settings</p>
         <ServerGrid />
       </div>
+
+      <ScrollToTop />
 
       <DashboardFooter />
     </>
