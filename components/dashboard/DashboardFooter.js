@@ -6,7 +6,7 @@ export default function DashboardFooter() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer>
+    <footer className="dashboard-footer"> 
       <div className="footer-bottom">
         <Link href="/" className="footer-logo">
           <Image 
