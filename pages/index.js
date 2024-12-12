@@ -7,7 +7,7 @@ import Features from '../components/Features'
 import Tools from '../components/Tools'
 import Statistics from '../components/Statistics'
 import Developers from '../components/Developers'
-import DashboardFooter from '../../components/dashboard/DashboardFooter'
+import DashboardFooter from '../components/dashboard/DashboardFooter'
 
 export default function Home() {
   return (
