@@ -1,6 +1,4 @@
-/* styles/dashboard/servers.css */
-
-/* Root Variables */
+// styles/dashboard/servers.css
 :root {
   --primary: #ffcc00;
   --primary-dark: #ff9900;
@@ -14,14 +12,12 @@
   --danger: #e74c3c;
 }
 
-/* Main Dashboard Container */
 .servers-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 7rem 2rem 2rem;
 }
 
-/* Page Headers */
 .page-title {
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -35,7 +31,6 @@
   margin-bottom: 2rem;
 }
 
-/* Navigation Styles */
 .dashboard-nav {
   padding: 1rem 2rem;
   background: rgba(10,10,10,0.95);
@@ -55,7 +50,6 @@
   align-items: center;
 }
 
-/* Logo Styles */
 .logo {
   display: flex;
   align-items: center;
@@ -72,7 +66,6 @@
   border-radius: 50%;
 }
 
-/* User Profile Dropdown */
 .user-profile {
   position: relative;
   display: flex;
@@ -103,7 +96,6 @@
   font-weight: 500;
 }
 
-/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
@@ -150,16 +142,17 @@
   background: rgba(231,76,60,0.1);
 }
 
-/* Servers Grid Layout */
 .servers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 }
 
-/* Server Card Styles */
 .server-card {
-  background: var(--card-bg);
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255,204,0,0.1);
   border-radius: 15px;
   padding: 1.5rem;
@@ -167,7 +160,16 @@
   flex-direction: column;
   gap: 1rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transform: translateY(-8px) scale(0.95);
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.server-card.card-active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
 }
 
 .server-card:hover {
@@ -181,7 +183,6 @@
   filter: grayscale(1);
 }
 
-/* Server Card Header */
 .server-header {
   display: flex;
   align-items: center;
@@ -224,7 +225,6 @@
   gap: 0.5rem;
 }
 
-/* Server Status Indicator */
 .server-status {
   display: flex;
   align-items: center;
@@ -250,34 +250,83 @@
   background: #95a5a6;
 }
 
-/* Loading Screen */
-.loading-screen {
-  position: fixed;
+.loading-card {
+  animation: fadeInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+}
+
+.skeleton-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+}
+
+.skeleton-text {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+  border-radius: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 66%;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-subtitle {
+  height: 1rem;
+  width: 100%;
+}
+
+.skeleton-status {
+  height: 2rem;
+  width: 8rem;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+  border-radius: 9999px;
+  margin-top: 1.5rem;
+}
+
+.loading-shimmer {
+  position: absolute;
   top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--dark);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 2s infinite;
 }
 
-.lightning {
-  width: 100px;
-  height: 100px;
-  animation: pulse 1s infinite;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-/* Animations */
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .servers-container {
     padding: 6rem 1rem 1rem;
@@ -316,4 +365,4 @@
   .server-members {
     font-size: 0.8rem;
   }
-}
+                                                                        }
