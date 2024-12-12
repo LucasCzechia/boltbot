@@ -53,3 +53,5 @@ const DashboardFooter = () => {
     </footer>
   );
 };
+
+export default DashboardFooter;
