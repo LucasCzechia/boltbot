@@ -6,9 +6,19 @@ export default function DashboardFooter() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer> 
-      <div className="footer-section"> 
-        <h3>Connect</h3>
+    <footer>
+      <div className="footer-bottom">
+        <Link href="/" className="footer-logo">
+          <Image 
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
+            width={24}
+            height={24}
+          />
+          BoltBot⚡
+        </Link>
+        <div>© {currentYear} BoltBot⚡. All rights reserved.</div> 
+
         <div className="footer-social">
           <a href="https://discord.gg/your-server" className="social-link" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -25,23 +35,13 @@ export default function DashboardFooter() {
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>
-        </div> 
-      </div> {/* Close footer-section div */}
+        </div>
 
-      <div className="footer-bottom">
-        <Link href="/" className="footer-logo">
-          <Image 
-            src="/images/boltbot.webp"
-            alt="BoltBot Logo"
-            width={24}
-            height={24}
-          />
-          BoltBot⚡
-        </Link>
-        <div>© {currentYear} BoltBot⚡. All rights reserved.</div>
-        <Link href="/terms" className="footer-link">Terms of Service</Link>
-        <Link href="/privacy" className="footer-link">Privacy Policy</Link> 
+        <div className="footer-links">
+          <Link href="/terms" className="footer-link">Terms of Service</Link>
+          <Link href="/privacy" className="footer-link">Privacy Policy</Link>
+        </div>
       </div>
     </footer>
   )
-}
+              }
