@@ -1,4 +1,4 @@
-/* styles/auth.css */
+/* Authentication Page Styles */
 :root {
   --primary: #ffcc00;
   --primary-dark: #ff9900;
@@ -8,12 +8,6 @@
   --discord: #5865F2;
   --discord-dark: #4752c4;
   --card-bg: rgba(255, 204, 0, 0.05);
-}
-
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .auth-nav {
@@ -57,8 +51,10 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  min-height: 100vh;
   position: relative;
   overflow: hidden;
+  padding-top: 80px; /* Account for fixed navbar */
 }
 
 .particles {
@@ -69,17 +65,23 @@
 }
 
 .auth-card {
-  max-width: 450px;
-  width: 100%;
-  margin: 0 auto;
+  background: var(--card-bg);
   padding: 3rem;
   border-radius: 20px;
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 204, 0, 0.1);
   text-align: center;
+  max-width: 450px;
+  width: 100%;
+  border: 1px solid rgba(255,204,0,0.1);
   position: relative;
-  z-index: 1;
-  animation: slideUp 0.5s ease;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 20px rgba(255,204,0,0.1);
 }
 
 .bot-avatar {
@@ -155,17 +157,26 @@
   box-shadow: 0 8px 16px rgba(88,101,242,0.2);
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
+.lightning {
+  width: 100px;
+  height: 100px;
+  animation: pulse 1s infinite;
+}
+
+/* Animations */
 @keyframes glow {
   from {
     box-shadow: 0 0 20px rgba(255,204,0,0.2);
@@ -175,10 +186,17 @@
   }
 }
 
-/* Responsive Styles */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .auth-card {
     padding: 2rem;
+    margin: 1rem;
   }
 
   .auth-title {
@@ -188,6 +206,18 @@
   .bot-avatar {
     width: 100px;
     height: 100px;
+  }
+
+  .features-list {
+    margin: 1.5rem 0;
+  }
+
+  .feature-item {
+    padding: 0.8rem;
+  }
+
+  .discord-button {
+    width: 100%;
   }
 }
 
