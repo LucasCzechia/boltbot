@@ -88,9 +88,10 @@ export default function ServerGrid() {
             {server.banner && ( 
               <div className="server-banner">
                 <Image
-                  src={`https://cdn.discordapp.com/banners/${server.id}/${server.banner}.gif` || 
-           `https://cdn.discordapp.com/banners/${server.id}/${server.banner}.png`}alt="Server Banner"
-                  width={280}
+                  src={`https://cdn.discordapp.com/banners/${server.id}/${server.banner}.gif`} 
+                onError={(e) => {
+                e.target.src = `https://cdn.discordapp.com/banners/${server.id}/${server.banner}.png`; 
+                }}width={280}
                   height={100}
                   className="banner-image"
                   unoptimized
