@@ -85,6 +85,18 @@ export default function ServerGrid() {
                 </div>
               </div>
             </div>
+            {server.banner && ( 
+              <div className="server-banner">
+                <Image
+                  src={`https://cdn.discordapp.com/banners/${server.id}/${server.banner}.png`}
+                  alt="Server Banner"
+                  width={280}
+                  height={100}
+                  className="banner-image"
+                  unoptimized
+                />
+              </div>
+            )}
             <div className="server-status">
               <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
               {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
@@ -94,4 +106,4 @@ export default function ServerGrid() {
       </div>
     </>
   )
-                  }
+}
