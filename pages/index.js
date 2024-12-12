@@ -7,7 +7,7 @@ import Features from '../components/Features'
 import Tools from '../components/Tools'
 import Statistics from '../components/Statistics'
 import Developers from '../components/Developers'
-import Footer from '../components/Footer'
+import DashboardFooter from '../../components/dashboard/DashboardFooter'
 
 export default function Home() {
   return (
@@ -30,7 +30,7 @@ export default function Home() {
       <Tools />
       <Statistics />
       <Developers />
-      <Footer />
+      <DashboardFooter />
 
       <Script 
         src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" 
