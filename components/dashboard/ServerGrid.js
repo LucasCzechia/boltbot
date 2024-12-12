@@ -3,19 +3,39 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import SearchServers from './SearchServers'
+import LoadingPreview from './LoadingPreview'
 
 export default function ServerGrid() {
   const [servers, setServers] = useState([])
   const [filteredServers, setFilteredServers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [activeCards, setActiveCards] = useState([])
   const router = useRouter()
 
   useEffect(() => {
     fetchServers()
   }, [])
 
+  useEffect(() => {
+    if (!loading && filteredServers.length > 0) {
+      startAnimation()
+    }
+  }, [loading, filteredServers])
+
+  const startAnimation = () => {
+    setActiveCards([])
+    setTimeout(() => {
+      filteredServers.forEach((_, index) => {
+        setTimeout(() => {
+          setActiveCards(prev => [...prev, index])
+        }, index * 200)
+      })
+    }, 300)
+  }
+
   const fetchServers = async () => {
     try {
+      setLoading(true)
       const response = await fetch('/api/discord/servers')
       if (!response.ok) throw new Error('Failed to fetch servers')
       const data = await response.json()
@@ -24,12 +44,13 @@ export default function ServerGrid() {
     } catch (error) {
       console.error('Error:', error)
     } finally {
-      setLoading(false)
+      setTimeout(() => setLoading(false), 500)
     }
   }
 
   const handleSearch = (searchResults) => {
     setFilteredServers(searchResults)
+    setActiveCards([])
   }
 
   const handleServerClick = (server) => {
@@ -41,23 +62,19 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    return (
-      <div className="loading-screen">
-        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
-          <path d="M13 0L0 13h9v11l13-13h-9z"/>
-        </svg>
-      </div>
-    )
+    return <LoadingPreview />
   }
 
   return (
     <>
       <SearchServers servers={servers} onSearch={handleSearch} />
       <div className="servers-grid">
-        {filteredServers.map((server) => (
+        {filteredServers.map((server, index) => (
           <div 
             key={server.id} 
-            className={`server-card ${!server.botPresent ? 'inactive' : ''}`}
+            className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
+              activeCards.includes(index) ? 'card-active' : ''
+            }`}
             onClick={() => handleServerClick(server)}
           >
             <div className="server-header">
@@ -81,7 +98,7 @@ export default function ServerGrid() {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                   </svg>
-                  {server.memberCount.toLocaleString()} members • {server.OnlineCount} online 
+                  {server.memberCount.toLocaleString()} members • {server.onlineCount.toLocaleString()} online
                 </div>
               </div>
             </div>
@@ -94,4 +111,4 @@ export default function ServerGrid() {
       </div>
     </>
   )
-                  }
+}
