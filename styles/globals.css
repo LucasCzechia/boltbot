@@ -2,6 +2,7 @@
 @import './dashboard/auth.css';
 @import './dashboard/nav.css';
 @import './dashboard/greeting.css';
+@import './dashboard/scroll-to-top.css';
 @import './dashboard/servers.css'; 
 @import './dashboard/search.css';
 @import './dashboard/footer.css';
