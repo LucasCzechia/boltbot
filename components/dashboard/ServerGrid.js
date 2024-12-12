@@ -1,53 +1,53 @@
 // components/dashboard/ServerGrid.js
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
-import SearchServers from './SearchServers'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import SearchServers from './SearchServers';
 
 export default function ServerGrid() {
-  const [servers, setServers] = useState([])
-  const [filteredServers, setFilteredServers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const [servers, setServers] = useState([]);
+  const [filteredServers, setFilteredServers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchServers()
-  }, [])
+    fetchServers();
+  }, []);
 
   const fetchServers = async () => {
     try {
-      const response = await fetch('/api/discord/servers')
-      if (!response.ok) throw new Error('Failed to fetch servers')
-      const data = await response.json()
-      setServers(data)
-      setFilteredServers(data)
+      const response = await fetch('/api/discord/servers');
+      if (!response.ok) throw new Error('Failed to fetch servers');
+      const data = await response.json();
+      setServers(data);
+      setFilteredServers(data);
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSearch = (searchResults) => {
-    setFilteredServers(searchResults)
-  }
+    setFilteredServers(searchResults);
+  };
 
   const handleServerClick = (server) => {
     if (server.botPresent) {
-      router.push(`/dashboard/servers/${server.id}`)
+      router.push(`/dashboard/servers/${server.id}`);
     } else {
-      window.location.href = `https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot&guild_id=${server.id}`
+      window.location.href = `https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot&guild_id=${server.id}`;
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
-          <path d="M13 0L0 13h9v11l13-13h-9z"/>
+          <path d="M13 0L0 13h9v11l13-13h-9z" />
         </svg>
       </div>
-    )
+    );
   }
 
   return (
@@ -55,17 +55,38 @@ export default function ServerGrid() {
       <SearchServers servers={servers} onSearch={handleSearch} />
       <div className="servers-grid">
         {filteredServers.map((server) => (
-          <div 
-            key={server.id} 
+          <div
+            key={server.id}
             className={`server-card ${!server.botPresent ? 'inactive' : ''}`}
             onClick={() => handleServerClick(server)}
           >
+            <div className="server-banner">
+              <Image
+                src={server.banner
+                  ? `https://cdn.discordapp.com/banners/${server.id}/${server.banner}.gif`
+                  : '/images/default-banner.png'
+                }
+                onError={(e) => {
+                  e.target.src = server.banner
+                    ? `https://cdn.discordapp.com/banners/${server.id}/${server.banner}.png`
+                    : '/images/default-banner.png';
+                }}
+                alt="Server Banner"
+                width={280}
+                height={100}
+                className="banner-image"
+                unoptimized
+              />
+            </div>
             <div className="server-header">
-              <Image 
-                src={server.icon 
-                  ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
+              <Image
+                src={server.icon
+                  ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.gif`
                   : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
                 }
+                onError={(e) => {
+                  e.target.src = `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png`;
+                }}
                 alt={server.name}
                 width={50}
                 height={50}
@@ -75,29 +96,11 @@ export default function ServerGrid() {
               <div className="server-info">
                 <div className="server-name">{server.name}</div>
                 <div className="server-members">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  </svg>
-                  {server.memberCount.toLocaleString()} members
+                  {server.memberCount.toLocaleString()} members • {server.onlineCount} online
                 </div>
+                {server.description && <div className="server-description">{server.description}</div>} {/* Server description */}
               </div>
             </div>
-            {server.banner && ( 
-              <div className="server-banner">
-                <Image
-                  src={`https://cdn.discordapp.com/banners/${server.id}/${server.banner}.gif`} 
-                onError={(e) => {
-                e.target.src = `https://cdn.discordapp.com/banners/${server.id}/${server.banner}.png`; 
-                }}width={280}
-                  height={100}
-                  className="banner-image"
-                  unoptimized
-                />
-              </div>
-            )}
             <div className="server-status">
               <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
               {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
@@ -106,5 +109,5 @@ export default function ServerGrid() {
         ))}
       </div>
     </>
-  )
+  );
 }
