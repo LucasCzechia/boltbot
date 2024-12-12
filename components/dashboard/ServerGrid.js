@@ -4,16 +4,22 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import SearchServers from './SearchServers'
 import LoadingPreview from './LoadingPreview'
+import PinIcon from './PinIcon'
 
 export default function ServerGrid() {
   const [servers, setServers] = useState([])
   const [filteredServers, setFilteredServers] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeCards, setActiveCards] = useState([])
+  const [pinnedServers, setPinnedServers] = useState(new Set())
   const router = useRouter()
 
   useEffect(() => {
     fetchServers()
+    const savedPins = localStorage.getItem('pinnedServers')
+    if (savedPins) {
+      setPinnedServers(new Set(JSON.parse(savedPins)))
+    }
   }, [])
 
   useEffect(() => {
@@ -31,6 +37,19 @@ export default function ServerGrid() {
         }, index * 200)
       })
     }, 300)
+  }
+
+  const togglePin = (serverId) => {
+    setPinnedServers(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(serverId)) {
+        newSet.delete(serverId)
+      } else {
+        newSet.add(serverId)
+      }
+      localStorage.setItem('pinnedServers', JSON.stringify([...newSet]))
+      return newSet
+    })
   }
 
   const fetchServers = async () => {
@@ -61,6 +80,13 @@ export default function ServerGrid() {
     }
   }
 
+  const sortedServers = [...filteredServers].sort((a, b) => {
+    const aPin = pinnedServers.has(a.id)
+    const bPin = pinnedServers.has(b.id)
+    if (aPin === bPin) return 0
+    return aPin ? -1 : 1
+  })
+
   if (loading) {
     return <LoadingPreview />
   }
@@ -69,43 +95,53 @@ export default function ServerGrid() {
     <>
       <SearchServers servers={servers} onSearch={handleSearch} />
       <div className="servers-grid">
-        {filteredServers.map((server, index) => (
+        {sortedServers.map((server, index) => (
           <div 
             key={server.id} 
             className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
               activeCards.includes(index) ? 'card-active' : ''
             }`}
-            onClick={() => handleServerClick(server)}
           >
-            <div className="server-header">
-              <Image 
-                src={server.icon 
-                  ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
-                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
-                }
-                alt={server.name}
-                width={50}
-                height={50}
-                className="server-icon"
-                unoptimized
-              />
-              <div className="server-info">
-                <div className="server-name">{server.name}</div>
-                <div className="server-members">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  </svg>
-                  <span className="member-count">{server.memberCount.toLocaleString()}</span> members 
-                  <span className="online-count">{server.onlineCount.toLocaleString()} online</span>
+            <button 
+              className="pin-button"
+              onClick={(e) => {
+                e.stopPropagation()
+                togglePin(server.id)
+              }}
+            >
+              <PinIcon isPinned={pinnedServers.has(server.id)} />
+            </button>
+            <div className="card-content" onClick={() => handleServerClick(server)}>
+              <div className="server-header">
+                <Image 
+                  src={server.icon 
+                    ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
+                    : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
+                  }
+                  alt={server.name}
+                  width={50}
+                  height={50}
+                  className="server-icon"
+                  unoptimized
+                />
+                <div className="server-info">
+                  <div className="server-name">{server.name}</div>
+                  <div className="server-members">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span className="member-count">{server.memberCount.toLocaleString()}</span> members 
+                    <span className="online-count">{server.onlineCount.toLocaleString()} online</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="server-status">
-              <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
-              {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
+              <div className="server-status">
+                <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
+                {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
+              </div>
             </div>
           </div>
         ))}
