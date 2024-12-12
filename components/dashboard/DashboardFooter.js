@@ -19,11 +19,6 @@ export default function DashboardFooter() {
         </Link>
         <div>© {currentYear} BoltBot⚡. All rights reserved.</div> 
               
-        <div className="footer-links">
-          <Link href="/terms" className="footer-link">Terms of Service</Link>
-          <Link href="/privacy" className="footer-link">Privacy Policy</Link>
-        </div>
-              
         <div className="footer-social">
           <a href="https://discord.gg/bolt" className="social-link" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -42,6 +37,11 @@ export default function DashboardFooter() {
           </a>
         </div>
 
+      <div className="footer-links">
+          <Link href="/terms" className="footer-link">Terms of Service</Link>
+          <Link href="/privacy" className="footer-link">Privacy Policy</Link>
+        </div>
+              
       </div>
     </footer>
   )
