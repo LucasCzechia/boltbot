@@ -1,6 +1,6 @@
-// components/dashboard/
+// components/dashboard/ScrollToTop.js
 import { useState, useEffect } from 'react';
-import { ChevronUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 export default function ScrollToTop() {
   const [showScroll, setShowScroll] = useState(false);
@@ -28,7 +28,7 @@ export default function ScrollToTop() {
       onClick={scrollTop}
       aria-label="Scroll to top"
     >
-      <ChevronUp size={24} />
+      <ArrowUp size={20} />
     </button>
   );
 }
