@@ -36,7 +36,7 @@ export default function ServersPage() {
       <DashboardNav />
       
       <div className="servers-container">
-        <GreetingBanner username={session?.user?.global_name || session?.user?.username} />
+        <GreetingBanner username={session?.user?.global_name || session?.user?.name} />
         <h1 className="page-title">Select a Server</h1>
         <p className="page-subtitle">Choose a server to manage BoltBot⚡ settings</p>
         <ServerGrid />
