@@ -38,7 +38,8 @@ export default async function handler(req, res) {
         .filter(guild => (BigInt(guild.permissions) & BigInt(0x8)) === BigInt(0x8))
         .map(async guild => {
           const isBotPresent = botGuilds.some(botGuild => botGuild.id === guild.id)
-          let memberCount = 0
+          let memberCount = 0;
+          let banner = null; 
 
           if (isBotPresent) {
             try {
@@ -49,7 +50,8 @@ export default async function handler(req, res) {
               })
               if (guildResponse.ok) {
                 const guildData = await guildResponse.json()
-                memberCount = guildData.approximate_member_count
+                memberCount = guildData.approximate_member_count;
+                banner = guildData.banner; 
               }
             } catch (error) {
               console.error(`Failed to fetch member count for guild ${guild.id}:`, error)
@@ -60,6 +62,7 @@ export default async function handler(req, res) {
             id: guild.id,
             name: guild.name,
             icon: guild.icon,
+            banner: banner, 
             memberCount,
             botPresent: isBotPresent
           }
