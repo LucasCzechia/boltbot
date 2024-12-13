@@ -1,25 +1,43 @@
 // components/dashboard/AuthSuccess.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const AuthSuccess = ({ onRedirect }) => {
   const [countdown, setCountdown] = useState(3);
+  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    } else {
+  const handleRedirect = useCallback(() => {
+    if (typeof onRedirect === 'function') {
       onRedirect();
     }
-  }, [countdown, onRedirect]);
+  }, [onRedirect]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const timer = countdown > 0 && setTimeout(() => {
+      setCountdown(prev => prev - 1);
+    }, 1000);
+
+    if (countdown === 0) {
+      handleRedirect();
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [countdown, isMounted, handleRedirect]);
 
   const handleSkip = () => {
     setCountdown(0);
   };
 
+  if (!isMounted) return null; 
+  
   return (
     <div className="auth-success-overlay">
       <div className="auth-success-card">
