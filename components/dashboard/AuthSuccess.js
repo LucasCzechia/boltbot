@@ -1,16 +1,30 @@
 // components/dashboard/AuthSuccess.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const AuthSuccess = () => {
   const router = useRouter();
+  const [countdown, setCountdown] = useState(3);
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
+  useEffect(() => {
+    const countdownInterval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(countdownInterval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    const redirectTimeout = setTimeout(() => {
       router.replace('/dashboard/servers');
-    }, 6000);
+    }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearInterval(countdownInterval);
+      clearTimeout(redirectTimeout);
+    };
   }, [router]);
 
   const handleSkip = () => {
@@ -31,7 +45,7 @@ const AuthSuccess = () => {
         <p className="success-message">Welcome to BoltBot Dashboard</p>
         
         <div className="redirect-info">
-          <p>Redirecting automatically...</p>
+          <p>Redirecting automatically in <span className="countdown">{countdown}</span>s</p>
           <button onClick={handleSkip} className="skip-button">
             Go to Dashboard
           </button>
