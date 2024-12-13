@@ -1,4 +1,4 @@
-/* // styles/dashboard/auth.Ss */
+/* styles/dashboard/auth.css */ 
 :root {
   --primary: #ffcc00;
   --primary-dark: #ff9900;
@@ -54,7 +54,7 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  padding-top: 80px; /* Account for fixed navbar */
+  padding-top: 80px;
 }
 
 .particles {
@@ -157,23 +157,110 @@
   box-shadow: 0 8px 16px rgba(88,101,242,0.2);
 }
 
-.loading-screen {
+/* Auth Success Styles */
+.auth-success-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--dark);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(12px);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.lightning {
-  width: 100px;
-  height: 100px;
-  animation: pulse 1s infinite;
+.auth-success-card {
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid var(--primary);
+  padding: 3rem;
+  border-radius: 24px;
+  text-align: center;
+  animation: slideUp 0.5s ease-out;
+  box-shadow: 0 0 40px rgba(255, 204, 0, 0.1);
+  max-width: 420px;
+  width: 90%;
+  backdrop-filter: blur(10px);
+}
+
+.checkmark-wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 2rem;
+}
+
+.checkmark {
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  animation: scale 0.4s ease-in-out 0.3s forwards;
+  opacity: 0;
+}
+
+.checkmark-circle {
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-path {
+  stroke: var(--primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+.success-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -0.03em;
+}
+
+.success-message {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.redirect-info {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+}
+
+.countdown {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 0.2rem;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+.skip-button {
+  margin-top: 1rem;
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  color: var(--dark);
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+}
+
+.skip-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(255, 204, 0, 0.2);
 }
 
 /* Animations */
@@ -186,6 +273,34 @@
   }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stroke {
+  100% { 
+    stroke-dashoffset: 0; 
+  }
+}
+
+@keyframes scale {
+  0%, 100% { transform: none; }
+  50% { transform: scale3d(1.1, 1.1, 1); }
+  100% { opacity: 1; }
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
@@ -194,12 +309,12 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .auth-card {
+  .auth-card, .auth-success-card {
     padding: 2rem;
     margin: 1rem;
   }
 
-  .auth-title {
+  .auth-title, .success-title {
     font-size: 2rem;
   }
 
@@ -216,8 +331,13 @@
     padding: 0.8rem;
   }
 
-  .discord-button {
+  .discord-button, .skip-button {
     width: 100%;
+  }
+
+  .checkmark-wrapper {
+    width: 100px;
+    height: 100px;
   }
 }
 
@@ -236,5 +356,13 @@
 
   .feature-item {
     font-size: 0.9rem;
+  }
+
+  .success-title {
+    font-size: 1.8rem;
+  }
+
+  .success-message {
+    font-size: 1rem;
   }
 }
