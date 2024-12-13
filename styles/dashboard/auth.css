@@ -83,7 +83,6 @@
   z-index: 2;
   backdrop-filter: blur(10px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: cardFloat 3s ease-in-out infinite;
   overflow: hidden;
 }
 
@@ -299,10 +298,6 @@
 }
 
 /* Animations */
-@keyframes cardFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
 
 @keyframes avatarGlow {
   0% {
