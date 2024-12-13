@@ -35,98 +35,9 @@ const FEATURES = [
 
 export default function Login() {
   const { status } = useSession()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.replace('/dashboard/servers')
-    }
-  }, [status, router]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.particlesJS) {
-      const particlesElement = document.getElementById('particles-js');
-      if (particlesElement) { 
-        window.particlesJS('particles-js', {
-          particles: {
-            number: {
-              value: 250,
-              density: {
-                enable: true,
-                value_area: 1000,
-              },
-            },
-            color: {
-              value: "#ffcc00",
-            },
-            shape: {
-              type: "circle",
-            },
-            opacity: {
-              value: 0.7,
-              random: false,
-              animation: {
-                enable: true,
-                speed: 2,
-                minimumValue: 0.1,
-                sync: false
-              },
-            },
-            size: {
-              value: 2.5,
-              random: true,
-              animation: {
-                enable: false,
-              },
-            },
-            move: {
-              enable: true,
-              speed: 1,
-              direction: "none",
-              random: false,
-              straight: false,
-              outMode: "out",
-              bounce: false,
-            },
-            line_linked: {
-              enable: true,
-              distance: 120,
-              color: "#ffcc00",
-              opacity: 0.3,
-              width: 0.8,
-            },
-          },
-          interactivity: {
-            detectOn: "canvas",
-            events: {
-              onHover: {
-                enable: true,
-                mode: "repulse",
-              },
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
-              resize: true,
-            },
-            modes: {
-              repulse: {
-                distance: 80,
-                duration: 0.3,
-              },
-              push: {
-                particles_nb: 4,
-              },
-            },
-          },
-          retina_detect: true,
-        });
-      }
-    }
-  }, []);
 
   if (status === 'authenticated') {
-    return <AuthSuccess onRedirect={() => router.replace('/dashboard/servers')} />
+    return <AuthSuccess />
   }
 
   return (
