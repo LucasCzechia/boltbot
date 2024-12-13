@@ -44,7 +44,6 @@ export default function Navbar() {
           <Link href="#features">Features</Link>
           <Link href="#tools">Tools</Link>
           <Link href="#statistics">Statistics</Link>
-          <Link href="#developers">Developers</Link>
           <Link 
             href="https://discord.com/oauth2/authorize?client_id=1250114494081007697" 
             className="cta-button"
