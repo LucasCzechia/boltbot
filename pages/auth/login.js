@@ -4,6 +4,7 @@ import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
+import AuthSuccess from '../../components/dashboard/AuthSuccess'
 
 export default function Login() {
   const { status } = useSession()
@@ -15,7 +16,9 @@ export default function Login() {
     }
   }, [status, router])
 
-  if (status === 'authenticated') return null
+  if (status === 'authenticated') {
+    return <AuthSuccess onRedirect={() => router.replace('/dashboard/servers')} />
+  }
 
   return (
     <>
@@ -31,6 +34,7 @@ export default function Login() {
               alt="BoltBot Logo"
               width={40}
               height={40}
+              priority
             />
             BoltBot⚡
           </a>
@@ -47,6 +51,7 @@ export default function Login() {
             width={120}
             height={120}
             className="bot-avatar"
+            priority
           />
           
           <h1 className="auth-title">Welcome Back!</h1>
@@ -84,4 +89,4 @@ export default function Login() {
       </div>
     </>
   )
-}
+              }
