@@ -50,16 +50,21 @@ export default function Login() {
 
     particlesContainer.innerHTML = '';
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 150; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
-      particle.style.width = Math.random() * 4 + 'px';
-      particle.style.height = particle.style.width;
+      
+      const size = Math.random() * 6 + 2; 
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
       particle.style.left = Math.random() * 100 + '%';
       particle.style.top = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 3 + 's';
-      particlesContainer.appendChild(particle);
-    }
+      particle.style.animationDelay = `${Math.random() * 5}s`;
+      particle.style.animationDuration = `${Math.random() * 3 + 4}s`; 
+      particle.style.opacity = `${Math.random() * 0.3 + 0.2}`;  
+      
+      particlesContainer.appendChild(particle); 
   }, []);
 
   if (status === 'authenticated') {
