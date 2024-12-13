@@ -35,13 +35,10 @@ const FEATURES = [
 
 export default function Login() {
   const { status } = useSession()
-  const router = useRouter()
 
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.replace('/dashboard/servers')
-    }
-  }, [status, router]);
+  if (status === 'authenticated') {
+    return <AuthSuccess />
+      }
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.particlesJS) {
