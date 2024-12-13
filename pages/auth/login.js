@@ -62,11 +62,11 @@ export default function Login() {
             value: 0.7,
             random: false,
             animation: {
-              enable: false,
+              enable: true,
             },
           },
           size: {
-            value: 1.5,
+            value: 2.5,
             random: true,
             animation: {
               enable: false,
@@ -74,7 +74,7 @@ export default function Login() {
           },
           move: {
             enable: true,
-            speed: 0.8,
+            speed: 1,
             direction: "none",
             random: false,
             straight: false,
