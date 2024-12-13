@@ -4,7 +4,7 @@ import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
-import AuthSuccess from '../../components/dashboard/AuthSuccess'
+import AuthSuccess from '../../components/auth/AuthSuccess'
 
 const FEATURES = [
   {
