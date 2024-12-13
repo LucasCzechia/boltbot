@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const AuthSuccess = ({ onRedirect }) => {
-  const [countdown, setCountdown] = useState(6);
+  const [countdown, setCountdown] = useState(3);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const AuthSuccess = ({ onRedirect }) => {
         </div>
 
         <h1 className="success-title">Authentication Complete!</h1>
-        <p className="success-message">Welcome to BoltBot Dashboard</p>
+        <p className="success-message">Welcome to the BoltBot⚡ Dashboard</p>
         
         <div className="redirect-info">
           <p>Redirecting automatically in <span className="countdown">{countdown}</span></p>
