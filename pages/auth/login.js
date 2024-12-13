@@ -1,10 +1,11 @@
 // pages/auth/login.js
 import { useEffect } from 'react'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import AuthSuccess from '../../components/dashboard/AuthSuccess'
+import { signIn } from 'next-auth/react'
 
 const FEATURES = [
   {
@@ -41,103 +42,34 @@ export default function Login() {
     if (status === 'authenticated') {
       router.replace('/dashboard/servers')
     }
-
-    // Initialize particles
-    if (typeof window !== 'undefined' && window.particlesJS) {
-      window.particlesJS('particles-js', {
-        particles: {
-          number: {
-            value: 100,
-            density: {
-              enable: true,
-              value_area: 800
-            }
-          },
-          color: {
-            value: "#ffcc00"
-          },
-          shape: {
-            type: "circle"
-          },
-          opacity: {
-            value: 0.5,
-            random: true,
-            animation: {
-              enable: true,
-              speed: 1,
-              minimumValue: 0.1,
-              sync: false
-            }
-          },
-          size: {
-            value: 3,
-            random: true,
-            animation: {
-              enable: true,
-              speed: 2,
-              minimumValue: 0.1,
-              sync: false
-            }
-          },
-          move: {
-            enable: true,
-            speed: 1,
-            direction: "none",
-            random: false,
-            straight: false,
-            outMode: "out",
-            bounce: false,
-            attract: {
-              enable: false,
-              rotateX: 600,
-              rotateY: 1200
-            }
-          },
-          line_linked: {
-            enable: true,
-            distance: 150,
-            color: "#ffcc00",
-            opacity: 0.4,
-            width: 1
-          },
-        },
-        interactivity: {
-          detectOn: "canvas",
-          events: {
-            onHover: {
-              enable: true,
-              mode: "repulse"
-            },
-            onClick: {
-              enable: true,
-              mode: "push"
-            },
-            resize: true
-          },
-          modes: {
-            repulse: {
-              distance: 100,
-              duration: 0.4
-            },
-            push: {
-              particles_nb: 4
-            }
-          }
-        },
-        retina_detect: true
-      });
-    }
   }, [status, router]);
 
+  useEffect(() => {
+    const particlesContainer = document.getElementById('particles-js');
+    if (!particlesContainer) return;
+
+    particlesContainer.innerHTML = '';
+
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.width = Math.random() * 4 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 3 + 's';
+      particlesContainer.appendChild(particle);
+    }
+  }, []);
+
   if (status === 'authenticated') {
-    return <AuthSuccess onRedirect={() => router.replace('/dashboard/servers')} />
+    return <AuthSuccess />
   }
 
   return (
     <>
       <Head>
         <title>Login - BoltBot⚡</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" async></script>
       </Head>
 
       <nav className="auth-nav">
