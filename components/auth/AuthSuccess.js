@@ -1,25 +1,24 @@
-// components/dashboard/AuthSuccess.js
-import React, { useState, useEffect, useRef } from 'react';
+// components/auth/AuthSuccess.js
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-const AuthSuccess = ({ onRedirect }) => {
+const AuthSuccess = () => {
   const [countdown, setCountdown] = useState(3);
-  const timerRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
-    if (countdown > 0) {
-      timerRef.current = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
-    } else if (typeof onRedirect === 'function') {
-      onRedirect();
-    }
+    const timer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev === 1) {
+          clearInterval(timer);
+          router.push('https://boltbot.app/dashboard/servers');
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [countdown, onRedirect]);
+    return () => clearInterval(timer);
+  }, [router]);
 
   const handleSkip = () => {
     setCountdown(0);
@@ -36,10 +35,10 @@ const AuthSuccess = ({ onRedirect }) => {
         </div>
 
         <h1 className="success-title">Authentication Complete!</h1>
-        <p className="success-message">Welcome to the BoltBot⚡ Dashboard</p>
+        <p className="success-message">Welcome to BoltBot Dashboard</p>
         
         <div className="redirect-info">
-          <p>Redirecting automatically in <span className="countdown">{countdown}</span></p>
+          <p>Redirecting automatically in <span className="countdown">{countdown}</span> seconds</p>
           <button onClick={handleSkip} className="skip-button">
             Go to Dashboard
           </button>
