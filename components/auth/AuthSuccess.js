@@ -1,21 +1,24 @@
 // components/dashboard/AuthSuccess.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const AuthSuccess = ({ onRedirect }) => {
-  const [countdown, setCountdown] = useState(3);
+  const [countdown, setCountdown] = useState(6);
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    let timer;
-
     if (countdown > 0) {
-      timer = setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
     } else if (typeof onRedirect === 'function') {
       onRedirect();
     }
 
-    return () => clearTimeout(timer);
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
   }, [countdown, onRedirect]);
 
   const handleSkip = () => {
