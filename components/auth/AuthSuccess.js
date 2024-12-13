@@ -5,17 +5,17 @@ const AuthSuccess = ({ onRedirect }) => {
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
+    let timer;
+
     if (countdown > 0) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
-
-      return () => clearTimeout(timer);
-    } else {
-      if (typeof onRedirect === 'function') {
-        onRedirect();
-      } 
+    } else if (typeof onRedirect === 'function') {
+      onRedirect();
     }
+
+    return () => clearTimeout(timer);
   }, [countdown, onRedirect]);
 
   const handleSkip = () => {
@@ -34,7 +34,7 @@ const AuthSuccess = ({ onRedirect }) => {
 
         <h1 className="success-title">Authentication Complete!</h1>
         <p className="success-message">Welcome to BoltBot Dashboard</p>
-
+        
         <div className="redirect-info">
           <p>Redirecting automatically in <span className="countdown">{countdown}</span></p>
           <button onClick={handleSkip} className="skip-button">
