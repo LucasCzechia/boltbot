@@ -111,7 +111,7 @@ export default function Login() {
               duration: 0.3,
             },
             push: {
-              particles_nb: 2,
+              particles_nb: 4,
             },
           },
         },
