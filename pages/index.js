@@ -29,7 +29,6 @@ export default function Home() {
       <Features />
       <Tools />
       <Statistics />
-     /* <Developers /> */
       <DashboardFooter />
 
       <Script 
