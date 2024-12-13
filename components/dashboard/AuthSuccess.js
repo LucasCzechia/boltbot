@@ -8,7 +8,7 @@ const AuthSuccess = () => {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       router.replace('/dashboard/servers');
-    }, 3000);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, [router]);
