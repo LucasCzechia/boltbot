@@ -234,17 +234,6 @@
   background: var(--dark-light);
 }
 
-.server-banner {
-  overflow: hidden; 
-  border-radius: 10px; 
-}
-
-.banner-image {
-  width: 100%; 
-  height: auto; 
-  display: block; 
-}
-
 .server-info {
   flex: 1;
 }
