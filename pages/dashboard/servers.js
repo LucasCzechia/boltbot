@@ -9,6 +9,7 @@ import ServerGrid from '../../components/dashboard/ServerGrid'
 import DashboardFooter from '../../components/dashboard/DashboardFooter'
 import ScrollToTop from '../../components/dashboard/ScrollToTop'
 import Head from 'next/head'
+import { useEffect } from 'react'
 
 export default function ServersPage() {
   const { data: session, status } = useSession({
@@ -17,6 +18,22 @@ export default function ServersPage() {
       router.replace('/auth/login')
     },
   })
+
+  useEffect(() => {
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background')
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
+      }
+    }
+
+    generateStarfield()
+  }, [])
 
   if (status === 'loading') {
     return (
@@ -34,20 +51,7 @@ export default function ServersPage() {
         <title>Select Server - BoltBot⚡</title>
       </Head>
       
-      <div id="starfield-background" className="starfield-container">
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            for (let i = 0; i < 100; i++) {
-              const star = document.createElement('div');
-              star.className = 'star';
-              star.style.left = Math.random() * 100 + '%';
-              star.style.top = Math.random() * 100 + '%';
-              star.style.animationDelay = Math.random() * 2 + 's';
-              document.getElementById('starfield-background').appendChild(star);
-            }
-          `
-        }} />
-      </div>
+      <div id="starfield-background" className="starfield-container" />
       
       <DashboardNav />
       
