@@ -12,7 +12,9 @@ const AuthSuccess = ({ onRedirect }) => {
 
       return () => clearTimeout(timer);
     } else {
-      onRedirect();
+      if (typeof onRedirect === 'function') {
+        onRedirect();
+      } 
     }
   }, [countdown, onRedirect]);
 
@@ -32,7 +34,7 @@ const AuthSuccess = ({ onRedirect }) => {
 
         <h1 className="success-title">Authentication Complete!</h1>
         <p className="success-message">Welcome to BoltBot Dashboard</p>
-        
+
         <div className="redirect-info">
           <p>Redirecting automatically in <span className="countdown">{countdown}</span></p>
           <button onClick={handleSkip} className="skip-button">
