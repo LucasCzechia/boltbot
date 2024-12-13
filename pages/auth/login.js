@@ -65,6 +65,7 @@ export default function Login() {
       particle.style.opacity = `${Math.random() * 0.3 + 0.2}`;  
       
       particlesContainer.appendChild(particle); 
+     } 
   }, []);
 
   if (status === 'authenticated') {
