@@ -1,11 +1,10 @@
 // pages/auth/login.js
 import { useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import AuthSuccess from '../../components/dashboard/AuthSuccess'
-import { signIn } from 'next-auth/react'
 
 const FEATURES = [
   {
@@ -42,40 +41,91 @@ export default function Login() {
     if (status === 'authenticated') {
       router.replace('/dashboard/servers')
     }
+
+    if (typeof window !== 'undefined' && window.particlesJS) {
+      window.particlesJS('particles-js', {
+        particles: {
+          number: {
+            value: 150,
+            density: {
+              enable: true,
+              value_area: 1000,
+            },
+          },
+          color: {
+            value: "#ffcc00",
+          },
+          shape: {
+            type: "circle",
+          },
+          opacity: {
+            value: 0.7,
+            random: false,
+            animation: {
+              enable: false,
+            },
+          },
+          size: {
+            value: 1.5,
+            random: true,
+            animation: {
+              enable: false,
+            },
+          },
+          move: {
+            enable: true,
+            speed: 0.8,
+            direction: "none",
+            random: false,
+            straight: false,
+            outMode: "out",
+            bounce: false,
+          },
+          line_linked: {
+            enable: true,
+            distance: 120,
+            color: "#ffcc00",
+            opacity: 0.3,
+            width: 0.8,
+          },
+        },
+        interactivity: {
+          detectOn: "canvas",
+          events: {
+            onHover: {
+              enable: true,
+              mode: "repulse",
+            },
+            onClick: {
+              enable: true,
+              mode: "push",
+            },
+            resize: true,
+          },
+          modes: {
+            repulse: {
+              distance: 80,
+              duration: 0.3,
+            },
+            push: {
+              particles_nb: 2,
+            },
+          },
+        },
+        retina_detect: true,
+      });
+    }
   }, [status, router]);
 
-  useEffect(() => {
-    const particlesContainer = document.getElementById('particles-js');
-    if (!particlesContainer) return;
-
-    particlesContainer.innerHTML = '';
-
-    for (let i = 0; i < 150; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      
-      const size = Math.random() * 6 + 2; 
-      
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      particle.style.animationDelay = `${Math.random() * 5}s`;
-      particle.style.animationDuration = `${Math.random() * 3 + 4}s`; 
-      particle.style.opacity = `${Math.random() * 0.3 + 0.2}`;  
-      
-      particlesContainer.appendChild(particle); 
-     } 
-  }, []);
-
   if (status === 'authenticated') {
-    return <AuthSuccess />
+    return <AuthSuccess onRedirect={() => router.replace('/dashboard/servers')} />
   }
 
   return (
     <>
       <Head>
         <title>Login - BoltBot⚡</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" async></script>
       </Head>
 
       <nav className="auth-nav">
@@ -129,4 +179,4 @@ export default function Login() {
       </div>
     </>
   )
-    }
+}
