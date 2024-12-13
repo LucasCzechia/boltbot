@@ -29,7 +29,7 @@ export default function Home() {
       <Features />
       <Tools />
       <Statistics />
-    //  <Developers />
+     /* <Developers /> */
       <DashboardFooter />
 
       <Script 
