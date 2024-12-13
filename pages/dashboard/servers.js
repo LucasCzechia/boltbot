@@ -34,6 +34,21 @@ export default function ServersPage() {
         <title>Select Server - BoltBot⚡</title>
       </Head>
       
+      <div id="starfield-background" className="starfield-container">
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            for (let i = 0; i < 100; i++) {
+              const star = document.createElement('div');
+              star.className = 'star';
+              star.style.left = Math.random() * 100 + '%';
+              star.style.top = Math.random() * 100 + '%';
+              star.style.animationDelay = Math.random() * 2 + 's';
+              document.getElementById('starfield-background').appendChild(star);
+            }
+          `
+        }} />
+      </div>
+      
       <DashboardNav />
       
       <div className="servers-container">
