@@ -21,7 +21,8 @@ const AuthSuccess = () => {
   }, [router]);
 
   const handleSkip = () => {
-    setCountdown(0);
+    setCountdown(0); 
+    router.push('https://boltbot.app/dashboard/servers'); 
   };
 
   return (
