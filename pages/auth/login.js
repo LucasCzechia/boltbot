@@ -6,6 +6,33 @@ import Head from 'next/head'
 import Image from 'next/image'
 import AuthSuccess from '../../components/dashboard/AuthSuccess'
 
+const FEATURES = [
+  {
+    icon: (
+      <svg className="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M20 7h-8.586L9.707 5.293A1 1 0 0 0 9 5H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/>
+      </svg>
+    ),
+    text: "Manage multiple servers"
+  },
+  {
+    icon: (
+      <svg className="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+      </svg>
+    ),
+    text: "Customize bot settings"
+  },
+  {
+    icon: (
+      <svg className="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+      </svg>
+    ),
+    text: "Quick and secure access"
+  }
+];
+
 export default function Login() {
   const { status } = useSession()
   const router = useRouter()
@@ -14,7 +41,93 @@ export default function Login() {
     if (status === 'authenticated') {
       router.replace('/dashboard/servers')
     }
-  }, [status, router])
+
+    // Initialize particles
+    if (typeof window !== 'undefined' && window.particlesJS) {
+      window.particlesJS('particles-js', {
+        particles: {
+          number: {
+            value: 100,
+            density: {
+              enable: true,
+              value_area: 800
+            }
+          },
+          color: {
+            value: "#ffcc00"
+          },
+          shape: {
+            type: "circle"
+          },
+          opacity: {
+            value: 0.5,
+            random: true,
+            animation: {
+              enable: true,
+              speed: 1,
+              minimumValue: 0.1,
+              sync: false
+            }
+          },
+          size: {
+            value: 3,
+            random: true,
+            animation: {
+              enable: true,
+              speed: 2,
+              minimumValue: 0.1,
+              sync: false
+            }
+          },
+          move: {
+            enable: true,
+            speed: 1,
+            direction: "none",
+            random: false,
+            straight: false,
+            outMode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 1200
+            }
+          },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#ffcc00",
+            opacity: 0.4,
+            width: 1
+          },
+        },
+        interactivity: {
+          detectOn: "canvas",
+          events: {
+            onHover: {
+              enable: true,
+              mode: "repulse"
+            },
+            onClick: {
+              enable: true,
+              mode: "push"
+            },
+            resize: true
+          },
+          modes: {
+            repulse: {
+              distance: 100,
+              duration: 0.4
+            },
+            push: {
+              particles_nb: 4
+            }
+          }
+        },
+        retina_detect: true
+      });
+    }
+  }, [status, router]);
 
   if (status === 'authenticated') {
     return <AuthSuccess onRedirect={() => router.replace('/dashboard/servers')} />
@@ -24,6 +137,7 @@ export default function Login() {
     <>
       <Head>
         <title>Login - BoltBot⚡</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" async></script>
       </Head>
 
       <nav className="auth-nav">
@@ -45,6 +159,7 @@ export default function Login() {
         <div id="particles-js" className="particles"></div>
         
         <div className="auth-card">
+          <div className="card-glow"></div>
           <Image 
             src="/images/boltbot.webp"
             alt="BoltBot Avatar"
@@ -58,30 +173,17 @@ export default function Login() {
           <p className="auth-subtitle">Login with Discord to manage your servers and customize BoltBot's settings</p>
           
           <div className="features-list">
-            <div className="feature-item">
-              <svg className="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"></path>
-              </svg>
-              <span>Manage multiple servers</span>
-            </div>
-            <div className="feature-item">
-              <svg className="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-              <span>Customize bot settings</span>
-            </div>
-            <div className="feature-item">
-              <svg className="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <span>Quick and secure access</span>
-            </div>
+            {FEATURES.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature.icon}
+                <span>{feature.text}</span>
+              </div>
+            ))}
           </div>
 
           <button onClick={() => signIn('discord')} className="discord-button">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4C14.89 4.21 14.76 4.49 14.67 4.71C13.06 4.47 11.47 4.47 9.88 4.71C9.79 4.49 9.66 4.21 9.55 4C8.04 4.26 6.6 4.71 5.27 5.33C1.96 10.18 1.07 14.91 1.52 19.57C3.27 20.84 4.97 21.63 6.65 22.14C7.07 21.54 7.45 20.9 7.77 20.23C7.13 19.98 6.52 19.67 5.94 19.31C6.11 19.18 6.27 19.05 6.42 18.92C10.05 20.61 13.95 20.61 17.54 18.92C17.7 19.06 17.86 19.18 18.02 19.31C17.44 19.67 16.82 19.99 16.19 20.23C16.51 20.9 16.88 21.54 17.31 22.14C18.99 21.63 20.7 20.84 22.44 19.57C22.97 14.15 21.56 9.46 19.27 5.33Z"/>
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
             Continue with Discord
           </button>
@@ -89,4 +191,4 @@ export default function Login() {
       </div>
     </>
   )
-              }
+    }
