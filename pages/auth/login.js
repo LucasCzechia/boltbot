@@ -46,7 +46,7 @@ export default function Login() {
       window.particlesJS('particles-js', {
         particles: {
           number: {
-            value: 150,
+            value: 200,
             density: {
               enable: true,
               value_area: 1000,
@@ -63,6 +63,9 @@ export default function Login() {
             random: false,
             animation: {
               enable: true,
+              speed: 2,
+              minimumValue: 0.1,
+              sync: false
             },
           },
           size: {
