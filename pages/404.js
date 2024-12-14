@@ -21,7 +21,7 @@ export default function Custom404() {
 
     generateStarfield()
   }, [])
-
+  
   return (
     <>
       <Head>
