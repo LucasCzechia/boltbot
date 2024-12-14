@@ -1,4 +1,4 @@
-/* styles/misc/404.css */
+/* /styles/misc/404.css */
 :root {
   --primary: #ffcc00;
   --primary-dark: #ff9900;
@@ -26,6 +26,7 @@
   height: 100%;
   z-index: 1;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .star {
@@ -41,11 +42,17 @@
   text-align: center;
   z-index: 2;
   animation: fadeIn 0.5s ease-out;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .error-logo {
-  width: 120px !important;
-  height: 120px !important;
+  width: 180px !important;
+  height: 180px !important;
   border: 3px solid var(--primary);
   border-radius: 50%;
   padding: 0;
@@ -56,9 +63,9 @@
 }
 
 .error-code {
-  font-size: 7rem;
+  font-size: 8rem;
   font-weight: 800;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   background: linear-gradient(45deg, var(--primary), var(--primary-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -66,35 +73,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .lightning {
   display: inline-block;
   animation: strike 2s infinite;
-  font-size: 8rem;
+  font-size: 9rem;
   color: var(--primary);
   text-shadow: 0 0 20px var(--primary);
   -webkit-text-fill-color: var(--primary);
 }
 
 .error-page h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 0.5rem;
   color: var(--light);
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .error-page p {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 2rem;
 }
 
 .error-actions {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
 .home-button,
@@ -102,12 +113,13 @@
 .support-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
+  font-size: 1.1rem;
 }
 
 .home-button {
@@ -116,7 +128,7 @@
 }
 
 .play-snake-button {
-  background: var(--primary-dark);
+  background: var(--primary);
   color: var(--dark);
 }
 
@@ -190,38 +202,45 @@
     padding: 1rem;
   }
 
-  .error-code {
-    font-size: 5rem;
+  .error-logo {
+    width: 140px !important;
+    height: 140px !important;
   }
 
-  .lightning {
+  .error-code {
     font-size: 6rem;
   }
 
+  .lightning {
+    font-size: 7rem;
+  }
+
   .error-page h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .error-page p {
     font-size: 1rem;
   }
 
+  .error-actions {
+    gap: 1rem;
+  }
+
   .home-button,
   .play-snake-button,
   .support-link {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-  }
-
-  .error-actions {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
+  .error-logo {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
   .error-code {
     font-size: 4rem;
   }
@@ -231,11 +250,20 @@
   }
 
   .error-page h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
-  .error-logo {
-    width: 100px !important;
-    height: 100px !important;
+  .error-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .home-button,
+  .play-snake-button,
+  .support-link {
+    width: 100%;
+    justify-content: center;
   }
 }
