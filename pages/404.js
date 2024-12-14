@@ -9,7 +9,7 @@ export default function Custom404() {
   useEffect(() => {
     const generateStarfield = () => {
       const starfieldContainer = document.getElementById('starfield-background')
-      for (let i = 0; i < 101; i++) {
+      for (let i = 0; i < 100; i++) {
         const star = document.createElement('div')
         star.className = 'star'
         star.style.left = Math.random() * 100 + '%'
