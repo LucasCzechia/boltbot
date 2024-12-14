@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HomeIcon, AlertTriangle } from 'lucide-react';
-import '../styles/snake/404.css';
 
 const GRID_SIZE = 20;
 const CELL_SIZE = 20;
