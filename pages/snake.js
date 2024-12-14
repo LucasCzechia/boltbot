@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { HomeIcon, Trophy } from 'lucide-react';
+import { HomeIcon } from 'lucide-react';
 
 const GRID_SIZE = 20;
 const CELL_SIZE = 20;
@@ -11,7 +11,7 @@ const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_DIRECTION = { x: 1, y: 0 };
 const GAME_SPEED = 125;
 
-export default function SnakeGame() {
+export default function SnakePage() {
   const [snake, setSnake] = useState(INITIAL_SNAKE);
   const [food, setFood] = useState({ x: 15, y: 15 });
   const [direction, setDirection] = useState(INITIAL_DIRECTION);
@@ -23,32 +23,17 @@ export default function SnakeGame() {
   const canvasRef = useRef();
 
   useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (!starfieldContainer) return;
-
-      starfieldContainer.innerHTML = ''; // Clear existing stars
-
-      const starCount = Math.floor(window.innerWidth * window.innerHeight / 5000);
-
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * window.innerWidth + 'px';
-        star.style.top = Math.random() * window.innerHeight + 'px';
-        star.style.animationDelay = Math.random() * 5 + 's';
-        starfieldContainer.appendChild(star);
-      }
-    };
-
-    generateStarfield();
-    window.addEventListener('resize', generateStarfield);
-
-    return () => {
-      window.removeEventListener('resize', generateStarfield);
-    };
+    const savedHighScore = localStorage.getItem('snakeHighScore') || '0';
+    setHighScore(parseInt(savedHighScore));
   }, []);
-  
+
+  useEffect(() => {
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem('snakeHighScore', score.toString());
+    }
+  }, [score, highScore]);
+
   const resetGame = useCallback(() => {
     setSnake(INITIAL_SNAKE);
     setDirection(INITIAL_DIRECTION);
@@ -59,12 +44,15 @@ export default function SnakeGame() {
   }, []);
 
   const generateFood = useCallback(() => {
-    const newFood = {
-      x: Math.floor(Math.random() * GRID_SIZE),
-      y: Math.floor(Math.random() * GRID_SIZE)
-    };
+    let newFood;
+    do {
+      newFood = {
+        x: Math.floor(Math.random() * GRID_SIZE),
+        y: Math.floor(Math.random() * GRID_SIZE)
+      };
+    } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
     setFood(newFood);
-  }, []);
+  }, [snake]);
 
   const checkCollision = useCallback((head, snakeBody) => {
     return snakeBody.some(segment => segment.x === head.x && segment.y === head.y);
@@ -82,7 +70,6 @@ export default function SnakeGame() {
       if (checkCollision(newHead, currentSnake)) {
         setGameOver(true);
         setIsPlaying(false);
-        setHighScore(current => Math.max(current, score));
         return currentSnake;
       }
 
@@ -97,7 +84,7 @@ export default function SnakeGame() {
 
       return newSnake;
     });
-  }, [direction, food, gameOver, generateFood, isPlaying, score, checkCollision]);
+  }, [direction, food, gameOver, generateFood, isPlaying, checkCollision]);
 
   const handleKeyPress = useCallback((e) => {
     if (!isPlaying) return;
@@ -136,15 +123,23 @@ export default function SnakeGame() {
   }, [direction, isPlaying]);
 
   useEffect(() => {
-    const savedHighScore = localStorage.getItem('snakeHighScore');
-    if (savedHighScore) {
-      setHighScore(parseInt(savedHighScore, 10));
-    }
-  }, []);
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background');
+      if (!starfieldContainer) return;
+      
+      starfieldContainer.innerHTML = '';
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        starfieldContainer.appendChild(star);
+      }
+    };
 
-  useEffect(() => {
-    localStorage.setItem('snakeHighScore', highScore.toString());
-  }, [highScore]);
+    generateStarfield();
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -160,6 +155,8 @@ export default function SnakeGame() {
 
   const drawGame = useCallback(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
 
     ctx.fillStyle = '#0a0a0a';
@@ -218,25 +215,31 @@ export default function SnakeGame() {
       <Head>
         <title>Snake Game | BoltBot⚡</title>
       </Head>
-    
-      <div className="error-page">
 
-       <div id="starfield-background" className="starfield-container" />
+      <div className="game-page">
+        <div id="starfield-background" className="starfield-container" />
         
-        <div className="error-content">
-          <Image 
-            src="/images/boltbot.webp"
-            alt="BoltBot Logo"
-            width={150}
-            height={150}
-            className="error-logo"
-            priority
-          />
+        <div className="game-content">
+          <div className="game-header">
+            <Image 
+              src="/images/boltbot.webp"
+              alt="BoltBot Logo"
+              width={120}
+              height={120}
+              className="game-logo"
+              priority
+            />
+            
+            <h1>Snake Game</h1>
+            <p>Use arrow keys or touch controls to play!</p>
+          </div>
 
-          <div id="starfield-background" className="starfield-container" />
-          
-          <h1>BoltBot Snake⚡</h1>
-          <p>Use arrow keys or touch controls to play!</p>
+          <div className="navigation-actions">
+            <Link href="/" className="home-button">
+              <HomeIcon size={20} />
+              Return Home
+            </Link>
+          </div>
 
           <div className="game-container">
             <div className="game-stats">
@@ -289,18 +292,6 @@ export default function SnakeGame() {
                 </button>
               </div>
             </div>
-          </div>
-          
-          <div className="error-actions">
-            <Link href="/" className="home-button">
-              <HomeIcon size={20} />
-              Return Home
-            </Link>
-            
-            <Link href="/leaderboard" className="support-link">
-              <Trophy size={20} />
-              Leaderboard
-            </Link>
           </div>
         </div>
       </div>
