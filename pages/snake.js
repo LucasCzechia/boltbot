@@ -210,8 +210,9 @@ export default function SnakeGame() {
         <title>Snake Game | BoltBot⚡</title>
       </Head>
 
+      <div id="starfield-background" className="starfield-container" />
+
       <div className="error-page">
-        <div id="starfield-background" className="starfield-container" />
         
         <div className="error-content">
           <Image 
