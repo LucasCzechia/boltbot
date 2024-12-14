@@ -1,6 +1,7 @@
 /* styles/globals.css */
-@import './misc/404.css';
+@import './misc/starfield.css';
 @import './misc/snake.css';
+@import './misc/404.css';
 @import './auth/auth.css';
 @import './dashboard/nav.css';
 @import './dashboard/greeting.css';
