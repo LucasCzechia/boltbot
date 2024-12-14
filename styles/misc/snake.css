@@ -15,7 +15,6 @@
   padding: 2rem;
   position: relative;
   overflow: hidden;
-  background: var(--dark);
 }
 
 .starfield-container {
@@ -24,9 +23,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background: var(--dark) 
 }
 
 .star {
@@ -40,7 +40,7 @@
 
 .game-content {
   text-align: center;
-  z-index: 2;
+  z-index: 1;
   animation: fadeIn 0.5s ease-out;
   width: 100%;
   max-width: 800px;
