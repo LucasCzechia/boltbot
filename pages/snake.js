@@ -124,21 +124,18 @@ export default function SnakePage() {
 
   useEffect(() => {
     const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (!starfieldContainer) return;
-      
-      starfieldContainer.innerHTML = '';
+      const starfieldContainer = document.getElementById('starfield-background')
       for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        starfieldContainer.appendChild(star);
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
       }
-    };
+    }
 
-    generateStarfield();
+    generateStarfield()
   }, []);
 
   useEffect(() => {
