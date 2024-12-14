@@ -216,8 +216,9 @@ export default function SnakePage() {
         <title>Snake Game | BoltBot⚡</title>
       </Head>
 
+      <div id="starfield-background" className="starfield-container" />
+
       <div className="game-page">
-        <div id="starfield-background" className="starfield-container" />
         
         <div className="game-content">
           <div className="game-header">
