@@ -4,6 +4,7 @@ import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
+import Script from 'next/script'
 import AuthSuccess from '../../components/auth/AuthSuccess'
 
 const FEATURES = [
@@ -33,73 +34,72 @@ const FEATURES = [
   }
 ];
 
+const particlesConfig = {
+  particles: {
+    number: {
+      value: 80,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    },
+    color: {
+      value: '#ffcc00'
+    },
+    shape: {
+      type: 'circle'
+    },
+    opacity: {
+      value: 0.5,
+      random: false
+    },
+    size: {
+      value: 3,
+      random: true
+    },
+    line_linked: {
+      enable: true,
+      distance: 150,
+      color: '#ffcc00',
+      opacity: 0.4,
+      width: 1
+    },
+    move: {
+      enable: true,
+      speed: 6,
+      direction: 'none',
+      random: false,
+      straight: false,
+      out_mode: 'out',
+      bounce: false
+    }
+  },
+  interactivity: {
+    detect_on: 'canvas',
+    events: {
+      onhover: {
+        enable: true,
+        mode: 'repulse'
+      },
+      onclick: {
+        enable: true,
+        mode: 'push'
+      },
+      resize: true
+    }
+  },
+  retina_detect: true
+};
+
 export default function Login() {
   const { status } = useSession()
   const router = useRouter()
 
-  useEffect(() => {
+  const handleParticlesInit = () => {
     if (typeof window !== 'undefined' && window.particlesJS) {
-      const particlesElement = document.getElementById('particles-js');
-      if (particlesElement) {
-        window.particlesJS('particles-js', {
-          particles: {
-            number: {
-              value: 80,
-              density: {
-                enable: true,
-                value_area: 800
-              }
-            },
-            color: {
-              value: '#ffcc00'
-            },
-            shape: {
-              type: 'circle'
-            },
-            opacity: {
-              value: 0.5,
-              random: false
-            },
-            size: {
-              value: 3,
-              random: true
-            },
-            line_linked: {
-              enable: true,
-              distance: 150,
-              color: '#ffcc00',
-              opacity: 0.4,
-              width: 1
-            },
-            move: {
-              enable: true,
-              speed: 6,
-              direction: 'none',
-              random: false,
-              straight: false,
-              out_mode: 'out',
-              bounce: false
-            }
-          },
-          interactivity: {
-            detect_on: 'canvas',
-            events: {
-              onhover: {
-                enable: true,
-                mode: 'repulse'
-              },
-              onclick: {
-                enable: true,
-                mode: 'push'
-              },
-              resize: true
-            }
-          },
-          retina_detect: true
-        });
-      }
+      window.particlesJS('particles-js', particlesConfig);
     }
-  }, []);
+  };
 
   if (status === 'loading') {
     return null;
@@ -113,8 +113,13 @@ export default function Login() {
     <>
       <Head>
         <title>Login - BoltBot⚡</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" async></script>
       </Head>
+
+      <Script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"
+        strategy="afterInteractive"
+        onLoad={handleParticlesInit}
+      />
 
       <nav className="auth-nav">
         <div className="nav-content">
@@ -167,4 +172,4 @@ export default function Login() {
       </div>
     </>
   )
-                }
+}
