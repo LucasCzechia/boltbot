@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HomeIcon } from 'lucide-react';
+import DashboardFooter from '../components/dashboard/DashboardFooter'
 
 const GRID_SIZE = 20;
 const CELL_SIZE = 20;
@@ -293,6 +294,7 @@ export default function SnakePage() {
           </div>
         </div>
       </div>
+     <DashboardFooter />             
     </>
   );
 }
