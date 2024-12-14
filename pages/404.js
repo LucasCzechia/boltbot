@@ -27,9 +27,10 @@ export default function Custom404() {
       <Head>
         <title>404 - Page Not Found | BoltBot⚡</title>
       </Head>
+    
+    <div id="starfield-background" className="starfield-container" />
 
       <div className="error-page">
-        <div id="starfield-background" className="starfield-container" />
         
         <div className="error-content">
           <Image 
