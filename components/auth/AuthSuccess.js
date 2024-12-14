@@ -5,23 +5,30 @@ import { useRouter } from 'next/router';
 const AuthSuccess = () => {
   const [countdown, setCountdown] = useState(3);
   const router = useRouter();
+  const [redirectTimer, setRedirectTimer] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCountdown(prev => {
-        if (prev === 1) {
-          clearInterval(timer);
-          router.push('https://boltbot.app/dashboard/servers');
-        }
-        return prev - 1;
-      });
+      setCountdown(prev => prev - 1);
     }, 1000);
 
-    return () => clearInterval(timer);
+    const redirect = setTimeout(() => {
+      router.push('/dashboard/servers');
+    }, 3000);
+
+    setRedirectTimer(redirect);
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(redirect);
+    };
   }, [router]);
 
-  const handleSkip = () => { 
-    router.push('https://boltbot.app/dashboard/servers'); 
+  const handleSkip = () => {
+    if (redirectTimer) {
+      clearTimeout(redirectTimer);
+    }
+    router.push('/dashboard/servers');
   };
 
   return (
