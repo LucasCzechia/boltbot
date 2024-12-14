@@ -1,4 +1,4 @@
-/* styles/misc/snake.css */
+/* /styles/misc/snake.css */
 :root {
   --primary: #ffcc00;
   --primary-dark: #ff9900;
@@ -26,6 +26,7 @@
   height: 100%;
   z-index: 1;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .star {
@@ -54,8 +55,8 @@
 }
 
 .game-logo {
-  width: 120px !important;
-  height: 120px !important;
+  width: 180px !important;
+  height: 180px !important;
   border: 3px solid var(--primary);
   border-radius: 50%;
   padding: 0;
@@ -66,9 +67,9 @@
 }
 
 .game-header h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: var(--light);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   background: linear-gradient(45deg, var(--primary), var(--primary-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -76,7 +77,7 @@
 
 .game-header p {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .navigation-actions {
@@ -88,14 +89,15 @@
 .home-button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
   background: var(--primary);
   color: var(--dark);
   border-radius: 50px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
+  font-size: 1.1rem;
 }
 
 .home-button:hover {
@@ -112,14 +114,14 @@
 .game-stats {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   padding: 0 0.5rem;
 }
 
 .stat {
   color: var(--primary);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .game-canvas {
@@ -147,13 +149,13 @@
 }
 
 .play-button {
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem;
   background: var(--primary);
   color: var(--dark);
   border: none;
   border-radius: 25px;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -164,25 +166,25 @@
 }
 
 .mobile-controls {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   display: none;
 }
 
 .controls-row {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin: 0.25rem 0;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
 }
 
 .direction-button {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background: rgba(255, 204, 0, 0.1);
-  border: 1px solid var(--primary);
-  border-radius: 8px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
   color: var(--primary);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -237,8 +239,13 @@
     gap: 1rem;
   }
 
+  .game-logo {
+    width: 140px !important;
+    height: 140px !important;
+  }
+
   .game-header h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .game-header p {
@@ -250,32 +257,44 @@
   }
 
   .navigation-actions {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .home-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
   }
 
   .stat {
-    font-size: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .direction-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
+  .game-logo {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
   .game-header h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .direction-button {
     width: 45px;
     height: 45px;
     font-size: 1.2rem;
+    border-width: 1px;
   }
 
   .play-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1.1rem;
   }
 }
