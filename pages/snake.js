@@ -10,7 +10,7 @@ const GRID_SIZE = 20;
 const CELL_SIZE = 20;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_DIRECTION = { x: 1, y: 0 };
-const GAME_SPEED = 121;
+const GAME_SPEED = 120;
 
 export default function SnakePage() {
   const [snake, setSnake] = useState(INITIAL_SNAKE);
