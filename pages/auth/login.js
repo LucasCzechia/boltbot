@@ -152,7 +152,7 @@ export default function Login() {
           />
           
           <h1 className="auth-title">Welcome Back!</h1>
-          <p className="auth-subtitle">Login with Discord to manage your servers and customize BoltBot's settings</p>
+          <p className="auth-subtitle">Login with Discord to manage your servers and customize BoltBot⚡'s settings</p>
           
           <div className="features-list">
             {FEATURES.map((feature, index) => (
