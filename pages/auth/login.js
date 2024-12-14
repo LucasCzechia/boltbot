@@ -37,10 +37,6 @@ export default function Login() {
   const { status } = useSession()
   const router = useRouter()
 
-  if (status === 'authenticated') {
-    return <AuthSuccess />
-  }
-
   useEffect(() => {
     if (typeof window !== 'undefined' && window.particlesJS) {
       const particlesElement = document.getElementById('particles-js');
@@ -105,8 +101,12 @@ export default function Login() {
     }
   }, []);
 
+  if (status === 'loading') {
+    return null;
+  }
+
   if (status === 'authenticated') {
-    return <AuthSuccess onRedirect={() => router.replace('/dashboard/servers')} />
+    return <AuthSuccess />;
   }
 
   return (
@@ -167,4 +167,4 @@ export default function Login() {
       </div>
     </>
   )
-}
+                }
