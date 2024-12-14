@@ -5,29 +5,23 @@ import { useRouter } from 'next/router';
 const AuthSuccess = () => {
   const [countdown, setCountdown] = useState(3);
   const router = useRouter();
-  const [redirectTimer, setRedirectTimer] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCountdown(prev => prev - 1);
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          router.push('/dashboard/servers');
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
 
-    const redirect = setTimeout(() => {
-      router.push('/dashboard/servers');
-    }, 3000);
-
-    setRedirectTimer(redirect);
-
-    return () => {
-      clearInterval(timer);
-      clearTimeout(redirect);
-    };
+    return () => clearInterval(timer);
   }, [router]);
 
   const handleSkip = () => {
-    if (redirectTimer) {
-      clearTimeout(redirectTimer);
-    }
     router.push('/dashboard/servers');
   };
 
