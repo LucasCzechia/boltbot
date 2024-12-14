@@ -25,21 +25,30 @@ export default function SnakeGame() {
   useEffect(() => {
     const generateStarfield = () => {
       const starfieldContainer = document.getElementById('starfield-background');
-      if (starfieldContainer) {
-        for (let i = 0; i < 100; i++) {
-          const star = document.createElement('div');
-          star.className = 'star';
-          star.style.left = Math.random() * 100 + '%';
-          star.style.top = Math.random() * 100 + '%';
-          star.style.animationDelay = Math.random() * 2 + 's';
-          starfieldContainer.appendChild(star);
-        }
+      if (!starfieldContainer) return;
+
+      starfieldContainer.innerHTML = ''; // Clear existing stars
+
+      const starCount = Math.floor(window.innerWidth * window.innerHeight / 5000);
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.top = Math.random() * window.innerHeight + 'px';
+        star.style.animationDelay = Math.random() * 5 + 's';
+        starfieldContainer.appendChild(star);
       }
     };
 
     generateStarfield();
-  }, []);
+    window.addEventListener('resize', generateStarfield);
 
+    return () => {
+      window.removeEventListener('resize', generateStarfield);
+    };
+  }, []);
+  
   const resetGame = useCallback(() => {
     setSnake(INITIAL_SNAKE);
     setDirection(INITIAL_DIRECTION);
