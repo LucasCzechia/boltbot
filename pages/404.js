@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HomeIcon, AlertTriangle, GamepadIcon } from 'lucide-react';
+import DashboardFooter from '../components/dashboard/DashboardFooter'
 
 export default function Custom404() {
   useEffect(() => {
@@ -67,6 +68,7 @@ export default function Custom404() {
           </div>
         </div>
       </div>
+      <DashboardFooter />      
     </>
   );
               }
