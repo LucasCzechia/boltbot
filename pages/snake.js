@@ -27,7 +27,6 @@ export default function SnakeGame() {
       const starfieldContainer = document.getElementById('starfield-background');
       if (!starfieldContainer) return;
 
-      // Clear existing stars
       starfieldContainer.innerHTML = '';
 
       for (let i = 0; i < 100; i++) {
