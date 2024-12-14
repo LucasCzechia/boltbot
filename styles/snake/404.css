@@ -54,13 +54,16 @@
 }
 
 .game-logo {
+  width: 120px !important;
+  height: 120px !important;
   border: 3px solid var(--primary);
   border-radius: 50%;
-  padding: 5px;
+  padding: 0;
   margin-bottom: 1rem;
   animation: glow 2s infinite alternate;
+  object-fit: cover;
+  background-color: transparent;
 }
-
 .game-header h1 {
   font-size: 2.5rem;
   color: var(--light);
