@@ -21,12 +21,31 @@ const AuthSuccess = () => {
     return () => clearInterval(timer);
   }, [router]);
 
+  useEffect(() => {
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background');
+      if (starfieldContainer) {
+        for (let i = 0; i < 100; i++) {
+          const star = document.createElement('div');
+          star.className = 'star';
+          star.style.left = Math.random() * 100 + '%';
+          star.style.top = Math.random() * 100 + '%';
+          star.style.animationDelay = Math.random() * 2 + 's';
+          starfieldContainer.appendChild(star);
+        }
+      }
+    };
+
+    generateStarfield();
+  }, []);
+
   const handleSkip = () => {
     router.push('/dashboard/servers');
   };
 
   return (
     <div className="auth-success-overlay">
+      <div id="starfield-background" className="starfield-container" />
       <div className="auth-success-card">
         <div className="checkmark-wrapper">
           <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
