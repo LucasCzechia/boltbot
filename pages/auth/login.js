@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Script from 'next/script'
+import DashboardFooter from '../../components/dashboard/DashboardFooter'
 import AuthSuccess from '../../components/auth/AuthSuccess'
 
 const FEATURES = [
@@ -170,6 +171,7 @@ export default function Login() {
           </button>
         </div>
       </div>
+    <DashboardFooter />
     </>
   )
 }
