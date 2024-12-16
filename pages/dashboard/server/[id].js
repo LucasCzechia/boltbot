@@ -1,8 +1,8 @@
 // pages/dashboard/server/[id].js
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Image from 'next/image';
 import DashboardSidebar from '@/components/dashboard/server/DashboardSidebar';
 import ServerHeader from '@/components/dashboard/server/ServerHeader';
 import ServerSettings from '@/components/dashboard/server/ServerSettings';
@@ -19,8 +19,38 @@ export default function ServerDashboard() {
 
   const router = useRouter();
   const { id: serverId } = router.query;
+  const [server, setServer] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (status === 'loading') {
+  useEffect(() => {
+    const fetchServerData = async () => {
+      if (!serverId) return;
+      
+      try {
+        const response = await fetch('/api/discord/servers');
+        if (!response.ok) throw new Error('Failed to fetch servers');
+        
+        const servers = await response.json();
+        const currentServer = servers.find(s => s.id === serverId);
+        
+        if (!currentServer) {
+          router.replace('/dashboard/servers');
+          return;
+        }
+        
+        setServer(currentServer);
+      } catch (error) {
+        console.error('Error fetching server:', error);
+        router.replace('/dashboard/servers');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServerData();
+  }, [serverId, router]);
+
+  if (status === 'loading' || loading) {
     return (
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
@@ -30,21 +60,23 @@ export default function ServerDashboard() {
     );
   }
 
+  if (!server) return null;
+
   return (
     <>
       <Head>
-        <title>Server Dashboard - BoltBot⚡</title>
+        <title>{server.name} - BoltBot⚡ Dashboard</title>
       </Head>
 
       <div id="starfield-background" className="starfield-container" />
 
       <div className="dashboard-layout">
-        <DashboardSidebar />
+        <DashboardSidebar serverId={serverId} />
         
         <main className="main-content">
-          <ServerHeader />
-          <ServerSettings />
-          <ActivityLogs />
+          <ServerHeader server={server} />
+          <ServerSettings serverId={serverId} />
+          <ActivityLogs serverId={serverId} />
           
           <button 
             className="save-changes"
@@ -66,4 +98,4 @@ export default function ServerDashboard() {
       <DashboardFooter />
     </>
   );
-    }
+}
