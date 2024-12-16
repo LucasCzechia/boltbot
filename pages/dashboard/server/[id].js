@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import DashboardSidebar from '@/components/dashboard/server/DashboardSidebar';
-import ServerHeader from '@/components/dashboard/server/ServerHeader';
-import ServerSettings from '@/components/dashboard/server/ServerSettings';
-import ActivityLogs from '@/components/dashboard/server/ActivityLogs';
-import DashboardFooter from '@/components/dashboard/DashboardFooter';
+import Image from 'next/image';
+import DashboardSidebar from '../../../components/dashboard/server/DashboardSidebar';
+import ServerHeader from '../../../components/dashboard/server/ServerHeader';
+import ServerSettings from '../../../components/dashboard/server/ServerSettings';
+import ActivityLogs from '../../../components/dashboard/server/ActivityLogs';
+import DashboardFooter from '../../../components/dashboard/DashboardFooter';
 
 export default function ServerDashboard() {
   const { data: session, status } = useSession({
@@ -49,6 +50,24 @@ export default function ServerDashboard() {
 
     fetchServerData();
   }, [serverId, router]);
+
+  useEffect(() => {
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background');
+      if (starfieldContainer) {
+        for (let i = 0; i < 100; i++) {
+          const star = document.createElement('div');
+          star.className = 'star';
+          star.style.left = Math.random() * 100 + '%';
+          star.style.top = Math.random() * 100 + '%';
+          star.style.animationDelay = Math.random() * 2 + 's';
+          starfieldContainer.appendChild(star);
+        }
+      }
+    };
+
+    generateStarfield();
+  }, []);
 
   if (status === 'loading' || loading) {
     return (
