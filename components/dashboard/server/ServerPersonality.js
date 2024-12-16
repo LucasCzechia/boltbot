@@ -1,4 +1,4 @@
-// components/server/ServerPersonality.js
+// components/dashboard/server/ServerPersonality.js
 import { useState } from 'react';
 import { Search, Save, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
