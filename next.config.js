@@ -61,6 +61,11 @@ const nextConfig = {
         permanent: true
       },
       {
+        source: '/snake',
+        destination: '/misc/snake',
+        permanent: true
+      },
+      {
         source: '/dashboard',
         destination: '/dashboard/servers',
         permanent: false
