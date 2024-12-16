@@ -1,14 +1,14 @@
-// pages/dashboard/server/[id].js
+// pages/dashboard/servers/[id]/index.js
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
-import DashboardSidebar from '../../../components/dashboard/server/DashboardSidebar';
-import ServerHeader from '../../../components/dashboard/server/ServerHeader';
-import ServerSettings from '../../../components/dashboard/server/ServerSettings';
-import ActivityLogs from '../../../components/dashboard/server/ActivityLogs';
-import DashboardFooter from '../../../components/dashboard/DashboardFooter';
+import DashboardSidebar from '../../../../components/dashboard/server/DashboardSidebar';
+import ServerHeader from '../../../../components/dashboard/server/ServerHeader';
+import ServerSettings from '../../../../components/dashboard/server/ServerSettings';
+import ActivityLogs from '../../../../components/dashboard/server/ActivityLogs';
+import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
 
 export default function ServerDashboard() {
   const { data: session, status } = useSession({
