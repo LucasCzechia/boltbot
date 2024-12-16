@@ -1,4 +1,4 @@
-// components/dashboard/GreetingBanner.js
+// components/dashboard/servers/GreetingBanner.js
 import { useEffect, useState } from 'react'
 
 export default function GreetingBanner({ username }) {
