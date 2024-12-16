@@ -1,4 +1,4 @@
-// components/server/ServerTools.js
+// components/dashboard/server/ServerTools.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
