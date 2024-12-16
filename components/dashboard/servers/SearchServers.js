@@ -1,4 +1,4 @@
-// components/dashboard/SearchServers.js
+// components/dashboard/servers/SearchServers.js
 import { useState, useCallback } from 'react'
 
 export default function SearchServers({ servers, onSearch }) {
