@@ -1,4 +1,4 @@
-// components/dashboard/DashboardFooter.js
+// components/dashboard/servers/DashboardFooter.js
 import Link from 'next/link'
 import Image from 'next/image'
 
