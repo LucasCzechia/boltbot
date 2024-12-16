@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const AuthSuccess = () => {
-  const [countdown, setCountdown] = useState(300);
+  const [countdown, setCountdown] = useState(3);
   const router = useRouter();
 
   useEffect(() => {
@@ -40,6 +40,7 @@ const AuthSuccess = () => {
   }, []);
 
   const handleSkip = () => {
+    setCountdown(0);
     router.push('/dashboard/servers');
   };
 
