@@ -1,4 +1,4 @@
-// components/server/ServerHeader.js
+// components/dashboard/server/ServerHeader.js
 import Image from 'next/image';
 import { useServer } from '@/context/ServerContext';
 import { Users, Circle } from 'lucide-react';
