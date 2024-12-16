@@ -1,4 +1,4 @@
-// components/dashboard/ServerGrid.js
+// components/dashboard/servers/ServerGrid.js
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
