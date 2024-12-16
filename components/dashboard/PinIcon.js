@@ -1,4 +1,4 @@
-// components/PinIcon.js
+// components/dashboard/servers/PinIcon.js
 export default function PinIcon({ isPinned }) {
   return (
     <svg 
