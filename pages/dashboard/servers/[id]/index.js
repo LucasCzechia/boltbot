@@ -1,158 +1,143 @@
 // pages/dashboard/servers/[id]/index.js
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
-import { Toaster, toast } from 'react-hot-toast';
-import ServerHeader from '../../../../components/dashboard/server/ServerHeader';
-import DashboardNav from '../../../../components/dashboard/server/DashboardNav';
-import Overview from '../../../../components/dashboard/server/sections/Overview';
-import Features from '../../../../components/dashboard/server/sections/Features';
-import Settings from '../../../../components/dashboard/server/sections/Settings';
-import Logs from '../../../../components/dashboard/server/sections/Logs';
-import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
+import { Toaster } from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap } from 'lucide-react';
+import DashboardNav from '@/components/dashboard/DashboardNav';
+import DashboardFooter from '@/components/dashboard/DashboardFooter';
+import ServerSidebar from '@/components/server/ServerSidebar';
+import ServerHeader from '@/components/server/ServerHeader';
+import ServerGeneral from '@/components/server/ServerGeneral';
+import ServerTools from '@/components/server/ServerTools';
+import ServerFeatures from '@/components/server/ServerFeatures';
+import ServerPersonality from '@/components/server/ServerPersonality';
+import { ServerProvider } from '@/context/ServerContext';
+
+const DEFAULT_SETTINGS = {
+  botName: 'BoltBot',
+  contextLength: 10,
+  tools: {
+    browseInternet: true,
+    generateImages: true,
+    currencyConverter: true,
+    weather: true,
+    time: true,
+    reactEmojis: true,
+    createFiles: true,
+    runPython: true,
+    googleImages: true
+  },
+  features: {
+    imageRecognition: true,
+    fileHandling: true
+  },
+  personality: 'default'
+};
 
 export default function ServerDashboard() {
+  const router = useRouter();
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
-      router.replace('/auth/login');
+      router.push('/auth/login');
     },
   });
+  
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const [activeTab, setActiveTab] = useState('general');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
-  const router = useRouter();
-  const { id: serverId } = router.query;
-  const [server, setServer] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState('overview');
-  const [hasChanges, setHasChanges] = useState(false);
-
-  useEffect(() => {
-    const fetchServerData = async () => {
-      if (!serverId) return;
-      
-      try {
-        const response = await fetch('/api/discord/servers');
-        if (!response.ok) throw new Error('Failed to fetch servers');
-        
-        const servers = await response.json();
-        const currentServer = servers.find(s => s.id === serverId);
-        
-        if (!currentServer) {
-          router.replace('/dashboard/servers');
-          return;
-        }
-        
-        setServer(currentServer);
-      } catch (error) {
-        console.error('Error fetching server:', error);
-        router.replace('/dashboard/servers');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServerData();
-  }, [serverId, router]);
-
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (starfieldContainer) {
-        for (let i = 0; i < 100; i++) {
-          const star = document.createElement('div');
-          star.className = 'star';
-          star.style.left = Math.random() * 100 + '%';
-          star.style.top = Math.random() * 100 + '%';
-          star.style.animationDelay = Math.random() * 2 + 's';
-          starfieldContainer.appendChild(star);
-        }
-      }
-    };
-
-    generateStarfield();
-  }, []);
-
-  const handleSave = async () => {
-    try {
-      // TODO: Implement actual save functionality
-      toast.promise(
-        new Promise(resolve => setTimeout(resolve, 1000)), // Replace with actual API call
-        {
-          loading: 'Saving changes...',
-          success: 'Changes saved successfully!',
-          error: 'Failed to save changes'
-        }
-      );
-      setHasChanges(false);
-    } catch (error) {
-      console.error('Error saving changes:', error);
-    }
+  const handleSettingChange = (category, setting, value) => {
+    setSettings(prev => ({
+      ...prev,
+      [category]: typeof setting === 'object' 
+        ? { ...prev[category], ...setting }
+        : category === 'tools' || category === 'features'
+          ? { ...prev[category], [setting]: value }
+          : value
+    }));
+    setIsEditing(true);
   };
 
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'overview':
-        return <Overview server={server} />;
-      case 'features':
-        return <Features onSettingChange={() => setHasChanges(true)} />;
-      case 'settings':
-        return <Settings onSettingChange={() => setHasChanges(true)} />;
-      case 'logs':
-        return <Logs serverId={serverId} />;
-      default:
-        return <Overview server={server} />;
-    }
-  };
-
-  if (status === 'loading' || loading) {
+  if (status === 'loading') {
     return (
       <div className="loading-screen">
-        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
-          <path d="M13 0L0 13h9v11l13-13h-9z"/>
-        </svg>
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 360]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity
+          }}
+        >
+          <Zap size={48} className="text-primary" />
+        </motion.div>
       </div>
     );
   }
 
-  if (!server) return null;
+  const renderContent = () => {
+    const props = {
+      settings,
+      handleSettingChange,
+      searchQuery,
+      setSearchQuery,
+      isEditing,
+      setIsEditing
+    };
+
+    switch (activeTab) {
+      case 'general':
+        return <ServerGeneral {...props} />;
+      case 'tools':
+        return <ServerTools {...props} />;
+      case 'features':
+        return <ServerFeatures {...props} />;
+      case 'personality':
+        return <ServerPersonality {...props} />;
+      default:
+        return null;
+    }
+  };
 
   return (
-    <>
+    <ServerProvider>
       <Head>
-        <title>{server.name} - BoltBot⚡ Dashboard</title>
+        <title>Server Settings - BoltBot⚡</title>
       </Head>
 
       <div id="starfield-background" className="starfield-container" />
+      
+      <DashboardNav />
 
       <div className="dashboard-container">
-        <ServerHeader server={server} />
-        <DashboardNav 
-          activeSection={activeSection} 
-          onSectionChange={setActiveSection}
-        />
+        <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         
-        <main className="dashboard-content">
-          {renderContent()}
+        <main className="dashboard-main">
+          <ServerHeader />
           
-          {hasChanges && (
-            <button 
-              className="save-changes-btn"
-              onClick={handleSave}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
             >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-                <polyline points="17 21 17 13 7 13 7 21"/>
-                <polyline points="7 3 7 8 15 8"/>
-              </svg>
-              Save Changes
-            </button>
-          )}
+              {renderContent()}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 
       <DashboardFooter />
       <Toaster position="top-right" />
-    </>
+    </ServerProvider>
   );
 }
