@@ -1,4 +1,4 @@
-// pages/snake.js
+// pages/misc/snake.js
 import { useEffect, useState, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
