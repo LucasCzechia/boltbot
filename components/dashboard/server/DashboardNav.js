@@ -59,4 +59,37 @@ export default function DashboardNav({ activeSection, onSectionChange }) {
       >
         <span className="hamburger-line"></span>
         <span className="hamburger-line"></span>
-   
+        <span className="hamburger-line"></span>
+      </button>
+
+      {/* Navigation */}
+      <nav className={`dashboard-nav ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+        <div className="nav-content">
+          {navigationItems.map((item) => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+              onClick={() => {
+                onSectionChange(item.id);
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              <div className="nav-item-icon">
+                {item.icon}
+              </div>
+              <span className="nav-item-label">{item.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div 
+            className="mobile-overlay"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+      </nav>
+    </>
+  );
+}
