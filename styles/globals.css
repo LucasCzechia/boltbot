@@ -9,19 +9,19 @@
 /* Dashboard Styles */
 @import './dashboard/nav.css';
 @import './dashboard/scroll-to-top.css';
+@import './dashboard/footer.css'; 
 
 /* Servers Selection Dashboard Styles */
-@import './dashboard/greeting.css';
-@import './dashboard/serversgrid.css'; 
-@import './dashboard/search.css';
-@import './dashboard/footer.css';
+@import './dashboard/servers/greeting.css';
+@import './dashboard/servers/serversgrid.css'; 
+@import './dashboard/servers/search.css';
 
 /* Servers ID Dashboard Styles */
-@import './server/base.css';
-@import './server/features.css';
-@import './server/tools.css';
-@import './server/common.css';
-@import './server/animations.css';
+@import './dashboard/server/base.css';
+@import './dashboard/server/features.css';
+@import './dashboard/server/tools.css';
+@import './dashboard/server/common.css';
+@import './dashboard/server/animations.css';
 
 :root {
   --primary: #ffcc00;
