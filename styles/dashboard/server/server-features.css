@@ -1,0 +1,36 @@
+/* styles/dashboard/server/server-features.css */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+  gap: 1rem;
+}
+
+.feature-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  gap: 1rem; /* Spacing between elements */
+}
+
+.feature-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.feature-toggle {
+  /* Style the toggle switch as needed */
+}
+
+.feature-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
