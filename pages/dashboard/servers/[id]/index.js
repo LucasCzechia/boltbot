@@ -5,87 +5,52 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import DashboardNav from '@/components/dashboard/DashboardNav';
-import DashboardFooter from '@/components/dashboard/DashboardFooter';
-import ServerSidebar from '@/components/dashboard/server/ServerSidebar';
-import ServerHeader from '@/components/dashboard/server/ServerHeader';
-import ServerGeneral from '@/components/dashboard/server/ServerGeneral';
-import ServerTools from '@/components/dashboard/server/ServerTools';
-import ServerFeatures from '@/components/dashboard/server/ServerFeatures';
-import ServerPersonality from '@/components/dashboard/server/ServerPersonality';
-import ScrollToTop from '@/components/dashboard/ScrollToTop';
-import { ServerProvider } from '@/context/ServerContext';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Zap } from 'lucide-react';
+import DashboardNav from '../../../../components/dashboard/DashboardNav';
+import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
+import ServerSidebar from '../../../../components/dashboard/server/ServerSidebar';
+import ServerHeader from '../../../../components/dashboard/server/ServerHeader';
+import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral';
+import ServerTools from '../../../../components/dashboard/server/ServerTools';
+import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
+import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
+import ScrollToTop from '../../../../components/dashboard/ScrollToTop'
+import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot',
   contextLength: 15,
   tools: {
-    BrowseInternet: true,
-    GenerateImages: true,
-    CurrencyConverter: true,
-    GetWeather: true,
-    GetTime: true,
-    ReactEmojis: true,
-    CreateFiles: true,
-    RunPython: true,
-    GoogleImages: true
+    browseInternet: true,
+    generateImages: true,
+    currencyConverter: true,
+    weather: true,
+    time: true,
+    reactEmojis: true,
+    createFiles: true,
+    runPython: true,
+    googleImages: true
   },
   features: {
-    ImageRecognition: true,
-    FileHandling: true
+    imageRecognition: true,
+    fileHandling: true
   },
   personality: 'default'
 };
 
 export default function ServerDashboard() {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const [error, setError] = useState(null);
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/auth/login');
+    },
+  });
+  
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login');
-    }
-  }, [status, router]);
-
-  useEffect(() => {
-    const fetchServerData = async () => {
-      if (!router.query.id || !session?.accessToken) return;
-
-      try {
-        const response = await fetch(`/api/discord/servers/${router.query.id}/settings`, {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`
-          }
-        });
-
-        if (!response.ok) {
-          if (response.status === 403) {
-            setError('You do not have permission to access this server.');
-          } else {
-            setError('Failed to load server settings.');
-          }
-          return;
-        }
-
-        const data = await response.json();
-        setSettings(data);
-      } catch (err) {
-        setError('An error occurred while loading the server.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchServerData();
-  }, [router.query.id, session]);
 
   const handleSettingChange = (category, setting, value) => {
     setSettings(prev => ({
@@ -99,50 +64,30 @@ export default function ServerDashboard() {
     setIsEditing(true);
   };
 
-  if (status === 'loading' || isLoading) {
+  useEffect(() => {
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background')
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
+      }
+    }
+
+    generateStarfield()
+  }, [])
+
+  if (status === 'loading') {
     return (
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
           <path d="M13 0L0 13h9v11l13-13h-9z"/>
         </svg>
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Head>
-          <title>Error - BoltBot⚡</title>
-        </Head>
-
-        <div id="starfield-background" className="starfield-container" />
-        
-        <div className="error-page">
-          <div className="error-content">
-            <Image 
-              src="/images/boltbot.webp"
-              alt="BoltBot Logo"
-              width={120}
-              height={120}
-              className="error-logo"
-              priority
-            />
-            
-            <h1>Access Denied</h1>
-            <p>{error}</p>
-
-            <div className="error-actions">
-              <Link href="/dashboard/servers" className="home-button">
-                Return to Servers
-              </Link>
-            </div>
-          </div>
-        </div>
-        
-        <DashboardFooter />
-      </>
-    );
+    )
   }
 
   const renderContent = () => {
@@ -179,7 +124,7 @@ export default function ServerDashboard() {
       
       <DashboardNav />
 
-      <div className="server-dashboard">
+      <div className="dashboard-container">
         <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         
         <main className="dashboard-main">
@@ -203,4 +148,4 @@ export default function ServerDashboard() {
       <Toaster position="top-right" />
     </ServerProvider>
   );
-}
+ }
