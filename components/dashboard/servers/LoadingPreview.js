@@ -1,4 +1,4 @@
-// components/dashboard/LoadingPreview.js
+// components/dashboard/servers/LoadingPreview.js
 import React from 'react'
 
 export default function LoadingPreview() {
