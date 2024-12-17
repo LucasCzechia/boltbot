@@ -10,6 +10,11 @@
 @import './dashboard/search.css';
 @import './dashboard/footer.css';
 
+/* Server Dashboard Styles */
+@import './dashboard/server/layout.css';
+@import './dashboard/server/cards.css';
+@import './dashboard/server/controls.css';
+
 :root {
   --primary: #ffcc00;
   --primary-dark: #ff9900;
