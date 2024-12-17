@@ -17,16 +17,7 @@
 @import './dashboard/servers/search.css';
 
 /* Servers ID Dashboard Styles */
-/* Servers ID Dashboard Styles */
-@import './dashboard/server/base.css';
 @import './dashboard/server/server-dashboard.css'; 
-@import './dashboard/server/server-header.css';
-@import './dashboard/server/server-sidebar.css';
-@import './dashboard/server/server-features.css';
-@import './dashboard/server/server-general.css';
-@import './dashboard/server/server-personality.css';
-@import './dashboard/server/server-tools.css';
-@import './dashboard/server/animations.css';
 
 :root {
   --primary: #ffcc00;
