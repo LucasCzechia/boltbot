@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-  async headers() {
+async headers() {
     return [
       {
         // Auth routes - no caching
