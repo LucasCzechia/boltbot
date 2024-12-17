@@ -14,12 +14,12 @@ import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral
 import ServerTools from '../../../../components/dashboard/server/ServerTools';
 import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
 import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
-import ScrollToTop from '../../../../components/dashboard/ScrollToTop';
+import ScrollToTop from '../../../components/dashboard/ScrollToTop'
 import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot',
-  contextLength: 10,
+  contextLength: 15,
   tools: {
     browseInternet: true,
     generateImages: true,
@@ -46,7 +46,7 @@ export default function ServerDashboard() {
       router.push('/auth/login');
     },
   });
-
+  
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
@@ -55,7 +55,7 @@ export default function ServerDashboard() {
   const handleSettingChange = (category, setting, value) => {
     setSettings(prev => ({
       ...prev,
-      [category]: typeof setting === 'object'
+      [category]: typeof setting === 'object' 
         ? { ...prev[category], ...setting }
         : category === 'tools' || category === 'features'
           ? { ...prev[category], [setting]: value }
@@ -66,30 +66,25 @@ export default function ServerDashboard() {
 
   useEffect(() => {
     const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (!starfieldContainer) return;
-
+      const starfieldContainer = document.getElementById('starfield-background')
       for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        starfieldContainer.appendChild(star);
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
       }
-    };
-
-    generateStarfield();
-  }, []);
+    }
 
   if (status === 'loading') {
     return (
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
-          <path d="M13 0L0 13h9v11l13-13h-9z" />
+          <path d="M13 0L0 13h9v11l13-13h-9z"/>
         </svg>
       </div>
-    );
+    )
   }
 
   const renderContent = () => {
@@ -123,15 +118,15 @@ export default function ServerDashboard() {
       </Head>
 
       <div id="starfield-background" className="starfield-container" />
-
+      
       <DashboardNav />
 
       <div className="dashboard-container">
         <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-
+        
         <main className="dashboard-main">
           <ServerHeader />
-
+          
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -148,7 +143,6 @@ export default function ServerDashboard() {
 
       <DashboardFooter />
       <Toaster position="top-right" />
-      <ScrollToTop />
     </ServerProvider>
   );
-}
+    }
