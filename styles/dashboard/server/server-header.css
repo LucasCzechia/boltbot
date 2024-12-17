@@ -1,0 +1,51 @@
+/* styles/dashboard/server/server-header.css */
+/* Server Header for Mobile */
+.server-header {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+}
+
+.server-header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.server-header-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+}
+
+.server-header-info h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.server-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.stat-item {
+  font-size: 0.875rem;
+}
+
+/* Tablet Breakpoint */
+@media (min-width: 768px) {
+  .server-header-content {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .server-stats {
+    justify-content: flex-start;
+  }
+}
