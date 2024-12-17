@@ -1,0 +1,132 @@
+/* styles/dashboard/server/cards.css */
+.server-dashboard .features-grid,
+.server-dashboard .tools-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.server-dashboard .feature-card,
+.server-dashboard .tool-card {
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  cursor: pointer;
+  transform: translateY(-8px) scale(0.95);
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.server-dashboard .feature-card.card-active,
+.server-dashboard .tool-card.card-active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.server-dashboard .feature-content,
+.server-dashboard .tool-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.server-dashboard .feature-header,
+.server-dashboard .tool-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.server-dashboard .feature-icon,
+.server-dashboard .tool-icon {
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.server-dashboard .feature-content h3,
+.server-dashboard .tool-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--light);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.server-dashboard .feature-content p,
+.server-dashboard .tool-content p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.server-dashboard .feature-card::before,
+.server-dashboard .tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.server-dashboard .feature-card:hover::before,
+.server-dashboard .tool-card:hover::before {
+  left: 100%;
+}
+
+.server-dashboard .feature-card:hover,
+.server-dashboard .tool-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 
+    0 10px 20px rgba(255, 204, 0, 0.1),
+    0 0 30px rgba(255, 204, 0, 0.05),
+    0 0 50px rgba(255, 204, 0, 0.025);
+}
+
+.server-dashboard .feature-card:hover .feature-icon,
+.server-dashboard .tool-card:hover .tool-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
+}
+
+@media (min-width: 768px) {
+  .server-dashboard .features-grid,
+  .server-dashboard .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .server-dashboard .features-grid,
+  .server-dashboard .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .server-dashboard .features-grid,
+  .server-dashboard .tools-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
