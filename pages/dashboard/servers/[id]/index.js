@@ -14,6 +14,7 @@ import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral
 import ServerTools from '../../../../components/dashboard/server/ServerTools';
 import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
 import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
+import ScrollToTop from '../../../components/dashboard/ScrollToTop'
 import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
@@ -63,23 +64,27 @@ export default function ServerDashboard() {
     setIsEditing(true);
   };
 
+  useEffect(() => {
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background')
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
+      }
+    }
+
   if (status === 'loading') {
     return (
       <div className="loading-screen">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 360]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity
-          }}
-        >
-          <Zap size={48} className="text-primary" />
-        </motion.div>
+        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
+          <path d="M13 0L0 13h9v11l13-13h-9z"/>
+        </svg>
       </div>
-    );
+    )
   }
 
   const renderContent = () => {
@@ -134,6 +139,7 @@ export default function ServerDashboard() {
             </motion.div>
           </AnimatePresence>
         </main>
+        <ScrollToTop />
       </div>
 
       <DashboardFooter />
