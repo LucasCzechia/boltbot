@@ -26,6 +26,7 @@
 @import './dashboard/server/settings.css';
 @import './dashboard/server/range-input.css';
 @import './dashboard/server/toggle-switch.css';
+@import './card-content.css';
 
 :root {
   --primary: #ffcc00;
