@@ -1,3 +1,43 @@
+// pages/dashboard/servers/[id]/index.js
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import Head from 'next/head';
+import { Toaster } from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap } from 'lucide-react';
+import DashboardNav from '../../../../components/dashboard/DashboardNav';
+import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
+import ServerSidebar from '../../../../components/dashboard/server/ServerSidebar';
+import ServerHeader from '../../../../components/dashboard/server/ServerHeader';
+import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral';
+import ServerTools from '../../../../components/dashboard/server/ServerTools';
+import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
+import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
+import ScrollToTop from '../../../components/dashboard/ScrollToTop'
+import { ServerProvider } from '../../../../context/ServerContext';
+
+const DEFAULT_SETTINGS = {
+  botName: 'BoltBot',
+  contextLength: 15,
+  tools: {
+    browseInternet: true,
+    generateImages: true,
+    currencyConverter: true,
+    weather: true,
+    time: true,
+    reactEmojis: true,
+    createFiles: true,
+    runPython: true,
+    googleImages: true
+  },
+  features: {
+    imageRecognition: true,
+    fileHandling: true
+  },
+  personality: 'default'
+};
+
 export default function ServerDashboard() {
   const router = useRouter();
   const { data: session, status } = useSession({
@@ -6,7 +46,7 @@ export default function ServerDashboard() {
       router.push('/auth/login');
     },
   });
-
+  
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,17 +66,16 @@ export default function ServerDashboard() {
 
   useEffect(() => {
     const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
+      const starfieldContainer = document.getElementById('starfield-background')
       for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        starfieldContainer.appendChild(star);
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
       }
-    };
-  }, []);
+    }
 
   if (status === 'loading') {
     return (
@@ -45,7 +84,7 @@ export default function ServerDashboard() {
           <path d="M13 0L0 13h9v11l13-13h-9z"/>
         </svg>
       </div>
-    );
+    )
   }
 
   const renderContent = () => {
@@ -106,4 +145,4 @@ export default function ServerDashboard() {
       <Toaster position="top-right" />
     </ServerProvider>
   );
-}
+    }
