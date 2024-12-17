@@ -1,0 +1,74 @@
+/* styles/server/base.css */
+:root {
+  --primary: #ffcc00;
+  --primary-dark: #ff9900;
+  --dark: #0a0a0a;
+  --dark-light: #111111;
+  --light: #ffffff;
+  --card-bg: rgba(255, 204, 0, 0.05);
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --warning: #f1c40f;
+  --info: #3498db;
+  --header-height: 60px;
+  --mobile-nav-height: 64px;
+  --sidebar-width: 280px;
+}
+
+/* Mobile First Base Styles */
+.dashboard-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 1rem;
+  padding-top: calc(var(--header-height) + 1rem);
+  padding-bottom: calc(var(--mobile-nav-height) + 1rem);
+}
+
+/* Tablet Breakpoint */
+@media (min-width: 768px) {
+  .dashboard-container {
+    padding: 2rem;
+    padding-top: calc(var(--header-height) + 2rem);
+  }
+}
+
+/* Desktop Breakpoint */
+@media (min-width: 1024px) {
+  .dashboard-container {
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* Desktop Large Breakpoint */
+@media (min-width: 1280px) {
+  .dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-left: var(--sidebar-width);
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  .nav-item,
+  .save-button,
+  .feature-card,
+  .tool-card,
+  .personality-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-item:active,
+  .save-button:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Safe Area Insets for Notched Devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .dashboard-container {
+    padding-bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom) + 1rem);
+  }
+}
