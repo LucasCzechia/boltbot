@@ -18,7 +18,7 @@ export function ServerProvider({ children }) {
 
   const fetchServerData = async () => {
     try {
-      const response = await fetch(`/api/discord/servers/${id}`);
+      const response = await fetch(`/api/discord/servers/${id}/settings`);
       const data = await response.json();
       setServer(data);
     } catch (error) {
