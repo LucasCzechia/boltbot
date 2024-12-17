@@ -1,6 +1,6 @@
 // components/dashboard/server/ServerSidebar.js
 import Image from 'next/image';
-import { Settings, Tool, Zap, UserCog } from 'lucide-react';
+import { Settings, Wrench, Zap, UserCog } from 'lucide-react';
 
 export default function ServerSidebar({ activeTab, setActiveTab }) {
   return (
@@ -28,7 +28,7 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
           className={`nav-item ${activeTab === 'tools' ? 'active' : ''}`}
           onClick={() => setActiveTab('tools')}
         >
-          <Tool size={20} />
+          <Wrench size={20} />
           Tools
         </button>
         <button
