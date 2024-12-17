@@ -1,4 +1,4 @@
-// components/dashboard/DashboardNav.js
+// components/dashboard/servers/DashboardNav.js
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -69,4 +69,4 @@ export default function DashboardNav() {
       </div>
     </nav>
   )
-              }
+                }
