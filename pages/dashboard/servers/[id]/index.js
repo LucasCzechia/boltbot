@@ -1,5 +1,5 @@
 // pages/dashboard/servers/[id]/index.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
@@ -19,7 +19,7 @@ import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot',
-  contextLength: 10,
+  contextLength: 15,
   tools: {
     browseInternet: true,
     generateImages: true,
