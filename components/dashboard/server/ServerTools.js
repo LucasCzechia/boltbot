@@ -5,15 +5,15 @@ import { toast } from 'react-hot-toast';
 import { useServer } from '@/context/ServerContext';
 
 const TOOL_DESCRIPTIONS = {
-  browseInternet: "Allow BoltBot to search and retrieve current information from the internet",
-  generateImages: "Create images using DALL-E 3 with detailed text prompts",
-  currencyConverter: "Convert between different currencies in real-time",
-  weather: "Fetch current weather conditions for any location",
-  time: "Get accurate time for different time zones",
-  reactEmojis: "Add emoji reactions to messages",
-  createFiles: "Generate and manage text-based files",
-  runPython: "Execute Python code in a secure environment",
-  googleImages: "Search and retrieve images from Google"
+  BrowseInternet: "Allow BoltBot⚡ to search and retrieve current information from the internet.",
+  GenerateImages: "Create images using DALL-E 3 with detailed text prompts",
+  CurrencyConverter: "Convert between different currencies in real-time.",
+  GetWeather: "Fetch current weather conditions for any location.",
+  GetTime: "Get accurate time for different time zones.",
+  ReactEmojis: "Add emoji reactions to messages.",
+  CreateFiles: "Generate and manage text-based files.",
+  RunPython: "Execute Python code in a secure environment.",
+  GoogleImages: "Search and retrieve images from Google."
 };
 
 export default function ServerTools({ settings, handleSettingChange, searchQuery, setSearchQuery, isEditing, setIsEditing }) {
