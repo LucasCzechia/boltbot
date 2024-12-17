@@ -1,0 +1,57 @@
+/* styles/components/header-actions.css */  
+/* Search and Actions */
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.search-bar {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-bar input {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--light);
+  font-size: 0.875rem;
+}
+
+.save-button {
+  width: 100%;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--primary);
+  color: var(--dark);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Tablet Breakpoint */
+@media (min-width: 768px) {
+  .header-actions {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .search-bar {
+    width: 300px;
+  }
+
+  .save-button {
+    width: auto;
+    padding: 0.75rem 1.5rem;
+  }
+}
