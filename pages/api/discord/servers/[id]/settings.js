@@ -2,56 +2,50 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
-const app = require('express')();
-const { QuickDB } = require('quick.db');
-const db = new QuickDB();
+export default async function handler(req, res) {
+  const session = await getServerSession(req, res, authOptions);
 
-app.get('/api/discord/servers/:id/settings', async (req, res) => {
+  if (!session) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
   try {
-    const { id } = req.params;
-    const settings = await db.get(`settings_${id}`);
-    
-    if (!settings) {
-      return res.json({
-        botName: 'BoltBot',
-        contextLength: 15,
-        tools: {
-          BrowseInternet: true,
-          GenerateImages: true,
-          CurrencyConverter: true,
-          GetWeather: true,
-          GetTime: true,
-          ReactEmojis: true,
-          CreateFiles: true,
-          RunPython: true,
-          GoogleImages: true
-        },
-        features: {
-          ImageRecognition: true,
-          FileHandling: true
-        },
-        personality: 'default'
-      });
+    const { id } = req.query;
+    const userGuilds = await fetch('https://discord.com/api/v10/users/@me/guilds', {
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`
+      }
+    }).then(r => r.json());
+
+    const hasAccess = userGuilds.some(guild => 
+      guild.id === id && (guild.owner || (BigInt(guild.permissions) & BigInt(0x8)) === BigInt(0x8))
+    );
+
+    if (!hasAccess) {
+      return res.status(403).json({ error: 'No permission to access this server' });
     }
 
-    return res.json(settings);
+    if (req.method === 'PATCH') {
+      const response = await fetch(`${process.env.BOT_API_URL}/api/discord/servers/${id}/settings`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: process.env.BOT_API_SECRET
+        },
+        body: JSON.stringify(req.body)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update settings');
+      }
+
+      return res.json({ success: true });
+    }
+
+    return res.status(405).json({ error: 'Method not allowed' });
+
   } catch (error) {
-    console.error('Error fetching settings:', error);
+    console.error('API Error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
-});
-
-app.patch('/api/discord/servers/:id/settings', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const settings = req.body;
-
-    await db.set(`settings_${id}`, settings);
-    return res.json({ success: true });
-  } catch (error) {
-    console.error('Error updating settings:', error);
-    return res.status(500).json({ error: 'Failed to update settings' });
-  }
-});
-
-module.exports = app;
+}
