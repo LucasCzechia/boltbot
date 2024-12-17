@@ -9,7 +9,6 @@
 @import './dashboard/servers.css'; 
 @import './dashboard/search.css';
 @import './dashboard/footer.css';
-@import './dashboard/server-dashboard.css';
 
 :root {
   --primary: #ffcc00;
