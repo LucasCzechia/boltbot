@@ -79,7 +79,7 @@ export default function ServerGeneral({ settings, handleSettingChange, searchQue
             />
             <span className="range-value">{settings.contextLength} messages</span>
           </div>
-          <span className="setting-help">Number of previous messages BoltBot will remember in conversations.</span>
+          <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
       </div>
     </div>
