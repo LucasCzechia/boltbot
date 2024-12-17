@@ -7,7 +7,7 @@ import DashboardNav from '../../components/dashboard/servers/DashboardNav'
 import GreetingBanner from '../../components/dashboard/servers/GreetingBanner'
 import ServerGrid from '../../components/dashboard/servers/ServerGrid'
 import DashboardFooter from '../../components/dashboard/DashboardFooter'
-import ScrollToTop from '../../components/dashboard/servers/crollToTop'
+import ScrollToTop from '../../components/dashboard/servers/scrollToTop'
 import Head from 'next/head'
 import { useEffect } from 'react'
 
