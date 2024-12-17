@@ -1,6 +1,6 @@
 // pages/api/discord/servers/[id].js
 import { getServerSession } from "next-auth/next";
-import { authOptions } from '../auth/[...nextauth]';
+import { authOptions } from '../../auth/[...nextauth]';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'PATCH') {
