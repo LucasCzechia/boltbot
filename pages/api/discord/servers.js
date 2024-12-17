@@ -1,9 +1,9 @@
-// pages/api/discord/servers/[id].js
+// pages/api/discord/servers.js 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from '../auth/[...nextauth]';
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET' && req.method !== 'PATCH') {
+  if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
@@ -13,50 +13,71 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { id } = req.query;
+    const [userGuildsResponse, botGuildsResponse] = await Promise.all([
+      fetch('https://discord.com/api/v10/users/@me/guilds', {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      }),
+      fetch('https://discord.com/api/v10/users/@me/guilds', {
+        headers: {
+          Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+        },
+      }),
+    ]);
 
-    if (req.method === 'GET') {
-      const [serverResponse, botGuildsResponse] = await Promise.all([
-        fetch(`https://discord.com/api/v10/guilds/${id}?with_counts=true`, {
-          headers: {
-            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-          },
-        }),
-        fetch('https://discord.com/api/v10/users/@me/guilds', {
-          headers: {
-            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-          },
-        }),
-      ]);
-
-      if (!serverResponse.ok) {
-        throw new Error('Failed to fetch server');
-      }
-
-      const serverData = await serverResponse.json();
-      const botGuilds = await botGuildsResponse.json();
-      const botPresent = botGuilds.some(guild => guild.id === id);
-
-      res.json({
-        id: serverData.id,
-        name: serverData.name,
-        icon: serverData.icon,
-        banner: serverData.banner,
-        description: serverData.description,
-        memberCount: serverData.approximate_member_count,
-        onlineCount: serverData.approximate_presence_count,
-        botPresent
-      });
-    } else if (req.method === 'PATCH') {
-      // Handle settings update
-      const settings = req.body;
-      
-      // TODO: Update settings in database
-      
-      res.json({ success: true });
+    if (!userGuildsResponse.ok || !botGuildsResponse.ok) {
+      throw new Error('Failed to fetch guilds');
     }
+
+    const userGuilds = await userGuildsResponse.json();
+    const botGuilds = await botGuildsResponse.json();
+
+    const adminGuilds = await Promise.all(
+      userGuilds
+        .filter((guild) => (BigInt(guild.permissions) & BigInt(0x8)) === BigInt(0x8))
+        .map(async (guild) => {
+          const isBotPresent = botGuilds.some((botGuild) => botGuild.id === guild.id);
+          let memberCount = 0;
+          let onlineCount = 0; 
+          let banner = null;
+          let description = null; 
+
+          if (isBotPresent) {
+            try {
+              const guildResponse = await fetch(`https://discord.com/api/v10/guilds/${guild.id}?with_counts=true`, {
+                headers: {
+                  Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+                },
+              });
+              if (guildResponse.ok) {
+                const guildData = await guildResponse.json();
+                memberCount = guildData.approximate_member_count;
+                onlineCount = guildData.approximate_presence_count; // Get online count
+                banner = guildData.banner;
+                description = guildData.description; // Get description
+              }
+            } catch (error) {
+              console.error(`Failed to fetch member count for guild ${guild.id}:`, error);
+            }
+          }
+
+          return {
+            id: guild.id,
+            name: guild.name,
+            icon: guild.icon,
+            banner: banner,
+            memberCount,
+            onlineCount, 
+            description, 
+            botPresent: isBotPresent,
+          };
+        }),
+    );
+
+    res.json(adminGuilds);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error fetching servers:', error);
+    res.status(500).json({ error: 'Failed to fetch servers' });
   }
 }
