@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const authHeader = req.headers.authorization;
-      if (authHeader !== process.env.API_SECRET) {
+      if (authHeader !== process.env.BOT_API_SECRET) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
       
