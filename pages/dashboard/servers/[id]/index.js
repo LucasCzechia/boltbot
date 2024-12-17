@@ -139,7 +139,6 @@ export default function ServerDashboard() {
             </motion.div>
           </AnimatePresence>
         </main>
-        <ScrollToTop />
       </div>
 
       <DashboardFooter />
