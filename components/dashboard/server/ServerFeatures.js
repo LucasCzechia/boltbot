@@ -5,8 +5,8 @@ import { toast } from 'react-hot-toast';
 import { useServer } from '@/context/ServerContext';
 
 const FEATURE_DESCRIPTIONS = {
-  imageRecognition: "Analyze and provide detailed descriptions of images shared in the server",
-  fileHandling: "View and interact with text-based files directly in conversations"
+  ImageRecognition: "Allows BoltBot⚡ to view and see images in conversations.",
+  FileHandling: "Allows BoltBot⚡ to view and interact with text-based files directly in conversations."
 };
 
 export default function ServerFeatures({ settings, handleSettingChange, searchQuery, setSearchQuery, isEditing, setIsEditing }) {
