@@ -3,12 +3,13 @@ import { useSession } from 'next-auth/react'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { useRouter } from 'next/router'
-import DashboardNav from '../../components/dashboard/DashboardNav'
+import DashboardNav from '../../components/dashboard/servers/DashboardNav'
 import GreetingBanner from '../../components/dashboard/servers/GreetingBanner'
 import ServerGrid from '../../components/dashboard/servers/ServerGrid'
 import DashboardFooter from '../../components/dashboard/DashboardFooter'
-import ScrollToTop from '../../components/dashboard/ScrollToTop'
+import ScrollToTop from '../../components/dashboard/scrollToTop'
 import Head from 'next/head'
+import { useEffect } from 'react'
 
 export default function ServersPage() {
   const { data: session, status } = useSession({
