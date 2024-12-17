@@ -6,15 +6,15 @@ import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap } from 'lucide-react';
-import DashboardNav from '../../components/dashboard/server/DashboardNav';
-import DashboardFooter from '../../components/dashboard/DashboardFooter';
-import ServerSidebar from '../../components/dashboard/server/ServerSidebar';
-import ServerHeader from '../../components/dashboard/server/ServerHeader';
-import ServerGeneral from '../../components/dashboard/server/ServerGeneral';
-import ServerTools from '../../components/dashboard/server/ServerTools';
-import ServerFeatures from '../../components/dashboard/server/ServerFeatures';
-import ServerPersonality from '../../components/dashboard/server/ServerPersonality';
-import { ServerProvider } from './context/ServerContext';
+import DashboardNav from '../../../../components/dashboard/DashboardNav';
+import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
+import ServerSidebar from '../../../../components/dashboard/server/ServerSidebar';
+import ServerHeader from '../../../../components/dashboard/server/ServerHeader';
+import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral';
+import ServerTools from '../../../../components/dashboard/server/ServerTools';
+import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
+import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
+import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot',
