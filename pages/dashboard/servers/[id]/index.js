@@ -145,4 +145,5 @@ export default function ServerDashboard() {
       <Toaster position="top-right" />
     </ServerProvider>
   );
-}
+ }
+} 
