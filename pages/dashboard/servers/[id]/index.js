@@ -18,7 +18,7 @@ import ScrollToTop from '../../../../components/dashboard/ScrollToTop'
 import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
-  botName: 'BoltBot',
+  botName: 'BoltBot⚡',
   contextLength: 15,
   tools: {
     browseInternet: true,
