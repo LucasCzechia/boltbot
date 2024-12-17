@@ -1,4 +1,4 @@
-// components/dashboard/servers/ScrollToTop.js
+// components/dashboard/ScrollToTop.js
 import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 
