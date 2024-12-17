@@ -1,0 +1,29 @@
+/* styles/components/range-input.css */
+/* Range Input */
+.range-input {
+  padding: 0.5rem 0;
+}
+
+.range-slider {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  -webkit-appearance: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.range-value {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--primary);
+  margin-top: 0.5rem;
+}
