@@ -1,0 +1,44 @@
+/* styles/dashboard/server/server-sidebar.css */
+.dashboard-sidebar {
+  background-color: var(--dark);
+  color: var(--light);
+  padding: 1rem;
+  border-right: 1px solid rgba(255, 204, 0, 0.1);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 204, 0, 0.1);
+}
+
+.nav-item svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-item.active {
+  background-color: rgba(255, 204, 0, 0.1);
+  color: var(--primary);
+}
