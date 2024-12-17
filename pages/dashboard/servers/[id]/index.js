@@ -77,6 +77,9 @@ export default function ServerDashboard() {
       }
     }
 
+    generateStarfield()
+  }, [])
+
   if (status === 'loading') {
     return (
       <div className="loading-screen">
