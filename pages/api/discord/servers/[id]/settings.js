@@ -25,6 +25,21 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'No permission to access this server' });
     }
 
+    if (req.method === 'GET') {
+      const response = await fetch(`${process.env.BOT_API_URL}/api/discord/servers/${id}/settings`, {
+        headers: {
+          Authorization: process.env.BOT_API_SECRET
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch settings');
+      }
+
+      const data = await response.json();
+      return res.json(data);
+    }
+
     if (req.method === 'PATCH') {
       const response = await fetch(`${process.env.BOT_API_URL}/api/discord/servers/${id}/settings`, {
         method: 'PATCH',
