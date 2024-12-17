@@ -1,4 +1,4 @@
-/* styles/dashboard/server/grids.css */
+/* ./dashboard/server/grids.css */
 /* Grids */
 .features-grid,
 .tools-grid,
@@ -15,6 +15,8 @@
   border-radius: 12px;
   padding: 1rem;
   border: 1px solid rgba(255, 204, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
 /* Tablet Breakpoint */
