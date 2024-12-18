@@ -1,24 +1,24 @@
 // components/dashboard/server/ServerPersonality.js
-import { Search, Save, Bot, BrainCircuit, Crown } from 'lucide-react';
+import { Search, Save, Bot, Brain, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const DEFAULT_PERSONALITIES = [
   { 
     id: 'default', 
     name: 'Default', 
-    description: 'Playful, conversational chatbot',
+    description: 'Casual and friendly conversational chatbot, eager to help with any query.',
     icon: Bot
   },
   { 
     id: 'assistant', 
     name: 'Assistant', 
-    description: 'Professional and helpful like Claude or ChatGPT',
-    icon: BrainCircuit
+    description: 'Professional, efficient, and knowledgeable, providing helpful and accurate answers.',
+    icon: Brain
   },
   { 
     id: 'fancy', 
     name: 'Fancy', 
-    description: 'A British gentleman type of responses',
+    description: 'A refined and eloquent conversational style, resembling that of a British gentleman.',
     icon: Crown
   }
 ];
