@@ -1,148 +1,29 @@
 /* styles/dashboard/server/range-input.css */
+/* Range Input */
 .range-input {
-  position: relative;
-  padding: 3rem 0 1.5rem;
-  width: 100%;
+  padding: 0.5rem 0;
 }
 
 .range-slider {
-  -webkit-appearance: none;
-  appearance: none;
   width: 100%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 1px;
-  outline: none;
-  cursor: pointer;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  -webkit-appearance: none;
 }
 
-/* Slider Thumb */
 .range-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
   width: 20px;
   height: 20px;
   background: var(--primary);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
-  transition: all 0.2s ease;
 }
 
-.range-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: var(--primary);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
-  transition: all 0.2s ease;
-}
-
-/* Track */
-.range-slider::-webkit-slider-runnable-track {
-  height: 2px;
-  border-radius: 1px;
-  background: linear-gradient(to right, var(--primary) var(--range-progress), rgba(255, 255, 255, 0.1) var(--range-progress));
-}
-
-.range-slider::-moz-range-track {
-  height: 2px;
-  border-radius: 1px;
-}
-
-/* Range Markers Container */
-.range-markers {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 30px;
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-  pointer-events: none;
-}
-
-/* Individual Markers */
-.range-marker {
-  position: absolute;
-  width: 2px;
-  height: 12px;
-  background: var(--primary);
-  opacity: 0.5;
-  transform-origin: bottom;
-  transition: opacity 0.2s;
-}
-
-.range-marker::after {
-  content: attr(data-value);
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1rem;
-  color: var(--primary);
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-
-.range-marker.active,
-.range-marker.active::after {
-  opacity: 1;
-}
-
-/* Range Value Display */
 .range-value {
-  position: absolute;
-  left: 50%;
-  bottom: -1rem;
-  transform: translateX(-50%);
-  font-size: 1.2rem;
-  color: var(--primary);
-  font-weight: 500;
   text-align: center;
-  padding: 0.5rem;
-  min-width: 120px;
-}
-
-/* Mobile Optimizations */
-@media (max-width: 768px) {
-  .range-input {
-    padding: 3rem 0 2rem;
-  }
-
-  .range-slider::-webkit-slider-thumb {
-    width: 24px;
-    height: 24px;
-  }
-
-  .range-slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-  }
-
-  .range-marker::after {
-    font-size: 0.9rem;
-  }
-
-  .range-value {
-    font-size: 1.1rem;
-  }
-}
-
-/* Focused and Active States */
-.range-slider:focus {
-  outline: none;
-}
-
-.range-slider:active::-webkit-slider-thumb {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
-}
-
-.range-slider:active::-moz-range-thumb {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
+  font-size: 0.875rem;
+  color: var(--primary);
+  margin-top: 0.5rem;
 }
