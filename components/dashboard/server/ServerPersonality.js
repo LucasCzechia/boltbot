@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Search, Save, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
-import { useServer } from '@/context/ServerContext';
 
 const DEFAULT_PERSONALITIES = [
   { id: 'default', name: 'Default', description: 'Playful, conversational chatbot' },
@@ -11,27 +10,17 @@ const DEFAULT_PERSONALITIES = [
   { id: 'fancy', name: 'Fancy', description: 'A British gentleman type of responses' }
 ];
 
-export default function ServerPersonality({ settings, handleSettingChange, searchQuery, setSearchQuery, isEditing, setIsEditing }) {
-  const { server } = useServer();
+export default function ServerPersonality({ 
+  settings, 
+  handleSettingChange, 
+  searchQuery, 
+  setSearchQuery, 
+  isEditing,
+  saveSettings,
+  isSaving
+}) {
   const [personalities, setPersonalities] = useState(DEFAULT_PERSONALITIES);
   const [customPersonality, setCustomPersonality] = useState('');
-
-  const saveSettings = async () => {
-    try {
-      await fetch(`/api/discord/servers/${server.id}/settings`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-      
-      toast.success('Personality settings saved successfully!');
-      setIsEditing(false);
-    } catch (error) {
-      toast.error('Failed to save personality settings');
-    }
-  };
 
   const addCustomPersonality = () => {
     if (customPersonality.trim()) {
@@ -70,12 +59,13 @@ export default function ServerPersonality({ settings, handleSettingChange, searc
             <motion.button
               className="save-button"
               onClick={saveSettings}
+              disabled={isSaving}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               whileHover={{ scale: 1.05 }}
             >
               <Save size={20} />
-              Save Changes
+              {isSaving ? 'Saving...' : 'Save Changes'}
             </motion.button>
           )}
         </div>
