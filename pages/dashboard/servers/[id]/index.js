@@ -54,37 +54,37 @@ export default function ServerDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  const fetchSettings = async () => {
-    if (!serverId) return;
+    const fetchSettings = async () => {
+      if (!serverId) return;
 
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.accessToken}`, // Add the token if available
-        },
-      });
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.accessToken}`,
+          },
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setSettings(data || DEFAULT_SETTINGS);
-      } else {
-        throw new Error('Failed to fetch settings');
+        if (response.ok) {
+          const data = await response.json();
+          setSettings(data || DEFAULT_SETTINGS);
+        } else {
+          throw new Error('Failed to fetch settings');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error('Failed to load settings');
+      } finally {
+        setTimeout(() => setLoading(false), 1000);
       }
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to load settings');
-    } finally {
-      setTimeout(() => setLoading(false), 1000);
-    }
-  };
+    };
 
-  if (serverId && session?.accessToken) {
-    fetchSettings();
-  }
-}, [serverId, session?.accessToken]);
+    if (serverId && session?.accessToken) {
+      fetchSettings();
+    }
+  }, [serverId, session?.accessToken]);
 
   const handleSettingChange = (category, setting, value) => {
     setSettings(prev => ({
@@ -125,19 +125,27 @@ export default function ServerDashboard() {
 
   useEffect(() => {
     const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background')
+      const starfieldContainer = document.getElementById('starfield-background');
+      if (!starfieldContainer) return;
       for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div')
-        star.className = 'star'
-        star.style.left = Math.random() * 100 + '%'
-        star.style.top = Math.random() * 100 + '%'
-        star.style.animationDelay = Math.random() * 2 + 's'
-        starfieldContainer.appendChild(star)
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        starfieldContainer.appendChild(star);
       }
-    }
+    };
 
-    generateStarfield()
-  }, [])
+    generateStarfield();
+
+    return () => {
+      const starfieldContainer = document.getElementById('starfield-background');
+      if (starfieldContainer) {
+        starfieldContainer.innerHTML = '';
+      }
+    };
+  }, []);
 
   if (status === 'loading') {
     return (
