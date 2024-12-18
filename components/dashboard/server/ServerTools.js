@@ -57,8 +57,41 @@ export default function ServerTools({
   setSearchQuery, 
   isEditing,
   saveSettings,
-  isSaving
+  isSaving,
+  loading
 }) {
+  if (loading) {
+    return (
+      <div className="content-section">
+        <div className="content-header">
+          <div className="skeleton-title"></div>
+          <div className="header-actions">
+            <div className="search-bar">
+              <Search size={20} />
+              <div className="skeleton-input"></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="tools-grid">
+          {[...Array(9)].map((_, index) => (
+            <div key={index} className="tool-card loading">
+              <div className="tool-content">
+                <div className="tool-header">
+                  <div className="skeleton-icon"></div>
+                  <div className="skeleton-title"></div>
+                </div>
+                <div className="skeleton-text"></div>
+                <div className="skeleton-toggle"></div>
+              </div>
+              <div className="loading-shimmer"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const filteredTools = Object.entries(settings.tools).filter(([key]) =>
     TOOL_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     TOOL_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
