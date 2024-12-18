@@ -27,12 +27,9 @@ export const authOptions = {
     },
     async redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) {
-        if (url.includes('/auth/login')) {
-          return `${baseUrl}/auth/login/success`;
-        }
         return url;
       }
-      return `${baseUrl}/auth/login/success`;
+      return `${baseUrl}/dashboard/servers`;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
