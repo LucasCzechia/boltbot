@@ -114,7 +114,7 @@ export default function ServerDashboard() {
   };
 
   return (
-    <ServerProvider>
+    <>
       <Head>
         <title>Server Settings - BoltBot⚡</title>
       </Head>
@@ -145,5 +145,6 @@ export default function ServerDashboard() {
 
       <DashboardFooter />
       <Toaster position="top-right" />
+    </>
   );
- }
+}
