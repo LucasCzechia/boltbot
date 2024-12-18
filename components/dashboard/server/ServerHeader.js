@@ -10,29 +10,47 @@ export default function ServerHeader() {
   const { id: serverId } = router.query;
   const [serverData, setServerData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchServerData = async () => {
       if (!serverId) return;
 
       try {
-        const response = await fetch(`/api/discord/servers/${serverId}`);
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`/api/discord/servers/${serverId}`, {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch server data');
+          throw new Error(`Failed to fetch server data: ${response.statusText}`);
         }
 
         const data = await response.json();
         setServerData(data);
       } catch (error) {
         console.error('Error fetching server data:', error);
+        setError(error.message);
         toast.error('Failed to load server information');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchServerData();
+    if (serverId) {
+      fetchServerData();
+    }
+
+    return () => {
+      setServerData(null);
+      setLoading(true);
+      setError(null);
+    };
   }, [serverId]);
 
   if (loading) {
@@ -40,16 +58,34 @@ export default function ServerHeader() {
       <div className="server-header">
         <div className="server-header-content loading">
           <div className="skeleton-avatar"></div>
-          <div className="server-info">
+          <div className="server-header-info">
             <div className="skeleton-title"></div>
-            <div className="skeleton-stats"></div>
+            <div className="skeleton-stats">
+              <div className="skeleton-stat"></div>
+              <div className="skeleton-stat"></div>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  if (!serverData) return null;
+  if (error || !serverData) {
+    return (
+      <div className="server-header">
+        <div className="server-header-content error">
+          <div className="server-header-info">
+            <h1>Unable to load server information</h1>
+            <div className="server-stats">
+              <div className="stat-item">
+                <span>Please try refreshing the page</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="server-header">
@@ -70,11 +106,11 @@ export default function ServerHeader() {
           <div className="server-stats">
             <div className="stat-item">
               <Users size={16} />
-              <span>{serverData.memberCount.toLocaleString()} members</span>
+              <span>{serverData.memberCount?.toLocaleString() || '0'} members</span>
             </div>
             <div className="stat-item">
               <Circle size={16} className="online-indicator" />
-              <span>{serverData.onlineCount.toLocaleString()} online</span>
+              <span>{serverData.onlineCount?.toLocaleString() || '0'} online</span>
             </div>
           </div>
         </div>
