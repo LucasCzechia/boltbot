@@ -22,8 +22,8 @@ export default function Logout() {
         await signOut({ redirect: false });
 
         setTimeout(() => {
-          router.push('/');
-        }, 100);
+          router.push('/auth/login');
+        }, 1000);
 
       } catch (error) {
         console.error('Logout error:', error);
