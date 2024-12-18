@@ -92,10 +92,14 @@ export default function ServerTools({
     );
   }
 
-  const filteredTools = Object.entries(settings.tools).filter(([key]) =>
-    TOOL_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    TOOL_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Ensure settings.tools exists before filtering
+  const tools = settings?.tools || {};
+  const filteredTools = Object.entries(TOOL_INFO)
+    .filter(([key]) =>
+      TOOL_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      TOOL_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .map(([key]) => [key, tools[key] || false]);
 
   return (
     <div className="content-section">
