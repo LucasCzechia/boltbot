@@ -5,10 +5,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  background: var(--dark) 
 }
 
 .star {
@@ -18,4 +17,18 @@
   height: 2px;
   opacity: 0;
   animation: twinkle 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.8; }
 }
