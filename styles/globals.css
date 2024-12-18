@@ -13,7 +13,7 @@
 
 /* Servers Selection Dashboard Styles */
 @import './dashboard/servers/greeting.css';
-@import './dashboard/servers/serversgrid.css'; 
+@import './dashboard/servers/servers.css'; 
 @import './dashboard/servers/search.css';
 
 /* Servers ID Dashboard Styles */
