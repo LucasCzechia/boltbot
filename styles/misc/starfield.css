@@ -1,4 +1,4 @@
-/* /styles/misc/starfield.css */
+/* styles/misc/starfield.css */
 .starfield-container {
   position: fixed;
   top: 0;
@@ -17,6 +17,14 @@
   height: 2px;
   opacity: 0;
   animation: twinkle 2s infinite;
+  pointer-events: none;
+}
+
+.auth-container ~ .dashboard-footer {
+  position: relative;
+  z-index: 1;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
 }
 
 @keyframes twinkle {
