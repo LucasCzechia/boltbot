@@ -54,26 +54,37 @@ export default function ServerDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSettings = async () => {
-      if (!serverId) return;
+  const fetchSettings = async () => {
+    if (!serverId) return;
 
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/discord/servers/${serverId}/settings`);
-        if (!response.ok) throw new Error('Failed to fetch settings');
-        
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.accessToken}`, // Add the token if available
+        },
+      });
+
+      if (response.ok) {
         const data = await response.json();
         setSettings(data || DEFAULT_SETTINGS);
-      } catch (error) {
-        console.error('Error:', error);
-        toast.error('Failed to load settings');
-      } finally {
-        setTimeout(() => setLoading(false), 3000);
+      } else {
+        throw new Error('Failed to fetch settings');
       }
-    };
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to load settings');
+    } finally {
+      setTimeout(() => setLoading(false), 3000);
+    }
+  };
 
+  if (serverId && session?.accessToken) {
     fetchSettings();
-  }, [serverId]);
+  }
+}, [serverId, session?.accessToken]);
 
   const handleSettingChange = (category, setting, value) => {
     setSettings(prev => ({
