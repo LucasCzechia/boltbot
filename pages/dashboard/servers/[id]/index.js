@@ -127,6 +127,10 @@ export default function ServerDashboard() {
     const generateStarfield = () => {
       const starfieldContainer = document.getElementById('starfield-background');
       if (!starfieldContainer) return;
+      
+      // Clear existing stars
+      starfieldContainer.innerHTML = '';
+      
       for (let i = 0; i < 100; i++) {
         const star = document.createElement('div');
         star.className = 'star';
@@ -190,32 +194,48 @@ export default function ServerDashboard() {
         <title>Server Settings - BoltBot⚡</title>
       </Head>
 
-      <div id="starfield-background" className="starfield-container" />
-      
-      <DashboardNav />
-
-      <div className="dashboard-container">
-        <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="dashboard-wrapper">
+        <div id="starfield-background" className="starfield-container" />
         
-        <main className="dashboard-main">
-          <ServerHeader />
+        <DashboardNav />
+
+        <div className="dashboard-container">
+          <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
           
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderContent()}
-            </motion.div>
-          </AnimatePresence>
-        </main>
+          <main className="dashboard-main">
+            <ServerHeader />
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
+          </main>
+        </div>
+
+        <DashboardFooter />
+        <Toaster position="top-right" />
+        <ScrollToTop />
       </div>
 
-      <DashboardFooter />
-      <Toaster position="top-right" />
+      <style jsx>{`
+        .dashboard-wrapper {
+          position: relative;
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+        
+        .dashboard-main {
+          position: relative;
+          z-index: 1;
+        }
+      `}</style>
     </>
   );
 }
