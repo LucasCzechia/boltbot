@@ -97,33 +97,34 @@ export default function ServerGeneral({
           <span className="setting-help">This name will be used in responses and commands.</span>
         </div>
 
-        <div className="setting-group">
+        <div className="setting-group context-length">
           <label>Context Length</label>
           <div className="range-input">
-            <div className="range-track">
-              <div className="range-points">
+            <div className="range-slider-container">
+              <div className="range-track">
                 {sliderPoints.map((point) => (
                   <div
                     key={point.value}
-                    className={`range-point ${settings.contextLength >= point.value ? 'active' : ''}`}
-                    style={{ left: `${(point.value - 1) / 29 * 100}%` }}
+                    className={`slider-point ${settings.contextLength >= point.value ? 'active' : ''} ${settings.contextLength === point.value ? 'current' : ''}`}
                     onClick={() => handleSettingChange('contextLength', null, point.value)}
                   >
-                    <div className="point-label">{point.label}</div>
+                    <div className="point-dot"></div>
+                    <span className="point-label">{point.value}</span>
                   </div>
                 ))}
+                <div className="track-line"></div>
               </div>
               <input
                 type="range"
-                min="1"
+                min="5"
                 max="30"
+                step="5"
                 value={settings.contextLength}
                 onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
                 className="range-slider"
-                step="1"
               />
             </div>
-            <div className="range-value">{settings.contextLength} messages</div>
+            <div className="context-value">{settings.contextLength} messages</div>
           </div>
           <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
