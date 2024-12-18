@@ -29,28 +29,35 @@ export const authOptions = {
       if (url.startsWith(baseUrl)) {
         return url;
       }
-      return `${baseUrl}/auth/login/success`;
+      return baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/login',
     error: '/auth/login',
-    signOut: '/auth/login',
+    signOut: '/auth/login/logout',
   },
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 24 * 60 * 60,
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
+    maxAge: 24 * 60 * 60,
   },
   debug: process.env.NODE_ENV === 'development',
-  theme: {
-    colorScheme: 'dark',
-    brandColor: '#ffcc00',
-    logo: '/images/boltbot.webp',
-  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      }
+    }
+  }
 };
 
 export default NextAuth(authOptions);
