@@ -1,5 +1,5 @@
 /* styles/dashboard/server/server-header.css */
-.dashboard-header {
+.server-dashboard-header {
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1rem;
@@ -8,19 +8,19 @@
   transition: all 0.3s ease;
 }
 
-.dashboard-header:hover {
+.server-dashboard-header:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
 }
 
-.dashboard-header-content {
+.server-dashboard-content {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.dashboard-header-icon {
+.server-dashboard-avatar {
   width: 48px !important;
   height: 48px !important;
   border-radius: 12px;
@@ -29,29 +29,29 @@
   transition: all 0.3s ease;
 }
 
-.dashboard-header:hover .dashboard-header-icon {
+.server-dashboard-header:hover .server-dashboard-avatar {
   border-color: var(--primary);
   transform: scale(1.05);
 }
 
-.dashboard-header-info {
+.server-dashboard-info {
   flex: 1;
 }
 
-.dashboard-header-info h1 {
+.server-dashboard-info h1 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
   color: var(--light);
 }
 
-.dashboard-stats {
+.server-dashboard-stats {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.dashboard-stat-item {
+.server-dashboard-stat {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -59,24 +59,74 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-.dashboard-stat-item svg {
+.server-dashboard-stat svg {
   color: var(--primary);
 }
 
-.dashboard-online-indicator {
+.server-dashboard-online {
   color: var(--status-online) !important;
 }
 
+/* Loading State */
+.server-dashboard-loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.server-dashboard-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
 /* Error State */
-.dashboard-header-content.error {
+.server-dashboard-error {
   justify-content: center;
   text-align: center;
   padding: 1rem;
 }
 
-.dashboard-header-content.error h1 {
+.server-dashboard-error h1 {
   font-size: 1rem;
   color: var(--danger);
+}
+
+/* Skeleton States */
+.server-dashboard-skeleton-avatar {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+.server-dashboard-skeleton-text {
+  height: 1rem;
+  width: 150px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
 }
 
 @keyframes shimmer {
@@ -90,39 +140,35 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .dashboard-header {
+  .server-dashboard-header {
     padding: 0.75rem;
   }
 
-  .dashboard-header-icon {
+  .server-dashboard-avatar {
     width: 40px !important;
     height: 40px !important;
   }
 
-  .dashboard-header-info h1 {
+  .server-dashboard-info h1 {
     font-size: 1.1rem;
   }
 
-  .dashboard-stats {
+  .server-dashboard-stats {
     flex-wrap: wrap;
     gap: 0.75rem;
   }
 
-  .dashboard-stat-item {
+  .server-dashboard-stat {
     font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
-  .dashboard-header-info h1 {
+  .server-dashboard-info h1 {
     font-size: 1rem;
   }
 
-  .skeleton-title {
-    width: 150px;
-  }
-
-  .skeleton-stat {
-    width: 80px;
+  .server-dashboard-skeleton-text {
+    width: 120px;
   }
 }
