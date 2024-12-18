@@ -1,7 +1,6 @@
 // components/dashboard/server/ServerGeneral.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
 
 export default function ServerGeneral({ 
   settings, 
@@ -13,18 +12,6 @@ export default function ServerGeneral({
   isSaving,
   loading
 }) {
-  const rangeRef = useRef(null);
-
-  useEffect(() => {
-    if (rangeRef.current) {
-      const progress = (settings.contextLength - 1) / 29 * 100;
-      rangeRef.current.style.setProperty('--range-progress', `${progress}%`);
-    }
-  }, [settings.contextLength]);
-
-  // Define only the main marker points
-  const markerValues = [1, 10, 20, 30];
-
   if (loading) {
     return (
       <div className="content-section">
@@ -104,20 +91,7 @@ export default function ServerGeneral({
         <div className="setting-group">
           <label>Context Length</label>
           <div className="range-input">
-            <div className="range-markers">
-              {markerValues.map(value => (
-                <div
-                  key={value}
-                  className={`range-marker ${settings.contextLength >= value ? 'active' : ''}`}
-                  data-value={value}
-                  style={{
-                    left: `${((value - 1) / 29) * 100}%`
-                  }}
-                />
-              ))}
-            </div>
             <input
-              ref={rangeRef}
               type="range"
               min="1"
               max="30"
@@ -125,7 +99,7 @@ export default function ServerGeneral({
               onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
               className="range-slider"
             />
-            <div className="range-value">{settings.contextLength} messages</div>
+            <span className="range-value">{settings.contextLength} messages</span>
           </div>
           <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
