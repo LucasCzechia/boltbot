@@ -1,6 +1,7 @@
 // components/dashboard/server/ServerGeneral.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 export default function ServerGeneral({ 
   settings, 
@@ -12,14 +13,17 @@ export default function ServerGeneral({
   isSaving,
   loading
 }) {
-  const sliderPoints = [
-    { value: 5, label: '5' },
-    { value: 10, label: '10' },
-    { value: 15, label: '15' },
-    { value: 20, label: '20' },
-    { value: 25, label: '25' },
-    { value: 30, label: '30' }
-  ];
+  const rangeRef = useRef(null);
+
+  useEffect(() => {
+    if (rangeRef.current) {
+      const progress = (settings.contextLength - 1) / 29 * 100;
+      rangeRef.current.style.setProperty('--range-progress', `${progress}%`);
+    }
+  }, [settings.contextLength]);
+
+  // Define marker values for the range slider
+  const markerValues = [1, 5, 10, 15, 20, 25, 30];
 
   if (loading) {
     return (
@@ -97,34 +101,31 @@ export default function ServerGeneral({
           <span className="setting-help">This name will be used in responses and commands.</span>
         </div>
 
-        <div className="setting-group context-length">
+        <div className="setting-group">
           <label>Context Length</label>
           <div className="range-input">
-            <div className="range-slider-container">
-              <div className="range-track">
-                {sliderPoints.map((point) => (
-                  <div
-                    key={point.value}
-                    className={`slider-point ${settings.contextLength >= point.value ? 'active' : ''} ${settings.contextLength === point.value ? 'current' : ''}`}
-                    onClick={() => handleSettingChange('contextLength', null, point.value)}
-                  >
-                    <div className="point-dot"></div>
-                    <span className="point-label">{point.value}</span>
-                  </div>
-                ))}
-                <div className="track-line"></div>
-              </div>
-              <input
-                type="range"
-                min="5"
-                max="30"
-                step="5"
-                value={settings.contextLength}
-                onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
-                className="range-slider"
-              />
+            <div className="range-markers">
+              {markerValues.map(value => (
+                <div
+                  key={value}
+                  className={`range-marker ${settings.contextLength >= value ? 'active' : ''}`}
+                  data-value={value}
+                  style={{
+                    left: `${((value - 1) / 29) * 100}%`
+                  }}
+                />
+              ))}
             </div>
-            <div className="context-value">{settings.contextLength} messages</div>
+            <input
+              ref={rangeRef}
+              type="range"
+              min="1"
+              max="30"
+              value={settings.contextLength}
+              onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
+              className="range-slider"
+            />
+            <span className="range-value">{settings.contextLength} messages</span>
           </div>
           <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
