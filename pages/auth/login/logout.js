@@ -12,22 +12,23 @@ export default function Logout() {
       try {
         localStorage.clear();
         sessionStorage.clear();
-
+        
         document.cookie.split(';').forEach(cookie => {
           document.cookie = cookie
             .replace(/^ +/, '')
             .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
         });
 
-        await signOut({ redirect: false });
+        await signOut({ 
+          redirect: false,
+          callbackUrl: '/auth/login'
+        });
 
-        setTimeout(() => {
-          router.push('/auth/login');
-        }, 1000);
+        window.location.href = '/auth/login';
 
       } catch (error) {
         console.error('Logout error:', error);
-        router.push('/');
+        router.push('/auth/login');
       }
     };
 
@@ -35,12 +36,10 @@ export default function Logout() {
   }, [router]);
 
   return (
-    <>
-      <Head>
-        <title>Logging Out - BoltBot⚡</title>
-        <meta name="robots" content="noindex,nofollow" />
-      </Head>
-    </>
+    <Head>
+      <title>Logging Out - BoltBot⚡</title>
+      <meta name="robots" content="noindex,nofollow" />
+    </Head>
   );
 }
 
