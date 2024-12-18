@@ -1,6 +1,7 @@
 // components/dashboard/server/ServerGeneral.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useCallback } from 'react';
 
 export default function ServerGeneral({ 
   settings, 
@@ -12,6 +13,17 @@ export default function ServerGeneral({
   isSaving,
   loading
 }) {
+  const handleContextChange = useCallback((e) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      handleSettingChange('contextLength', null, value);
+    }
+  }, [handleSettingChange]);
+
+  const handleBotNameChange = useCallback((e) => {
+    handleSettingChange('botName', null, e.target.value);
+  }, [handleSettingChange]);
+
   if (loading) {
     return (
       <div className="content-section">
@@ -80,8 +92,8 @@ export default function ServerGeneral({
           <label>Bot Name</label>
           <input
             type="text"
-            value={settings.botName}
-            onChange={(e) => handleSettingChange('botName', null, e.target.value)}
+            value={settings.botName || ''}
+            onChange={handleBotNameChange}
             maxLength={32}
             className="setting-input"
           />
@@ -95,11 +107,11 @@ export default function ServerGeneral({
               type="range"
               min="1"
               max="30"
-              value={settings.contextLength}
-              onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
+              value={settings.contextLength || 15}
+              onChange={handleContextChange}
               className="range-slider"
             />
-            <span className="range-value">{settings.contextLength} messages</span>
+            <span className="range-value">{settings.contextLength || 15} messages</span>
           </div>
           <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
