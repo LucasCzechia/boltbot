@@ -33,6 +33,7 @@
   padding-top: calc(var(--header-height) + 1rem);
   padding-bottom: calc(var(--mobile-nav-height) + 1rem);
   z-index: 1;
+  background-color: rgba(10, 10, 10, 0.8);
 }
 
 .dashboard-main {
