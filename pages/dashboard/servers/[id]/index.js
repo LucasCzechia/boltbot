@@ -14,6 +14,7 @@ import ServerTools from '../../../../components/dashboard/server/ServerTools';
 import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
 import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
 import ScrollToTop from '../../../../components/dashboard/ScrollToTop';
+import Starfield from '../../../../components/misc/Starfield';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
@@ -145,25 +146,6 @@ export default function ServerDashboard() {
     }
   };
 
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (!starfieldContainer) return;
-      
-      starfieldContainer.innerHTML = '';
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        starfieldContainer.appendChild(star);
-      }
-    };
-
-    generateStarfield();
-  }, []);
-
   if (status === 'loading') {
     return (
       <div className="loading-screen">
@@ -207,7 +189,7 @@ export default function ServerDashboard() {
         <title>Server Settings - BoltBot⚡</title>
       </Head>
 
-      <div id="starfield-background" className="starfield-container" />
+      <Starfield />
   
       <DashboardNav />
 
