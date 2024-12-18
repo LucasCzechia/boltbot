@@ -10,7 +10,6 @@
   --card-bg: rgba(255, 204, 0, 0.05);
 }
 
-/* Auth Navigation */
 .auth-nav {
   padding: 1rem 2rem;
   background: rgba(10,10,10,0.95);
@@ -51,7 +50,6 @@
   transform: translateY(-1px);
 }
 
-/* Logo Styles */
 .logo {
   display: flex;
   align-items: center;
@@ -74,7 +72,6 @@
   border-radius: 50%;
 }
 
-/* Auth Container */
 .auth-container {
   display: flex;
   align-items: center;
@@ -86,7 +83,16 @@
   background: radial-gradient(circle at center, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
 }
 
-/* Auth Card */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .auth-card {
   background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(10px);
@@ -100,6 +106,7 @@
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  z-index: 10;
 }
 
 .auth-card:hover {
@@ -121,13 +128,13 @@
   );
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .auth-card:hover::before {
   opacity: 1;
 }
 
-/* Bot Avatar */
 .bot-avatar {
   width: 120px !important;
   height: 120px !important;
@@ -135,9 +142,10 @@
   margin: 0 auto 2rem;
   border: 3px solid var(--primary);
   animation: avatarGlow 3s infinite alternate;
+  position: relative;
+  z-index: 2;
 }
 
-/* Auth Content */
 .auth-title {
   font-size: 2.5rem;
   font-weight: 800;
@@ -145,6 +153,8 @@
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 2;
 }
 
 .auth-subtitle {
@@ -152,11 +162,14 @@
   font-size: 1.2rem;
   margin-bottom: 2rem;
   line-height: 1.6;
+  position: relative;
+  z-index: 2;
 }
 
-/* Feature List */
 .features-list {
   margin: 2rem 0;
+  position: relative;
+  z-index: 2;
 }
 
 .feature-item {
@@ -168,6 +181,8 @@
   border-radius: 12px;
   margin-bottom: 1rem;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .feature-item:hover {
@@ -182,7 +197,6 @@
   flex-shrink: 0;
 }
 
-/* Discord Button */
 .discord-button {
   width: 100%;
   display: flex;
@@ -199,6 +213,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+  z-index: 2;
   overflow: hidden;
 }
 
@@ -213,6 +228,7 @@
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.6s ease, height 0.6s ease;
+  pointer-events: none;
 }
 
 .discord-button:hover::before {
@@ -226,11 +242,12 @@
   box-shadow: 0 8px 16px rgba(88, 101, 242, 0.3);
 }
 
-/* Auth Footer */
 .auth-footer {
   margin-top: 2rem;
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
 }
 
 .auth-footer a {
@@ -244,7 +261,6 @@
   text-decoration: underline;
 }
 
-/* Animations */
 @keyframes avatarGlow {
   from {
     box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
@@ -254,7 +270,6 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .auth-nav {
     padding: 0.75rem 1rem;
@@ -315,7 +330,6 @@
   }
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .auth-card,
   .bot-avatar,
@@ -326,7 +340,6 @@
   }
 }
 
-/* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .auth-card {
     background: rgba(10, 10, 10, 0.98);
