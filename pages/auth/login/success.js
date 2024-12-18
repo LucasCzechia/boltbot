@@ -1,5 +1,6 @@
 // pages/auth/login/success.js
 import { useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -7,36 +8,36 @@ import { motion } from 'framer-motion'
 import DashboardFooter from '../../../components/dashboard/DashboardFooter'
 
 export default function AuthSuccess() {
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/dashboard/servers')
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [router])
-
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background')
-      if (starfieldContainer) {
-        for (let i = 0; i < 100; i++) {
-          const star = document.createElement('div')
-          star.className = 'star'
-          star.style.left = Math.random() * 100 + '%'
-          star.style.top = Math.random() * 100 + '%'
-          star.style.animationDelay = Math.random() * 2 + 's'
-          starfieldContainer.appendChild(star)
-        }
-      }
+    if (status === 'unauthenticated') {
+      router.replace('/auth/login')
+      return
     }
 
-    generateStarfield()
-  }, [])
+    if (status === 'authenticated') {
+      const timer = setTimeout(() => {
+        router.replace('/dashboard/servers')
+      }, 3000)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [status, router])
 
-  const handleSkip = () => {
-    router.push('/dashboard/servers')
+  if (status === 'unauthenticated') {
+    return null
+  }
+
+  if (status === 'loading') {
+    return (
+      <div className="loading-screen">
+        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
+          <path d="M13 0L0 13h9v11l13-13h-9z"/>
+        </svg>
+      </div>
+    )
   }
 
   return (
@@ -103,7 +104,7 @@ export default function AuthSuccess() {
             <div className="loading-bar">
               <div className="loading-progress"></div>
             </div>
-            <button onClick={handleSkip} className="skip-button">
+            <button onClick={() => router.replace('/dashboard/servers')} className="skip-button">
               Go to Dashboard
             </button>
           </motion.div>
@@ -113,4 +114,15 @@ export default function AuthSuccess() {
       <DashboardFooter />
     </>
   )
-} 
+}
+
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    'Cache-Control',
+    'no-store, no-cache, must-revalidate, proxy-revalidate'
+  )
+  res.setHeader('Pragma', 'no-cache')
+  res.setHeader('Expires', '0')
+
+  return { props: {} }
+}
