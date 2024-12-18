@@ -1,12 +1,9 @@
 // pages/auth/login/logout.js
 import { useEffect } from 'react';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 export default function Logout() {
-  const router = useRouter();
-
   useEffect(() => {
     const performLogout = async () => {
       try {
@@ -23,15 +20,15 @@ export default function Logout() {
           redirect: false
         });
 
-        router.replace('/auth/login');
+        window.location.replace('/auth/login');
       } catch (error) {
         console.error('Logout error:', error);
-        router.replace('/auth/login');
+        window.location.replace('/auth/login');
       }
     };
 
     performLogout();
-  }, [router]);
+  }, []);
 
   return (
     <Head>
@@ -44,7 +41,7 @@ export default function Logout() {
 export async function getServerSideProps({ req, res }) {
   res.setHeader(
     'Cache-Control',
-    'no-store, no-cache, must-revalidate, proxy-revalidate'
+    'private, no-cache, no-store, max-age=0, must-revalidate'
   );
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
