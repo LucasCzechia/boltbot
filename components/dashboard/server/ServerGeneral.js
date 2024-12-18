@@ -12,6 +12,15 @@ export default function ServerGeneral({
   isSaving,
   loading
 }) {
+  const sliderPoints = [
+    { value: 5, label: '5' },
+    { value: 10, label: '10' },
+    { value: 15, label: '15' },
+    { value: 20, label: '20' },
+    { value: 25, label: '25' },
+    { value: 30, label: '30' }
+  ];
+
   if (loading) {
     return (
       <div className="content-section">
@@ -91,15 +100,30 @@ export default function ServerGeneral({
         <div className="setting-group">
           <label>Context Length</label>
           <div className="range-input">
-            <input
-              type="range"
-              min="1"
-              max="30"
-              value={settings.contextLength}
-              onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
-              className="range-slider"
-            />
-            <span className="range-value">{settings.contextLength} messages</span>
+            <div className="range-track">
+              <div className="range-points">
+                {sliderPoints.map((point) => (
+                  <div
+                    key={point.value}
+                    className={`range-point ${settings.contextLength >= point.value ? 'active' : ''}`}
+                    style={{ left: `${(point.value - 1) / 29 * 100}%` }}
+                    onClick={() => handleSettingChange('contextLength', null, point.value)}
+                  >
+                    <div className="point-label">{point.label}</div>
+                  </div>
+                ))}
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="30"
+                value={settings.contextLength}
+                onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
+                className="range-slider"
+                step="1"
+              />
+            </div>
+            <div className="range-value">{settings.contextLength} messages</div>
           </div>
           <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
