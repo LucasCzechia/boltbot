@@ -1,7 +1,7 @@
 /* styles/globals.css */
 
 /* Misc Styles */
-/*@import './misc/starfield.css';*/
+@import './misc/starfield.css';
 @import './misc/snake.css';
 @import './misc/404.css';
 @import './auth/auth.css';
