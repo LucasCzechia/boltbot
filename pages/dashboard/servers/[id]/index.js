@@ -137,7 +137,7 @@ export default function ServerDashboard() {
     }
 
     generateStarfield()
-  }, []);
+  }, [])
 
   if (status === 'loading') {
     return (
