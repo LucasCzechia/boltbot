@@ -20,15 +20,13 @@ export default function Logout() {
         });
 
         await signOut({ 
-          redirect: false,
-          callbackUrl: '/auth/login'
+          redirect: false
         });
 
-        window.location.href = '/auth/login';
-
+        router.replace('/auth/login');
       } catch (error) {
         console.error('Logout error:', error);
-        router.push('/auth/login');
+        router.replace('/auth/login');
       }
     };
 
