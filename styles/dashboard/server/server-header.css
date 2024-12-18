@@ -1,5 +1,5 @@
 /* styles/dashboard/server/server-header.css */
-.server-header {
+.dashboard-header {
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1rem;
@@ -8,19 +8,19 @@
   transition: all 0.3s ease;
 }
 
-.server-header:hover {
+.dashboard-header:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
 }
 
-.server-header-content {
+.dashboard-header-content {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.server-header-icon {
+.dashboard-header-icon {
   width: 48px !important;
   height: 48px !important;
   border-radius: 12px;
@@ -29,29 +29,29 @@
   transition: all 0.3s ease;
 }
 
-.server-header:hover .server-header-icon {
+.dashboard-header:hover .dashboard-header-icon {
   border-color: var(--primary);
   transform: scale(1.05);
 }
 
-.server-header-info {
+.dashboard-header-info {
   flex: 1;
 }
 
-.server-header-info h1 {
+.dashboard-header-info h1 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
   color: var(--light);
 }
 
-.server-stats {
+.dashboard-stats {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.stat-item {
+.dashboard-stat-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -59,22 +59,22 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-.stat-item svg {
+.dashboard-stat-item svg {
   color: var(--primary);
 }
 
-.online-indicator {
+.dashboard-online-indicator {
   color: var(--status-online) !important;
 }
 
 /* Error State */
-.server-header-content.error {
+.dashboard-header-content.error {
   justify-content: center;
   text-align: center;
   padding: 1rem;
 }
 
-.server-header-content.error h1 {
+.dashboard-header-content.error h1 {
   font-size: 1rem;
   color: var(--danger);
 }
@@ -90,31 +90,31 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .server-header {
+  .dashboard-header {
     padding: 0.75rem;
   }
 
-  .server-header-icon {
+  .dashboard-header-icon {
     width: 40px !important;
     height: 40px !important;
   }
 
-  .server-header-info h1 {
+  .dashboard-header-info h1 {
     font-size: 1.1rem;
   }
 
-  .server-stats {
+  .dashboard-stats {
     flex-wrap: wrap;
     gap: 0.75rem;
   }
 
-  .stat-item {
+  .dashboard-stat-item {
     font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
-  .server-header-info h1 {
+  .dashboard-header-info h1 {
     font-size: 1rem;
   }
 
