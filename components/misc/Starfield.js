@@ -1,4 +1,4 @@
-// components/common/Starfield.js
+// components/misc/Starfield.js
 import { useEffect } from 'react';
 
 export default function Starfield() {
