@@ -7,7 +7,7 @@
 
 /* Auth Styles */
 @import './auth/auth-login.css';
-@import './auth/auth-success.css';
+@import './auth/auth-error.css';
 
 /* Dashboard Styles */
 @import './dashboard/nav.css';
