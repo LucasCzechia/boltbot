@@ -1,8 +1,6 @@
 // components/dashboard/server/ServerTools.js
 import { Search, Save, Globe, Image, DollarSign, Cloud, Clock, Smile, FileText, Code, Search as SearchIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { toast } from 'react-hot-toast';
-import { useServer } from '@/context/ServerContext';
 
 const TOOL_INFO = {
   BrowseInternet: {
@@ -52,26 +50,15 @@ const TOOL_INFO = {
   }
 };
 
-export default function ServerTools({ settings, handleSettingChange, searchQuery, setSearchQuery, isEditing, setIsEditing }) {
-  const { server } = useServer();
-  
-  const saveSettings = async () => {
-    try {
-      await fetch(`/api/discord/servers/${server.id}/settings`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-      
-      toast.success('Tool settings saved successfully!');
-      setIsEditing(false);
-    } catch (error) {
-      toast.error('Failed to save tool settings');
-    }
-  };
-
+export default function ServerTools({ 
+  settings, 
+  handleSettingChange, 
+  searchQuery, 
+  setSearchQuery, 
+  isEditing,
+  saveSettings,
+  isSaving
+}) {
   const filteredTools = Object.entries(settings.tools).filter(([key]) =>
     TOOL_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     TOOL_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -95,12 +82,13 @@ export default function ServerTools({ settings, handleSettingChange, searchQuery
             <motion.button
               className="save-button"
               onClick={saveSettings}
+              disabled={isSaving}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               whileHover={{ scale: 1.05 }}
             >
               <Save size={20} />
-              Save Changes
+              {isSaving ? 'Saving...' : 'Save Changes'}
             </motion.button>
           )}
         </div>
