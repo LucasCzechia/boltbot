@@ -1,8 +1,6 @@
 // components/dashboard/server/ServerFeatures.js
 import { Search, Save, Camera, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { toast } from 'react-hot-toast';
-import { useServer } from '@/context/ServerContext';
 
 const FEATURE_INFO = {
   ImageRecognition: {
@@ -17,26 +15,15 @@ const FEATURE_INFO = {
   }
 };
 
-export default function ServerFeatures({ settings, handleSettingChange, searchQuery, setSearchQuery, isEditing, setIsEditing }) {
-  const { server } = useServer();
-  
-  const saveSettings = async () => {
-    try {
-      await fetch(`/api/discord/servers/${server.id}/settings`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-      
-      toast.success('Feature settings saved successfully!');
-      setIsEditing(false);
-    } catch (error) {
-      toast.error('Failed to save feature settings');
-    }
-  };
-
+export default function ServerFeatures({ 
+  settings, 
+  handleSettingChange, 
+  searchQuery, 
+  setSearchQuery, 
+  isEditing,
+  saveSettings,
+  isSaving
+}) {
   const filteredFeatures = Object.entries(settings.features).filter(([key]) =>
     FEATURE_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     FEATURE_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -60,12 +47,13 @@ export default function ServerFeatures({ settings, handleSettingChange, searchQu
             <motion.button
               className="save-button"
               onClick={saveSettings}
+              disabled={isSaving}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               whileHover={{ scale: 1.05 }}
             >
               <Save size={20} />
-              Save Changes
+              {isSaving ? 'Saving...' : 'Save Changes'}
             </motion.button>
           )}
         </div>
