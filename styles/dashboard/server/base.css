@@ -13,32 +13,45 @@
   --header-height: 60px;
   --mobile-nav-height: 64px;
   --sidebar-width: 280px;
+  --content-max-width: 1400px;
+  --blur-strength: 10px;
+  --transition-speed: 0.3s;
 }
 
-/* Mobile First Base Styles */
 .dashboard-wrapper {
   position: relative;
   min-height: 100vh;
   background: var(--dark);
+  overflow-x: hidden;
 }
 
 .dashboard-container {
+  position: relative;
   width: 100%;
   min-height: 100vh;
   padding: 1rem;
   padding-top: calc(var(--header-height) + 1rem);
   padding-bottom: calc(var(--mobile-nav-height) + 1rem);
-  position: relative;
   z-index: 1;
 }
 
 .dashboard-main {
   position: relative;
-  z-index: 2;
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(var(--blur-strength));
+  -webkit-backdrop-filter: blur(var(--blur-strength));
+  border-radius: 16px;
   border: 1px solid rgba(255, 204, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform var(--transition-speed), 
+              box-shadow var(--transition-speed),
+              border-color var(--transition-speed);
+}
+
+.dashboard-main:hover {
+  border-color: rgba(255, 204, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
 .starfield-container {
@@ -50,7 +63,10 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  background: var(--dark);
+  background: radial-gradient(circle at center, 
+    rgba(255, 204, 0, 0.03) 0%, 
+    rgba(10, 10, 10, 0) 70%
+  );
 }
 
 .star {
@@ -60,11 +76,35 @@
   height: 2px;
   opacity: 0;
   animation: twinkle 2s infinite;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(255, 204, 0, 0.5);
+}
+
+.content-section {
+  margin-bottom: 2rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.8; }
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
 }
 
 /* Tablet Breakpoint */
@@ -72,6 +112,10 @@
   .dashboard-container {
     padding: 2rem;
     padding-top: calc(var(--header-height) + 2rem);
+  }
+
+  .dashboard-main {
+    padding: 2rem;
   }
 }
 
@@ -82,14 +126,18 @@
     padding: 2rem;
     padding-bottom: 2rem;
   }
+
+  .dashboard-main {
+    border-radius: 20px;
+  }
 }
 
 /* Desktop Large Breakpoint */
 @media (min-width: 1280px) {
   .dashboard-container {
-    max-width: 1400px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
-    margin-left: var(--sidebar-width);
+    margin-left: calc(var(--sidebar-width) + ((100vw - var(--content-max-width)) / 2));
   }
 }
 
@@ -107,11 +155,45 @@
   .save-button:active {
     transform: scale(0.95);
   }
+
+  .dashboard-main:hover {
+    transform: none;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+  }
+
+  .dashboard-main {
+    transition: none;
+  }
+
+  .content-section {
+    animation: none;
+  }
 }
 
 /* Safe Area Insets for Notched Devices */
 @supports (padding: env(safe-area-inset-bottom)) {
   .dashboard-container {
     padding-bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom) + 1rem);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .dashboard-main {
+    background: var(--dark);
+    border: 2px solid var(--primary);
+  }
+}
+
+/* Dark Mode Optimization */
+@media (prefers-color-scheme: dark) {
+  .dashboard-main {
+    background: rgba(10, 10, 10, 0.9);
   }
 }
