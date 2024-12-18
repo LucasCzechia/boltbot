@@ -46,39 +46,34 @@ export default function ServerDashboard() {
     },
   });
   
-  const [serverData, setServerData] = useState(null);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchServerData = async () => {
+    const fetchSettings = async () => {
       if (!serverId) return;
-      
+
+      setLoading(true);
       try {
-        const [serverResponse, settingsResponse] = await Promise.all([
-          fetch(`/api/discord/servers/${serverId}`),
-          fetch(`/api/discord/servers/${serverId}/settings`)
-        ]);
-
-        if (!serverResponse.ok || !settingsResponse.ok) {
-          throw new Error('Failed to fetch server data');
-        }
-
-        const serverData = await serverResponse.json();
-        const settingsData = await settingsResponse.json();
-
-        setServerData(serverData);
-        setSettings(settingsData || DEFAULT_SETTINGS);
+        const response = await fetch(`/api/discord/servers/${serverId}/settings`);
+        if (!response.ok) throw new Error('Failed to fetch settings');
+        
+        const data = await response.json();
+        setSettings(data || DEFAULT_SETTINGS);
       } catch (error) {
-        console.error('Error fetching server data:', error);
-        toast.error('Failed to load server settings');
+        console.error('Error:', error);
+        toast.error('Failed to load settings');
+      } finally {
+        // Add a slight delay to show loading state
+        setTimeout(() => setLoading(false), 1000);
       }
     };
 
-    fetchServerData();
+    fetchSettings();
   }, [serverId]);
 
   const handleSettingChange = (category, setting, value) => {
@@ -106,9 +101,7 @@ export default function ServerDashboard() {
         body: JSON.stringify(settings),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to save settings');
-      }
+      if (!response.ok) throw new Error('Failed to save settings');
 
       toast.success('Settings saved successfully!');
       setIsEditing(false);
@@ -119,25 +112,6 @@ export default function ServerDashboard() {
       setIsSaving(false);
     }
   };
-
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (!starfieldContainer) return;
-      
-      starfieldContainer.innerHTML = '';
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.animationDelay = `${Math.random() * 2}s`;
-        starfieldContainer.appendChild(star);
-      }
-    };
-
-    generateStarfield();
-  }, []);
 
   if (status === 'loading') {
     return (
@@ -158,7 +132,8 @@ export default function ServerDashboard() {
       isEditing,
       setIsEditing,
       saveSettings,
-      isSaving
+      isSaving,
+      loading
     };
 
     switch (activeTab) {
@@ -189,7 +164,7 @@ export default function ServerDashboard() {
         <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         
         <main className="dashboard-main">
-          <ServerHeader serverData={serverData} />
+          <ServerHeader />
           
           <AnimatePresence mode="wait">
             <motion.div
