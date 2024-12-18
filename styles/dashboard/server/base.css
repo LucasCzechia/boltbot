@@ -37,7 +37,6 @@
 
 .dashboard-main {
   position: relative;
-  background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(var(--blur-strength));
   -webkit-backdrop-filter: blur(var(--blur-strength));
   border-radius: 16px;
