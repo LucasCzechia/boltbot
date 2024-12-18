@@ -15,7 +15,6 @@ import ServerTools from '../../../../components/dashboard/server/ServerTools';
 import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
 import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
 import ScrollToTop from '../../../../components/dashboard/ScrollToTop'
-import { ServerProvider } from '../../../../context/ServerContext';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
@@ -146,6 +145,5 @@ export default function ServerDashboard() {
 
       <DashboardFooter />
       <Toaster position="top-right" />
-    </ServerProvider>
   );
  }
