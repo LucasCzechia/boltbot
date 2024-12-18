@@ -1,0 +1,334 @@
+/* styles/auth/auth-login.css */
+:root {
+  --primary: #ffcc00;
+  --primary-dark: #ff9900;
+  --dark: #0a0a0a;
+  --dark-light: #111111;
+  --light: #ffffff;
+  --discord: #5865F2;
+  --discord-dark: #4752c4;
+  --card-bg: rgba(255, 204, 0, 0.05);
+}
+
+/* Auth Navigation */
+.auth-nav {
+  padding: 1rem 2rem;
+  background: rgba(10,10,10,0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,204,0,0.1);
+}
+
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.support-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 204, 0, 0.2);
+}
+
+.support-link:hover {
+  background: rgba(255, 204, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Logo Styles */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Auth Container */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 6rem 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
+}
+
+/* Auth Card */
+.auth-card {
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.auth-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 204, 0, 0.1);
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255, 204, 0, 0.1),
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.auth-card:hover::before {
+  opacity: 1;
+}
+
+/* Bot Avatar */
+.bot-avatar {
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 50%;
+  margin: 0 auto 2rem;
+  border: 3px solid var(--primary);
+  animation: avatarGlow 3s infinite alternate;
+}
+
+/* Auth Content */
+.auth-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Feature List */
+.features-list {
+  margin: 2rem 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: rgba(255, 204, 0, 0.1);
+  transform: translateX(5px);
+}
+
+.feature-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+/* Discord Button */
+.discord-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--discord);
+  color: var(--light);
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.discord-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.discord-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.discord-button:hover {
+  background: var(--discord-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(88, 101, 242, 0.3);
+}
+
+/* Auth Footer */
+.auth-footer {
+  margin-top: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes avatarGlow {
+  from {
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.2);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .auth-nav {
+    padding: 0.75rem 1rem;
+  }
+
+  .auth-container {
+    padding: 5rem 1rem 1rem;
+  }
+
+  .auth-card {
+    padding: 2rem;
+  }
+
+  .bot-avatar {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .auth-title {
+    font-size: 2rem;
+  }
+
+  .auth-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .feature-item {
+    padding: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+  }
+
+  .bot-avatar {
+    width: 80px !important;
+    height: 80px !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-title {
+    font-size: 1.75rem;
+  }
+
+  .auth-subtitle {
+    font-size: 1rem;
+  }
+
+  .feature-item {
+    padding: 0.75rem;
+  }
+
+  .discord-button {
+    font-size: 1rem;
+    padding: 0.875rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .auth-card,
+  .bot-avatar,
+  .feature-item,
+  .discord-button {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .auth-card {
+    background: rgba(10, 10, 10, 0.98);
+  }
+}
