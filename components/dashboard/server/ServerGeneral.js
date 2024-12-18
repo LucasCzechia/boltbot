@@ -1,7 +1,7 @@
 // components/dashboard/server/ServerGeneral.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function ServerGeneral({ 
   settings, 
@@ -14,6 +14,7 @@ export default function ServerGeneral({
   loading
 }) {
   const rangeRef = useRef(null);
+  const [isTouching, setIsTouching] = useState(false);
 
   useEffect(() => {
     if (rangeRef.current) {
@@ -22,8 +23,12 @@ export default function ServerGeneral({
     }
   }, [settings.contextLength]);
 
-  // Define marker values for the range slider
-  const markerValues = [1, 5, 10, 15, 20, 25, 30];
+  // Define marker values - reduced for mobile
+  const markerValues = window?.innerWidth <= 360 ? [1, 15, 30] : [1, 5, 10, 15, 20, 25, 30];
+
+  // Touch handlers
+  const handleTouchStart = () => setIsTouching(true);
+  const handleTouchEnd = () => setIsTouching(false);
 
   if (loading) {
     return (
@@ -103,7 +108,7 @@ export default function ServerGeneral({
 
         <div className="setting-group">
           <label>Context Length</label>
-          <div className="range-input">
+          <div className={`range-input ${isTouching ? 'touching' : ''}`}>
             <div className="range-markers">
               {markerValues.map(value => (
                 <div
@@ -124,8 +129,10 @@ export default function ServerGeneral({
               value={settings.contextLength}
               onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
               className="range-slider"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             />
-            <span className="range-value">{settings.contextLength} messages</span>
+            <div className="range-value">{settings.contextLength} messages</div>
           </div>
           <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
         </div>
