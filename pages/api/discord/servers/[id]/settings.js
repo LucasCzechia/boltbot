@@ -11,19 +11,19 @@ const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
   contextLength: 15,
   tools: {
-    browseInternet: true,
-    generateImages: true,
-    currencyConverter: true,
-    weather: true,
-    time: true,
-    reactEmojis: true,
-    createFiles: true,
-    runPython: true,
-    googleImages: true
+    BrowseInternet: true,
+    GenerateImages: true,
+    CurrencyConverter: true,
+    GetWeather: true,
+    GetTime: true,
+    ReactEmojis: true,
+    CreateFiles: true,
+    RunPython: true,
+    GoogleImages: true
   },
   features: {
-    imageRecognition: true,
-    fileHandling: true
+    ImageRecognition: true,
+    FileHandling: true
   },
   personality: 'default'
 };
@@ -37,20 +37,41 @@ export default async function handler(req, res) {
 
     const { id: serverId } = req.query;
 
-    // GET request - Fetch settings
     if (req.method === 'GET') {
       const settings = await db.get(`server_settings_${serverId}`);
-      return res.json(settings || DEFAULT_SETTINGS);
+      return res.json({
+        ...DEFAULT_SETTINGS,
+        ...settings
+      });
     }
 
-    // PATCH request - Update settings
     if (req.method === 'PATCH') {
+      const currentSettings = await db.get(`server_settings_${serverId}`) || {};
       const newSettings = req.body;
-      await db.set(`server_settings_${serverId}`, newSettings);
-      return res.json({ success: true, settings: newSettings });
+      
+      const updatedSettings = {
+        ...DEFAULT_SETTINGS,
+        ...currentSettings,
+        ...newSettings,
+        tools: {
+          ...DEFAULT_SETTINGS.tools,
+          ...(currentSettings.tools || {}),
+          ...(newSettings.tools || {})
+        },
+        features: {
+          ...DEFAULT_SETTINGS.features,
+          ...(currentSettings.features || {}),
+          ...(newSettings.features || {})
+        }
+      };
+
+      await db.set(`server_settings_${serverId}`, updatedSettings);
+      return res.json({ 
+        success: true, 
+        settings: updatedSettings 
+      });
     }
 
-    // Handle unsupported methods
     res.setHeader('Allow', ['GET', 'PATCH']);
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
 
