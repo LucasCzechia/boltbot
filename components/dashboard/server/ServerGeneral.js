@@ -9,8 +9,42 @@ export default function ServerGeneral({
   setSearchQuery, 
   isEditing, 
   saveSettings,
-  isSaving 
+  isSaving,
+  loading
 }) {
+  if (loading) {
+    return (
+      <div className="content-section">
+        <div className="content-header">
+          <div className="skeleton-title"></div>
+          <div className="header-actions">
+            <div className="search-bar">
+              <Search size={20} />
+              <div className="skeleton-input"></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="settings-section">
+          <div className="setting-group">
+            <div className="skeleton-label"></div>
+            <div className="skeleton-input"></div>
+            <div className="skeleton-text"></div>
+          </div>
+
+          <div className="setting-group">
+            <div className="skeleton-label"></div>
+            <div className="skeleton-range">
+              <div className="skeleton-track"></div>
+              <div className="skeleton-thumb"></div>
+            </div>
+            <div className="skeleton-text"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="content-section">
       <div className="content-header">
