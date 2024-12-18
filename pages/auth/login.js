@@ -72,17 +72,17 @@ const particlesConfig = {
 };
 
 export default function Login() {
-  const { status } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.replace('/auth/login/success')
+      router.replace('/dashboard/servers')
     }
   }, [status, router])
 
   const handleSignIn = () => {
-    signIn('discord', { callbackUrl: '/auth/login/success' })
+    signIn('discord', { callbackUrl: '/dashboard/servers' })
   }
 
   if (status === 'loading') {
@@ -226,4 +226,24 @@ export default function Login() {
       <DashboardFooter />
     </>
   )
+}
+
+export async function getServerSideProps({ req, res }) {
+  if (req.cookies['next-auth.session-token'] || req.cookies['__Secure-next-auth.session-token']) {
+    return {
+      redirect: {
+        destination: '/dashboard/servers',
+        permanent: false,
+      },
+    };
+  }
+
+  res.setHeader(
+    'Cache-Control',
+    'private, no-cache, no-store, max-age=0, must-revalidate'
+  );
+
+  return {
+    props: {},
+  };
 }
