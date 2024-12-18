@@ -1,51 +1,181 @@
 /* styles/dashboard/server/server-header.css */
-/* Server Header for Mobile */
 .server-header {
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1rem;
   border: 1px solid rgba(255, 204, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.server-header:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
 }
 
 .server-header-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
   gap: 1rem;
 }
 
 .server-header-icon {
-  width: 64px;
-  height: 64px;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 204, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.server-header:hover .server-header-icon {
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+.server-header-info {
+  flex: 1;
 }
 
 .server-header-info h1 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--light);
 }
 
 .server-stats {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
 .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Tablet Breakpoint */
-@media (min-width: 768px) {
-  .server-header-content {
-    flex-direction: row;
-    text-align: left;
+.stat-item svg {
+  color: var(--primary);
+}
+
+.online-indicator {
+  color: var(--status-online) !important;
+}
+
+/* Loading State */
+.server-header-content.loading {
+  pointer-events: none;
+}
+
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-title {
+  width: 200px;
+  height: 24px;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.skeleton-stat {
+  width: 100px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Error State */
+.server-header-content.error {
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.server-header-content.error h1 {
+  font-size: 1rem;
+  color: var(--danger);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .server-header {
+    padding: 0.75rem;
+  }
+
+  .server-header-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .server-header-info h1 {
+    font-size: 1.1rem;
   }
 
   .server-stats {
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .stat-item {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .server-header-info h1 {
+    font-size: 1rem;
+  }
+
+  .skeleton-title {
+    width: 150px;
+  }
+
+  .skeleton-stat {
+    width: 80px;
   }
 }
