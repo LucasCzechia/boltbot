@@ -1,7 +1,7 @@
 // components/dashboard/server/ServerGeneral.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function ServerGeneral({ 
   settings, 
@@ -14,7 +14,6 @@ export default function ServerGeneral({
   loading
 }) {
   const rangeRef = useRef(null);
-  const [isTouching, setIsTouching] = useState(false);
 
   useEffect(() => {
     if (rangeRef.current) {
@@ -23,12 +22,8 @@ export default function ServerGeneral({
     }
   }, [settings.contextLength]);
 
-  // Define marker values - reduced for mobile
-  const markerValues = window?.innerWidth <= 360 ? [1, 15, 30] : [1, 5, 10, 15, 20, 25, 30];
-
-  // Touch handlers
-  const handleTouchStart = () => setIsTouching(true);
-  const handleTouchEnd = () => setIsTouching(false);
+  // Define only the main marker points
+  const markerValues = [1, 10, 20, 30];
 
   if (loading) {
     return (
@@ -108,7 +103,7 @@ export default function ServerGeneral({
 
         <div className="setting-group">
           <label>Context Length</label>
-          <div className={`range-input ${isTouching ? 'touching' : ''}`}>
+          <div className="range-input">
             <div className="range-markers">
               {markerValues.map(value => (
                 <div
@@ -129,8 +124,6 @@ export default function ServerGeneral({
               value={settings.contextLength}
               onChange={(e) => handleSettingChange('contextLength', null, parseInt(e.target.value))}
               className="range-slider"
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
             />
             <div className="range-value">{settings.contextLength} messages</div>
           </div>
