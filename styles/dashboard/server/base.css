@@ -21,7 +21,7 @@
 .dashboard-wrapper {
   position: relative;
   min-height: 100vh;
-  background: var(--dark);
+  background: transparent;
   overflow-x: hidden;
 }
 
@@ -33,9 +33,8 @@
   padding-top: calc(var(--header-height) + 1rem);
   padding-bottom: calc(var(--mobile-nav-height) + 1rem);
   z-index: 1;
-  background-color: rgba(10, 10, 10, 0.8);
+  background-color: transparent;
   border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .dashboard-main {
@@ -49,7 +48,7 @@
               box-shadow var(--transition-speed),
               border-color var(--transition-speed);
   z-index: 2;
-  background: rgba(20, 20, 20, 0.4);
+  background: rgba(10, 10, 10, 0.3);
 }
 
 .dashboard-main:hover {
@@ -61,8 +60,9 @@
 .content-section {
   margin-bottom: 2rem;
   animation: fadeIn 0.3s ease-out;
-  background: rgba(20, 20, 20, 0.4);
+  background: rgba(10, 10, 10, 0.3);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 204, 0, 0.1);
   border-radius: 15px;
   padding: 1.5rem;
@@ -73,6 +73,28 @@
   transform: translateY(-5px);
   border-color: var(--primary);
   box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
+}
+
+.content-header {
+  background: transparent;
+}
+
+.settings-section {
+  background: transparent;
+}
+
+.feature-card,
+.tool-card,
+.personality-card {
+  background: rgba(10, 10, 10, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.server-header {
+  background: rgba(10, 10, 10, 0.3) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 @keyframes fadeIn {
