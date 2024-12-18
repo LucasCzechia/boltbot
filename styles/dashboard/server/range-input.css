@@ -3,6 +3,7 @@
   position: relative;
   padding: 2rem 0.5rem 1rem;
   width: 100%;
+  touch-action: none;
 }
 
 .range-slider {
@@ -23,8 +24,8 @@
 .range-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background: var(--primary);
   border-radius: 50%;
   cursor: pointer;
@@ -35,8 +36,8 @@
 }
 
 .range-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background: var(--primary);
   border: none;
   border-radius: 50%;
@@ -45,29 +46,6 @@
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
   z-index: 2;
-}
-
-/* Thumb Hover Effect */
-.range-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
-}
-
-.range-slider::-moz-range-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
-}
-
-/* Track Fill Effect */
-.range-slider::-webkit-slider-runnable-track {
-  height: 4px;
-  border-radius: 2px;
-  background: linear-gradient(to right, var(--primary) var(--range-progress), rgba(0, 0, 0, 0.2) var(--range-progress));
-}
-
-.range-slider::-moz-range-track {
-  height: 4px;
-  border-radius: 2px;
 }
 
 /* Range Markers Container */
@@ -79,7 +57,7 @@
   height: 24px;
   display: flex;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 0 12px;
 }
 
 /* Individual Markers */
@@ -101,6 +79,7 @@
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.6);
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .range-marker.active {
@@ -115,52 +94,114 @@
 /* Range Value Display */
 .range-value {
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--primary);
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   font-weight: 500;
   text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: inline-block;
+  min-width: 100px;
 }
 
-/* Focus States */
-.range-slider:focus {
-  outline: none;
-}
-
-.range-slider:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
-}
-
-.range-slider:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
-}
-
-/* Disabled State */
-.range-slider:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Media Queries */
+/* Mobile Optimizations */
 @media (max-width: 768px) {
   .range-input {
-    padding: 1.5rem 0.5rem 1rem;
+    padding: 2.5rem 0.5rem 1rem;
+    margin: 0.5rem 0;
   }
 
+  /* Increase touch target size */
+  .range-slider::-webkit-slider-thumb {
+    width: 28px;
+    height: 28px;
+  }
+
+  .range-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Adjust marker spacing */
+  .range-markers {
+    padding: 0 14px;
+  }
+
+  .range-marker {
+    height: 6px;
+  }
+
+  .range-marker.active {
+    height: 10px;
+  }
+
+  /* Hide some markers on very small screens */
+  @media (max-width: 360px) {
+    .range-marker:nth-child(even) {
+      visibility: hidden;
+    }
+  }
+
+  /* Adjust label positioning */
   .range-marker::after {
     font-size: 0.7rem;
     top: -18px;
   }
+
+  /* Enhance value display */
+  .range-value {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+    margin-top: 1.25rem;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Add active state for touch */
+  .range-slider:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+  }
+
+  .range-slider:active::-moz-range-thumb {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+  }
 }
 
-@media (hover: none) {
-  .range-slider::-webkit-slider-thumb:hover {
-    transform: none;
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+/* Small Screen Optimizations */
+@media (max-width: 480px) {
+  .range-input {
+    padding: 3rem 0.5rem 1rem;
   }
 
-  .range-slider::-moz-range-thumb:hover {
-    transform: none;
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+  .range-markers {
+    padding: 0 14px;
+    top: 4px;
   }
+
+  /* Further adjust marker visibility */
+  .range-marker:nth-child(2n+1):not(:first-child):not(:last-child) {
+    visibility: hidden;
+  }
+
+  .range-marker::after {
+    font-size: 0.65rem;
+    top: -24px;
+  }
+}
+
+/* Prevent text selection during sliding */
+.range-input,
+.range-value,
+.range-marker::after {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* High touch target area */
+.range-slider {
+  margin: 10px 0;
+  padding: 10px 0;
 }
