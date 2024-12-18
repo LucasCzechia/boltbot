@@ -27,16 +27,19 @@ export const authOptions = {
     },
     async redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) {
+        if (url.includes('/auth/login')) {
+          return `${baseUrl}/auth/login/success`;
+        }
         return url;
       }
-      return baseUrl;
+      return `${baseUrl}/auth/login/success`;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/login',
     error: '/auth/login',
-    signOut: '/auth/login/logout',
+    signOut: '/auth/login',
   },
   session: {
     strategy: 'jwt',
@@ -47,17 +50,6 @@ export const authOptions = {
     maxAge: 24 * 60 * 60,
   },
   debug: process.env.NODE_ENV === 'development',
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-      }
-    }
-  }
 };
 
 export default NextAuth(authOptions);
