@@ -6,7 +6,7 @@
 @import './misc/404.css';
 
 /* Auth Styles */
-@import './auth/auth.css';
+@import './auth/auth-login.css';
 @import './auth/auth-success.css';
 
 /* Dashboard Styles */
