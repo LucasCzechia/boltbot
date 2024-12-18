@@ -19,19 +19,19 @@ const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
   contextLength: 15,
   tools: {
-    browseInternet: true,
-    generateImages: true,
-    currencyConverter: true,
-    weather: true,
-    time: true,
-    reactEmojis: true,
-    createFiles: true,
-    runPython: true,
-    googleImages: true
+    BrowseInternet: true,
+    GenerateImages: true,
+    CurrencyConverter: true,
+    GetWeather: true,
+    GetTime: true,
+    ReactEmojis: true,
+    CreateFiles: true,
+    RunPython: true,
+    GoogleImages: true
   },
   features: {
-    imageRecognition: true,
-    fileHandling: true
+    ImageRecognition: true,
+    FileHandling: true
   },
   personality: 'default'
 };
@@ -69,7 +69,21 @@ export default function ServerDashboard() {
 
         if (response.ok) {
           const data = await response.json();
-          setSettings(data || DEFAULT_SETTINGS);
+          setSettings(prevSettings => ({
+            ...DEFAULT_SETTINGS,
+            ...prevSettings,
+            ...data,
+            tools: {
+              ...DEFAULT_SETTINGS.tools,
+              ...(prevSettings.tools || {}),
+              ...(data.tools || {})
+            },
+            features: {
+              ...DEFAULT_SETTINGS.features,
+              ...(prevSettings.features || {}),
+              ...(data.features || {})
+            }
+          }));
         } else {
           throw new Error('Failed to fetch settings');
         }
@@ -87,14 +101,22 @@ export default function ServerDashboard() {
   }, [serverId, session?.accessToken]);
 
   const handleSettingChange = (category, setting, value) => {
-    setSettings(prev => ({
-      ...prev,
-      [category]: typeof setting === 'object' 
-        ? { ...prev[category], ...setting }
-        : category === 'tools' || category === 'features'
-          ? { ...prev[category], [setting]: value }
-          : value
-    }));
+    setSettings(prevSettings => {
+      if (setting === null) {
+        return {
+          ...prevSettings,
+          [category]: value
+        };
+      }
+      
+      return {
+        ...prevSettings,
+        [category]: {
+          ...prevSettings[category],
+          [setting]: value
+        }
+      };
+    });
     setIsEditing(true);
   };
 
@@ -127,6 +149,8 @@ export default function ServerDashboard() {
     const generateStarfield = () => {
       const starfieldContainer = document.getElementById('starfield-background');
       if (!starfieldContainer) return;
+      
+      starfieldContainer.innerHTML = '';
       for (let i = 0; i < 100; i++) {
         const star = document.createElement('div');
         star.className = 'star';
@@ -138,13 +162,6 @@ export default function ServerDashboard() {
     };
 
     generateStarfield();
-
-    return () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (starfieldContainer) {
-        starfieldContainer.innerHTML = '';
-      }
-    };
   }, []);
 
   if (status === 'loading') {
