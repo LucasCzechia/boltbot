@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Users, Circle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 export default function ServerHeader() {
@@ -90,27 +89,29 @@ export default function ServerHeader() {
   return (
     <div className="server-header">
       <div className="server-header-content">
-        <Image 
-          src={serverData.icon 
-            ? `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.${serverData.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
-            : `https://ui-avatars.com/api/?name=${encodeURIComponent(serverData.name)}&background=1a1a1a&color=ffcc00&size=128`
-          }
-          alt={serverData.name}
-          width={64}
-          height={64}
-          className="server-header-icon"
-          unoptimized
-        />
-        <div className="server-header-info">
-          <h1>{serverData.name}</h1>
-          <div className="server-stats">
-            <div className="stat-item">
-              <Users size={16} />
-              <span>{serverData.memberCount?.toLocaleString() || '0'} members</span>
-            </div>
-            <div className="stat-item">
-              <Circle size={16} className="online-indicator" />
-              <span>{serverData.onlineCount?.toLocaleString() || '0'} online</span>
+        <div className="server-header">
+          <Image 
+            src={serverData.icon 
+              ? `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.${serverData.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
+              : `https://ui-avatars.com/api/?name=${encodeURIComponent(serverData.name)}&background=1a1a1a&color=ffcc00&size=128`
+            }
+            alt={serverData.name}
+            width={50}
+            height={50}
+            className="server-icon"
+            unoptimized
+          />
+          <div className="server-info">
+            <div className="server-name">{serverData.name}</div>
+            <div className="server-members">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span className="member-count">{serverData.memberCount?.toLocaleString() || '0'}</span> members 
+              <span className="online-count">{serverData.onlineCount?.toLocaleString() || '0'} online</span>
             </div>
           </div>
         </div>
