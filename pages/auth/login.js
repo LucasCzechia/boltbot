@@ -81,29 +81,8 @@ export default function Login() {
     }
   }, [status, router])
 
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background')
-      if (!starfieldContainer) return
-      
-      starfieldContainer.innerHTML = ''
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div')
-        star.className = 'star'
-        star.style.left = Math.random() * 100 + '%'
-        star.style.top = Math.random() * 100 + '%'
-        star.style.animationDelay = Math.random() * 2 + 's'
-        starfieldContainer.appendChild(star)
-      }
-    }
-
-    generateStarfield()
-  }, [])
-
-  const handleParticlesInit = () => {
-    if (typeof window !== 'undefined' && window.particlesJS) {
-      window.particlesJS('particles-js', particlesConfig)
-    }
+  const handleSignIn = () => {
+    signIn('discord', { callbackUrl: '/auth/login/success' })
   }
 
   if (status === 'loading') {
@@ -126,7 +105,7 @@ export default function Login() {
       <Script 
         src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"
         strategy="afterInteractive"
-        onLoad={handleParticlesInit}
+        onLoad={() => window.particlesJS && window.particlesJS('particles-js', particlesConfig)}
       />
 
       <nav className="auth-nav">
@@ -219,7 +198,7 @@ export default function Login() {
           </motion.div>
 
           <motion.button 
-            onClick={() => signIn('discord', { callbackUrl: '/auth/login/success' })}
+            onClick={handleSignIn}
             className="discord-button"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
