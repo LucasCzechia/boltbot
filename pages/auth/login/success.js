@@ -44,6 +44,7 @@ export default function AuthSuccess() {
     <>
       <Head>
         <title>Authentication Successful - BoltBot⚡</title>
+        <meta name="robots" content="noindex,nofollow" />
       </Head>
 
       <div id="starfield-background" className="starfield-container" />
@@ -117,12 +118,25 @@ export default function AuthSuccess() {
 }
 
 export async function getServerSideProps({ req, res }) {
+  const token = req.cookies['next-auth.session-token'] || req.cookies['__Secure-next-auth.session-token'];
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
+      },
+    };
+  }
+
   res.setHeader(
     'Cache-Control',
-    'no-store, no-cache, must-revalidate, proxy-revalidate'
-  )
-  res.setHeader('Pragma', 'no-cache')
-  res.setHeader('Expires', '0')
+    'private, no-cache, no-store, max-age=0, must-revalidate'
+  );
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
 
-  return { props: {} }
+  return {
+    props: {}
+  };
 }
