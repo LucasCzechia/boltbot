@@ -77,7 +77,7 @@ export default function ServerDashboard() {
       console.error('Error:', error);
       toast.error('Failed to load settings');
     } finally {
-      setTimeout(() => setLoading(false), 3000);
+      setTimeout(() => setLoading(false), 1000);
     }
   };
 
@@ -122,6 +122,22 @@ export default function ServerDashboard() {
       setIsSaving(false);
     }
   };
+
+  useEffect(() => {
+    const generateStarfield = () => {
+      const starfieldContainer = document.getElementById('starfield-background')
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div')
+        star.className = 'star'
+        star.style.left = Math.random() * 100 + '%'
+        star.style.top = Math.random() * 100 + '%'
+        star.style.animationDelay = Math.random() * 2 + 's'
+        starfieldContainer.appendChild(star)
+      }
+    }
+
+    generateStarfield()
+  }, []);
 
   if (status === 'loading') {
     return (
