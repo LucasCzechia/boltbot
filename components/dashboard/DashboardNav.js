@@ -1,10 +1,12 @@
-// components/dashboard/servers/DashboardNav.js
-import { signOut, useSession } from 'next-auth/react'
+// components/dashboard/DashboardNav.js
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function DashboardNav() {
   const { data: session } = useSession()
+  const router = useRouter()
 
   const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User'
   const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
@@ -14,6 +16,10 @@ export default function DashboardNav() {
       return "https://cdn.discordapp.com/embed/avatars/0.png"
     }
     return session.user.image
+  }
+
+  const handleSignOut = () => {
+    router.push('/auth/login/logout')
   }
 
   return (
@@ -56,7 +62,7 @@ export default function DashboardNav() {
               </svg>
               Preferences
             </Link>
-            <button onClick={() => signOut()} className="dropdown-item danger">
+            <button onClick={handleSignOut} className="dropdown-item danger">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                 <polyline points="16 17 21 12 16 7"></polyline>
@@ -69,4 +75,4 @@ export default function DashboardNav() {
       </div>
     </nav>
   )
-                }
+}
