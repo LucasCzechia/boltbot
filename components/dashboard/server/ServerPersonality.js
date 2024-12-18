@@ -1,13 +1,26 @@
 // components/dashboard/server/ServerPersonality.js
-import { useState } from 'react';
-import { Search, Save, Plus } from 'lucide-react';
+import { Search, Save, Bot, BrainCircuit, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { toast } from 'react-hot-toast';
 
 const DEFAULT_PERSONALITIES = [
-  { id: 'default', name: 'Default', description: 'Playful, conversational chatbot' },
-  { id: 'assistant', name: 'Assistant', description: 'Professional and helpful like Claude or ChatGPT' },
-  { id: 'fancy', name: 'Fancy', description: 'A British gentleman type of responses' }
+  { 
+    id: 'default', 
+    name: 'Default', 
+    description: 'Playful, conversational chatbot',
+    icon: Bot
+  },
+  { 
+    id: 'assistant', 
+    name: 'Assistant', 
+    description: 'Professional and helpful like Claude or ChatGPT',
+    icon: BrainCircuit
+  },
+  { 
+    id: 'fancy', 
+    name: 'Fancy', 
+    description: 'A British gentleman type of responses',
+    icon: Crown
+  }
 ];
 
 export default function ServerPersonality({ 
@@ -17,26 +30,39 @@ export default function ServerPersonality({
   setSearchQuery, 
   isEditing,
   saveSettings,
-  isSaving
+  isSaving,
+  loading
 }) {
-  const [personalities, setPersonalities] = useState(DEFAULT_PERSONALITIES);
-  const [customPersonality, setCustomPersonality] = useState('');
+  if (loading) {
+    return (
+      <div className="content-section">
+        <div className="content-header">
+          <div className="skeleton-title"></div>
+          <div className="header-actions">
+            <div className="search-bar">
+              <Search size={20} />
+              <div className="skeleton-input"></div>
+            </div>
+          </div>
+        </div>
 
-  const addCustomPersonality = () => {
-    if (customPersonality.trim()) {
-      const newPersonality = {
-        id: customPersonality.toLowerCase().replace(/\s+/g, '-'),
-        name: customPersonality,
-        description: 'Custom personality mode'
-      };
-      
-      setPersonalities(prev => [...prev, newPersonality]);
-      setCustomPersonality('');
-      toast.success('New personality added!');
-    }
-  };
+        <div className="personality-grid">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="personality-card loading">
+              <div className="personality-header">
+                <div className="skeleton-icon"></div>
+                <div className="skeleton-title"></div>
+              </div>
+              <div className="skeleton-text"></div>
+              <div className="loading-shimmer"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
-  const filteredPersonalities = personalities.filter(personality =>
+  const filteredPersonalities = DEFAULT_PERSONALITIES.filter(personality =>
     personality.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     personality.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -72,38 +98,24 @@ export default function ServerPersonality({
       </div>
 
       <div className="personality-grid">
-        {filteredPersonalities.map((personality) => (
-          <motion.div
-            key={personality.id}
-            className={`personality-card ${settings.personality === personality.id ? 'active' : ''}`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => handleSettingChange('personality', null, personality.id)}
-          >
-            <h3>{personality.name}</h3>
-            <p>{personality.description}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="add-personality">
-        <input
-          type="text"
-          placeholder="Add custom personality..."
-          value={customPersonality}
-          onChange={(e) => setCustomPersonality(e.target.value)}
-          className="setting-input"
-        />
-        <motion.button
-          className="add-button"
-          onClick={addCustomPersonality}
-          disabled={!customPersonality.trim()}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Plus size={20} />
-          Add
-        </motion.button>
+        {filteredPersonalities.map((personality) => {
+          const PersonalityIcon = personality.icon;
+          return (
+            <motion.div
+              key={personality.id}
+              className={`personality-card ${settings.personality === personality.id ? 'active' : ''}`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleSettingChange('personality', null, personality.id)}
+            >
+              <div className="personality-header">
+                <PersonalityIcon size={24} className="personality-icon" />
+                <h3>{personality.name}</h3>
+              </div>
+              <p>{personality.description}</p>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
