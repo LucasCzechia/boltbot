@@ -147,18 +147,3 @@
     padding-bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom) + 1rem);
   }
 }
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .dashboard-main {
-    background: var(--dark);
-    border: 2px solid var(--primary);
-  }
-}
-
-/* Dark Mode Optimization */
-@media (prefers-color-scheme: dark) {
-  .dashboard-main {
-    background: rgba(10, 10, 10, 0.9);
-  }
-}
