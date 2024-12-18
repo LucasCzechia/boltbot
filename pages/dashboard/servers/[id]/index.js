@@ -68,8 +68,7 @@ export default function ServerDashboard() {
         console.error('Error:', error);
         toast.error('Failed to load settings');
       } finally {
-        // Add a slight delay to show loading state
-        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setLoading(false), 3000);
       }
     };
 
