@@ -57,10 +57,14 @@ export default function ServerFeatures({
     );
   }
 
-  const filteredFeatures = Object.entries(settings.features).filter(([key]) =>
-    FEATURE_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    FEATURE_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Ensure settings.features exists before filtering
+  const features = settings?.features || {};
+  const filteredFeatures = Object.entries(FEATURE_INFO)
+    .filter(([key]) =>
+      FEATURE_INFO[key].name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      FEATURE_INFO[key].description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .map(([key]) => [key, features[key] || false]);
 
   return (
     <div className="content-section">
