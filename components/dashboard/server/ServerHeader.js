@@ -89,21 +89,21 @@ export default function ServerHeader() {
   return (
     <div className="server-header">
       <div className="server-header-content">
-        <div className="server-header">
-          <Image 
-            src={serverData.icon 
-              ? `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.${serverData.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
-              : `https://ui-avatars.com/api/?name=${encodeURIComponent(serverData.name)}&background=1a1a1a&color=ffcc00&size=128`
-            }
-            alt={serverData.name}
-            width={50}
-            height={50}
-            className="server-icon"
-            unoptimized
-          />
-          <div className="server-info">
-            <div className="server-name">{serverData.name}</div>
-            <div className="server-members">
+        <Image 
+          src={serverData.icon 
+            ? `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.${serverData.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
+            : `https://ui-avatars.com/api/?name=${encodeURIComponent(serverData.name)}&background=1a1a1a&color=ffcc00&size=128`
+          }
+          alt={serverData.name}
+          width={64}
+          height={64}
+          className="server-header-icon"
+          unoptimized
+        />
+        <div className="server-header-info">
+          <h1>{serverData.name}</h1>
+          <div className="server-stats">
+            <div className="stat-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
