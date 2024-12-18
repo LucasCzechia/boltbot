@@ -1,29 +1,16 @@
 // components/dashboard/server/ServerGeneral.js
 import { Search, Save } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { toast } from 'react-hot-toast';
-import { useServer } from '@/context/ServerContext';
 
-export default function ServerGeneral({ settings, handleSettingChange, searchQuery, setSearchQuery, isEditing, setIsEditing }) {
-  const { server } = useServer();
-  
-  const saveSettings = async () => {
-    try {
-      await fetch(`/api/discord/servers/${server.id}/settings`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-      
-      toast.success('Settings saved successfully!');
-      setIsEditing(false);
-    } catch (error) {
-      toast.error('Failed to save settings');
-    }
-  };
-
+export default function ServerGeneral({ 
+  settings, 
+  handleSettingChange, 
+  searchQuery, 
+  setSearchQuery, 
+  isEditing, 
+  saveSettings,
+  isSaving 
+}) {
   return (
     <div className="content-section">
       <div className="content-header">
@@ -42,12 +29,13 @@ export default function ServerGeneral({ settings, handleSettingChange, searchQue
             <motion.button
               className="save-button"
               onClick={saveSettings}
+              disabled={isSaving}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               whileHover={{ scale: 1.05 }}
             >
               <Save size={20} />
-              Save Changes
+              {isSaving ? 'Saving...' : 'Save Changes'}
             </motion.button>
           )}
         </div>
@@ -84,4 +72,4 @@ export default function ServerGeneral({ settings, handleSettingChange, searchQue
       </div>
     </div>
   );
-            }
+}
