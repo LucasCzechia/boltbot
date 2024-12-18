@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
-import { Toaster } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap } from 'lucide-react';
 import DashboardNav from '../../../../components/dashboard/DashboardNav';
 import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
 import ServerSidebar from '../../../../components/dashboard/server/ServerSidebar';
@@ -14,7 +13,7 @@ import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral
 import ServerTools from '../../../../components/dashboard/server/ServerTools';
 import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
 import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
-import ScrollToTop from '../../../../components/dashboard/ScrollToTop'
+import ScrollToTop from '../../../../components/dashboard/ScrollToTop';
 
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
@@ -39,6 +38,7 @@ const DEFAULT_SETTINGS = {
 
 export default function ServerDashboard() {
   const router = useRouter();
+  const { id: serverId } = router.query;
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -46,10 +46,40 @@ export default function ServerDashboard() {
     },
   });
   
+  const [serverData, setServerData] = useState(null);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    const fetchServerData = async () => {
+      if (!serverId) return;
+      
+      try {
+        const [serverResponse, settingsResponse] = await Promise.all([
+          fetch(`/api/discord/servers/${serverId}`),
+          fetch(`/api/discord/servers/${serverId}/settings`)
+        ]);
+
+        if (!serverResponse.ok || !settingsResponse.ok) {
+          throw new Error('Failed to fetch server data');
+        }
+
+        const serverData = await serverResponse.json();
+        const settingsData = await settingsResponse.json();
+
+        setServerData(serverData);
+        setSettings(settingsData || DEFAULT_SETTINGS);
+      } catch (error) {
+        console.error('Error fetching server data:', error);
+        toast.error('Failed to load server settings');
+      }
+    };
+
+    fetchServerData();
+  }, [serverId]);
 
   const handleSettingChange = (category, setting, value) => {
     setSettings(prev => ({
@@ -63,21 +93,51 @@ export default function ServerDashboard() {
     setIsEditing(true);
   };
 
+  const saveSettings = async () => {
+    if (!serverId) return;
+
+    setIsSaving(true);
+    try {
+      const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save settings');
+      }
+
+      toast.success('Settings saved successfully!');
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      toast.error('Failed to save settings');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   useEffect(() => {
     const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background')
+      const starfieldContainer = document.getElementById('starfield-background');
+      if (!starfieldContainer) return;
+      
+      starfieldContainer.innerHTML = '';
       for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div')
-        star.className = 'star'
-        star.style.left = Math.random() * 100 + '%'
-        star.style.top = Math.random() * 100 + '%'
-        star.style.animationDelay = Math.random() * 2 + 's'
-        starfieldContainer.appendChild(star)
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        starfieldContainer.appendChild(star);
       }
-    }
+    };
 
-    generateStarfield()
-  }, [])
+    generateStarfield();
+  }, []);
 
   if (status === 'loading') {
     return (
@@ -86,7 +146,7 @@ export default function ServerDashboard() {
           <path d="M13 0L0 13h9v11l13-13h-9z"/>
         </svg>
       </div>
-    )
+    );
   }
 
   const renderContent = () => {
@@ -96,7 +156,9 @@ export default function ServerDashboard() {
       searchQuery,
       setSearchQuery,
       isEditing,
-      setIsEditing
+      setIsEditing,
+      saveSettings,
+      isSaving
     };
 
     switch (activeTab) {
@@ -127,7 +189,7 @@ export default function ServerDashboard() {
         <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         
         <main className="dashboard-main">
-          <ServerHeader />
+          <ServerHeader serverData={serverData} />
           
           <AnimatePresence mode="wait">
             <motion.div
