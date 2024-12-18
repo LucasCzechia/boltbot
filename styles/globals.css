@@ -4,7 +4,10 @@
 @import './misc/starfield.css';
 @import './misc/snake.css';
 @import './misc/404.css';
+
+/* Auth Styles */
 @import './auth/auth.css';
+@import './auth/auth-success.css';
 
 /* Dashboard Styles */
 @import './dashboard/nav.css';
