@@ -208,7 +208,7 @@ export default function ServerDashboard() {
       </Head>
 
       <div id="starfield-background" className="starfield-container" />
-      
+  
       <DashboardNav />
 
       <div className="dashboard-container">
