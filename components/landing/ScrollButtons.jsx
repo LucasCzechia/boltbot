@@ -1,4 +1,4 @@
-// components/ScrollButtons.jsx
+// components/landing/ScrollButtons.jsx
 import { useState, useEffect } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 
