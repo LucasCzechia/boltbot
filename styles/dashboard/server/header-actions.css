@@ -1,4 +1,4 @@
-/* styles/dashboard/server/header-actions.css */  
+/* styles/dashboard/server/header-actions.css */
 /* Search and Actions */
 .header-actions {
   display: flex;
@@ -8,13 +8,20 @@
 }
 
 .search-bar {
+  position: relative;
   width: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  padding-left: 3rem;
+  padding-right: 6rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--light);
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .search-bar input {
@@ -22,21 +29,48 @@
   background: none;
   border: none;
   color: var(--light);
-  font-size: 0.875rem;
+  font-size: 1rem;
+  outline: none;
 }
 
-.save-button {
-  width: 100%;
-  padding: 0.75rem;
+.search-bar input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.1);
+}
+
+.search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background: var(--primary);
-  color: var(--dark);
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
+}
+
+.search-clear:hover {
+  color: var(--light);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* Tablet Breakpoint */
@@ -49,9 +83,22 @@
   .search-bar {
     width: 300px;
   }
+}
 
-  .save-button {
-    width: auto;
-    padding: 0.75rem 1.5rem;
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .search-bar {
+    padding: 0.875rem 1.25rem;
+    padding-left: 2.75rem;
+    padding-right: 2.75rem;
+    font-size: 0.9rem;
+  }
+
+  .search-icon {
+    left: 0.75rem;
+  }
+
+  .search-clear {
+    right: 0.75rem;
   }
 }
