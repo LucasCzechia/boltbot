@@ -1,6 +1,5 @@
 /* styles/dashboard/servers/servers.css */
 :root {
-  /* Default dark theme variables */
   --primary: #ffcc00;
   --primary-dark: #ff9900;
   --dark: #0a0a0a;
@@ -12,7 +11,6 @@
   --success: #2ecc71;
   --danger: #e74c3c;
 
-  /* Theme specific variables */
   --bg-primary: var(--dark);
   --bg-secondary: var(--dark-light);
   --text-primary: var(--light);
@@ -47,7 +45,7 @@
   --border-color: rgba(0, 0, 0, 0.1);
   --hover-bg: rgba(255, 204, 0, 0.05);
   --card-shadow: rgba(0, 0, 0, 0.1);
-  --overlay-bg: rgba(255, 255, 255, 0.8);
+  --overlay-bg: rgba(255, 255, 255, 0.85);
   --nav-bg: rgba(255, 255, 255, 0.95);
   --skeleton-gradient: linear-gradient(
     to right,
@@ -64,14 +62,22 @@
 
 .servers-container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
   padding: 7rem 2rem 2rem;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  transition: var(--theme-transition);
+}
+
+.content-wrapper {
   background-color: var(--overlay-bg);
   border-radius: 20px;
+  padding: 2rem;
   box-shadow: 0 0 20px var(--card-shadow);
-  transition: var(--theme-transition);
 }
 
 .dashboard-nav {
