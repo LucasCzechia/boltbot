@@ -33,14 +33,37 @@
 @import './dashboard/server/loading-states.css';
 
 :root {
+  /* Base colors */
   --primary: #ffcc00;
   --primary-dark: #ff9900;
   --dark: #0a0a0a;
+  --dark-light: #111111;
   --light: #ffffff;
   --card-bg: rgba(255, 204, 0, 0.05);
   --status-online: #2ecc71;
   --status-idle: #f1c40f;
   --status-offline: #e74c3c;
+
+  /* Theme variables - Dark Mode (default) */
+  --bg-primary: var(--dark);
+  --bg-secondary: var(--dark-light);
+  --text-primary: var(--light);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 204, 0, 0.1);
+  --hover-bg: rgba(255, 204, 0, 0.1);
+}
+
+/* Light Theme Overrides */
+:root[data-theme="light"] {
+  --bg-primary: var(--light);
+  --bg-secondary: #f5f5f5;
+  --text-primary: var(--dark);
+  --text-secondary: rgba(0, 0, 0, 0.7);
+  --text-tertiary: rgba(0, 0, 0, 0.5);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --hover-bg: rgba(255, 204, 0, 0.05);
+  --card-bg: rgba(255, 204, 0, 0.03);
 }
 
 * {
@@ -51,9 +74,10 @@
 }
 
 body {
-  background-color: var(--dark);
-  color: var(--light);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .loading-screen {
