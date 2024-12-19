@@ -2,6 +2,7 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Moon, Sun, LogOut } from 'lucide-react'
 
@@ -59,6 +60,17 @@ export default function DashboardNav() {
   return (
     <nav className="dashboard-nav">
       <div className="nav-content">
+        <Link href="/" className="logo">
+          <Image 
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
+            width={45}
+            height={45}
+            priority
+          />
+          BoltBot⚡
+        </Link>
+
         <div className="user-profile-wrapper">
           <div className="nav-controls">
             <button 
@@ -81,8 +93,8 @@ export default function DashboardNav() {
               <Image 
                 src={getUserAvatar()}
                 alt="User Avatar"
-                width={40}
-                height={40}
+                width={48}
+                height={48}
                 className="user-avatar"
                 unoptimized
               />
@@ -95,8 +107,8 @@ export default function DashboardNav() {
                 <Image 
                   src={getUserAvatar()}
                   alt="User Avatar"
-                  width={50}
-                  height={50}
+                  width={65}
+                  height={65}
                   className="dropdown-avatar"
                   unoptimized
                 />
@@ -106,7 +118,7 @@ export default function DashboardNav() {
                 </div>
               </div>
               <button onClick={handleSignOut} className="logout-button">
-                <LogOut size={18} />
+                <LogOut size={20} />
                 <span>Sign Out</span>
               </button>
             </div>
