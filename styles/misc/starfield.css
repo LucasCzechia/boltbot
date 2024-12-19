@@ -1,4 +1,12 @@
 /* styles/misc/starfield.css */
+.starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
 .starfield-container {
   position: fixed;
   top: 0;
