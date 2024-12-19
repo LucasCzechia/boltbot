@@ -366,17 +366,6 @@ body {
     margin: 0 1rem;
   }
 
-  .developers-grid {
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-  }
-
-  .lanyard-frame {
-    width: 100%;
-    max-width: 300px;
-  }
-
   .status-bar {
     flex-direction: column;
     align-items: center;
