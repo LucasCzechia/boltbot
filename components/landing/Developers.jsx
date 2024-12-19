@@ -1,4 +1,4 @@
-// components/Developers.jsx
+// components/landing/Developers.jsx
 import Link from 'next/link';
 
 export default function Developers() {
