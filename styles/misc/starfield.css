@@ -1,3 +1,4 @@
+/* styles/misc/starfield.css */
 .starfield {
   position: fixed;
   top: 0;
@@ -46,21 +47,21 @@
 }
 
 :root[data-theme="light"] .star:nth-child(3n) {
-  width: 2px;
-  height: 2px;
-  background-color: rgba(255, 204, 0, 0.7); /* Increased opacity */
+  width: 3px;
+  height: 3px;
+  background-color: rgba(255, 204, 0, 1);
 }
 
 :root[data-theme="light"] .star:nth-child(3n+1) {
-  width: 3px;
-  height: 3px;
-  background-color: rgba(255, 153, 0, 0.7); /* Increased opacity */
+  width: 4px;
+  height: 4px;
+  background-color: rgba(255, 153, 0, 1);
 }
 
 :root[data-theme="light"] .star:nth-child(3n+2) {
-  width: 1px;
-  height: 1px;
-  background-color: rgba(0, 0, 0, 0.5); /* Darker particles for better contrast */
+  width: 2px;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 @keyframes twinkle {
@@ -87,7 +88,7 @@
   }
 
   :root[data-theme="light"] .star {
-    opacity: 0.7;
+    opacity: 1;
   }
 }
 
