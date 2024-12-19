@@ -81,8 +81,16 @@ export default function Login() {
     }
   }, [status, router])
 
-  const handleSignIn = () => {
-    signIn('discord', { callbackUrl: '/dashboard/servers' })
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      await signIn('discord', { 
+        callbackUrl: '/dashboard/servers',
+        redirect: true
+      });
+    } catch (error) {
+      console.error('Sign in error:', error);
+    }
   }
 
   if (status === 'loading') {
@@ -212,7 +220,7 @@ export default function Login() {
             Continue with Discord
           </motion.button>
 
-          <motion.div 
+           <motion.div 
             className="auth-footer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -242,6 +250,8 @@ export async function getServerSideProps({ req, res }) {
     'Cache-Control',
     'private, no-cache, no-store, max-age=0, must-revalidate'
   );
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
 
   return {
     props: {},
