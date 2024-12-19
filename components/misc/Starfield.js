@@ -7,7 +7,7 @@ export default function Starfield() {
     if (!container) return;
     
     container.innerHTML = '';
-    const numStars = 150;
+    const numStars = 100;
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
     
     const colors = theme === 'light' 
