@@ -1,7 +1,7 @@
 /* styles/dashboard/footer.css */
 .dashboard-footer {
   padding: 2rem;
-  z-index: 2;
+  z-index: 13;
   border-top: 1px solid var(--border-color);
   background: var(--bg-secondary);
   transition: all 0.3s ease;
