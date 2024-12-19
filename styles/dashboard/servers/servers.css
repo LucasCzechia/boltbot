@@ -39,14 +39,13 @@
   --card-bg: rgba(0, 0, 0, 0.05);
   --hover-bg: rgba(255, 204, 0, 0.1);
   --shadow-color: rgba(0, 0, 0, 0.1);
-  --container-bg: rgba(255, 255, 255, 0.9);
+  --container-bg: rgba(255, 255, 255, 0.8);
   --skeleton-start: rgba(0, 0, 0, 0.05);
   --skeleton-end: rgba(0, 0, 0, 0.1);
   --star-color-1: rgba(255, 204, 0, 0.6);
   --star-color-2: rgba(255, 153, 0, 0.6);
   --star-color-3: rgba(0, 0, 0, 0.6);
-  --container-bg: rgba(255, 255, 255, 0.8);
-}
+ } 
 
 .servers-container {
   position: relative;
