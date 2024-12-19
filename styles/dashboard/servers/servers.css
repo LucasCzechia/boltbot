@@ -7,9 +7,6 @@
   --discord: #5865F2;
   --discord-dark: #4752c4;
   --theme-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --star-color-1: rgba(255, 204, 0, 0.8);
-  --star-color-2: rgba(255, 153, 0, 0.8);
-  --star-color-3: rgba(255, 255, 255, 0.8);
 }
 
 :root[data-theme="dark"] {
