@@ -61,14 +61,14 @@
 }
 
 .servers-container {
-  position: relative; /* Ensures it remains in the correct stacking context */
-  z-index: 2; /* Above the starfield */
+  position: relative;
+  z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
   padding: 7rem 2rem 2rem;
-  background: rgba(255, 255, 255, 0.8); /* Semi-transparent to allow the starfield to show through */
-  backdrop-filter: blur(10px); /* Adds the blur effect */
-  -webkit-backdrop-filter: blur(10px); /* Compatibility with WebKit browsers */
+  background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
   transition: var(--theme-transition);
 }
@@ -83,7 +83,7 @@
 .page-subtitle,
 .server-grid {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 .page-title {
