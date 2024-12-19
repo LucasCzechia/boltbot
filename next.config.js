@@ -4,41 +4,65 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-async headers() {
+  async headers() {
     return [
       {
-        // Auth routes - no caching
+        // Auth routes - complete no-cache headers
         source: '/auth/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, max-age=0, must-revalidate'
+            value: 'no-store, no-cache, max-age=0, must-revalidate'
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache'
+          },
+          {
+            key: 'Expires',
+            value: '0'
           }
         ]
       },
       {
-        // API routes - no caching
+        // API routes
         source: '/api/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, max-age=0, must-revalidate'
+            value: 'no-store, no-cache, max-age=0, must-revalidate'
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache'
+          },
+          {
+            key: 'Expires',
+            value: '0'
           }
         ]
       },
       {
-        // Dashboard routes - no caching
+        // Dashboard routes
         source: '/dashboard/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, max-age=0, must-revalidate'
+            value: 'no-store, no-cache, max-age=0, must-revalidate'
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache'
+          },
+          {
+            key: 'Expires',
+            value: '0'
           }
         ]
       },
       {
-        // Default for other routes
-        source: '/:path*',
+        // Default for other routes (excluding auth, api, and dashboard)
+        source: '/:path((?!auth|api|dashboard).*)*',
         headers: [
           {
             key: 'X-Robots-Tag',
@@ -110,6 +134,6 @@ async headers() {
     locales: ['en'],
     defaultLocale: 'en',
   }
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
