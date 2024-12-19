@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { AlertTriangle, HomeIcon, HelpCircle } from 'lucide-react';
 import DashboardFooter from '../../../components/dashboard/DashboardFooter';
-import Starfield from '../../.../components/misc/Starfield'
+import Starfield from '../../../components/misc/Starfield'
 
 const getErrorMessage = (error) => {
   switch (error) {
