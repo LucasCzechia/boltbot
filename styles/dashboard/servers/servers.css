@@ -62,7 +62,7 @@
 
 .servers-container {
   position: relative; /* Ensures it remains in the correct stacking context */
-  z-index: 1; /* Above the starfield */
+  z-index: 2; /* Above the starfield */
   max-width: 1200px;
   margin: 0 auto;
   padding: 7rem 2rem 2rem;
