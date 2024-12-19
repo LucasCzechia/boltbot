@@ -26,10 +26,13 @@ export const authOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
+      if (url.startsWith('/auth/login')) {
+        return `${baseUrl}/dashboard/servers`;
+      }
       if (url.startsWith(baseUrl)) {
         return url;
       }
-      return `${baseUrl}/dashboard/servers`;
+      return baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
@@ -41,15 +44,6 @@ export const authOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
-  },
-  jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
-  },
-  debug: process.env.NODE_ENV === 'development',
-  theme: {
-    colorScheme: 'dark',
-    brandColor: '#ffcc00',
-    logo: '/images/boltbot.webp',
   },
 };
 
