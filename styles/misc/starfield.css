@@ -1,10 +1,9 @@
-/* styles/misc/starfield.css */
 .starfield {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 .starfield-container {
@@ -49,19 +48,19 @@
 :root[data-theme="light"] .star:nth-child(3n) {
   width: 2px;
   height: 2px;
-  background-color: rgba(255, 204, 0, 0.4);
+  background-color: rgba(255, 204, 0, 0.7); /* Increased opacity */
 }
 
 :root[data-theme="light"] .star:nth-child(3n+1) {
   width: 3px;
   height: 3px;
-  background-color: rgba(255, 153, 0, 0.4);
+  background-color: rgba(255, 153, 0, 0.7); /* Increased opacity */
 }
 
 :root[data-theme="light"] .star:nth-child(3n+2) {
   width: 1px;
   height: 1px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5); /* Darker particles for better contrast */
 }
 
 @keyframes twinkle {
