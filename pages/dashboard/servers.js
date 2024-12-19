@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '../api/auth/[...nextauth]'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import DashboardNav from '../../components/dashboard/DashboardNav'
 import GreetingBanner from '../../components/dashboard/servers/GreetingBanner'
 import ServerGrid from '../../components/dashboard/servers/ServerGrid'
@@ -18,6 +19,13 @@ export default function ServersPage() {
       router.replace('/auth/login')
     },
   })
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark'
+    document.documentElement.setAttribute('data-theme', savedTheme)
+  }, [])
 
   if (status === 'loading') {
     return (
@@ -35,19 +43,23 @@ export default function ServersPage() {
         <title>Select Server - BoltBot⚡</title>
       </Head>
       
-      <Starfield />
-      
-      <DashboardNav />
-      
-      <div className="servers-container">
-        <GreetingBanner username={session?.user?.global_name || session?.user?.name} />
-        <h1 className="page-title">Select a Server</h1>
-        <p className="page-subtitle">Choose a server to manage BoltBot⚡ settings</p>
-        <ServerGrid />
-      </div>
+      <div className="dashboard-wrapper">
+        <Starfield />
+        
+        <DashboardNav />
+        
+        <div className="servers-container">
+          <div className="content-wrapper">
+            <GreetingBanner username={session?.user?.global_name || session?.user?.name} />
+            <h1 className="page-title">Select a Server</h1>
+            <p className="page-subtitle">Choose a server to manage BoltBot⚡ settings</p>
+            <ServerGrid />
+          </div>
+        </div>
 
-      <ScrollToTop />
-      <DashboardFooter />
+        <ScrollToTop />
+        <DashboardFooter />
+      </div>
     </>
   )
 }
