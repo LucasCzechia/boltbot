@@ -1,0 +1,71 @@
+/* styles/landing/scroll-buttons.css */
+/* Scroll-to-top button */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  border: none;
+  border-radius: 50%;
+  color: var(--dark);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.scroll-top-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.scroll-top-btn.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scroll-down button */
+.scroll-down-btn {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
+  z-index: 10;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+}
+
+.scroll-down-btn:hover {
+  background: var(--primary);
+  color: var(--dark);
+  border-color: var(--primary);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 
+    0 0 20px rgba(255, 204, 0, 0.3),
+    0 0 30px rgba(255, 204, 0, 0.2),
+    0 0 40px rgba(255, 204, 0, 0.1);
+}
+
+.scroll-down-btn:active {
+  transform: translateX(-50%) translateY(0);
+}
