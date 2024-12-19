@@ -73,13 +73,6 @@
   transition: var(--theme-transition);
 }
 
-.content-wrapper {
-  background-color: var(--overlay-bg);
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 0 20px var(--card-shadow);
-}
-
 .dashboard-nav {
   position: fixed;
   z-index: 10;
