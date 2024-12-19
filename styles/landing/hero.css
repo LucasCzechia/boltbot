@@ -1,0 +1,31 @@
+/* styles/landing/hero.css */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 6rem 2rem;
+}
+
+.hero-content {
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: slideUp 1s ease-out;
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  animation: slideUp 1s ease-out 0.2s forwards;
+  opacity: 0;
+}
