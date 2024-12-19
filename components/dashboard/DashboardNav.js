@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun, LogOut } from 'lucide-react'
 
 export default function DashboardNav() {
   const { data: session } = useSession()
@@ -24,6 +24,8 @@ export default function DashboardNav() {
   useEffect(() => {
     const theme = localStorage.getItem('theme') || 'dark'
     setIsDarkMode(theme === 'dark')
+    document.documentElement.classList.remove('light-mode', 'dark-mode')
+    document.documentElement.classList.add(`${theme}-mode`)
     document.documentElement.setAttribute('data-theme', theme)
   }, [])
 
@@ -31,6 +33,8 @@ export default function DashboardNav() {
     const newTheme = isDarkMode ? 'light' : 'dark'
     setIsDarkMode(!isDarkMode)
     localStorage.setItem('theme', newTheme)
+    document.documentElement.classList.remove('light-mode', 'dark-mode')
+    document.documentElement.classList.add(`${newTheme}-mode`)
     document.documentElement.setAttribute('data-theme', newTheme)
   }
 
@@ -39,44 +43,71 @@ export default function DashboardNav() {
     router.push('/auth/login/logout')
   }
 
+  const handleClickOutside = (event) => {
+    if (showDropdown && !event.target.closest('.user-profile-wrapper')) {
+      setShowDropdown(false)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [showDropdown])
+
   return (
     <nav className="dashboard-nav">
       <div className="nav-content">
-        <button 
-          className="theme-toggle"
-          onClick={toggleTheme}
-          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {isDarkMode ? (
-            <Moon size={20} className="theme-icon" />
-          ) : (
-            <Sun size={20} className="theme-icon" />
-          )}
-        </button>
-
         <div className="user-profile-wrapper">
-          <button 
-            className="user-profile-button"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <Image 
-              src={getUserAvatar()}
-              alt="User Avatar"
-              width={32}
-              height={32}
-              className="user-avatar"
-              unoptimized
-            />
-          </button>
+          <div className="nav-controls">
+            <button 
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDarkMode ? (
+                <Moon className="theme-icon" />
+              ) : (
+                <Sun className="theme-icon" />
+              )}
+            </button>
+
+            <button 
+              className="user-profile-button"
+              onClick={() => setShowDropdown(!showDropdown)}
+              aria-expanded={showDropdown}
+            >
+              <Image 
+                src={getUserAvatar()}
+                alt="User Avatar"
+                width={40}
+                height={40}
+                className="user-avatar"
+                unoptimized
+              />
+            </button>
+          </div>
 
           {showDropdown && (
             <div className="user-dropdown">
               <div className="user-info">
-                <div className="user-name">{displayName}</div>
-                <div className="user-handle">{handle}</div>
+                <Image 
+                  src={getUserAvatar()}
+                  alt="User Avatar"
+                  width={50}
+                  height={50}
+                  className="dropdown-avatar"
+                  unoptimized
+                />
+                <div className="user-details">
+                  <div className="user-name">{displayName}</div>
+                  <div className="user-handle">{handle}</div>
+                </div>
               </div>
               <button onClick={handleSignOut} className="logout-button">
-                Sign Out
+                <LogOut size={18} />
+                <span>Sign Out</span>
               </button>
             </div>
           )}
