@@ -16,7 +16,7 @@
   z-index: 1057; /* Adjust to ensure visibility */
   pointer-events: none;
   overflow: hidden;
-  background: red;
+  background: var(--bg-primary);
   transition: background-color 0.3s ease;
 }
 
