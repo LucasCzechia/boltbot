@@ -24,16 +24,18 @@ export default function DashboardNav() {
   useEffect(() => {
     const theme = localStorage.getItem('theme') || 'dark'
     setIsDarkMode(theme === 'dark')
-    document.documentElement.classList.toggle('dark-theme', theme === 'dark')
-    document.documentElement.classList.toggle('light-theme', theme === 'light')
+    document.documentElement.classList.remove('light-mode', 'dark-mode')
+    document.documentElement.classList.add(`${theme}-mode`)
+    document.documentElement.setAttribute('data-theme', theme)
   }, [])
 
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark'
     setIsDarkMode(!isDarkMode)
     localStorage.setItem('theme', newTheme)
-    document.documentElement.classList.toggle('dark-theme')
-    document.documentElement.classList.toggle('light-theme')
+    document.documentElement.classList.remove('light-mode', 'dark-mode')
+    document.documentElement.classList.add(`${newTheme}-mode`)
+    document.documentElement.setAttribute('data-theme', newTheme)
   }
 
   const handleSignOut = () => {
@@ -41,26 +43,40 @@ export default function DashboardNav() {
     router.push('/auth/login/logout')
   }
 
+  const handleClickOutside = (event) => {
+    if (showDropdown && !event.target.closest('.user-profile-wrapper')) {
+      setShowDropdown(false)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [showDropdown])
+
   return (
     <nav className="dashboard-nav">
       <div className="nav-content">
-        <div className="nav-controls">
-          <button 
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {isDarkMode ? (
-              <Sun size={20} className="theme-icon" />
-            ) : (
-              <Moon size={20} className="theme-icon" />
-            )}
-          </button>
+        <div className="user-profile-wrapper">
+          <div className="nav-controls">
+            <button 
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDarkMode ? (
+                <Moon className="theme-icon" />
+              ) : (
+                <Sun className="theme-icon" />
+              )}
+            </button>
 
-          <div className="user-profile-wrapper">
             <button 
               className="user-profile-button"
               onClick={() => setShowDropdown(!showDropdown)}
+              aria-expanded={showDropdown}
             >
               <Image 
                 src={getUserAvatar()}
@@ -71,20 +87,30 @@ export default function DashboardNav() {
                 unoptimized
               />
             </button>
+          </div>
 
-            {showDropdown && (
-              <div className="user-dropdown">
-                <div className="user-info">
+          {showDropdown && (
+            <div className="user-dropdown">
+              <div className="user-info">
+                <Image 
+                  src={getUserAvatar()}
+                  alt="User Avatar"
+                  width={50}
+                  height={50}
+                  className="dropdown-avatar"
+                  unoptimized
+                />
+                <div className="user-details">
                   <div className="user-name">{displayName}</div>
                   <div className="user-handle">{handle}</div>
                 </div>
-                <button onClick={handleSignOut} className="logout-button">
-                  <LogOut size={18} />
-                  <span>Sign Out</span>
-                </button>
               </div>
-            )}
-          </div>
+              <button onClick={handleSignOut} className="logout-button">
+                <LogOut size={18} />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>
