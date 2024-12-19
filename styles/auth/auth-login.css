@@ -113,17 +113,6 @@
   opacity: 1;
 }
 
-.bot-avatar {
-  width: 120px !important;
-  height: 120px !important;
-  border-radius: 50%;
-  margin: 0 auto 2rem;
-  border: 3px solid var(--primary);
-  animation: avatarGlow 3s infinite alternate;
-  position: relative;
-  z-index: 2;
-}
-
 .auth-title {
   font-size: 2.5rem;
   font-weight: 800;
