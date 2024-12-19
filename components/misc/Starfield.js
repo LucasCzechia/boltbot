@@ -1,3 +1,4 @@
+// components/misc/Starfield.js
 import { useEffect, useCallback } from 'react';
 
 export default function Starfield() {
@@ -8,9 +9,10 @@ export default function Starfield() {
     container.innerHTML = '';
     const numStars = 200;
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+    
     const colors = theme === 'light' 
-      ? ['rgba(255, 204, 0, 0.7)', 'rgba(255, 153, 0, 0.7)', 'rgba(0, 0, 0, 0.5)'] // Increased opacity and contrast for light mode
-      : ['rgba(255, 204, 0, 0.8)', 'rgba(255, 153, 0, 0.8)', 'rgba(255, 255, 255, 0.8)']; // Default for dark mode
+      ? ['rgba(255, 204, 0, 1)', 'rgba(255, 153, 0, 1)', 'rgba(0, 0, 0, 0.7)']
+      : ['rgba(255, 204, 0, 0.8)', 'rgba(255, 153, 0, 0.8)', 'rgba(255, 255, 255, 0.8)'];
     
     for (let i = 0; i < numStars; i++) {
       const star = document.createElement('div');
@@ -22,7 +24,7 @@ export default function Starfield() {
       star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
       
       const size = theme === 'light'
-        ? 1 + Math.random() * 2
+        ? 2 + Math.random() * 3
         : 1.5 + Math.random() * 2.5;
       
       star.style.width = `${size}px`;
