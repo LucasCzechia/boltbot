@@ -3,7 +3,7 @@
   position: relative;
   z-index: 1000;
   padding: 2rem;
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
   border-top: 1px solid var(--border-color);
   transition: all 0.3s ease;
   color: var(--text-secondary);
