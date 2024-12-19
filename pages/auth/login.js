@@ -82,16 +82,16 @@ export default function Login() {
   }, [status, router])
 
   const handleSignIn = async (e) => {
-    e.preventDefault();
-    try {
-      await signIn('discord', { 
-        callbackUrl: '/dashboard/servers',
-        redirect: true
-      });
-    } catch (error) {
-      console.error('Sign in error:', error);
-    }
+   e.preventDefault();
+  try {
+    await signIn('discord', {
+      callbackUrl: '/dashboard/servers',
+      redirect: true,
+    });
+  } catch (error) {
+    console.error('Sign in error:', error);
   }
+};
 
   if (status === 'loading') {
     return (
