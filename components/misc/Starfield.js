@@ -7,7 +7,7 @@ export default function Starfield() {
     if (!container) return;
     
     container.innerHTML = '';
-    const numStars = 200;
+    const numStars = 150;
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
     
     const colors = theme === 'light' 
@@ -23,11 +23,7 @@ export default function Starfield() {
       star.style.animationDuration = `${2 + Math.random() * 3}s`;
       star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
       
-      const size = theme === 'light'
-        ? 1 + Math.random() * 2
-        : 1.5 + Math.random() * 2.5;
-      
-      star.style.width = `${size}px`;
+      star.style.width = `${1 + Math.random() * 2}px`;
       star.style.height = star.style.width;
       container.appendChild(star);
     }
