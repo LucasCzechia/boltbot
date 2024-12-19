@@ -5,6 +5,13 @@
 @import './misc/snake.css';
 @import './misc/404.css';
 
+/* Landing Styles */
+@import './landing/hero.css';
+@import './landing/features.css';
+@import './landing/tools.css';
+@import './landing/stats.css';
+@import './landing/scroll-buttons.css';
+
 /* Auth Styles */
 @import './auth/auth-login.css';
 @import './auth/auth-error.css';
