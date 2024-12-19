@@ -1,8 +1,8 @@
 /* styles/dashboard/server/content-section.css */
 /* Content Sections */
 .content-section {
-  background: var(--card-bg);
-  border-radius: 12px;
+  background: transparent;
+  border-radius: 7px;
   padding: 1rem;
   margin-bottom: 1rem;
   border: 1px solid rgba(255, 204, 0, 0.1);
