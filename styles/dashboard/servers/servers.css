@@ -60,6 +60,26 @@
   transition: var(--theme-transition);
 }
 
+.star {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle var(--duration, 3s) infinite ease-in-out;
+  pointer-events: none;
+}
+
+.star:nth-child(3n) {
+  background-color: var(--star-color-1);
+}
+
+.star:nth-child(3n+1) {
+  background-color: var(--star-color-2);
+}
+
+.star:nth-child(3n+2) {
+  background-color: var(--star-color-3);
+}
+
 .greeting-banner,
 .page-title,
 .page-subtitle,
