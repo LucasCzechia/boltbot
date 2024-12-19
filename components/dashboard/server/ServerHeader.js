@@ -54,14 +54,14 @@ export default function ServerHeader() {
 
   if (loading) {
     return (
-      <div className="server-header">
-        <div className="server-header-content loading">
-          <div className="skeleton-avatar"></div>
-          <div className="server-header-info">
-            <div className="skeleton-title"></div>
-            <div className="skeleton-stats">
-              <div className="skeleton-stat"></div>
-              <div className="skeleton-stat"></div>
+      <div className="server-dashboard-header">
+        <div className="server-dashboard-content loading">
+          <div className="server-dashboard-skeleton-avatar"></div>
+          <div className="server-dashboard-info">
+            <div className="server-dashboard-skeleton-text"></div>
+            <div className="server-dashboard-skeleton-stats">
+              <div className="server-dashboard-skeleton-stat"></div>
+              <div className="server-dashboard-skeleton-stat"></div>
             </div>
           </div>
         </div>
@@ -71,12 +71,12 @@ export default function ServerHeader() {
 
   if (error || !serverData) {
     return (
-      <div className="server-header">
-        <div className="server-header-content error">
-          <div className="server-header-info">
+      <div className="server-dashboard-header">
+        <div className="server-dashboard-content error">
+          <div className="server-dashboard-info">
             <h1>Unable to load server information</h1>
-            <div className="server-stats">
-              <div className="stat-item">
+            <div className="server-dashboard-stats">
+              <div className="server-dashboard-stat">
                 <span>Please try refreshing the page</span>
               </div>
             </div>
@@ -87,8 +87,8 @@ export default function ServerHeader() {
   }
 
   return (
-    <div className="server-header">
-      <div className="server-header-content">
+    <div className="server-dashboard-header">
+      <div className="server-dashboard-content">
         <Image 
           src={serverData.icon 
             ? `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.${serverData.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
@@ -97,21 +97,21 @@ export default function ServerHeader() {
           alt={serverData.name}
           width={64}
           height={64}
-          className="server-header-icon"
+          className="server-dashboard-avatar"
           unoptimized
         />
-        <div className="server-header-info">
+        <div className="server-dashboard-info">
           <h1>{serverData.name}</h1>
-          <div className="server-stats">
-            <div className="stat-item">
+          <div className="server-dashboard-stats">
+            <div className="server-dashboard-stat">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
-              <span className="member-count">{serverData.memberCount?.toLocaleString() || '0'}</span> members 
-              <span className="online-count">{serverData.onlineCount?.toLocaleString() || '0'} online</span>
+              <span className="server-dashboard-member-count">{serverData.memberCount?.toLocaleString() || '0'}</span> members 
+              <span className="server-dashboard-online-count">{serverData.onlineCount?.toLocaleString() || '0'} online</span>
             </div>
           </div>
         </div>
