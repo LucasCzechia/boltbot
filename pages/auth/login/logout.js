@@ -2,8 +2,11 @@
 import { useEffect } from 'react';
 import { signOut } from 'next-auth/react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export default function Logout() {
+  const router = useRouter();
+
   useEffect(() => {
     const performLogout = async () => {
       try {
@@ -16,19 +19,20 @@ export default function Logout() {
             .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
         });
 
-        await signOut({ 
+        await signOut({
+          callbackUrl: '/auth/login',
           redirect: false
         });
 
-        window.location.replace('/auth/login');
+        router.push('/auth/login');
       } catch (error) {
         console.error('Logout error:', error);
-        window.location.replace('/auth/login');
+        router.push('/auth/login');
       }
     };
 
     performLogout();
-  }, []);
+  }, [router]);
 
   return (
     <Head>
