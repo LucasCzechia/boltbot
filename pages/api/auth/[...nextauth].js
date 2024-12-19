@@ -26,13 +26,16 @@ export const authOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      if (url.startsWith('/auth/login')) {
+      if (url.startsWith(`${baseUrl}/api/auth/callback`)) {
         return `${baseUrl}/dashboard/servers`;
+      }
+      if (url.includes('error=')) {
+        return `${baseUrl}/auth/login/error${url.split('?')[1] ? '?' + url.split('?')[1] : ''}`;
       }
       if (url.startsWith(baseUrl)) {
         return url;
       }
-      return baseUrl;
+      return `${baseUrl}/dashboard/servers`;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
@@ -45,6 +48,7 @@ export const authOptions = {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
   },
+  debug: process.env.NODE_ENV === 'development',
 };
 
 export default NextAuth(authOptions);
