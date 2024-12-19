@@ -1,4 +1,15 @@
 /* styles/dashboard/servers/greeting.css */
+
+:root {
+  --greeting-text-color: var(--light);
+  --greeting-icon-color: var(--light);
+}
+
+:root[data-theme="light"] {
+  --greeting-text-color: var(--dark);
+  --greeting-icon-color: var(--dark);  
+}
+
 .greeting-banner {
   max-width: 1200px;
   margin: 0 auto 2rem;
@@ -12,14 +23,16 @@
 .greeting-icon {
   width: 42px;
   height: 42px;
-  color: var(--light);
+  color: var(--greeting-icon-color);
+  transition: color 0.3s ease;
 }
 
 .greeting-text {
-  color: var(--light);
+  color: var(--greeting-text-color);
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 768px) {
