@@ -1,4 +1,4 @@
-// components/Hero.jsx
+// components/landing/Hero.jsx
 import Link from 'next/link';
 import Image from 'next/image';
 import ScrollButtons from './ScrollButtons';
