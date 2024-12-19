@@ -21,27 +21,35 @@
 }
 
 :root {
-  --star-color-1: rgba(255, 204, 0, 0.8);
-  --star-color-2: rgba(255, 153, 0, 0.8);
-  --star-color-3: rgba(255, 255, 255, 0.8);
+  /* Dark theme star colors */
+  --star-color-1: rgba(255, 204, 0, 0.8);  /* Primary yellow */
+  --star-color-2: rgba(255, 153, 0, 0.8);  /* Orange */
+  --star-color-3: rgba(255, 255, 255, 0.8); /* White */
 }
 
+/* Light theme star colors */
 :root[data-theme="light"] {
-  --star-color-1: rgba(255, 204, 0, 0.6);
-  --star-color-2: rgba(255, 153, 0, 0.6);
-  --star-color-3: rgba(0, 0, 0, 0.6);
+  --star-color-1: rgba(255, 204, 0, 0.3);  /* Softer yellow */
+  --star-color-2: rgba(255, 153, 0, 0.3);  /* Softer orange */
+  --star-color-3: rgba(0, 0, 0, 0.2);      /* Soft black */
 }
 
 .star:nth-child(3n) {
   background-color: var(--star-color-1);
+  width: 2px;
+  height: 2px;
 }
 
 .star:nth-child(3n+1) {
   background-color: var(--star-color-2);
+  width: 3px;
+  height: 3px;
 }
 
 .star:nth-child(3n+2) {
   background-color: var(--star-color-3);
+  width: 1px;
+  height: 1px;
 }
 
 @keyframes twinkle {
@@ -55,9 +63,32 @@
   }
 }
 
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .star {
     animation: none;
     opacity: 0.5;
+  }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+  :root {
+    --star-color-1: rgba(255, 204, 0, 1);
+    --star-color-2: rgba(255, 153, 0, 1);
+    --star-color-3: rgba(255, 255, 255, 1);
+  }
+
+  :root[data-theme="light"] {
+    --star-color-1: rgba(255, 204, 0, 0.5);
+    --star-color-2: rgba(255, 153, 0, 0.5);
+    --star-color-3: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .starfield-container {
+    display: none;
   }
 }
