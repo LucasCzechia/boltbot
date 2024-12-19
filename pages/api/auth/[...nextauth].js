@@ -35,18 +35,22 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/login',
-    error: '/auth/login',
+    error: '/auth/login/error',
     signOut: '/auth/login',
   },
   session: {
     strategy: 'jwt',
-    maxAge: 24 * 60 * 60,
+    maxAge: 30 * 24 * 60 * 60,
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
-    maxAge: 24 * 60 * 60,
   },
   debug: process.env.NODE_ENV === 'development',
+  theme: {
+    colorScheme: 'dark',
+    brandColor: '#ffcc00',
+    logo: '/images/boltbot.webp',
+  },
 };
 
 export default NextAuth(authOptions);
