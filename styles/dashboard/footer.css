@@ -2,23 +2,26 @@
 .dashboard-footer {
   padding: 2rem;
   z-index: 2;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
 }
 
 .footer-social {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 0.75remrem;
+  margin-bottom: 0.75rem;
 }
 
 .footer-social a {
-  color: #9CA3AF;
+  color: var(--text-tertiary);
   transition: color 0.3s;
 }
 
 .footer-social a:hover {
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .footer-bottom {
@@ -26,7 +29,7 @@
   flex-direction: column;
   align-items: center; 
   gap: 1rem;
-  color: #6B7280;
+  color: var(--text-tertiary);
   font-size: 0.875rem;
 }
 
@@ -34,16 +37,26 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #F59E0B;
+  color: var(--primary);
   font-weight: 600;
   font-size: 1.25rem; 
   text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-logo:hover {
+  color: var(--primary-dark);
 }
 
 .footer-logo img {
   width: 24px;
   height: 24px;
   border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo:hover img {
+  transform: scale(1.1);
 }
 
 .footer-links {
@@ -53,13 +66,13 @@
 }
 
 .footer-link {
-  color: #9CA3AF;
+  color: var(--text-tertiary);
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .footer-link:hover {
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 @media (min-width: 768px) {
@@ -71,5 +84,40 @@
 
   .footer-links {
     margin-bottom: 0; 
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .footer-logo,
+  .footer-logo img,
+  .footer-link,
+  .footer-social a {
+    transition: none;
+  }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+  .footer-link,
+  .footer-social a {
+    text-decoration: underline;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .dashboard-footer {
+    border-top: 1px solid #000;
+    padding: 1rem 0;
+    background: none;
+  }
+
+  .footer-social {
+    display: none;
+  }
+
+  .footer-link {
+    text-decoration: underline;
   }
 }
