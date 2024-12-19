@@ -9,7 +9,7 @@ export default function Starfield() {
       
       container.innerHTML = '';
       
-      const numStars = 150;
+      const numStars = 200;
       const colors = ['#ffcc00', '#ff9900', '#ffffff'];
       
       for (let i = 0; i < numStars; i++) {
