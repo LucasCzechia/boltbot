@@ -1,4 +1,4 @@
-// components/Features.jsx
+// components/landing/Features.jsx
 export default function Features() {
   const features = [
     {
