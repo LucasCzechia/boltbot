@@ -1,11 +1,11 @@
 // pages/auth/login/error.js
-import { useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { AlertTriangle, HomeIcon, HelpCircle } from 'lucide-react';
 import DashboardFooter from '../../../components/dashboard/DashboardFooter';
+import Starfield from '../../.../components/misc/Starfield'
 
 const getErrorMessage = (error) => {
   switch (error) {
@@ -29,24 +29,6 @@ const getErrorMessage = (error) => {
 };
 
 export default function AuthError() {
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background');
-      if (!starfieldContainer) return;
-      
-      starfieldContainer.innerHTML = '';
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        starfieldContainer.appendChild(star);
-      }
-    };
-
-    generateStarfield();
-  }, []);
 
   const error = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('error') : null;
   const errorMessage = getErrorMessage(error);
@@ -58,8 +40,8 @@ export default function AuthError() {
         <meta name="robots" content="noindex,nofollow" />
       </Head>
 
-      <div id="starfield-background" className="starfield-container" />
-
+      <Starfield />
+    
       <div className="auth-error-page">
         <motion.div 
           className="auth-error-card"
