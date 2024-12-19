@@ -25,6 +25,15 @@ export default function ServersPage() {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark'
     document.documentElement.setAttribute('data-theme', savedTheme)
+    
+    const serversContainer = document.querySelector('.servers-container')
+    if (serversContainer) {
+      if (savedTheme === 'light') {
+        serversContainer.classList.add('light-mode')
+      } else {
+        serversContainer.classList.add('dark-mode')
+      }
+    }
   }, [])
 
   if (status === 'loading') {
