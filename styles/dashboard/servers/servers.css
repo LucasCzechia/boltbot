@@ -266,8 +266,6 @@
 
 .server-card {
   flex: 1;
-  min-width: 280px;
-  max-width: 320px;
   background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
