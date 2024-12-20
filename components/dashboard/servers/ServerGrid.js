@@ -99,7 +99,7 @@ export default function ServerGrid() {
     return <LoadingPreview count={servers.length || filteredServers.length || 9} />
   }
 
-  if (!loading && !filteredServers.length === 0) {
+  if (!loading && filteredServers.length === 0) {
     return (
       <div className="no-servers">
         <h2>No servers yet! 😢</h2>
