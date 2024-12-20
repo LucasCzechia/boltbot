@@ -266,7 +266,7 @@
 
 .server-card {
   flex: 1;
-  min-width: 300px;
+  min-width: 280px;
   max-width: 320px;
   background: var(--bg-secondary);
   backdrop-filter: blur(10px);
@@ -445,12 +445,13 @@
 
 /* Loading States */
 .servers-grid.loading {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .loading-row {
@@ -458,6 +459,10 @@
   gap: 24px;
   width: 100%;
   justify-content: flex-start;
+}
+
+.loading-row:last-child {
+  justify-content: center;
 }
 
 .loading-card {
@@ -527,6 +532,7 @@
   animation: shimmer 2s infinite;
 }
 
+/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -591,90 +597,79 @@
 
 /* Large devices (desktops, less than 1200px) */
 @media (max-width: 1200px) {
-  .servers-grid {
+  .servers-grid, .servers-grid.loading {
     gap: 20px;
   }
-
-  .servers-row {
+  .servers-row, .loading-row {
     gap: 20px;
   }
-
-  .server-card {
+  .server-card, .loading-card {
     width: calc((100% - 40px) / 3);
   }
 }
 
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 992px) {
-  .servers-grid {
+  .servers-grid, .servers-grid.loading {
     gap: 16px;
   }
-
-  .servers-row {
+  .servers-row, .loading-row {
     gap: 16px;
   }
-
-  .server-card {
+  .server-card, .loading-card {
     width: calc((100% - 16px) / 2);
   }
 }
 
 /* Small devices (tablets, less than 768px) */
 @media (max-width: 768px) {
-  .servers-grid {
+  .servers-grid, .servers-grid.loading {
     gap: 16px;
     padding: 0 16px;
   }
-
-  .servers-row {
+  .servers-row, .loading-row {
     flex-direction: column;
     gap: 16px;
   }
-
-  .server-card {
+  .server-card, .loading-card {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
   }
-
   .server-name {
     font-size: 1rem;
   }
-
   .server-members {
     font-size: 0.875rem;
   }
-
   .server-icon {
     width: 40px;
     height: 40px;
   }
-
   .server-status {
     font-size: 0.875rem;
     padding: 0.5rem;
+  }
+  .loading-card {
+    height: 160px;
   }
 }
 
 /* Extra small devices (phones, less than 576px) continued */
 @media (max-width: 576px) {
-  .servers-grid {
+  .servers-grid, .servers-grid.loading {
     gap: 12px;
     padding: 0 12px;
   }
-
-  .servers-row {
+  .servers-row, .loading-row {
     gap: 12px;
   }
-
-  .server-card {
+  .server-card, .loading-card {
     padding: 1rem;
   }
-
   .pin-button {
     padding: 4px;
   }
-
   .pin-icon {
     width: 14px;
     height: 14px;
