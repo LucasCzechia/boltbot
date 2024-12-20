@@ -75,12 +75,9 @@ export default function GreetingBanner({ username }) {
         setTimeOfDay('Good night')
         setIcon(
           <svg className="greeting-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <defs>
-              <radialGradient id="star-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0.2"/>
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0"/>
-              </radialGradient>
-            </defs>
+            <path d="M12 2a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+            <path d="M7 6 L17 18"/>
+          </svg>
             <g className="night-scene">
               <path 
                 d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" 
