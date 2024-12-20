@@ -59,8 +59,8 @@ export default function ServerGrid() {
       const response = await fetch('/api/discord/servers')
       if (!response.ok) throw new Error('Failed to fetch servers')
       const data = await response.json()
-      setServers([])
-      setFilteredServers([])
+      setServers(data)
+      setFilteredServers(data)
     } catch (error) {
       console.error('Error:', error)
     } finally {
