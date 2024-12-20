@@ -48,22 +48,22 @@
 
 /* Morning Scene Styles */
 .morning-scene .sun {
-  width: 24px;
-  height: 24px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(45deg, var(--sun-primary), var(--sun-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
   animation: sunRise 3s ease-in-out infinite;
 }
 
 .morning-scene .sun::before {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
   animation: glowPulse 3s ease-in-out infinite alternate;
@@ -73,8 +73,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 20px;
-  height: 1px;
+  width: 40px;
+  height: 2px;
   background: linear-gradient(90deg, var(--greeting-icon-color) 0%, transparent 100%);
   transform-origin: 0 50%;
   animation: rayPulse 3s ease-in-out infinite;
@@ -82,12 +82,12 @@
 
 /* Afternoon Scene Styles */
 .afternoon-scene .sun {
-  width: 28px;
-  height: 28px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(45deg, var(--afternoon-primary), var(--afternoon-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.6));
+  filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.8));
 }
 
 .afternoon-scene .heat-wave {
@@ -117,20 +117,20 @@
 
 /* Evening Scene Styles */
 .evening-scene .moon {
-  width: 24px;
-  height: 24px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(45deg, var(--evening-primary), var(--evening-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 8px rgba(255, 229, 180, 0.4));
+  filter: drop-shadow(0 0 15px rgba(255, 229, 180, 0.6));
   overflow: hidden;
 }
 
 .evening-scene .crater {
   position: absolute;
   background: var(--greeting-icon-color);
-  border-radius: 50%;
   opacity: 0.1;
+  border-radius: 50%;
   animation: craterGlow 4s ease-in-out infinite alternate;
 }
 
@@ -144,12 +144,12 @@
 
 /* Night Scene Styles */
 .night-scene .moon {
-  width: 24px;
-  height: 24px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(45deg, var(--night-primary), var(--night-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 8px rgba(230, 230, 250, 0.6));
+  filter: drop-shadow(0 0 15px rgba(230, 230, 250, 0.6));
 }
 
 .night-scene .star {
@@ -236,18 +236,14 @@
 
   .morning-scene .sun,
   .evening-scene .moon,
-  .night-scene .moon {
-    width: 18px;
-    height: 18px;
-  }
-
+  .night-scene .moon,
   .afternoon-scene .sun {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
   }
 
   .morning-scene .ray {
-    width: 16px;
+    width: 30px;
   }
 
   .greeting-text {
@@ -267,18 +263,14 @@
 
   .morning-scene .sun,
   .evening-scene .moon,
-  .night-scene .moon {
-    width: 16px;
-    height: 16px;
-  }
-
+  .night-scene .moon,
   .afternoon-scene .sun {
-    width: 18px;
-    height: 18px;
+    width: 28px;
+    height: 28px;
   }
 
   .morning-scene .ray {
-    width: 14px;
+    width: 25px;
   }
 
   .greeting-text {
