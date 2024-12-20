@@ -1,13 +1,12 @@
 // components/dashboard/servers/ServerGrid.js
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import SearchServers from './SearchServers'
 import LoadingPreview from './LoadingPreview'
 import PinIcon from './PinIcon'
 
-const MIN_CARD_WIDTH = 280; // Minimum width for server cards
-const GRID_GAP = 24; // Gap between cards
+const CARDS_PER_ROW = 3;
 
 export default function ServerGrid() {
   const [servers, setServers] = useState([])
@@ -15,8 +14,6 @@ export default function ServerGrid() {
   const [loading, setLoading] = useState(true)
   const [activeCards, setActiveCards] = useState([])
   const [pinnedServers, setPinnedServers] = useState(new Set())
-  const [gridLayout, setGridLayout] = useState([])
-  const gridRef = useRef(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -30,57 +27,16 @@ export default function ServerGrid() {
   useEffect(() => {
     if (!loading && filteredServers.length > 0) {
       startAnimation()
-      calculateLayout()
     }
   }, [loading, filteredServers])
 
-  useEffect(() => {
-    const handleResize = () => {
-      calculateLayout()
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [filteredServers])
-
-  const calculateLayout = useCallback(() => {
-    if (!gridRef.current) return
-
-    const containerWidth = gridRef.current.offsetWidth
-    const cardsPerRow = Math.max(1, Math.floor((containerWidth + GRID_GAP) / (MIN_CARD_WIDTH + GRID_GAP)))
-    const actualCardWidth = (containerWidth - (cardsPerRow - 1) * GRID_GAP) / cardsPerRow
-
-    const sortedServers = [...filteredServers].sort((a, b) => {
-      const aPin = pinnedServers.has(a.id)
-      const bPin = pinnedServers.has(b.id)
-      return bPin - aPin
-    })
-
-    const rows = Math.ceil(sortedServers.length / cardsPerRow)
-    let newLayout = []
-
-    for (let i = 0; i < rows; i++) {
-      const rowCards = sortedServers.slice(i * cardsPerRow, (i + 1) * cardsPerRow)
-      const rowWidth = rowCards.length * actualCardWidth + (rowCards.length - 1) * GRID_GAP
-      const rowOffset = (containerWidth - rowWidth) / 2
-
-      newLayout.push({
-        cards: rowCards,
-        offset: Math.max(0, rowOffset),
-        cardWidth: actualCardWidth
-      })
-    }
-
-    setGridLayout(newLayout)
-  }, [filteredServers, pinnedServers])
-
   const startAnimation = () => {
     setActiveCards([])
-    const totalCards = filteredServers.length
-    for (let i = 0; i < totalCards; i++) {
+    filteredServers.forEach((_, index) => {
       setTimeout(() => {
-        setActiveCards(prev => [...prev, i])
-      }, i * 100)
-    }
+        setActiveCards(prev => [...prev, index])
+      }, index * 100)
+    })
   }
 
   const togglePin = (serverId) => {
@@ -124,6 +80,20 @@ export default function ServerGrid() {
     }
   }
 
+  const getServerRows = () => {
+    const sortedServers = [...filteredServers].sort((a, b) => {
+      const aPin = pinnedServers.has(a.id)
+      const bPin = pinnedServers.has(b.id)
+      return bPin - aPin
+    })
+
+    const rows = []
+    for (let i = 0; i < sortedServers.length; i += CARDS_PER_ROW) {
+      rows.push(sortedServers.slice(i, i + CARDS_PER_ROW))
+    }
+    return rows
+  }
+
   if (loading) {
     return <LoadingPreview />
   }
@@ -131,29 +101,17 @@ export default function ServerGrid() {
   return (
     <>
       <SearchServers servers={servers} onSearch={handleSearch} />
-      <div className="servers-grid" ref={gridRef}>
-        {gridLayout.map((row, rowIndex) => (
-          <div 
-            key={rowIndex} 
-            className="servers-row"
-            style={{ 
-              marginLeft: `${row.offset}px`,
-              gap: `${GRID_GAP}px`,
-              width: `calc(100% - ${row.offset * 2}px)`
-            }}
-          >
-            {row.cards.map((server, index) => {
-              const cardIndex = rowIndex * Math.ceil(filteredServers.length / gridLayout.length) + index;
+      <div className="servers-grid">
+        {getServerRows().map((row, rowIndex) => (
+          <div key={rowIndex} className="servers-row">
+            {row.map((server, index) => {
+              const cardIndex = rowIndex * CARDS_PER_ROW + index;
               return (
                 <div 
                   key={server.id} 
                   className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
                     activeCards.includes(cardIndex) ? 'card-active' : ''
                   }`}
-                  style={{
-                    width: `${row.cardWidth}px`,
-                    minWidth: `${row.cardWidth}px`
-                  }}
                 >
                   <button 
                     className="pin-button"
@@ -199,7 +157,7 @@ export default function ServerGrid() {
                     </div>
                   </div>
                 </div>
-              );
+              )
             })}
           </div>
         ))}
