@@ -1,8 +1,6 @@
-/* styles/dashboard/servers/greeting.css */
-
 :root {
-  --greeting-text-color: var(--light);
-  --greeting-icon-color: var(--light);
+  --greeting-text-color: #f8f9fa;
+  --greeting-icon-color: #f8f9fa;
   --sun-primary: #FFD700;
   --sun-secondary: #FFA500;
   --afternoon-primary: #FF8C00;
@@ -13,9 +11,9 @@
   --night-secondary: #B0C4DE;
 }
 
-:root[data-theme="light"] {
-  --greeting-text-color: var(--dark);
-  --greeting-icon-color: var(--dark);
+[data-theme="light"] {
+  --greeting-text-color: #1a1a1a;
+  --greeting-icon-color: #1a1a1a;
 }
 
 .greeting-banner {
@@ -24,7 +22,6 @@
   padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 1rem;
 }
 
@@ -36,7 +33,6 @@
   position: relative;
 }
 
-/* Scene Container Styles */
 .scene {
   width: 100%;
   height: 100%;
@@ -46,174 +42,148 @@
   justify-content: center;
 }
 
-/* Morning Scene Styles */
+/* Morning Scene */
 .morning-scene .sun {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   background: linear-gradient(45deg, var(--sun-primary), var(--sun-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
-  animation: sunRise 3s ease-in-out infinite;
-}
-
-.morning-scene .sun::before {
-  content: '';
-  position: absolute;
-  top: -15px;
-  left: -15px;
-  right: -15px;
-  bottom: -15px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
-  animation: glowPulse 3s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+  animation: float 3s ease-in-out infinite;
 }
 
 .morning-scene .ray {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 40px;
+  width: 24px;
   height: 2px;
-  background: linear-gradient(90deg, var(--greeting-icon-color) 0%, transparent 100%);
+  background: linear-gradient(90deg, var(--sun-primary), transparent);
   transform-origin: 0 50%;
-  animation: rayPulse 3s ease-in-out infinite;
+  animation: rayGlow 3s ease-in-out infinite;
 }
 
-/* Afternoon Scene Styles */
+/* Afternoon Scene */
 .afternoon-scene .sun {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   background: linear-gradient(45deg, var(--afternoon-primary), var(--afternoon-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.8));
+  filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6));
 }
 
-.afternoon-scene .heat-wave {
+.heat-waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: rotate 10s linear infinite;
+}
+
+.heat-wave {
   position: absolute;
   width: 140%;
   height: 140%;
   top: -20%;
   left: -20%;
-  animation: heatWave 4s ease-in-out infinite;
-}
-
-.afternoon-scene .heat-wave::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: repeating-radial-gradient(
-    circle at center,
-    var(--greeting-icon-color) 0%,
-    transparent 10%,
-    var(--greeting-icon-color) 20%
-  );
-  opacity: 0.1;
   border-radius: 50%;
-  animation: heatWaveRotate 10s linear infinite;
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  animation: expand 3s ease-in-out infinite;
 }
 
-/* Evening Scene Styles */
+/* Evening Scene */
 .evening-scene .moon {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   background: linear-gradient(45deg, var(--evening-primary), var(--evening-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 15px rgba(255, 229, 180, 0.6));
-  overflow: hidden;
-}
-
-.evening-scene .crater {
-  position: absolute;
-  background: var(--greeting-icon-color);
-  opacity: 0.1;
-  border-radius: 50%;
-  animation: craterGlow 4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 10px rgba(255, 229, 180, 0.4));
+  overflow: visible;
 }
 
 .evening-scene .cloud {
   position: absolute;
   background: var(--greeting-icon-color);
-  opacity: 0.1;
+  opacity: 0.2;
   border-radius: 10px;
-  animation: cloudDrift 8s linear infinite;
+  animation: drift 8s linear infinite;
 }
 
-/* Night Scene Styles */
+.evening-scene .crater {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  animation: glow 4s ease-in-out infinite alternate;
+}
+
+/* Night Scene */
 .night-scene .moon {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   background: linear-gradient(45deg, var(--night-primary), var(--night-secondary));
   border-radius: 50%;
   position: relative;
-  filter: drop-shadow(0 0 15px rgba(230, 230, 250, 0.6));
+  filter: drop-shadow(0 0 10px rgba(230, 230, 250, 0.4));
 }
 
 .night-scene .star {
   position: absolute;
   background: var(--greeting-icon-color);
   border-radius: 50%;
-  animation: starTwinkle 2s ease-in-out infinite;
+  animation: twinkle 2s ease-in-out infinite;
 }
 
 .night-scene .constellation-line {
   position: absolute;
   height: 1px;
   background: var(--greeting-icon-color);
-  opacity: 0.2;
+  opacity: 0.3;
   transform-origin: left center;
-  animation: constellationGlow 4s ease-in-out infinite alternate;
+  animation: fade 4s ease-in-out infinite alternate;
 }
 
 /* Animations */
-@keyframes sunRise {
-  0%, 100% { transform: translateY(2px); }
-  50% { transform: translateY(-2px); }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
 
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.1); }
+@keyframes rayGlow {
+  0%, 100% { opacity: 0.3; transform: rotate(var(--rotation)) scaleX(1); }
+  50% { opacity: 0.6; transform: rotate(var(--rotation)) scaleX(1.2); }
 }
 
-@keyframes rayPulse {
-  0%, 100% { opacity: 0.2; transform: rotate(var(--rotation)) scale(1); }
-  50% { opacity: 0.4; transform: rotate(var(--rotation)) scale(1.1); }
-}
-
-@keyframes heatWave {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.1); opacity: 0.5; }
-}
-
-@keyframes heatWaveRotate {
+@keyframes rotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-@keyframes cloudDrift {
+@keyframes expand {
+  0%, 100% { transform: scale(1); opacity: 0.2; }
+  50% { transform: scale(1.2); opacity: 0.4; }
+}
+
+@keyframes drift {
   0% { transform: translateX(-100%); opacity: 0; }
-  20% { opacity: 0.1; }
-  80% { opacity: 0.1; }
+  20%, 80% { opacity: 0.2; }
   100% { transform: translateX(100%); opacity: 0; }
 }
 
-@keyframes starTwinkle {
-  0%, 100% { opacity: 0.1; transform: scale(0.8); }
-  50% { opacity: 0.3; transform: scale(1); }
-}
-
-@keyframes constellationGlow {
+@keyframes glow {
   0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.3; }
+  50% { opacity: 0.2; }
 }
 
-@keyframes craterGlow {
-  0%, 100% { opacity: 0.05; }
-  50% { opacity: 0.15; }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+@keyframes fade {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
 }
 
 .greeting-text {
@@ -221,58 +191,27 @@
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  transition: color 0.3s ease;
+  margin: 0;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
-  .greeting-banner {
-    padding: 1rem;
-  }
-
   .greeting-icon {
     width: 32px;
     height: 32px;
   }
-
-  .morning-scene .sun,
-  .evening-scene .moon,
-  .night-scene .moon,
-  .afternoon-scene .sun {
-    width: 32px;
-    height: 32px;
-  }
-
-  .morning-scene .ray {
-    width: 30px;
-  }
-
+  
   .greeting-text {
     font-size: 1.75rem;
   }
 }
 
 @media (max-width: 480px) {
-  .greeting-banner {
-    padding: 0.75rem;
-  }
-
   .greeting-icon {
     width: 28px;
     height: 28px;
   }
-
-  .morning-scene .sun,
-  .evening-scene .moon,
-  .night-scene .moon,
-  .afternoon-scene .sun {
-    width: 28px;
-    height: 28px;
-  }
-
-  .morning-scene .ray {
-    width: 25px;
-  }
-
+  
   .greeting-text {
     font-size: 1.5rem;
   }
