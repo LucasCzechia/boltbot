@@ -426,7 +426,7 @@
   background: #95a5a6;
 }
 
-/* styles/dashboard/servers/servers.css */
+/* Loading States */
 .servers-grid.loading {
   display: flex;
   flex-direction: column;
@@ -530,23 +530,6 @@
   }
 }
 
-@media (max-width: 992px) {
-  .loading-card {
-    width: calc((100% - 24px) / 2);
-  }
-}
-
-@media (max-width: 768px) {
-  .loading-row {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .loading-card {
-    width: 100%;
-  }
-}
-
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
@@ -588,6 +571,10 @@
 
 /* Medium Devices (laptops, desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199px) {
+  .loading-card {
+    width: calc((100% - 24px) / 2);
+  }
+  
   .servers-grid {
     gap: 1.25rem;
   }
@@ -604,6 +591,15 @@
 
 /* Small Devices (tablets, landscape phones, 768px and up) */
 @media (min-width: 768px) and (max-width: 991px) {
+  .loading-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .loading-card {
+    width: 100%;
+  }
+  
   .servers-grid {
     gap: 1rem;
   }
