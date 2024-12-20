@@ -100,18 +100,20 @@ export default function ServerGrid() {
   }
 
   if (!loading && filteredServers.length === 0) {
-    return (
-      <div className="no-servers">
-        <h2>No servers yet! 😢</h2>
-        <Link 
-          href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
-          className="cta-button"
-        >
-          Add Bot to Server
-        </Link>
-      </div>
-    )
-  }
+  return (
+    <div className="no-servers">
+      <h2>
+        <span className="text-gradient">No servers yet!</span> 😢
+      </h2>
+      <Link 
+        href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
+        className="cta-button"
+      >
+        Add Bot to Server
+      </Link>
+    </div>
+  )
+}
 
   return (
     <>
