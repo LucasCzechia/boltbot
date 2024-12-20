@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Link from 'next/link'
 import SearchServers from './SearchServers'
 import LoadingPreview from './LoadingPreview'
 import PinIcon from './PinIcon'
@@ -95,7 +96,21 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    return <LoadingPreview />
+    return <LoadingPreview count={servers.length || filteredServers.length || 9} />
+  }
+
+  if (!loading && !filteredServers.length === 0) {
+    return (
+      <div className="no-servers">
+        <h2>No servers yet! 😢</h2>
+        <Link 
+          href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
+          className="cta-button"
+        >
+          Add Bot to Server
+        </Link>
+      </div>
+    )
   }
 
   return (
