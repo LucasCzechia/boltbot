@@ -1,6 +1,5 @@
 // components/dashboard/servers/GreetingBanner.js
 import { useEffect, useState } from 'react'
-import './GreetingBanner.css'
 
 export default function GreetingBanner({ username }) {
   const [timeOfDay, setTimeOfDay] = useState('')
