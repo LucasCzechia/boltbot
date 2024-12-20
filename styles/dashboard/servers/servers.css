@@ -216,13 +216,26 @@
   background: rgba(231, 76, 60, 0.1);
 }
 
+.servers-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 7rem 1rem 2rem;
+  background: transparent;
+  border-radius: 20px;
+  transition: var(--theme-transition);
+}
+
 .servers-grid {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  perspective: 1000px;
-  transform-style: preserve-3d;
   width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 
 .servers-row {
@@ -230,11 +243,14 @@
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: nowrap;
-  transition: margin 0.3s ease;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .server-card {
-  flex: 0 0 280px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
   background: var(--bg-secondary);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
@@ -251,9 +267,25 @@
   position: relative;
 }
 
+.servers-grid-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.servers-row-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .server-card.card-active {
   transform: translateY(0) scale(1);
   opacity: 1;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
 .server-card:hover {
@@ -469,25 +501,64 @@
   100% { transform: scale(1); }
 }
 
-/* Large devices (desktops, less than 1200px) */
-@media (max-width: 1200px) {
+/* Desktop First Media Queries */
+/* Extra Large Devices (large desktops, 1400px and up) */
+@media (min-width: 1400px) {
   .servers-grid {
-    gap: 1.25rem;
+    gap: 2rem;
   }
 
   .servers-row {
-    gap: 1.25rem;
+    gap: 2rem;
+    justify-content: center;
+  }
+
+  .server-card {
+    flex: 0 0 320px;
   }
 }
 
-/* Medium devices (tablets, less than 992px) */
-@media (max-width: 992px) {
+/* Large Devices (desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .servers-grid {
+    gap: 1.5rem;
+  }
+
+  .servers-row {
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .server-card {
+    flex: 0 0 300px;
+  }
+}
+
+/* Medium Devices (laptops, desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .servers-grid {
+    gap: 1.25rem;
+  }
+
+  .servers-row {
+    gap: 1.25rem;
+    justify-content: center;
+  }
+
+  .server-card {
+    flex: 0 0 280px;
+  }
+}
+
+/* Small Devices (tablets, landscape phones, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
   .servers-grid {
     gap: 1rem;
   }
 
   .servers-row {
     gap: 1rem;
+    justify-content: center;
   }
 
   .server-card {
@@ -495,10 +566,11 @@
   }
 }
 
-/* Small devices (tablets, less than 768px) */
-@media (max-width: 768px) {
+/* Extra Small Devices (portrait phones, less than 768px) */
+@media (max-width: 767px) {
   .servers-grid {
     gap: 1rem;
+    padding: 0 1rem;
   }
 
   .servers-row {
@@ -506,18 +578,21 @@
     gap: 1rem;
     width: 100% !important;
     margin-left: 0 !important;
+    align-items: center;
   }
 
   .server-card {
     flex: none;
     width: 100%;
+    max-width: 400px;
   }
 }
 
-/* Extra small devices (phones, less than 576px) continued */
+/* Very Small Devices (small phones, less than 576px) */
 @media (max-width: 576px) {
   .servers-grid {
     gap: 0.75rem;
+    padding: 0 0.75rem;
   }
 
   .servers-row {
@@ -526,6 +601,7 @@
 
   .server-card {
     padding: 1rem;
+    max-width: 100%;
   }
 
   .server-name {
@@ -554,6 +630,36 @@
     width: 14px;
     height: 14px;
   }
+}
+
+/* Base styles for server grid (these go before media queries) */
+.servers-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.servers-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.server-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  padding: 1.5rem;
+  gap: 1rem;
+  cursor: pointer;
+  transition: var(--theme-transition);
+  position: relative;
 }
 
 /* Reduced Motion Preferences */
