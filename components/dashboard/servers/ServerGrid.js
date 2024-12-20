@@ -1,10 +1,13 @@
 // components/dashboard/servers/ServerGrid.js
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import SearchServers from './SearchServers'
 import LoadingPreview from './LoadingPreview'
 import PinIcon from './PinIcon'
+
+const MIN_CARD_WIDTH = 280; // Minimum width for server cards
+const GRID_GAP = 24; // Gap between cards
 
 export default function ServerGrid() {
   const [servers, setServers] = useState([])
@@ -32,44 +35,52 @@ export default function ServerGrid() {
   }, [loading, filteredServers])
 
   useEffect(() => {
-    window.addEventListener('resize', calculateLayout)
-    return () => window.removeEventListener('resize', calculateLayout)
+    const handleResize = () => {
+      calculateLayout()
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [filteredServers])
 
-  const calculateLayout = () => {
+  const calculateLayout = useCallback(() => {
     if (!gridRef.current) return
 
     const containerWidth = gridRef.current.offsetWidth
-    const cardWidth = 280 // Min card width
-    const gap = 24 // Gap between cards
+    const cardsPerRow = Math.max(1, Math.floor((containerWidth + GRID_GAP) / (MIN_CARD_WIDTH + GRID_GAP)))
+    const actualCardWidth = (containerWidth - (cardsPerRow - 1) * GRID_GAP) / cardsPerRow
 
-    const cardsPerRow = Math.floor((containerWidth + gap) / (cardWidth + gap))
-    const rows = Math.ceil(filteredServers.length / cardsPerRow)
+    const sortedServers = [...filteredServers].sort((a, b) => {
+      const aPin = pinnedServers.has(a.id)
+      const bPin = pinnedServers.has(b.id)
+      return bPin - aPin
+    })
 
+    const rows = Math.ceil(sortedServers.length / cardsPerRow)
     let newLayout = []
+
     for (let i = 0; i < rows; i++) {
-      const rowCards = filteredServers.slice(i * cardsPerRow, (i + 1) * cardsPerRow)
-      const rowWidth = rowCards.length * (cardWidth + gap) - gap
+      const rowCards = sortedServers.slice(i * cardsPerRow, (i + 1) * cardsPerRow)
+      const rowWidth = rowCards.length * actualCardWidth + (rowCards.length - 1) * GRID_GAP
       const rowOffset = (containerWidth - rowWidth) / 2
 
       newLayout.push({
         cards: rowCards,
-        offset: rowOffset
+        offset: Math.max(0, rowOffset),
+        cardWidth: actualCardWidth
       })
     }
 
     setGridLayout(newLayout)
-  }
+  }, [filteredServers, pinnedServers])
 
   const startAnimation = () => {
     setActiveCards([])
-    setTimeout(() => {
-      filteredServers.forEach((_, index) => {
-        setTimeout(() => {
-          setActiveCards(prev => [...prev, index])
-        }, index * 100)
-      })
-    }, 300)
+    const totalCards = filteredServers.length
+    for (let i = 0; i < totalCards; i++) {
+      setTimeout(() => {
+        setActiveCards(prev => [...prev, i])
+      }, i * 100)
+    }
   }
 
   const togglePin = (serverId) => {
@@ -113,13 +124,6 @@ export default function ServerGrid() {
     }
   }
 
-  const sortedServers = [...filteredServers].sort((a, b) => {
-    const aPin = pinnedServers.has(a.id)
-    const bPin = pinnedServers.has(b.id)
-    if (aPin === bPin) return 0
-    return aPin ? -1 : 1
-  })
-
   if (loading) {
     return <LoadingPreview />
   }
@@ -134,59 +138,69 @@ export default function ServerGrid() {
             className="servers-row"
             style={{ 
               marginLeft: `${row.offset}px`,
+              gap: `${GRID_GAP}px`,
               width: `calc(100% - ${row.offset * 2}px)`
             }}
           >
-            {row.cards.map((server, index) => (
-              <div 
-                key={server.id} 
-                className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
-                  activeCards.includes(rowIndex * Math.ceil(sortedServers.length / gridLayout.length) + index) ? 'card-active' : ''
-                }`}
-              >
-                <button 
-                  className="pin-button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    togglePin(server.id)
+            {row.cards.map((server, index) => {
+              const cardIndex = rowIndex * Math.ceil(filteredServers.length / gridLayout.length) + index;
+              return (
+                <div 
+                  key={server.id} 
+                  className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
+                    activeCards.includes(cardIndex) ? 'card-active' : ''
+                  }`}
+                  style={{
+                    width: `${row.cardWidth}px`,
+                    minWidth: `${row.cardWidth}px`
                   }}
                 >
-                  <PinIcon isPinned={pinnedServers.has(server.id)} />
-                </button>
-                <div className="card-content" onClick={() => handleServerClick(server)}>
-                  <div className="server-header">
-                    <Image 
-                      src={server.icon 
-                        ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
-                        : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
-                      }
-                      alt={server.name}
-                      width={50}
-                      height={50}
-                      className="server-icon"
-                      unoptimized
-                    />
-                    <div className="server-info">
-                      <div className="server-name">{server.name}</div>
-                      <div className="server-members">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                          <circle cx="9" cy="7" r="4"/>
-                          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
-                        <span className="member-count">{server.memberCount.toLocaleString()}</span> members 
-                        <span className="online-count">{server.onlineCount.toLocaleString()} online</span>
+                  <button 
+                    className="pin-button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      togglePin(server.id)
+                    }}
+                    aria-label={pinnedServers.has(server.id) ? "Unpin server" : "Pin server"}
+                  >
+                    <PinIcon isPinned={pinnedServers.has(server.id)} />
+                  </button>
+
+                  <div className="card-content" onClick={() => handleServerClick(server)}>
+                    <div className="server-header">
+                      <Image 
+                        src={server.icon 
+                          ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
+                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
+                        }
+                        alt={server.name}
+                        width={50}
+                        height={50}
+                        className="server-icon"
+                        unoptimized
+                      />
+                      <div className="server-info">
+                        <div className="server-name">{server.name}</div>
+                        <div className="server-members">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                          </svg>
+                          <span className="member-count">{server.memberCount.toLocaleString()}</span> members 
+                          <span className="online-count">{server.onlineCount.toLocaleString()} online</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="server-status">
-                    <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
-                    {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
+                    <div className="server-status">
+                      <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
+                      {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ))}
       </div>
