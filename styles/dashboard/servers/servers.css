@@ -547,84 +547,52 @@
 }
 
 /* Media Types */
-/* Large devices (desktops, less than 1200px) */
-@media (max-width: 1200px) {
-  .servers-grid, .servers-grid.loading {
-    gap: 20px;
-  }
-  .servers-row, .loading-row {
-    gap: 20px;
-  }
-  .server-card, .loading-card {
-    width: calc((100% - 40px) / 3);
-  }
-}
-
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 992px) {
-  .servers-grid, .servers-grid.loading {
-    gap: 16px;
+  .servers-grid {
+    gap: 1rem;
   }
-  .servers-row, .loading-row {
-    gap: 16px;
+
+  .servers-row {
+    gap: 1rem;
   }
-  .server-card, .loading-card {
-    width: calc((100% - 16px) / 2);
+
+  .server-card {
+    flex: 0 0 260px;
   }
 }
 
 /* Small devices (tablets, less than 768px) */
 @media (max-width: 768px) {
-  .servers-grid, .servers-grid.loading {
-    gap: 16px;
-    padding: 0 16px;
+  .servers-grid {
+    gap: 1rem;
   }
-  .servers-row, .loading-row {
+
+  .servers-row {
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
+    width: 100% !important;
+    margin-left: 0 !important;
   }
-  .server-card, .loading-card {
+
+  .server-card {
+    flex: none;
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  .server-name {
-    font-size: 1rem;
-  }
-  .server-members {
-    font-size: 0.875rem;
-  }
-  .server-icon {
-    width: 40px;
-    height: 40px;
-  }
-  .server-status {
-    font-size: 0.875rem;
-    padding: 0.5rem;
-  }
-  .loading-card {
-    height: 160px;
   }
 }
 
-/* Extra small devices (phones, less than 576px) continued */
+/* Extra small devices (phones, less than 576px) */
 @media (max-width: 576px) {
-  .servers-grid, .servers-grid.loading {
-    gap: 12px;
-    padding: 0 12px;
+  .servers-grid {
+    gap: 0.75rem;
   }
-  .servers-row, .loading-row {
-    gap: 12px;
+
+  .servers-row {
+    gap: 0.75rem;
   }
-  .server-card, .loading-card {
+
+  .server-card {
     padding: 1rem;
-  }
-  .pin-button {
-    padding: 4px;
-  }
-  .pin-icon {
-    width: 14px;
-    height: 14px;
   }
 }
 
