@@ -287,9 +287,6 @@
   transition: var(--theme-transition);
   overflow: hidden;
   position: relative;
-  height: 180px;
-  width: calc((100% - 48px) / 3);
-  max-width: 1400px;
 }
 
 .servers-grid-wrapper {
