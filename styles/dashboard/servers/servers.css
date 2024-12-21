@@ -255,61 +255,47 @@
 .servers-grid {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+  perspective: 1000px;
+  transform-style: preserve-3d;
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
 }
 
 .servers-row {
   display: flex;
-  flex-wrap: wrap;
-  width: 100%;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  transition: margin 0.3s ease;
 }
 
 .server-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-secondary);
+  flex: 0 0 280px;
+  background: rgba(20, 20, 20, 0.4);
   backdrop-filter: blur(10px);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255,204,0,0.1);
   border-radius: 15px;
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   cursor: pointer;
-  transition: var(--theme-transition);
+  transform: translateY(-8px) scale(0.95);
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
   position: relative;
-}
-
-.servers-row:last-child {
-  justify-content: center;
-}
-
-.servers-grid-wrapper {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.servers-row-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 .server-card.card-active {
   transform: translateY(0) scale(1);
   opacity: 1;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease;
 }
 
 .server-card:hover {
   transform: translateY(-5px);
   border-color: var(--primary);
-  box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(255,204,0,0.1);
 }
 
 .server-card.inactive {
