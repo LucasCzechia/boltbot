@@ -1,6 +1,6 @@
 // pages/api/discord/servers/index.js
 import { getServerSession } from "next-auth/next"
-import { authOptions } from '../../auth/[...nextauth]'
+import { authOptions } from '../auth/[...nextauth]'
 import { Redis } from "@upstash/redis"
 import crypto from "crypto"
 
