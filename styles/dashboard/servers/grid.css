@@ -1,0 +1,150 @@
+/* styles/dashboard/servers/grid.css */
+.servers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.servers-row {
+  display: flex;
+  gap: 1.75rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.servers-row:last-child {
+  justify-content: center;
+}
+
+.no-servers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 40vh;
+  text-align: center;
+  padding: 2rem;
+  background: var(--card-bg-gradient);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(var(--blur-strength));
+  -webkit-backdrop-filter: blur(var(--blur-strength));
+}
+
+.no-servers h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.no-servers .text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Loading Grid */
+.servers-grid.loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.loading-row {
+  display: flex;
+  gap: 1.75rem;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.loading-row:last-child {
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .servers-grid {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .servers-grid {
+    gap: 1.5rem;
+  }
+
+  .servers-row,
+  .loading-row {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .servers-grid {
+    gap: 1.25rem;
+  }
+
+  .servers-row,
+  .loading-row {
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .servers-grid {
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .servers-row,
+  .loading-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .no-servers h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .servers-grid {
+    gap: 0.75rem;
+  }
+
+  .servers-row,
+  .loading-row {
+    gap: 0.75rem;
+  }
+
+  .no-servers {
+    padding: 1.5rem;
+  }
+
+  .no-servers h2 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Print */
+@media print {
+  .servers-grid {
+    gap: 2rem;
+  }
+
+  .servers-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
