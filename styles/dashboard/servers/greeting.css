@@ -6,7 +6,7 @@
 
 :root[data-theme="light"] {
   --greeting-text-color: var(--dark);
-  --greeting-icon-color: var(--dark);  
+  --greeting-icon-color: var(--dark);
 }
 
 .greeting-banner {
@@ -17,6 +17,10 @@
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
+  /* Add animation properties */
+  animation: slideUp 0.5s ease-out forwards;
+  opacity: 0; /* Initially hide the banner */
+  transform: translateY(20px); /* Start slightly below its normal position */
 }
 
 .greeting-icon {
@@ -61,5 +65,38 @@
 
   .greeting-text {
     font-size: 1.5rem;
+  }
+}
+
+/* Keyframes for the slide-up animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* More subtle enhancements (optional) */
+.greeting-banner:hover {
+  /* Example: slightly scale up on hover */
+  transform: scale(1.02);
+  transition: transform 0.3s ease-in-out;
+}
+
+.greeting-icon {
+  /* Example: a subtle pulse animation for the icon */
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1.05);
   }
 }
