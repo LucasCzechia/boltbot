@@ -96,8 +96,8 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    return <LoadingPreview count={9} />
-  }
+  return <LoadingPreview count={servers.length || 9} />;
+}
 
   if (!loading && filteredServers.length === 0) {
     return (
