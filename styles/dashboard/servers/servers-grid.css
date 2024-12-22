@@ -1,0 +1,73 @@
+/* Server Grid Styles */
+.servers-grid,
+.servers-grid.loading {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.servers-row,
+.loading-row {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.servers-row:last-child,
+.loading-row:last-child {
+  justify-content: center;
+}
+
+.no-servers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 40vh;
+  text-align: center;
+  padding: 2rem;
+  background: var(--card-bg-gradient);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+.no-servers h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  line-height: 1.2;
+}
+
+.no-servers h2 .text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.servers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.servers-row {
+  display: flex;
+  gap: 1.75rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
