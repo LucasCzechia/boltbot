@@ -14,7 +14,7 @@ export default async function handler(req, res) {
           name: session.user.name,
           image: session.user.image,
         },
-        expires: session.expires
+        note: "hola there, hacker, 🤓" 
       }
       return res.json(safeSession)
     }
