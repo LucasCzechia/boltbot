@@ -13,9 +13,10 @@ export default function ServerGrid() {
   const [servers, setServers] = useState([])
   const [filteredServers, setFilteredServers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false)
   const [activeCards, setActiveCards] = useState([])
   const [pinnedServers, setPinnedServers] = useState(new Set())
-  const [serverCount, setServerCount] = useState(9)
+  const [serverCount, setServerCount] = useState(0)
   const [hasSearched, setHasSearched] = useState(false)
   const router = useRouter()
 
@@ -26,12 +27,14 @@ export default function ServerGrid() {
       const data = await response.json()
       
       setServerCount(data.length)
-      setServers(data)
-      setFilteredServers(data)
-
+      setInitialDataLoaded(true)
+      
       setTimeout(() => {
+        setServers(data)
+        setFilteredServers(data)
         setLoading(false)
       }, 700)
+      
     } catch (error) {
       console.error('Error:', error)
       setServerCount(0)
@@ -104,6 +107,10 @@ export default function ServerGrid() {
   }
 
   if (loading) {
+    // Only show loading preview if we have the initial count
+    if (!initialDataLoaded) {
+      return <LoadingPreview count={9} />
+    }
     return <LoadingPreview count={serverCount} />
   }
 
