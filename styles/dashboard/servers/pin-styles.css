@@ -1,0 +1,22 @@
+/* Pin Button Styles*/
+.pin-icon {
+  transition: var(--theme-transition);
+  color: var(--text-primary);
+} 
+
+.pin-button:hover {
+  background: var(--hover-bg);
+  transform: scale(1.1);
+}
+
+.pin-button:hover .pin-icon {
+  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
+}
+
+/* Ensure circular shape on mobile */
+@media (max-width: 576px) {
+  .pin-button {
+    width: 28px;
+    height: 28px;
+  }
+}
