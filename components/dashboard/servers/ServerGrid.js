@@ -73,9 +73,9 @@ export default function ServerGrid() {
     setActiveCards([])
   }
 
-  const handleServerClick = (server) => {
+  const handleServerClick = async (server) => {
     if (server.botPresent) {
-      router.push(`/dashboard/servers/${server.id}`)
+      await router.push(`/dashboard/servers/${server.id}`)
     } else {
       window.location.href = `https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot&guild_id=${server.id}`
     }
@@ -96,24 +96,24 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    return <LoadingPreview count={servers.length || filteredServers.length || 9} />
+    return <LoadingPreview count={9} />
   }
 
   if (!loading && filteredServers.length === 0) {
-  return (
-    <div className="no-servers">
-      <h2>
-        <span className="text-gradient">No servers yet!</span> 😢
-      </h2>
-      <Link 
-        href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
-        className="cta-button"
-      >
-        Add Bot to Server
-      </Link>
-    </div>
-  )
-}
+    return (
+      <div className="no-servers">
+        <h2>
+          <span className="text-gradient">No servers yet!</span> 😢
+        </h2>
+        <Link 
+          href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
+          className="cta-button"
+        >
+          Add Bot to Server
+        </Link>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -129,6 +129,16 @@ export default function ServerGrid() {
                   className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
                     activeCards.includes(cardIndex) ? 'card-active' : ''
                   }`}
+                  onClick={() => handleServerClick(server)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleServerClick(server);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${server.name} server${!server.botPresent ? ' - Bot not added' : ''}`}
                 >
                   <button 
                     className="pin-button"
@@ -141,16 +151,16 @@ export default function ServerGrid() {
                     <PinIcon isPinned={pinnedServers.has(server.id)} />
                   </button>
 
-                  <div className="card-content" onClick={() => handleServerClick(server)}>
+                  <div className="card-content">
                     <div className="server-header">
                       <Image 
                         src={server.icon 
                           ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
                           : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
                         }
-                        alt={server.name}
-                        width={50}
-                        height={50}
+                        alt={`${server.name} icon`}
+                        width={56}
+                        height={56}
                         className="server-icon"
                         unoptimized
                       />
