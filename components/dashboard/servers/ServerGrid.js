@@ -15,16 +15,36 @@ export default function ServerGrid() {
   const [loading, setLoading] = useState(true)
   const [activeCards, setActiveCards] = useState([])
   const [pinnedServers, setPinnedServers] = useState(new Set())
-  const [serverCount, setServerCount] = useState(0)
+  const [serverCount, setServerCount] = useState(9)
   const [hasSearched, setHasSearched] = useState(false)
   const router = useRouter()
 
+  const fetchServers = async () => {
+    try {
+      const response = await fetch('/api/discord/servers')
+      if (!response.ok) throw new Error('Failed to fetch servers')
+      const data = await response.json()
+      
+      setServerCount(data.length)
+      setServers(data)
+      setFilteredServers(data)
+
+      setTimeout(() => {
+        setLoading(false)
+      }, 700)
+    } catch (error) {
+      console.error('Error:', error)
+      setServerCount(0)
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    fetchServers()
     const savedPins = localStorage.getItem('pinnedServers')
     if (savedPins) {
       setPinnedServers(new Set(JSON.parse(savedPins)))
     }
+    fetchServers()
   }, [])
 
   useEffect(() => {
@@ -53,23 +73,6 @@ export default function ServerGrid() {
       localStorage.setItem('pinnedServers', JSON.stringify([...newSet]))
       return newSet
     })
-  }
-
-  const fetchServers = async () => {
-    try {
-      setLoading(true)
-      const response = await fetch('/api/discord/servers')
-      if (!response.ok) throw new Error('Failed to fetch servers')
-      const data = await response.json()
-      setServerCount(data.length)
-      setServers(data)
-      setFilteredServers(data)
-    } catch (error) {
-      console.error('Error:', error)
-      setServerCount(0)
-    } finally {
-      setTimeout(() => setLoading(false), 500)
-    }
   }
 
   const handleSearch = (searchResults) => {
