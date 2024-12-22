@@ -448,60 +448,6 @@
   .server-name {
     font-size: 1.1rem;
   }
-}/* Media Queries */
-@media (max-width: 992px) {
-  .servers-grid {
-    gap: 1.25rem;
-  }
-
-  .servers-row {
-    gap: 1.25rem;
-  }
-
-  .server-card {
-    flex: 0 0 280px;
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .servers-row {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .server-card {
-    flex: none;
-    width: 100%;
-  }
-
-  .no-servers h2 {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .servers-grid {
-    gap: 1rem;
-  }
-
-  .server-card {
-    padding: 1.25rem;
-  }
-
-  .server-header {
-    gap: 1rem;
-  }
-
-  .server-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .server-name {
-    font-size: 1.1rem;
-  }
-}
 
 .dashboard-nav {
   position: fixed;
@@ -818,7 +764,7 @@
 /* Small devices (tablets, less than 768px) */
 @media (max-width: 768px) {
   .servers-container {
-    padding: 6rem 1rem 2rem;
+    padding: 4.5rem;
   }
 
   .servers-grid {
@@ -854,7 +800,9 @@
 /* Extra small devices (phones, less than 576px) */
 @media (max-width: 576px) {
   .servers-container {
-    padding: 5rem 0.75rem 2rem;
+    padding-top: 4rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 
   .servers-grid {
