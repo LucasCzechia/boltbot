@@ -28,7 +28,7 @@ export default function ServerGrid() {
         setServers(data)
         setFilteredServers(data)
         setLoading(false)
-      }, 700)
+      }, 600)
     } catch (error) {
       console.error('Error:', error)
       setLoading(false)
@@ -100,7 +100,7 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    return <LoadingPreview count={servers.length || 15} />
+    return <LoadingPreview count={servers.length || 9} />
   }
 
   if (!loading && servers.length === 0) {
