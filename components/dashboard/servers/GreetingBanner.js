@@ -54,16 +54,16 @@ export default function GreetingBanner({ username }) {
         setIcon(
           <svg className="greeting-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <g className="evening-moon">
-              <path 
-                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" 
+              <path
+                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"
                 className="moon-body"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
               <circle cx="15" cy="9" r="0.5" className="moon-crater" fill="currentColor" opacity="0.5"/>
               <circle cx="18" cy="6" r="0.3" className="moon-crater" fill="currentColor" opacity="0.3"/>
-              <path 
-                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" 
+              <path
+                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"
                 className="moon-glow"
                 strokeWidth="0.5"
                 opacity="0.3"
@@ -75,41 +75,21 @@ export default function GreetingBanner({ username }) {
         setTimeOfDay('Good night')
         setIcon(
           <svg className="greeting-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <defs>
-              <radialGradient id="star-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0.2"/>
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0"/>
-              </radialGradient>
-            </defs>
-            <g className="night-scene">
-              <path 
-                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" 
+            <g className="evening-moon">
+              <path
+                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"
                 className="moon-body"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <g className="stars">
-                {[...Array(6)].map((_, i) => (
-                  <g key={i} className={`star-group-${i + 1}`}>
-                    <circle 
-                      cx={14 + i * 1.5} 
-                      cy={4 + i} 
-                      r="0.5" 
-                      className="star" 
-                      fill="currentColor"
-                    />
-                    <circle 
-                      cx={14 + i * 1.5} 
-                      cy={4 + i} 
-                      r="1" 
-                      className="star-glow" 
-                      fill="url(#star-glow)"
-                    />
-                  </g>
-                ))}
-              </g>
-              <circle cx="15" cy="9" r="0.3" className="moon-crater" fill="currentColor" opacity="0.5"/>
-              <circle cx="18" cy="6" r="0.2" className="moon-crater" fill="currentColor" opacity="0.3"/>
+              <circle cx="15" cy="9" r="0.5" className="moon-crater" fill="currentColor" opacity="0.5"/>
+              <circle cx="18" cy="6" r="0.3" className="moon-crater" fill="currentColor" opacity="0.3"/>
+              <path
+                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"
+                className="moon-glow"
+                strokeWidth="0.5"
+                opacity="0.3"
+              />
             </g>
           </svg>
         )
@@ -257,4 +237,4 @@ export default function GreetingBanner({ username }) {
       `}</style>
     </div>
   )
-          }
+}
