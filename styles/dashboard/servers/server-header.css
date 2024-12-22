@@ -1,0 +1,79 @@
+/* Server Header Styles */
+.server-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.server-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--card-shadow);
+}
+
+.server-card:hover .server-icon {
+  transform: scale(1.05);
+  border-color: var(--primary);
+}
+
+.server-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.server-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.server-members {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  transition: color 0.3s ease;
+}
+
+.server-members span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Pin Button Styles */
+.pin-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  opacity: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--theme-transition);
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  backdrop-filter: blur(4px);
+  border: none;
+  cursor: pointer;
+}
+
+.server-card:hover .pin-button {
+  opacity: 1;
+}
