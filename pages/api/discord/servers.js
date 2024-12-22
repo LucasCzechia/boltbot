@@ -52,8 +52,8 @@ export default async function handler(req, res) {
               })
               if (guildResponse.ok) {
                 const guildData = await guildResponse.json()
-                memberCount = guildData.approximate_member_count || 0
-                onlineCount = guildData.presence_count || 0
+                memberCount = guildData.approximate_member_count
+                onlineCount = guildData.approximate_presence_count
                 banner = guildData.banner
                 description = guildData.description
               }
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
             id: guild.id,
             name: guild.name,
             icon: guild.icon,
-            banner: banner,
+            banner,
             memberCount,
             onlineCount,
             description,
@@ -75,7 +75,7 @@ export default async function handler(req, res) {
         })
     )
 
-    res.json(adminGuilds)
+    return res.json(adminGuilds)
   } catch (error) {
     console.error('Error fetching servers:', error)
     res.status(500).json({ error: 'Failed to fetch servers' })
