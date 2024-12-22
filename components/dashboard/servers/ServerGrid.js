@@ -100,7 +100,7 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    return <LoadingPreview count={servers.length || 9} />
+    return <LoadingPreview count={servers.length || 12} />
   }
 
   if (!loading && servers.length === 0) {
