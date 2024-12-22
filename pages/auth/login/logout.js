@@ -1,23 +1,48 @@
 // pages/auth/login/logout.js
-import { useEffect } from 'react'
 import { signOut } from 'next-auth/react'
-import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 export default function Logout() {
-  const router = useRouter()
+  return (
+    <>
+      <Head>
+        <title>Logging out... - BoltBot⚡</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Head>
 
-  useEffect(() => {
-    const performLogout = async () => {
-      await signOut({ 
-        redirect: false,
-      })
-      localStorage.clear()
-      sessionStorage.clear()
-      router.push('/auth/login')
-    }
+      <div className="loading-screen">
+        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
+          <path d="M13 0L0 13h9v11l13-13h-9z"/>
+        </svg>
+      </div>
 
-    performLogout()
-  }, [router])
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          (async function() {
+            try {
+              localStorage.clear();
+              sessionStorage.clear();
+              document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+              });
+              window.location.href = '/api/auth/signout?redirect=/auth/login';
+            } catch (error) {
+              window.location.href = '/auth/login';
+            }
+          })();
+        `
+      }} />
+    </>
+  )
+}
 
-  return null
+export async function getServerSideProps({ req, res }) {
+  res.setHeader(
+    'Cache-Control',
+    'no-store, no-cache, must-revalidate, proxy-revalidate'
+  );
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+
+  return { props: {} };
 }
