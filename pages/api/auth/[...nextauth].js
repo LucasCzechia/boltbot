@@ -14,7 +14,10 @@ export const authOptions = {
       }
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+    maxAge: 24 * 60 * 60,
+  },
   pages: {
     signIn: '/auth/login',
     signOut: '/auth/login',
@@ -30,21 +33,11 @@ export const authOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken
       return session
-    }
-  },
-  events: {
-    async signOut() {
-      try {
-        if (typeof window !== 'undefined') {
-          localStorage.clear()
-          sessionStorage.clear()
-          document.cookie.split(";").forEach(function(c) { 
-            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
-          })
-        }
-      } catch (error) {
-        console.error('Logout cleanup error:', error)
-      }
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) return url
+      if (url.startsWith('/')) return `${baseUrl}${url}`
+      return baseUrl
     }
   }
 }
