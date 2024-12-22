@@ -15,6 +15,8 @@ export default function ServerGrid() {
   const [loading, setLoading] = useState(true)
   const [activeCards, setActiveCards] = useState([])
   const [pinnedServers, setPinnedServers] = useState(new Set())
+  const [serverCount, setServerCount] = useState(0)
+  const [hasSearched, setHasSearched] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -59,10 +61,12 @@ export default function ServerGrid() {
       const response = await fetch('/api/discord/servers')
       if (!response.ok) throw new Error('Failed to fetch servers')
       const data = await response.json()
+      setServerCount(data.length)
       setServers(data)
       setFilteredServers(data)
     } catch (error) {
       console.error('Error:', error)
+      setServerCount(0)
     } finally {
       setTimeout(() => setLoading(false), 500)
     }
@@ -71,6 +75,7 @@ export default function ServerGrid() {
   const handleSearch = (searchResults) => {
     setFilteredServers(searchResults)
     setActiveCards([])
+    setHasSearched(true)
   }
 
   const handleServerClick = async (server) => {
@@ -96,10 +101,10 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-  return <LoadingPreview count={servers.length || 9} />;
-}
+    return <LoadingPreview count={serverCount} />
+  }
 
-  if (!loading && filteredServers.length === 0) {
+  if (!loading && servers.length === 0) {
     return (
       <div className="no-servers">
         <h2>
@@ -118,81 +123,88 @@ export default function ServerGrid() {
   return (
     <>
       <SearchServers servers={servers} onSearch={handleSearch} />
-      <div className="servers-grid">
-        {getServerRows().map((row, rowIndex) => (
-          <div key={rowIndex} className="servers-row">
-            {row.map((server, index) => {
-              const cardIndex = rowIndex * CARDS_PER_ROW + index;
-              return (
-                <div 
-                  key={server.id} 
-                  className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
-                    activeCards.includes(cardIndex) ? 'card-active' : ''
-                  }`}
-                  onClick={() => handleServerClick(server)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleServerClick(server);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${server.name} server${!server.botPresent ? ' - Bot not added' : ''}`}
-                >
-                  <button 
-                    className="pin-button"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      togglePin(server.id)
+      {filteredServers.length === 0 && hasSearched ? (
+        <div className="no-results">
+          <h2>No matching servers found</h2>
+          <p>Try adjusting your search or filters</p>
+        </div>
+      ) : (
+        <div className="servers-grid">
+          {getServerRows().map((row, rowIndex) => (
+            <div key={rowIndex} className="servers-row">
+              {row.map((server, index) => {
+                const cardIndex = rowIndex * CARDS_PER_ROW + index;
+                return (
+                  <div 
+                    key={server.id} 
+                    className={`server-card ${!server.botPresent ? 'inactive' : ''} ${
+                      activeCards.includes(cardIndex) ? 'card-active' : ''
+                    }`}
+                    onClick={() => handleServerClick(server)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleServerClick(server);
+                      }
                     }}
-                    aria-label={pinnedServers.has(server.id) ? "Unpin server" : "Pin server"}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${server.name} server${!server.botPresent ? ' - Bot not added' : ''}`}
                   >
-                    <PinIcon isPinned={pinnedServers.has(server.id)} />
-                  </button>
+                    <button 
+                      className="pin-button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        togglePin(server.id)
+                      }}
+                      aria-label={pinnedServers.has(server.id) ? "Unpin server" : "Pin server"}
+                    >
+                      <PinIcon isPinned={pinnedServers.has(server.id)} />
+                    </button>
 
-                  <div className="card-content">
-                    <div className="server-header">
-                      <Image 
-                        src={server.icon 
-                          ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
-                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
-                        }
-                        alt={`${server.name} icon`}
-                        width={56}
-                        height={56}
-                        className="server-icon"
-                        unoptimized
-                      />
-                      <div className="server-info">
-                        <div className="server-name">{server.name}</div>
-                        <div className="server-members">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                          </svg>
-                          <span className="member-count">
-                            {server.botPresent ? server.memberCount.toLocaleString() : "?"}
-                          </span> members 
-                          <span className="online-count">
-                            {server.botPresent ? server.onlineCount.toLocaleString() : "?"} online
-                          </span>
+                    <div className="card-content">
+                      <div className="server-header">
+                        <Image 
+                          src={server.icon 
+                            ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.${server.icon.startsWith('a_') ? 'gif' : 'png'}?size=128` 
+                            : `https://ui-avatars.com/api/?name=${encodeURIComponent(server.name)}&background=1a1a1a&color=ffcc00&size=128`
+                          }
+                          alt={`${server.name} icon`}
+                          width={56}
+                          height={56}
+                          className="server-icon"
+                          unoptimized
+                        />
+                        <div className="server-info">
+                          <div className="server-name">{server.name}</div>
+                          <div className="server-members">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                              <circle cx="9" cy="7" r="4"/>
+                              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span className="member-count">
+                              {server.botPresent ? server.memberCount.toLocaleString() : "?"}
+                            </span> members 
+                            <span className="online-count">
+                              {server.botPresent ? server.onlineCount.toLocaleString() : "?"} online
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="server-status">
-                      <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
-                      {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
+                      <div className="server-status">
+                        <span className={`status-dot ${server.botPresent ? 'active' : 'inactive'}`}></span>
+                        {server.botPresent ? 'Bot Active' : 'Bot Not Added'}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        ))}
-      </div>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+      )}
     </>
   )
 }
