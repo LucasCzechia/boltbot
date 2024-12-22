@@ -4,19 +4,21 @@ import { useState, useCallback } from 'react'
 export default function SearchServers({ servers, onSearch }) {
   const [query, setQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState('members')
+  const [displayedServerCount, setDisplayedServerCount] = useState(servers.length); // Initialize with total server count
 
   const handleSearch = useCallback((searchQuery) => {
     setQuery(searchQuery)
-    const filtered = servers.filter(server => 
+    const filtered = servers.filter(server =>
       server.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
     onSearch(filtered)
+    setDisplayedServerCount(filtered.length); 
   }, [servers, onSearch])
 
   const handleFilter = (filter) => {
     setActiveFilter(filter)
     let sorted = [...servers]
-    
+
     switch(filter) {
       case 'members':
         sorted.sort((a, b) => b.memberCount - a.memberCount)
@@ -28,8 +30,9 @@ export default function SearchServers({ servers, onSearch }) {
         sorted = sorted.filter(server => server.botPresent)
         break
     }
-    
+
     onSearch(sorted)
+    setDisplayedServerCount(sorted.length); // Update displayed count
   }
 
   return (
@@ -39,10 +42,10 @@ export default function SearchServers({ servers, onSearch }) {
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        
-        <input 
-          type="text" 
-          className="search-input" 
+
+        <input
+          type="text"
+          className="search-input"
           placeholder="Search servers..."
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
@@ -64,7 +67,7 @@ export default function SearchServers({ servers, onSearch }) {
       </div>
 
       <div className="search-filters">
-        <button 
+        <button
           className={`filter-chip ${activeFilter === 'members' ? 'active' : ''}`}
           onClick={() => handleFilter('members')}
         >
@@ -75,7 +78,7 @@ export default function SearchServers({ servers, onSearch }) {
           </svg>
           Most Members
         </button>
-        <button 
+        <button
           className={`filter-chip ${activeFilter === 'alphabetical' ? 'active' : ''}`}
           onClick={() => handleFilter('alphabetical')}
         >
@@ -84,7 +87,7 @@ export default function SearchServers({ servers, onSearch }) {
           </svg>
           Alphabetical
         </button>
-        <button 
+        <button
           className={`filter-chip ${activeFilter === 'bot' ? 'active' : ''}`}
           onClick={() => handleFilter('bot')}
         >
@@ -97,8 +100,9 @@ export default function SearchServers({ servers, onSearch }) {
       </div>
 
       <div className="search-results">
-        {query && `Showing ${servers.length} servers`}
+        {query && `Showing ${displayedServerCount} servers`}
+        {!query && `Showing ${servers.length} servers`}
       </div>
     </div>
   )
-            }
+}
