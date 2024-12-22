@@ -74,24 +74,25 @@ const particlesConfig = {
 export default function Login() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { from } = router.query
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.replace('/dashboard/servers')
+      router.push(from || '/dashboard/servers')
     }
-  }, [status, router])
+  }, [status, router, from])
 
   const handleSignIn = async (e) => {
-   e.preventDefault();
-  try {
-    await signIn('discord', {
-      callbackUrl: '/dashboard/servers',
-      redirect: true,
-    });
-  } catch (error) {
-    console.error('Sign in error:', error);
+    e.preventDefault()
+    try {
+      await signIn('discord', {
+        callbackUrl: from || '/dashboard/servers',
+        redirect: true,
+      })
+    } catch (error) {
+      console.error('Sign in error:', error)
+    }
   }
-};
 
   if (status === 'loading') {
     return (
@@ -237,23 +238,12 @@ export default function Login() {
 }
 
 export async function getServerSideProps({ req, res }) {
-  if (req.cookies['next-auth.session-token'] || req.cookies['__Secure-next-auth.session-token']) {
-    return {
-      redirect: {
-        destination: '/dashboard/servers',
-        permanent: false,
-      },
-    };
-  }
-
   res.setHeader(
     'Cache-Control',
     'private, no-cache, no-store, max-age=0, must-revalidate'
-  );
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+  )
+  res.setHeader('Pragma', 'no-cache')
+  res.setHeader('Expires', '0')
 
-  return {
-    props: {},
-  };
+  return { props: {} }
 }
