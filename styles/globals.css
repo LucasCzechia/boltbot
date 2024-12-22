@@ -23,8 +23,15 @@
 
 /* Servers Selection Dashboard Styles */
 @import './dashboard/servers/greeting.css';
-@import './dashboard/servers/servers.css'; 
+@import './dashboard/servers/base.css';
+@import './dashboard/servers/loading-states.css';
+@import './dashboard/servers/media-types.css';
+@import './dashboard/servers/pin-styles.css';
 @import './dashboard/servers/search.css';
+@import './dashboard/servers/server-header.css';
+@import './dashboard/servers/server-card.css';
+@import './dashboard/servers/servers-grid.css';
+@import './dashboard/servers/status-styles.css';
 
 /* Servers ID Dashboard Styles */
 @import './dashboard/server/base.css';
