@@ -71,6 +71,30 @@
   );
 }
 
+/* Top Stuff Styles */
+.greeting-banner,
+.page-title,
+.page-subtitle,
+.server-grid {
+  position: relative;
+  z-index: 2;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: var(--theme-transition);
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  transition: var(--theme-transition);
+}
+
 /* Server Container and Grid Styles */
 .servers-container {
   position: relative;
