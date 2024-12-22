@@ -81,29 +81,36 @@ export default function GreetingBanner({ username }) {
                 <stop offset="100%" stopColor="currentColor" stopOpacity="0"/>
               </radialGradient>
             </defs>
-            <path d="M12 2a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z" className="moon-body" strokeLinecap="round" strokeLinejoin="round"/>
-            <g className="stars">
-              {[...Array(6)].map((_, i) => (
-                <g key={i} className={`star-group-${i + 1}`}>
-                  <circle
-                    cx={14 + i * 1.5}
-                    cy={4 + i}
-                    r="0.5"
-                    className="star"
-                    fill="currentColor"
-                  />
-                  <circle
-                    cx={14 + i * 1.5}
-                    cy={4 + i}
-                    r="1"
-                    className="star-glow"
-                    fill="url(#star-glow)"
-                  />
-                </g>
-              ))}
+            <g className="night-scene">
+              <path 
+                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" 
+                className="moon-body"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <g className="stars">
+                {[...Array(6)].map((_, i) => (
+                  <g key={i} className={`star-group-${i + 1}`}>
+                    <circle 
+                      cx={14 + i * 1.5} 
+                      cy={4 + i} 
+                      r="0.5" 
+                      className="star" 
+                      fill="currentColor"
+                    />
+                    <circle 
+                      cx={14 + i * 1.5} 
+                      cy={4 + i} 
+                      r="1" 
+                      className="star-glow" 
+                      fill="url(#star-glow)"
+                    />
+                  </g>
+                ))}
+              </g>
+              <circle cx="15" cy="9" r="0.3" className="moon-crater" fill="currentColor" opacity="0.5"/>
+              <circle cx="18" cy="6" r="0.2" className="moon-crater" fill="currentColor" opacity="0.3"/>
             </g>
-            <circle cx="15" cy="9" r="0.3" className="moon-crater" fill="currentColor" opacity="0.5"/>
-            <circle cx="18" cy="6" r="0.2" className="moon-crater" fill="currentColor" opacity="0.3"/>
           </svg>
         )
       }
