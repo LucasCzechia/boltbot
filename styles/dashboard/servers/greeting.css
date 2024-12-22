@@ -1,12 +1,7 @@
 /* styles/dashboard/servers/greeting.css */
 :root {
-  --greeting-text-color: var(--light);
-  --greeting-icon-color: var(--light);
-}
-
-:root[data-theme="light"] {
-  --greeting-text-color: var(--dark);
-  --greeting-icon-color: var(--dark);  
+  --greeting-text-color: var(--text-primary);
+  --greeting-icon-color: var(--text-primary);
 }
 
 .greeting-banner {
@@ -17,6 +12,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .greeting-icon {
@@ -34,6 +30,68 @@
   transition: color 0.3s ease;
 }
 
+/* Morning Animation */
+.morning-sun {
+  animation: rise 1s ease-out;
+}
+
+.sun-core {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.sun-rays line {
+  animation: rayPulse 2s ease-in-out infinite;
+  stroke-linecap: round;
+  transform-origin: center;
+}
+
+.sun-glow {
+  animation: glowPulse 2s ease-in-out infinite alternate;
+}
+
+/* Evening Animation */
+.evening-moon {
+  animation: moonRise 1s ease-out;
+}
+
+.moon-body {
+  animation: moonGlow 3s ease-in-out infinite alternate;
+}
+
+.moon-crater {
+  animation: craterFade 4s ease-in-out infinite alternate;
+}
+
+/* Night Animation */
+.night-scene {
+  animation: nightFade 1s ease-out;
+}
+
+.stars circle {
+  animation: twinkle 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes rise {
+  from { transform: translateY(20%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes moonRise {
+  from { transform: translateY(20%) rotate(-45deg); opacity: 0; }
+  to { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+@keyframes moonGlow {
+  from { filter: drop-shadow(0 0 2px rgba(255, 204, 0, 0.2)); }
+  to { filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.4)); }
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .greeting-banner {
     padding: 1rem;
@@ -61,5 +119,34 @@
 
   .greeting-text {
     font-size: 1.5rem;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .greeting-banner,
+  .greeting-icon,
+  .morning-sun,
+  .sun-core,
+  .sun-rays,
+  .sun-glow,
+  .evening-moon,
+  .moon-body,
+  .moon-crater,
+  .stars {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Print */
+@media print {
+  .greeting-banner {
+    color: black;
+    margin-bottom: 1rem;
+  }
+
+  .greeting-icon {
+    display: none;
   }
 }
