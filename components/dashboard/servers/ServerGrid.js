@@ -13,10 +13,8 @@ export default function ServerGrid() {
   const [servers, setServers] = useState([])
   const [filteredServers, setFilteredServers] = useState([])
   const [loading, setLoading] = useState(true)
-  const [initialDataLoaded, setInitialDataLoaded] = useState(false)
   const [activeCards, setActiveCards] = useState([])
   const [pinnedServers, setPinnedServers] = useState(new Set())
-  const [serverCount, setServerCount] = useState(0)
   const [hasSearched, setHasSearched] = useState(false)
   const router = useRouter()
 
@@ -25,19 +23,14 @@ export default function ServerGrid() {
       const response = await fetch('/api/discord/servers')
       if (!response.ok) throw new Error('Failed to fetch servers')
       const data = await response.json()
-      
-      setServerCount(data.length)
-      setInitialDataLoaded(true)
-      
+
       setTimeout(() => {
         setServers(data)
         setFilteredServers(data)
         setLoading(false)
       }, 700)
-      
     } catch (error) {
       console.error('Error:', error)
-      setServerCount(0)
       setLoading(false)
     }
   }
@@ -107,11 +100,7 @@ export default function ServerGrid() {
   }
 
   if (loading) {
-    // Only show loading preview if we have the initial count
-    if (!initialDataLoaded) {
-      return <LoadingPreview count={9} />
-    }
-    return <LoadingPreview count={serverCount} />
+    return <LoadingPreview count={servers.length || 15} />
   }
 
   if (!loading && servers.length === 0) {
