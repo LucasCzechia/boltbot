@@ -39,9 +39,19 @@ export default function DashboardNav() {
     document.documentElement.setAttribute('data-theme', newTheme)
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     setShowDropdown(false)
-    router.push('/auth/login/logout')
+    try {
+      localStorage.clear()
+      sessionStorage.clear()
+      document.cookie.split(";").forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+      });
+      window.location.href = '/api/auth/signout?redirect=/auth/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+      window.location.href = '/auth/login'
+    }
   }
 
   const handleClickOutside = (event) => {
