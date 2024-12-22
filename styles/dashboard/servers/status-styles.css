@@ -1,0 +1,66 @@
+/* Status Styles */
+.card-content {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.member-count {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.online-count {
+  color: var(--success);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+}
+
+.online-count::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--success);
+}
+
+.server-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  margin-top: 0.5rem;
+}
+
+.server-card:hover .server-status {
+  border-color: var(--primary);
+  background: var(--hover-bg);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.status-dot.active {
+  background: var(--success);
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.4);
+}
+
+.status-dot.inactive {
+  background: #95a5a6;
+  box-shadow: 0 0 12px rgba(149, 165, 166, 0.4);
+}
