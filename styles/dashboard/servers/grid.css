@@ -54,6 +54,33 @@
   background-clip: text;
 }
 
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 200px;
+  text-align: center;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--card-bg-gradient);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(var(--blur-strength));
+}
+
+.no-results h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.no-results p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
 /* Loading Grid */
 .servers-grid.loading {
   opacity: 0.8;
