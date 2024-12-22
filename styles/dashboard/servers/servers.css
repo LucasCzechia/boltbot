@@ -685,26 +685,26 @@
 /* Large devices (desktops, less than 1200px) */
 @media (max-width: 1200px) {
   .servers-grid, .servers-grid.loading {
-    gap: 20px;
+    gap: 24px;
   }
   .servers-row, .loading-row {
-    gap: 20px;
+    gap: 24px;
   }
   .server-card, .loading-card {
-    width: calc((100% - 40px) / 3);
+    width: calc((100% - 48px) / 3);
   }
 }
 
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 992px) {
   .servers-grid, .servers-grid.loading {
-    gap: 16px;
+    gap: 20px;
   }
   .servers-row, .loading-row {
-    gap: 16px;
+    gap: 20px;
   }
   .server-card, .loading-card {
-    width: calc((100% - 16px) / 2);
+    width: calc((100% - 20px) / 2);
   }
 }
 
@@ -720,29 +720,30 @@
   }
   .server-card, .loading-card {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
+    padding: 1.25rem;
   }
   .server-name {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   .server-members {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
   }
   .server-icon {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
   }
   .server-status {
-    font-size: 0.875rem;
-    padding: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.75rem;
   }
   .loading-card {
-    height: 160px;
+    height: 180px;
   }
 }
 
-/* Extra small devices (phones, less than 576px) continued */
+/* Extra small devices (phones, less than 576px) */
 @media (max-width: 576px) {
   .servers-grid, .servers-grid.loading {
     gap: 12px;
@@ -752,74 +753,14 @@
     gap: 12px;
   }
   .server-card, .loading-card {
-    padding: 1rem;
+    padding: 1.25rem;
   }
   .pin-button {
-    padding: 4px;
+    padding: 6px;
   }
   .pin-icon {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-/* Reduced Motion Preferences */
-@media (prefers-reduced-motion: reduce) {
-  .server-card,
-  .user-profile,
-  .pin-button,
-  .logo img,
-  .dropdown-menu,
-  .loading-shimmer {
-    transition: none;
-  }
-
-  .loading-card {
-    animation: none;
-    opacity: 1;
-  }
-
-  .loading-shimmer {
-    animation: none;
-    display: none;
-  }
-}
-
-/* High Contrast Preferences */
-@media (prefers-contrast: high) {
-  :root {
-    --border-color: rgba(255, 204, 0, 0.3);
-    --hover-bg: rgba(255, 204, 0, 0.2);
-  }
-
-  :root[data-theme="light"] {
-    --border-color: rgba(0, 0, 0, 0.3);
-    --hover-bg: rgba(255, 204, 0, 0.15);
-  }
-
-  .server-card,
-  .user-profile,
-  .dropdown-menu {
-    border-width: 2px;
-  }
-
-  .server-status {
-    border: 1px solid var(--border-color);
-  }
-
-  .status-dot {
-    border: 1px solid currentColor;
-  }
-}
-
-/* Safe Area Insets for Notched Devices */
-@supports (padding: env(safe-area-inset-bottom)) {
-  .servers-container {
-    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-  }
-
-  .dropdown-menu {
-    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    width: 16px;
+    height: 16px;
   }
 }
 
