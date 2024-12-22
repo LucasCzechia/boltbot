@@ -259,41 +259,47 @@
 /* Pin Button Styles */
 .pin-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 12px;
+  right: 12px;
   z-index: 10;
   opacity: 0;
-  transition: all 0.3s ease;
-  padding: 0.5rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--theme-transition);
   border-radius: 50%;
   background: var(--bg-secondary);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-color);
+  backdrop-filter: blur(4px);
+  border: none;
   cursor: pointer;
-  transform: scale(0.9);
 }
 
 .server-card:hover .pin-button {
   opacity: 1;
-  transform: scale(1);
 }
 
 .pin-button:hover {
   background: var(--hover-bg);
   transform: scale(1.1);
-  border-color: var(--primary);
 }
 
 .pin-icon {
-  transition: all 0.3s ease;
+  transition: var(--theme-transition);
   color: var(--text-primary);
-  width: 16px;
-  height: 16px;
 }
 
 .pin-button:hover .pin-icon {
-  color: var(--primary);
-  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.4));
+  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
+}
+
+/* Ensure circular shape on mobile */
+@media (max-width: 576px) {
+  .pin-button {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 /* Status Styles */
