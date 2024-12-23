@@ -5,17 +5,21 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { toast, Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import DashboardNav from '../../../../components/dashboard/DashboardNav';
-import DashboardFooter from '../../../../components/dashboard/DashboardFooter';
-import ServerSidebar from '../../../../components/dashboard/server/ServerSidebar';
-import ServerHeader from '../../../../components/dashboard/server/ServerHeader';
-import ServerGeneral from '../../../../components/dashboard/server/ServerGeneral';
-import ServerTools from '../../../../components/dashboard/server/ServerTools';
-import ServerFeatures from '../../../../components/dashboard/server/ServerFeatures';
-import ServerPersonality from '../../../../components/dashboard/server/ServerPersonality';
-import ScrollToTop from '../../../../components/dashboard/ScrollToTop';
-import Starfield from '../../../../components/misc/Starfield';
+import { Settings2, BoltIcon, Wrench, Zap, Bot, LayoutGrid, Radio } from 'lucide-react';
 
+// Component imports
+import DashboardNav from '@/components/dashboard/DashboardNav';
+import DashboardFooter from '@/components/dashboard/DashboardFooter';
+import ServerSidebar from '@/components/dashboard/server/ServerSidebar';
+import ServerHeader from '@/components/dashboard/server/ServerHeader';
+import ServerGeneral from '@/components/dashboard/server/ServerGeneral';
+import ServerTools from '@/components/dashboard/server/ServerTools';
+import ServerFeatures from '@/components/dashboard/server/ServerFeatures';
+import ServerPersonality from '@/components/dashboard/server/ServerPersonality';
+import ScrollToTop from '@/components/dashboard/ScrollToTop';
+import Starfield from '@/components/misc/Starfield';
+
+// Default settings configuration
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
   contextLength: 15,
@@ -37,6 +41,14 @@ const DEFAULT_SETTINGS = {
   personality: 'default'
 };
 
+// Tab configuration
+const TABS = [
+  { id: 'general', label: 'General', icon: Settings2 },
+  { id: 'tools', label: 'Tools', icon: Wrench },
+  { id: 'features', label: 'Features', icon: Zap },
+  { id: 'personality', label: 'Personality', icon: Bot }
+];
+
 export default function ServerDashboard() {
   const router = useRouter();
   const { id: serverId } = router.query;
@@ -47,13 +59,17 @@ export default function ServerDashboard() {
     },
   });
   
+  // State management
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [serverInfo, setServerInfo] = useState(null);
+  const [showMobileNav, setShowMobileNav] = useState(false);
 
+  // Fetch server settings
   useEffect(() => {
     const fetchSettings = async () => {
       if (!serverId) return;
@@ -101,6 +117,33 @@ export default function ServerDashboard() {
     }
   }, [serverId, session?.accessToken]);
 
+  // Fetch server info
+  useEffect(() => {
+    const fetchServerInfo = async () => {
+      if (!serverId) return;
+
+      try {
+        const response = await fetch(`/api/discord/servers/${serverId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setServerInfo(data);
+        }
+      } catch (error) {
+        console.error('Error fetching server info:', error);
+      }
+    };
+
+    if (serverId) {
+      fetchServerInfo();
+    }
+  }, [serverId]);
+
+  // Handle setting changes
   const handleSettingChange = (category, setting, value) => {
     setSettings(prevSettings => {
       if (setting === null) {
@@ -121,6 +164,7 @@ export default function ServerDashboard() {
     setIsEditing(true);
   };
 
+  // Save settings
   const saveSettings = async () => {
     if (!serverId) return;
 
@@ -146,16 +190,16 @@ export default function ServerDashboard() {
     }
   };
 
+  // Loading state
   if (status === 'loading') {
     return (
       <div className="loading-screen">
-        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
-          <path d="M13 0L0 13h9v11l13-13h-9z"/>
-        </svg>
+        <BoltIcon className="animate-pulse text-primary" size={48} />
       </div>
     );
   }
 
+  // Render content based on active tab
   const renderContent = () => {
     const props = {
       settings,
@@ -166,55 +210,84 @@ export default function ServerDashboard() {
       setIsEditing,
       saveSettings,
       isSaving,
-      loading
+      loading,
+      serverInfo
     };
 
-    switch (activeTab) {
-      case 'general':
-        return <ServerGeneral {...props} />;
-      case 'tools':
-        return <ServerTools {...props} />;
-      case 'features':
-        return <ServerFeatures {...props} />;
-      case 'personality':
-        return <ServerPersonality {...props} />;
-      default:
-        return null;
-    }
+    const components = {
+      general: ServerGeneral,
+      tools: ServerTools,
+      features: ServerFeatures,
+      personality: ServerPersonality
+    };
+
+    const Component = components[activeTab];
+    return Component ? <Component {...props} /> : null;
   };
 
   return (
     <>
       <Head>
-        <title>Server Settings - BoltBot⚡</title>
+        <title>{serverInfo?.name ? `${serverInfo.name} - Settings` : 'Server Settings'} | BoltBot⚡</title>
       </Head>
 
       <Starfield />
   
       <DashboardNav />
 
-      <div className="dashboard-container">
-        <ServerSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        
-        <main className="dashboard-main">
-          <ServerHeader />
-          
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderContent()}
-            </motion.div>
-          </AnimatePresence>
-        </main>
+      <div className="dashboard-wrapper">
+        {/* Mobile Navigation Toggle */}
+        <button 
+          className="mobile-nav-toggle md:hidden fixed bottom-6 right-6 z-50 bg-primary text-dark p-3 rounded-full shadow-lg"
+          onClick={() => setShowMobileNav(!showMobileNav)}
+        >
+          <LayoutGrid size={24} />
+        </button>
+
+        {/* Sidebar */}
+        <div className={`dashboard-sidebar ${showMobileNav ? 'show' : ''}`}>
+          <ServerSidebar 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab}
+            tabs={TABS}
+            onTabChange={() => setShowMobileNav(false)}
+          />
+        </div>
+
+        {/* Main Content */}
+        <div className="dashboard-content">
+          <div className="content-container">
+            <ServerHeader serverInfo={serverInfo} loading={loading} />
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="content-wrapper"
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
 
+      <ScrollToTop />
       <DashboardFooter />
-      <Toaster position="top-right" />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#1a1a1a',
+            color: '#fff',
+            border: '1px solid rgba(255, 204, 0, 0.1)'
+          }
+        }}
+      />
     </>
   );
 }
