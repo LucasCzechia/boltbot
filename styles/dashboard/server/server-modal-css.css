@@ -1,0 +1,227 @@
+/* styles/dashboard/server/modal.css */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* Modal Sizes */
+.modal-sm { max-width: 400px; }
+.modal-lg { max-width: 600px; }
+.modal-xl { max-width: 800px; }
+.modal-full { max-width: 96%; }
+
+/* Modal Header */
+.modal-header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: var(--spacing-xs);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: var(--transition-all);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Modal Content */
+.modal-content {
+  padding: var(--spacing-lg);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+}
+
+.modal-btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.modal-btn-primary {
+  background: var(--primary);
+  color: var(--dark);
+  border: none;
+}
+
+.modal-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.modal-btn-secondary:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-color-hover);
+}
+
+/* Loading State */
+.modal.loading .modal-content {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-tertiary);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Alert Variants */
+.modal-alert-success {
+  border-top: 4px solid var(--success);
+}
+
+.modal-alert-danger {
+  border-top: 4px solid var(--danger);
+}
+
+.modal-alert-warning {
+  border-top: 4px solid var(--warning);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: var(--spacing-md);
+  }
+
+  .modal {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    padding: var(--spacing-md);
+  }
+
+  .modal-content {
+    padding: var(--spacing-md);
+  }
+
+  .modal-footer {
+    padding: var(--spacing-md);
+    flex-direction: column;
+  }
+
+  .modal-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: var(--spacing-sm);
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .modal {
+    border-width: 2px;
+    outline: 1px solid var(--border-color);
+  }
+
+  .modal-btn {
+    outline: 1px solid currentColor;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal,
+  .modal-btn {
+    transition: none;
+  }
+
+  .modal-spinner {
+    animation: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .modal-overlay {
+    display: none;
+  }
+}
