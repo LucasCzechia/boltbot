@@ -33,16 +33,15 @@
 /* Servers ID Dashboard Styles */
 @import './dashboard/server/base.css';
 @import './dashboard/server/sidebar.css';
-@import './dashboard/server/header.css';
-@import './dashboard/server/general.css';
-@import './dashboard/server/tools.css';
-@import './dashboard/server/features.css';
-@import './dashboard/server/personality.css';
-@import './dashboard/server/card.css';
-@import './dashboard/server/toggle.css';
-@import './dashboard/server/modal.css';
-@import './dashboard/server/search.css';
-@import './dashboard/server/animation.css';
+@import './dashboard/server/server-header.css';
+@import './dashboard/server/content-section.css';
+@import './dashboard/server/header-actions.css';
+@import './dashboard/server/grids.css';
+@import './dashboard/server/settings.css';
+@import './dashboard/server/range-input.css';
+@import './dashboard/server/toggle-switch.css';
+@import './dashboard/server/card-content.css';
+@import './dashboard/server/loading-states.css';
 
 :root {
   /* Base colors */
