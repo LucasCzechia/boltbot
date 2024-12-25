@@ -19,14 +19,14 @@
 /* Dashboard Styles */
 @import './dashboard/nav.css';
 @import './dashboard/scroll-to-top.css';
-@import './dashboard/footer.css'; 
+@import './dashboard/footer.css';
+@import './dashboard/loading.css';
 
 /* Servers Selection Dashboard Styles */
 @import './dashboard/servers/base.css';
 @import './dashboard/servers/grid.css';
 @import './dashboard/servers/card.css';
 @import './dashboard/servers/search.css';
-@import './dashboard/servers/loading.css';
 @import './dashboard/servers/pin.css';
 @import './dashboard/servers/greeting.css';
 
