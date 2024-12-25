@@ -7,7 +7,6 @@ import { toast, Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Settings2, BoltIcon, Wrench, Zap, Bot, LayoutGrid, Radio } from 'lucide-react';
 
-// Component imports
 import DashboardNav from '@/components/dashboard/DashboardNav';
 import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import ServerSidebar from '@/components/dashboard/server/ServerSidebar';
@@ -19,7 +18,6 @@ import ServerPersonality from '@/components/dashboard/server/ServerPersonality';
 import ScrollToTop from '@/components/dashboard/ScrollToTop';
 import Starfield from '@/components/misc/Starfield';
 
-// Default settings configuration
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
   contextLength: 15,
@@ -41,7 +39,6 @@ const DEFAULT_SETTINGS = {
   personality: 'default'
 };
 
-// Tab configuration
 const TABS = [
   { id: 'general', label: 'General', icon: Settings2 },
   { id: 'tools', label: 'Tools', icon: Wrench },
@@ -59,7 +56,6 @@ export default function ServerDashboard() {
     },
   });
   
-  // State management
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
@@ -69,7 +65,6 @@ export default function ServerDashboard() {
   const [serverInfo, setServerInfo] = useState(null);
   const [showMobileNav, setShowMobileNav] = useState(false);
 
-  // Fetch server settings
   useEffect(() => {
     const fetchSettings = async () => {
       if (!serverId) return;
@@ -117,7 +112,6 @@ export default function ServerDashboard() {
     }
   }, [serverId, session?.accessToken]);
 
-  // Fetch server info
   useEffect(() => {
     const fetchServerInfo = async () => {
       if (!serverId) return;
@@ -143,7 +137,6 @@ export default function ServerDashboard() {
     }
   }, [serverId]);
 
-  // Handle setting changes
   const handleSettingChange = (category, setting, value) => {
     setSettings(prevSettings => {
       if (setting === null) {
@@ -164,7 +157,6 @@ export default function ServerDashboard() {
     setIsEditing(true);
   };
 
-  // Save settings
   const saveSettings = async () => {
     if (!serverId) return;
 
@@ -190,7 +182,6 @@ export default function ServerDashboard() {
     }
   };
 
-  // Loading state
   if (status === 'loading') {
     return (
       <div className="loading-screen">
@@ -199,7 +190,6 @@ export default function ServerDashboard() {
     );
   }
 
-  // Render content based on active tab
   const renderContent = () => {
     const props = {
       settings,
