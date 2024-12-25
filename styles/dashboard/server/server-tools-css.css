@@ -1,0 +1,257 @@
+/* styles/dashboard/server/tools.css */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.tool-card {
+  position: relative;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: var(--transition-all);
+}
+
+.tool-content {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Card Header */
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.tool-icon {
+  color: var(--primary);
+  transition: var(--transition-all);
+}
+
+.tool-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.tool-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Hover Effects */
+.tool-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-glow);
+  opacity: 0;
+  transition: var(--transition-all);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.tool-card:hover::before {
+  opacity: 0.1;
+}
+
+.tool-card:hover .tool-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.4));
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  align-self: flex-start;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  transition: var(--transition-all);
+}
+
+.toggle-slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--text-secondary);
+  border-radius: 50%;
+  transition: var(--transition-all);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+  background-color: var(--dark);
+}
+
+/* Loading States */
+.tool-card.loading {
+  pointer-events: none;
+}
+
+.tool-header.loading {
+  gap: var(--spacing-sm);
+}
+
+.skeleton-icon {
+  width: 24px;
+  height: 24px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 140px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+  height: 60px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-toggle {
+  width: 44px;
+  height: 24px;
+  background: var(--bg-secondary);
+  border-radius: 24px;
+  align-self: flex-start;
+  animation: shimmer 1.5s infinite;
+}
+
+.loading-shimmer {
+  position: absolute;
+  top: 0;
+  left: -200%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--bg-secondary) 50%,
+    transparent 100%
+  );
+  animation: loading-shimmer 2s infinite;
+}
+
+@keyframes loading-shimmer {
+  to {
+    transform: translateX(200%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .tool-content {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .tool-card h3 {
+    font-size: 1rem;
+  }
+
+  .tool-card p {
+    font-size: 0.9rem;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .tool-card {
+    border-width: 2px;
+  }
+  
+  .toggle-slider {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .tools-grid,
+  .tool-card,
+  .tool-icon,
+  .toggle-slider,
+  .toggle-slider:before {
+    animation: none;
+    transition: none;
+  }
+
+  .loading-shimmer {
+    display: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .tool-card {
+    break-inside: avoid;
+    border: 1px solid #000;
+    background: none;
+    box-shadow: none;
+  }
+
+  .toggle {
+    display: none;
+  }
+}
