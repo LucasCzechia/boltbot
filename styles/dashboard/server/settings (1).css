@@ -1,0 +1,33 @@
+/* styles/dashboard/server/settings.css */
+/* Settings */
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setting-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.setting-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  border-radius: 8px;
+  color: var(--light);
+  font-size: 0.875rem;
+}
+
+.setting-help {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}

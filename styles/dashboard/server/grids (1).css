@@ -1,0 +1,47 @@
+/* ./dashboard/server/grids.css */
+/* Grids */
+.features-grid,
+.tools-grid,
+.personality-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.feature-card,
+.tool-card,
+.personality-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Tablet Breakpoint */
+@media (min-width: 768px) {
+  .features-grid,
+  .tools-grid,
+  .personality-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop Breakpoint */
+@media (min-width: 1024px) {
+  .features-grid,
+  .tools-grid,
+  .personality-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktop Large Breakpoint */
+@media (min-width: 1280px) {
+  .features-grid,
+  .tools-grid,
+  .personality-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
