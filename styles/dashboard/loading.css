@@ -1,4 +1,4 @@
-/* styles/dashboard/servers/loading.css */
+/* styles/dashboard/loading.css */
 .servers-grid.loading {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
