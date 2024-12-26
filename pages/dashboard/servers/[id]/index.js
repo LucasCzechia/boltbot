@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { toast, Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings2, BoltIcon, Wrench, Zap, Bot, Menu, ChevronLeft, Save, Undo } from 'lucide-react';
+import { Settings2, BoltIcon, Wrench, Zap, Bot, Menu, Save, Undo } from 'lucide-react';
 
 import DashboardNav from '@/components/dashboard/DashboardNav';
 import DashboardFooter from '@/components/dashboard/DashboardFooter';
@@ -280,16 +280,6 @@ export default function ServerDashboard() {
       <DashboardNav />
 
       <div className="dashboard-wrapper">
-        <motion.button
-          className="back-navigation"
-          onClick={() => router.push('/dashboard/servers')}
-          initial={fadeInUp.initial}
-          animate={fadeInUp.animate}
-          transition={{ delay: 0.2 }}
-        >
-          <ChevronLeft />
-          <span>Back to Servers</span>
-        </motion.button>
 
         <AnimatePresence>
           {hasChanges && (
