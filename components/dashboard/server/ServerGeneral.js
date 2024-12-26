@@ -1,120 +1,99 @@
 // components/dashboard/server/ServerGeneral.js
-import { Search, Save } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useCallback } from 'react';
+import { Settings2, Bot, Globe, Users } from 'lucide-react';
+import ServerSearch from './ServerSearch';
+import { useState } from 'react';
 
-export default function ServerGeneral({ 
-  settings, 
-  handleSettingChange, 
-  searchQuery, 
-  setSearchQuery, 
-  isEditing, 
+const GENERAL_SETTINGS = {
+  botName: {
+    name: "Bot Name",
+    description: "The name your bot will use in responses and commands",
+    type: "text"
+  },
+  contextLength: {
+    name: "Context Length",
+    description: "Number of previous messages the bot will remember",
+    type: "range"
+  }
+};
+
+const filterOptions = [
+  { id: 'all', label: 'All Settings', icon: Settings2 },
+  { id: 'customized', label: 'Customized', icon: Bot },
+  { id: 'default', label: 'Default', icon: Globe }
+];
+
+export default function ServerGeneral({
+  settings,
+  handleSettingChange,
+  isEditing,
   saveSettings,
   isSaving,
   loading
 }) {
-  const handleContextChange = useCallback((e) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value)) {
-      handleSettingChange('contextLength', null, value);
-    }
-  }, [handleSettingChange]);
+  const [filteredSettings, setFilteredSettings] = useState(Object.entries(GENERAL_SETTINGS));
+  const defaultSettings = {
+    botName: 'BoltBot⚡',
+    contextLength: 15
+  };
 
-  const handleBotNameChange = useCallback((e) => {
-    handleSettingChange('botName', null, e.target.value);
-  }, [handleSettingChange]);
+  const handleSearch = ({ query, filter }) => {
+    let filtered = Object.entries(GENERAL_SETTINGS).filter(([key, setting]) => {
+      const matchesSearch = 
+        setting.name.toLowerCase().includes(query.toLowerCase()) ||
+        setting.description.toLowerCase().includes(query.toLowerCase());
+
+      if (filter === 'customized') {
+        return matchesSearch && settings[key] !== defaultSettings[key];
+      }
+      if (filter === 'default') {
+        return matchesSearch && settings[key] === defaultSettings[key];
+      }
+      return matchesSearch;
+    });
+
+    setFilteredSettings(filtered);
+  };
 
   if (loading) {
-    return (
-      <div className="content-section">
-        <div className="content-header">
-          <div className="skeleton-title"></div>
-          <div className="header-actions">
-            <div className="search-bar">
-              <Search size={20} />
-              <div className="skeleton-input"></div>
-            </div>
-          </div>
-        </div>
-
-        <div className="settings-section">
-          <div className="setting-group">
-            <div className="skeleton-label"></div>
-            <div className="skeleton-input"></div>
-            <div className="skeleton-text"></div>
-          </div>
-
-          <div className="setting-group">
-            <div className="skeleton-label"></div>
-            <div className="skeleton-range">
-              <div className="skeleton-track"></div>
-              <div className="skeleton-thumb"></div>
-            </div>
-            <div className="skeleton-text"></div>
-          </div>
-        </div>
-      </div>
-    );
+    return <div className="content-section loading">...</div>;
   }
 
   return (
     <div className="content-section">
-      <div className="content-header">
-        <h1>General Settings</h1>
-        <div className="header-actions">
-          <div className="search-bar">
-            <Search size={20} />
-            <input
-              type="text"
-              placeholder="Search settings..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          {isEditing && (
-            <motion.button
-              className="save-button"
-              onClick={saveSettings}
-              disabled={isSaving}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <Save size={20} />
-              {isSaving ? 'Saving...' : 'Save Changes'}
-            </motion.button>
-          )}
-        </div>
-      </div>
+      <ServerSearch 
+        onSearch={handleSearch}
+        filterOptions={filterOptions}
+        totalItems={filteredSettings.length}
+      />
 
       <div className="settings-section">
-        <div className="setting-group">
-          <label>Bot Name</label>
-          <input
-            type="text"
-            value={settings.botName || ''}
-            onChange={handleBotNameChange}
-            maxLength={32}
-            className="setting-input"
-          />
-          <span className="setting-help">This name will be used in responses and commands.</span>
-        </div>
-
-        <div className="setting-group">
-          <label>Context Length</label>
-          <div className="range-input">
-            <input
-              type="range"
-              min="1"
-              max="30"
-              value={settings.contextLength || 15}
-              onChange={handleContextChange}
-              className="range-slider"
-            />
-            <span className="range-value">{settings.contextLength || 15} messages</span>
+        {filteredSettings.map(([key, setting]) => (
+          <div key={key} className="setting-group">
+            <label>{setting.name}</label>
+            {setting.type === 'text' ? (
+              <input
+                type="text"
+                value={settings[key] || ''}
+                onChange={(e) => handleSettingChange(key, null, e.target.value)}
+                maxLength={32}
+                className="setting-input"
+              />
+            ) : (
+              <div className="range-input">
+                <input
+                  type="range"
+                  min="1"
+                  max="30"
+                  value={settings[key] || 15}
+                  onChange={(e) => handleSettingChange(key, null, parseInt(e.target.value))}
+                  className="range-slider"
+                />
+                <span className="range-value">{settings[key] || 15} messages</span>
+              </div>
+            )}
+            <span className="setting-help">{setting.description}</span>
           </div>
-          <span className="setting-help">Number of previous messages BoltBot⚡ will remember in conversations.</span>
-        </div>
+        ))}
       </div>
     </div>
   );
