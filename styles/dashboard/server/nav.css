@@ -1,13 +1,12 @@
 /* styles/dashboard/server/nav.css */
 :root {
-  --nav-item-height: 5rem;
-  --nav-indicator-size: 3px;
+  --nav-item-height: 3.5rem;
+  --nav-indicator-size: 2px;
   --nav-indicator-spacing: 0.75rem;
   --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
   --nav-hover-glow: 0 0 20px rgba(255, 204, 0, 0.15);
 }
 
-/* Base Mobile Styles - Keep Exactly As Original */
 .dashboard-sidebar {
   position: fixed;
   bottom: 0;
@@ -20,6 +19,10 @@
   z-index: 100;
   padding: 0.5rem;
   transition: all 0.3s var(--transition-curve);
+}
+
+.sidebar-header {
+  display: none;
 }
 
 .sidebar-nav {
@@ -116,7 +119,7 @@
   filter: drop-shadow(0 2px 8px rgba(255, 204, 0, 0.4));
 }
 
-/* Desktop Styles */
+/* Desktop Breakpoint */
 @media (min-width: 1024px) {
   .dashboard-sidebar {
     width: 320px;
@@ -127,19 +130,8 @@
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     border-top: none;
     background: rgba(17, 17, 17, 0.98);
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     overflow-y: auto;
-  }
-
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .dashboard-sidebar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .dashboard-sidebar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
 
   .sidebar-nav {
@@ -147,7 +139,10 @@
     gap: 1rem;
     padding: 0;
     height: auto;
-    min-height: min-content;
+  }
+
+  .mobile-label {
+    display: none;
   }
 
   .nav-item {
@@ -158,8 +153,7 @@
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    min-height: 5rem;
-    flex-shrink: 0;
+    min-height: 80px;
   }
 
   .nav-item:hover {
@@ -172,26 +166,6 @@
     background: rgba(255, 255, 255, 0.07);
     border-color: var(--item-color, var(--primary));
     transform: translateX(5px);
-  }
-
-  .nav-item-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    color: var(--item-color, var(--primary));
-    flex-shrink: 0;
-  }
-
-  .nav-item:hover .nav-item-icon,
-  .nav-item.active .nav-item-icon {
-    background: var(--item-color, var(--primary));
-    color: var(--dark);
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(var(--item-color, 255, 204, 0), 0.2);
   }
 
   .nav-item-content {
@@ -230,8 +204,8 @@
 
   @media (min-width: 1024px) {
     .dashboard-sidebar {
-      height: calc(100vh - var(--header-height));
       padding-bottom: 1.5rem;
+      height: calc(100vh - var(--header-height));
     }
   }
 }
