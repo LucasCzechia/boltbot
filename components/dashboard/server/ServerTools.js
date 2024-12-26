@@ -49,7 +49,7 @@ const TOOL_INFO = {
 const filterOptions = [
   { id: 'all', label: 'All Tools', icon: Search },
   { id: 'active', label: 'Enabled Only', icon: Power },
-  { id: 'inactive', label: 'Diabaled Only', icon: CircleSlash }
+  { id: 'inactive', label: 'Disabled Only', icon: CircleSlash }
 ];
 
 export default function ServerTools({ 
