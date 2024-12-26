@@ -1,5 +1,4 @@
 // components/dashboard/server/ServerSidebar.js
-import Image from 'next/image';
 import { Settings2, Wrench, Zap, UserCog } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -7,44 +6,43 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
   const sidebarItems = [
     {
       id: 'general',
-      label: 'General',
+      label: 'General Settings',
+      shortLabel: 'General',
       icon: Settings2,
-      description: 'Configure basic bot settings and behavior'
+      description: 'Configure basic bot settings and behavior',
+      color: '#ffcc00'
     },
     {
       id: 'tools',
-      label: 'Tools',
+      label: 'Bot Tools',
+      shortLabel: 'Tools',
       icon: Wrench,
-      description: 'Manage available bot tools and utilities'
+      description: 'Manage available bot tools and utilities',
+      color: '#3498db'
     },
     {
       id: 'features',
-      label: 'Features',
+      label: 'Bot Features',
+      shortLabel: 'Features',
       icon: Zap,
-      description: 'Control advanced bot features and capabilities'
+      description: 'Control advanced bot features and capabilities',
+      color: '#2ecc71'
     },
     {
       id: 'personality',
-      label: 'Personality',
+      label: 'Bot Personality',
+      shortLabel: 'Personality',
       icon: UserCog,
-      description: 'Customize bot personality and behavior'
+      description: 'Customize bot personality and behavior',
+      color: '#e74c3c'
     }
   ];
 
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 1024 : false;
+
   return (
     <aside className="dashboard-sidebar">
-      <div className="sidebar-header">
-        <Image
-          src="/images/boltbot.webp"
-          alt="BoltBot Logo"
-          width={40}
-          height={40}
-          className="server-icon"
-        />
-        <h2>Dashboard</h2>
-      </div>
-
-      <nav className="sidebar-nav">
+      <nav className={`sidebar-nav ${isMobile ? 'mobile' : ''}`}>
         {sidebarItems.map((item, index) => {
           const Icon = item.icon;
           return (
@@ -54,13 +52,23 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
               onClick={() => setActiveTab(item.id)}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ 
+                delay: index * 0.1,
+                duration: 0.3,
+                ease: [0.4, 0, 0.2, 1]
+              }}
+              style={{
+                '--item-color': item.color
+              }}
             >
-              <Icon size={24} />
-              {/* This span shows on mobile */}
-              <span className="mobile-label">{item.label}</span>
+              <div className="nav-item-icon">
+                <Icon size={24} />
+              </div>
               
-              {/* This div only shows on desktop */}
+              {/* Mobile Label */}
+              <span className="mobile-label">{item.shortLabel}</span>
+              
+              {/* Desktop Content */}
               <div className="nav-item-content">
                 <span className="nav-item-label">{item.label}</span>
                 <span className="nav-item-description">{item.description}</span>
