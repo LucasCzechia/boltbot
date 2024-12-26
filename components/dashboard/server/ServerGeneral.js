@@ -19,7 +19,6 @@ const GENERAL_SETTINGS = {
 const filterOptions = [
   { id: 'all', label: 'All Settings', icon: Settings2 },
   { id: 'customized', label: 'Customized', icon: Bot },
-  { id: 'default', label: 'Default', icon: Globe }
 ];
 
 export default function ServerGeneral({
@@ -44,9 +43,6 @@ export default function ServerGeneral({
 
       if (filter === 'customized') {
         return matchesSearch && settings[key] !== defaultSettings[key];
-      }
-      if (filter === 'default') {
-        return matchesSearch && settings[key] === defaultSettings[key];
       }
       return matchesSearch;
     });
