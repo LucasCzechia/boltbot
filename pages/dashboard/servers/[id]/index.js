@@ -368,7 +368,7 @@ export default function ServerDashboard() {
       </div>
 
       <ScrollToTop />
-      <DashboardFooter />
+     // <DashboardFooter />
       
       <Toaster 
         position="top-right"
