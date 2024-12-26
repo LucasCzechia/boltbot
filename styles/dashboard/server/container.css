@@ -1,5 +1,5 @@
-/* styles/dashboard/server/settings-container.css */
-.settings-container {
+/* styles/dashboard/server/container.css */
+.dashboard-container {
   background: rgba(17, 17, 17, 0.6);
   border-radius: 16px;
   border: 1px solid var(--border-color);
@@ -9,9 +9,10 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  margin-top: 1.5rem;
 }
 
-.settings-container::before {
+.dashboard-container::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -25,17 +26,17 @@
   pointer-events: none;
 }
 
-.settings-container:hover {
+.dashboard-container:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.settings-container:hover::before {
+.dashboard-container:hover::before {
   opacity: 1;
 }
 
-.settings-title {
+.container-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -45,51 +46,46 @@
   gap: 0.75rem;
 }
 
-.settings-title svg {
+.container-title svg {
   color: var(--primary);
 }
 
-.settings-description {
+.container-description {
   color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 2rem;
 }
 
+/* Light mode support */
+:root[data-theme="light"] .dashboard-container {
+  background: rgba(255, 255, 255, 0.95);
+}
+
 @media (max-width: 768px) {
-  .settings-container {
+  .dashboard-container {
     padding: 1.25rem;
+    margin-top: 1.25rem;
   }
 
-  .settings-title {
+  .container-title {
     font-size: 1.1rem;
     margin-bottom: 1.25rem;
   }
 
-  .settings-description {
+  .container-description {
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .settings-container {
+  .dashboard-container {
     padding: 1rem;
+    margin-top: 1rem;
   }
 
-  .settings-title {
-    font-size: 1rem;
+  .container-title {
     margin-bottom: 1rem;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .settings-container {
-    transition: none;
-  }
-}
-
-/* Light mode support */
-:root[data-theme="light"] .settings-container {
-  background: rgba(255, 255, 255, 0.95);
 }
