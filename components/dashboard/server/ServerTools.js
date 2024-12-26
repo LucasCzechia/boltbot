@@ -36,7 +36,7 @@ const TOOL_INFO = {
   },
   CreateFiles: {
     icon: FileText,
-    name: "File Management",
+    name: "Create Files",
     description: "Create and manage text-based files"
   },
   RunPython: {
