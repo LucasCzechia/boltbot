@@ -6,32 +6,28 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
   const sidebarItems = [
     {
       id: 'general',
-      label: 'General Settings',
-      shortLabel: 'General',
+      label: 'General',
       icon: Settings2,
       description: 'Configure basic bot settings and behavior',
       color: '#ffcc00'
     },
     {
       id: 'tools',
-      label: 'Bot Tools',
-      shortLabel: 'Tools',
+      label: 'Tools',
       icon: Wrench,
       description: 'Manage available bot tools and utilities',
       color: '#3498db'
     },
     {
       id: 'features',
-      label: 'Bot Features',
-      shortLabel: 'Features',
+      label: 'Features',
       icon: Zap,
       description: 'Control advanced bot features and capabilities',
       color: '#2ecc71'
     },
     {
       id: 'personality',
-      label: 'Bot Personality',
-      shortLabel: 'Personality',
+      label: 'Personality',
       icon: UserCog,
       description: 'Customize bot personality and behavior',
       color: '#e74c3c'
@@ -59,14 +55,15 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
                 '--item-color': item.color
               }}
             >
-              {/* Mobile View */}
-              <Icon size={24} />
-              <span>{item.shortLabel}</span>
-              
-              {/* Desktop View */}
+              {/* Icon shows in both views */}
               <div className="nav-item-icon">
                 <Icon size={24} />
               </div>
+
+              {/* Mobile label */}
+              <span className="mobile-label">{item.label}</span>
+              
+              {/* Desktop-only content */}
               <div className="nav-item-content">
                 <span className="nav-item-label">{item.label}</span>
                 <span className="nav-item-description">{item.description}</span>
