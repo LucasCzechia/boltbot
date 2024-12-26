@@ -1,5 +1,4 @@
 /* styles/globals.css */
-
 /* Misc Styles */
 @import './misc/starfield.css';
 @import './misc/snake.css';
@@ -37,6 +36,7 @@
 @import './dashboard/server/header.css';
 @import './dashboard/server/nav.css';
 @import './dashboard/server/loading.css';
+@import './dashboard/server/navigation-controls.css'; 
 
 :root {
   /* Base colors */
