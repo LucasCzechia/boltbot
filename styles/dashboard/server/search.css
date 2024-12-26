@@ -88,6 +88,7 @@
   gap: 1rem;
   margin-top: 1rem;
   flex-wrap: wrap;
+  align-items: center;
   position: relative;
 }
 
@@ -121,25 +122,34 @@
   height: 16px;
 }
 
-.filter-chip.info-filter {
+.info-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.3s ease;
   margin-left: auto;
-  background: transparent;
-  border-color: var(--border-color);
-  color: var(--text-secondary);
 }
 
-.filter-chip.info-filter:hover {
+.info-button:hover {
   color: var(--primary);
-  background: var(--hover-bg);
   border-color: var(--primary);
+  background: var(--hover-bg);
 }
 
 .info-dropdown {
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  width: 300px;
-  padding: 1.25rem;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 1rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -147,7 +157,6 @@
   font-size: 0.95rem;
   line-height: 1.6;
   z-index: 100;
-  transform-origin: top right;
   animation: dropdownFadeIn 0.2s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
@@ -157,11 +166,11 @@
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -169,12 +178,6 @@
   margin-top: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-secondary);
-}
-
-/* Light mode support */
-:root[data-theme="light"] .info-dropdown {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -208,27 +211,20 @@
     height: 14px;
   }
 
-  .search-results {
-    font-size: 0.8rem;
+  .info-button {
+    width: 32px;
+    height: 32px;
   }
 
-  .info-dropdown {
-    width: 250px;
-    font-size: 0.875rem;
-    padding: 1rem;
+  .search-results {
+    font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
   .info-dropdown {
+    right: 0;
     width: 100%;
-    left: 0;
-  }
-
-  .filter-chip.info-filter {
-    margin-left: 0;
-    width: 100%;
-    justify-content: center;
   }
 }
 
@@ -236,6 +232,7 @@
   .search-input,
   .search-clear,
   .filter-chip,
+  .info-button,
   .info-dropdown {
     transition: none;
     animation: none;
@@ -243,16 +240,9 @@
 }
 
 @media (prefers-contrast: high) {
-  .search-input {
+  .search-input,
+  .filter-chip,
+  .info-button {
     border-width: 2px;
-  }
-
-  .filter-chip {
-    border-width: 2px;
-  }
-
-  .info-dropdown {
-    border-width: 2px;
-    outline: 2px solid var(--primary);
   }
 }
