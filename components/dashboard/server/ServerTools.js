@@ -1,6 +1,6 @@
 // components/dashboard/server/ServerTools.js
 import { useState } from 'react';
-import { Globe, Image, DollarSign, Cloud, Clock, Smile, FileText, Code, Search, Power, CircleSlash } from 'lucide-react';
+import { Globe, Image, DollarSign, Cloud, Clock, Smile, FileText, Code, Search, Power, CircleSlash, Wrench } from 'lucide-react';
 import ServerSearch from './ServerSearch';
 
 const TOOL_INFO = {
@@ -47,9 +47,9 @@ const TOOL_INFO = {
 };
 
 const filterOptions = [
-  { id: 'all', label: 'All Tools', icon: Search },
-  { id: 'active', label: 'Enabled Only', icon: Power },
-  { id: 'inactive', label: 'Disabled Only', icon: CircleSlash }
+  { id: 'allTools', label: 'All Tools', icon: Search },
+  { id: 'activeTools', label: 'Enabled Only', icon: Power },
+  { id: 'inactiveTools', label: 'Disabled Only', icon: CircleSlash }
 ];
 
 export default function ServerTools({ 
@@ -68,10 +68,10 @@ export default function ServerTools({
         tool.name.toLowerCase().includes(query.toLowerCase()) ||
         tool.description.toLowerCase().includes(query.toLowerCase());
         
-      if (filter === 'active') {
+      if (filter === 'activeTools') {
         return matchesSearch && settings.tools[key];
       }
-      if (filter === 'inactive') {
+      if (filter === 'inactiveTools') {
         return matchesSearch && !settings.tools[key];
       }
       return matchesSearch;
@@ -92,29 +92,39 @@ export default function ServerTools({
         totalItems={filteredTools.length}
       />
 
-      <div className="tools-grid">
-        {filteredTools.map(([key, tool]) => (
-          <div 
-            key={key} 
-            className="tool-card"
-          >
-            <div className="tool-content">
-              <div className="tool-header">
-                <tool.icon className="tool-icon" size={24} />
-                <h3>{tool.name}</h3>
+      <div className="dashboard-container">
+        <h2 className="container-title">
+          <Wrench size={24} />
+          Bot Tools
+        </h2>
+        <p className="container-description">
+          Configure and manage the tools available to your bot. Enable or disable features based on your server's needs and customize their behavior.
+        </p>
+
+        <div className="tools-grid">
+          {filteredTools.map(([key, tool]) => (
+            <div 
+              key={key} 
+              className="tool-card"
+            >
+              <div className="tool-content">
+                <div className="tool-header">
+                  <tool.icon className="tool-icon" size={24} />
+                  <h3>{tool.name}</h3>
+                </div>
+                <p>{tool.description}</p>
+                <label className="toggle">
+                  <input
+                    type="checkbox"
+                    checked={settings.tools[key]}
+                    onChange={(e) => handleSettingChange('tools', key, e.target.checked)}
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
               </div>
-              <p>{tool.description}</p>
-              <label className="toggle">
-                <input
-                  type="checkbox"
-                  checked={settings.tools[key]}
-                  onChange={(e) => handleSettingChange('tools', key, e.target.checked)}
-                />
-                <span className="toggle-slider"></span>
-              </label>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
