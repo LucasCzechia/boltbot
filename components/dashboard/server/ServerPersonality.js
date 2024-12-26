@@ -37,7 +37,7 @@ const DEFAULT_PERSONALITIES = [
 const filterOptions = [
   { id: 'all', label: 'All Personalities', icon: Search },
   { id: 'preset', label: 'Pre-Created Only', icon: Bot },
-  { id: 'custom', label: 'Custom Made', icon: Sparkles }
+  { id: 'custom', label: 'Custom Made Only', icon: Sparkles }
 ];
 
 const MAX_NAME_LENGTH = 32;
