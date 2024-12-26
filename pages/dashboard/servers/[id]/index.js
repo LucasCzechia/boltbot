@@ -276,11 +276,11 @@ export default function ServerDashboard() {
         <title>{serverInfo?.name ? `${serverInfo.name} - Settings` : 'Server Settings'} | BoltBot⚡</title>
       </Head>
 
-      <Starfield />
       <DashboardNav />
 
       <div className="dashboard-wrapper">
-
+      <Starfield /> 
+  
         <AnimatePresence>
           {hasChanges && (
             <motion.div 
