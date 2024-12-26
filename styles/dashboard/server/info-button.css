@@ -71,7 +71,7 @@
 }
 
 .info-dropdown-icon {
-  padding: 0.5rem; /* Reduced padding to fix height overflow */
+  padding: 0.3rem;
   background: var(--hover-bg);
   border-radius: 12px;
   color: var(--primary);
