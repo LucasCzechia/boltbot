@@ -72,9 +72,6 @@ export default function ServerFeatures({
           <Zap size={24} />
           Bot Features
         </h2>
-        <p className="container-description">
-          Manage advanced bot features and capabilities. Enable powerful functionalities to enhance your server's experience.
-        </p>
 
         <div className="features-grid">
           {filteredFeatures.map(([key, feature]) => {
