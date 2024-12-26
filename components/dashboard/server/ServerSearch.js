@@ -123,19 +123,10 @@ export default function ServerSearch({ onSearch, filterOptions, totalItems, sect
           {showInfo && (
             <div 
               ref={infoDropdownRef}
-              className={`info-dropdown ${showInfo ? 'show' : ''}`}
+              className="info-dropdown"
+              role="tooltip"
             >
-              <div className="info-dropdown-content">
-                <div className="info-dropdown-header">
-                  <div className="info-dropdown-icon">
-                    <Info size={18} />
-                  </div>
-                  <div className="info-dropdown-title">
-                    About this section
-                  </div>
-                </div>
-                {getSectionInfo(section)}
-              </div>
+              {getSectionInfo(section)}
             </div>
           )}
         </div>
