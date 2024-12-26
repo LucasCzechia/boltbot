@@ -66,34 +66,45 @@ export default function ServerGeneral({
         totalItems={filteredSettings.length}
       />
 
-      <div className="settings-section">
-        {filteredSettings.map(([key, setting]) => (
-          <div key={key} className="setting-group">
-            <label>{setting.name}</label>
-            {setting.type === 'text' ? (
-              <input
-                type="text"
-                value={settings[key] || ''}
-                onChange={(e) => handleSettingChange(key, null, e.target.value)}
-                maxLength={32}
-                className="setting-input"
-              />
-            ) : (
-              <div className="range-input">
+      <div className="settings-container">
+        <h2 className="settings-title">
+          <Settings2 size={24} />
+          General Configuration
+        </h2>
+        <p className="settings-description">
+          Configure basic bot settings and behavior for your server. These settings affect how the bot interacts and responds to users.
+        </p>
+
+        <div className="settings-section">
+          {filteredSettings.map(([key, setting]) => (
+            <div key={key} className="setting-group">
+              <label>{setting.name}</label>
+              {setting.type === 'text' ? (
                 <input
-                  type="range"
-                  min="1"
-                  max="30"
-                  value={settings[key] || 15}
-                  onChange={(e) => handleSettingChange(key, null, parseInt(e.target.value))}
-                  className="range-slider"
+                  type="text"
+                  value={settings[key] || ''}
+                  onChange={(e) => handleSettingChange(key, null, e.target.value)}
+                  maxLength={32}
+                  className="setting-input"
+                  placeholder={defaultSettings[key]}
                 />
-                <span className="range-value">{settings[key] || 15} messages</span>
-              </div>
-            )}
-            <span className="setting-help">{setting.description}</span>
-          </div>
-        ))}
+              ) : (
+                <div className="range-input">
+                  <input
+                    type="range"
+                    min="1"
+                    max="30"
+                    value={settings[key] || 15}
+                    onChange={(e) => handleSettingChange(key, null, parseInt(e.target.value))}
+                    className="range-slider"
+                  />
+                  <span className="range-value">{settings[key] || 15} messages</span>
+                </div>
+              )}
+              <span className="setting-help">{setting.description}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
