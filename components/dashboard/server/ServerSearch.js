@@ -1,4 +1,4 @@
-// components/dashboard/server/ServerSearch.js 
+// components/dashboard/server/ServerSearch.js
 import { useState, useEffect, useRef } from 'react';
 import { Search as SearchIcon, X, Info } from 'lucide-react';
 
@@ -9,7 +9,7 @@ const getSectionInfo = (section) => {
     features: "Manage advanced bot features like image recognition and file handling. Control powerful functionalities to improve your server experience.",
     personality: "Customize your bot's personality and behavior patterns. Choose from preset personalities or create your own custom persona."
   };
-  return sectionInfo[section] || "";
+  return sectionInfo[section] || "No information available for this section.";
 };
 
 export default function ServerSearch({ onSearch, filterOptions, totalItems, section }) {
@@ -118,7 +118,6 @@ export default function ServerSearch({ onSearch, filterOptions, totalItems, sect
             aria-label="Show section information"
           >
             <Info size={16} />
-            Info
           </button>
           {showInfo && (
             <div 
