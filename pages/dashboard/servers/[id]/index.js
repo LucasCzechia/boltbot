@@ -5,19 +5,8 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { toast, Toaster } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Settings2, 
-  BoltIcon, 
-  Wrench, 
-  Zap, 
-  Bot, 
-  Menu,
-  ChevronLeft,
-  Save,
-  Undo
-} from 'lucide-react';
+import { Settings2, BoltIcon, Wrench, Zap, Bot, Menu, ChevronLeft, Save, Undo } from 'lucide-react';
 
-// Components
 import DashboardNav from '@/components/dashboard/DashboardNav';
 import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import ServerSidebar from '@/components/dashboard/server/ServerSidebar';
@@ -29,7 +18,38 @@ import ServerPersonality from '@/components/dashboard/server/ServerPersonality';
 import ScrollToTop from '@/components/dashboard/ScrollToTop';
 import Starfield from '@/components/misc/Starfield';
 
-// Constants
+const DEBUG = true;
+
+const DEBUG_SETTINGS = {
+  botName: 'Debug Bot⚡',
+  contextLength: 20,
+  tools: {
+    BrowseInternet: true,
+    GenerateImages: true,
+    CurrencyConverter: false,
+    GetWeather: true,
+    GetTime: false,
+    ReactEmojis: true,
+    CreateFiles: false,
+    RunPython: true,
+    GoogleImages: true
+  },
+  features: {
+    ImageRecognition: true,
+    FileHandling: false
+  },
+  personality: 'fancy'
+};
+
+const DEBUG_SERVER = {
+  id: '123456789',
+  name: 'Debug Server',
+  icon: null,
+  memberCount: 1337,
+  onlineCount: 42,
+  description: 'A debug server for testing purposes'
+};
+
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
   contextLength: 15,
@@ -58,7 +78,6 @@ const TABS = [
   { id: 'personality', label: 'Bot Personality', icon: Bot }
 ];
 
-// Animation Variants
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -84,21 +103,19 @@ export default function ServerDashboard() {
     },
   });
 
-  // State
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
-  const [originalSettings, setOriginalSettings] = useState(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState(DEBUG ? DEBUG_SETTINGS : DEFAULT_SETTINGS);
+  const [originalSettings, setOriginalSettings] = useState(DEBUG ? DEBUG_SETTINGS : DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [serverInfo, setServerInfo] = useState(null);
+  const [loading, setLoading] = useState(!DEBUG);
+  const [serverInfo, setServerInfo] = useState(DEBUG ? DEBUG_SERVER : null);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Fetch Settings
   const fetchSettings = useCallback(async () => {
-    if (!serverId) return;
+    if (!serverId || DEBUG) return;
 
     setLoading(true);
     try {
@@ -124,18 +141,14 @@ export default function ServerDashboard() {
       setOriginalSettings(mergedSettings);
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Failed to load settings', { 
-        icon: '⚠️',
-        duration: 4000
-      });
+      toast.error('Failed to load settings', { icon: '⚠️', duration: 4000 });
     } finally {
       setTimeout(() => setLoading(false), 1000);
     }
   }, [serverId, session]);
 
-  // Fetch Server Info
   const fetchServerInfo = useCallback(async () => {
-    if (!serverId) return;
+    if (!serverId || DEBUG) return;
 
     try {
       const response = await fetch(`/api/discord/servers/${serverId}`, {
@@ -152,7 +165,6 @@ export default function ServerDashboard() {
     }
   }, [serverId]);
 
-  // Initial Load
   useEffect(() => {
     if (serverId && session?.accessToken) {
       fetchSettings();
@@ -160,14 +172,12 @@ export default function ServerDashboard() {
     }
   }, [serverId, session?.accessToken, fetchSettings, fetchServerInfo]);
 
-  // Track Changes
   useEffect(() => {
     const settingsChanged = JSON.stringify(settings) !== JSON.stringify(originalSettings);
     setHasChanges(settingsChanged);
     setIsEditing(settingsChanged);
   }, [settings, originalSettings]);
 
-  // Unsaved Changes Warning
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (hasChanges) {
@@ -180,7 +190,6 @@ export default function ServerDashboard() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasChanges]);
 
-  // Handlers
   const handleSettingChange = (category, setting, value) => {
     setSettings(prev => {
       if (setting === null) {
@@ -195,14 +204,16 @@ export default function ServerDashboard() {
 
   const handleReset = () => {
     setSettings(originalSettings);
-    toast.success('Changes reverted', { 
-      icon: '↩️',
-      duration: 2000
-    });
+    toast.success('Changes reverted', { icon: '↩️', duration: 2000 });
   };
 
   const saveSettings = async () => {
     if (!serverId || !hasChanges) return;
+    if (DEBUG) {
+      toast.success('Settings saved (Debug Mode)', { icon: '🐛', duration: 2000 });
+      setOriginalSettings(settings);
+      return;
+    }
 
     setIsSaving(true);
     try {
@@ -215,10 +226,7 @@ export default function ServerDashboard() {
       if (!response.ok) throw new Error('Failed to save settings');
 
       setOriginalSettings(settings);
-      toast.success('Settings saved successfully!', {
-        icon: '✨',
-        duration: 3000
-      });
+      toast.success('Settings saved successfully!', { icon: '✨', duration: 3000 });
     } catch (error) {
       console.error('Error saving settings:', error);
       toast.error('Failed to save settings');
@@ -227,7 +235,6 @@ export default function ServerDashboard() {
     }
   };
 
-  // Loading State
   if (status === 'loading') {
     return (
       <div className="loading-screen">
@@ -248,7 +255,6 @@ export default function ServerDashboard() {
     );
   }
 
-  // Render Content
   const renderContent = () => {
     const props = {
       settings,
@@ -277,16 +283,13 @@ export default function ServerDashboard() {
   return (
     <>
       <Head>
-        <title>
-          {serverInfo?.name ? `${serverInfo.name} - Settings` : 'Server Settings'} | BoltBot⚡
-        </title>
+        <title>{serverInfo?.name ? `${serverInfo.name} - Settings` : 'Server Settings'} | BoltBot⚡</title>
       </Head>
 
       <Starfield />
       <DashboardNav />
 
       <div className="dashboard-wrapper">
-        {/* Back Navigation */}
         <motion.button
           className="back-navigation"
           onClick={() => router.push('/dashboard/servers')}
@@ -298,7 +301,6 @@ export default function ServerDashboard() {
           <span>Back to Servers</span>
         </motion.button>
 
-        {/* Save/Reset Controls */}
         <AnimatePresence>
           {hasChanges && (
             <motion.div 
@@ -328,7 +330,6 @@ export default function ServerDashboard() {
           )}
         </AnimatePresence>
 
-        {/* Mobile Navigation Toggle */}
         <button 
           className="mobile-nav-toggle md:hidden"
           onClick={() => setShowMobileNav(!showMobileNav)}
@@ -336,7 +337,6 @@ export default function ServerDashboard() {
           <Menu />
         </button>
 
-        {/* Mobile Navigation Overlay */}
         <AnimatePresence>
           {showMobileNav && (
             <motion.div
@@ -349,7 +349,6 @@ export default function ServerDashboard() {
           )}
         </AnimatePresence>
 
-        {/* Sidebar */}
         <div className={`dashboard-sidebar ${showMobileNav ? 'show' : ''}`}>
           <ServerSidebar 
             activeTab={activeTab} 
@@ -361,7 +360,6 @@ export default function ServerDashboard() {
           />
         </div>
 
-        {/* Main Content */}
         <motion.div 
           className="dashboard-content"
           variants={staggerContainer}
