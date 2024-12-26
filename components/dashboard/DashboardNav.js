@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Moon, Sun, LogOut, ServerIcon } from 'lucide-react'
+import { Moon, Sun, LogOut, ServerIcon, Home, Settings, Bot } from 'lucide-react'
 
 export default function DashboardNav() {
   const { data: session } = useSession()
@@ -12,6 +12,7 @@ export default function DashboardNav() {
   const [showDropdown, setShowDropdown] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(true)
   const isServerDashboard = router.pathname.startsWith('/dashboard/servers/[id]')
+  const isServerList = router.pathname === '/dashboard/servers'
 
   const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User'
   const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
@@ -65,6 +66,27 @@ export default function DashboardNav() {
     }
   }, [showDropdown])
 
+  const navItems = [
+    {
+      label: 'Home',
+      icon: Home,
+      href: '/dashboard/servers',
+      active: isServerList
+    },
+    {
+      label: 'Bot Settings',
+      icon: Bot,
+      href: '#',
+      active: isServerDashboard
+    },
+    {
+      label: 'System',
+      icon: Settings,
+      href: '#',
+      active: false
+    }
+  ]
+
   return (
     <nav className="dashboard-nav">
       <div className="nav-content">
@@ -76,8 +98,23 @@ export default function DashboardNav() {
             height={45}
             priority
           />
-          BoltBot⚡
+          <span className="logo-text">
+            {isServerDashboard || isServerList ? 'BoltBot⚡ Dashboard' : 'BoltBot⚡'}
+          </span>
         </Link>
+
+        <div className="nav-items desktop-only">
+          {navItems.map((item, index) => (
+            <Link
+              key={index}
+              href={item.href}
+              className={`nav-item ${item.active ? 'active' : ''}`}
+            >
+              <item.icon size={20} />
+              <span>{item.label}</span>
+            </Link>
+          ))}
+        </div>
 
         <div className="user-profile-wrapper">
           <div className="nav-controls">
