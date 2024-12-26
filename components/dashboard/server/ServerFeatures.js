@@ -1,5 +1,5 @@
 // components/dashboard/server/ServerFeatures.js
-import { Zap, Camera, FileText, CircleSlash, Power, Search } from 'lucide-react';
+import { Zap, Camera, FileText, FileType2, CircleSlash, Power, Search } from 'lucide-react';
 import ServerSearch from './ServerSearch';
 import { useState } from 'react';
 
@@ -13,7 +13,12 @@ const FEATURE_INFO = {
     icon: FileText,
     name: "File Management",
     description: "Comprehensive file system for viewing and organizing text files"
-  }
+  }, 
+  PdfHandling: {
+    icon: FileType2,
+    name: "PDF Management",
+    description: "View and read PDF-based files for content summarization"
+  } 
 };
 
 const filterOptions = [
