@@ -38,11 +38,9 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
     }
   ];
 
-  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 1024 : false;
-
   return (
     <aside className="dashboard-sidebar">
-      <nav className={`sidebar-nav ${isMobile ? 'mobile' : ''}`}>
+      <nav className="sidebar-nav">
         {sidebarItems.map((item, index) => {
           const Icon = item.icon;
           return (
@@ -61,14 +59,14 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
                 '--item-color': item.color
               }}
             >
+              {/* Mobile View */}
+              <Icon size={24} />
+              <span>{item.shortLabel}</span>
+              
+              {/* Desktop View */}
               <div className="nav-item-icon">
                 <Icon size={24} />
               </div>
-              
-              {/* Mobile Label */}
-              <span className="mobile-label">{item.shortLabel}</span>
-              
-              {/* Desktop Content */}
               <div className="nav-item-content">
                 <span className="nav-item-label">{item.label}</span>
                 <span className="nav-item-description">{item.description}</span>
