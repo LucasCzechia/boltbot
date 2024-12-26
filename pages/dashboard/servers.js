@@ -67,7 +67,7 @@ export default function ServersPage() {
         </div>
 
         <ScrollToTop />
-        <DashboardFooter />
+       // <DashboardFooter />
       </div>
     </>
   )
