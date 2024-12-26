@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         user: {
           id: session.user.id || session.id || null,
           name: session.user.name,
-          display_name: session.user.display_name || session.user.globalName, 
+          globalName: session.user.display_name || session.user.globalName, 
           image: session.user.image,
         },
         note: "hey there, heh... hacker 🤓" 
