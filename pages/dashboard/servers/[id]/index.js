@@ -21,7 +21,7 @@ import Starfield from '@/components/misc/Starfield';
 const DEBUG = true;
 
 const DEBUG_SETTINGS = {
-  botName: 'Debug Bot⚡',
+  botName: 'Debug BoltBot⚡',
   contextLength: 20,
   tools: {
     BrowseInternet: true,
