@@ -1,0 +1,138 @@
+/* styles/dashboard/server/components.css */
+/* Card Base */
+.dashboard-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s var(--transition-curve);
+  backdrop-filter: blur(var(--blur-strength));
+  -webkit-backdrop-filter: blur(var(--blur-strength));
+}
+
+.dashboard-card:hover {
+  border-color: var(--border-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px var(--shadow-color);
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 22px;
+  transition: 0.3s;
+}
+
+.toggle-slider:before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background: var(--light);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .toggle-slider {
+  background: var(--primary);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(22px);
+  background: var(--dark);
+}
+
+/* Range Input */
+.range-input {
+  padding: 0.5rem 0;
+}
+
+.range-slider {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  -webkit-appearance: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.range-value {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--primary);
+  margin-top: 0.5rem;
+}
+
+/* Settings Groups */
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setting-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.setting-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  border-radius: 8px;
+  color: var(--light);
+  font-size: 0.875rem;
+}
+
+.setting-help {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-card {
+    padding: 1rem;
+  }
+}

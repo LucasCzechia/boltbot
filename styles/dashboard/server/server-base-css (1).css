@@ -1,0 +1,117 @@
+/* styles/dashboard/server/base.css */
+:root {
+  --header-height: 64px;
+  --sidebar-width: 280px;
+  --content-max-width: 1400px;
+  --blur-strength: 10px;
+  --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Core Colors */
+  --primary: #ffcc00;
+  --primary-dark: #ff9900;
+  --dark: #0a0a0a;
+  --dark-light: #111111;
+  --light: #ffffff;
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --warning: #f1c40f;
+  --info: #3498db;
+  
+  /* Theme Colors */
+  --bg-primary: var(--dark);
+  --bg-secondary: rgba(20, 20, 20, 0.4);
+  --bg-tertiary: rgba(30, 30, 30, 0.6);
+  --text-primary: var(--light);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 204, 0, 0.1);
+  --border-color-hover: rgba(255, 204, 0, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  background: var(--bg-primary);
+  padding-top: var(--header-height);
+  color: var(--text-primary);
+}
+
+.dashboard-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  min-height: calc(100vh - var(--header-height));
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  transition: margin-left 0.3s var(--transition-curve);
+}
+
+.content-container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+  
+  .content-container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+  
+  .content-wrapper {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 0.75rem;
+  }
+  
+  .content-wrapper {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .dashboard-wrapper {
+    background: white;
+    color: black;
+  }
+}

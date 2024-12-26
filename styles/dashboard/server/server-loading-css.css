@@ -1,0 +1,184 @@
+/* styles/dashboard/server/loading.css */
+/* Base Loading Styles */
+.loading {
+  pointer-events: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer Animation Base */
+.loading-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* Skeleton Base Styles */
+.skeleton-avatar,
+.skeleton-icon,
+.skeleton-title,
+.skeleton-stat,
+.skeleton-input,
+.skeleton-text,
+.skeleton-toggle,
+.skeleton-label,
+.skeleton-track,
+.skeleton-button {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* Avatar & Icon Skeletons */
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.skeleton-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+/* Text Skeletons */
+.skeleton-title {
+  width: 200px;
+  height: 24px;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text {
+  width: 100%;
+  height: 16px;
+  margin: 0.5rem 0;
+}
+
+.skeleton-label {
+  width: 120px;
+  height: 16px;
+  margin-bottom: 0.5rem;
+}
+
+/* Stats Skeletons */
+.skeleton-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.skeleton-stat {
+  width: 100px;
+  height: 16px;
+}
+
+/* Input Skeletons */
+.skeleton-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+}
+
+/* Loading Sections */
+.content-section.loading {
+  opacity: 0.7;
+}
+
+.tool-card.loading,
+.feature-card.loading,
+.personality-card.loading {
+  height: 180px;
+}
+
+/* Search Bar Loading */
+.search-bar.loading {
+  width: 300px;
+  opacity: 0.7;
+}
+
+/* Animation */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .skeleton-title {
+    width: 150px;
+  }
+  
+  .search-bar.loading {
+    width: 100%;
+  }
+  
+  .skeleton-stats {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .tool-card.loading,
+  .feature-card.loading,
+  .personality-card.loading {
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .skeleton-stat {
+    width: 80px;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .skeleton-avatar,
+  .skeleton-icon,
+  .skeleton-title,
+  .skeleton-stat,
+  .skeleton-input,
+  .skeleton-text,
+  .skeleton-toggle,
+  .skeleton-label {
+    border: 1px solid var(--border-color);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .loading-shimmer,
+  .skeleton-avatar,
+  .skeleton-icon,
+  .skeleton-title,
+  .skeleton-stat,
+  .skeleton-input,
+  .skeleton-text,
+  .skeleton-toggle,
+  .skeleton-label {
+    animation: none;
+  }
+}
