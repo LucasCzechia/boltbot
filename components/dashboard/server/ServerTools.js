@@ -1,6 +1,6 @@
 // components/dashboard/server/ServerTools.js
 import { useState } from 'react';
-import { Globe, Image, DollarSign, Cloud, Clock, Smile, FileText, Code, Search } from 'lucide-react';
+import { Globe, Image, DollarSign, Cloud, Clock, Smile, FileText, Code, Search, CircleSlash } from 'lucide-react';
 import ServerSearch from './ServerSearch';
 
 const TOOL_INFO = {
@@ -49,7 +49,7 @@ const TOOL_INFO = {
 const filterOptions = [
   { id: 'all', label: 'All Tools', icon: Search },
   { id: 'active', label: 'Active Only', icon: Clock },
-  { id: 'inactive', label: 'Inactive', icon: FileText }
+  { id: 'inactive', label: 'Inactive Only', icon: CircleSlash }
 ];
 
 export default function ServerTools({ 
