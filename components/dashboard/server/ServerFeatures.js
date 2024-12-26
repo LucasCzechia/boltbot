@@ -38,10 +38,10 @@ export default function ServerFeatures({
         feature.name.toLowerCase().includes(query.toLowerCase()) ||
         feature.description.toLowerCase().includes(query.toLowerCase());
 
-      if (filter === 'enabled') {
+      if (filter === 'active') {
         return matchesSearch && settings.features[key];
       }
-      if (filter === 'disabled') {
+      if (filter === 'inactive') {
         return matchesSearch && !settings.features[key];
       }
       return matchesSearch;
