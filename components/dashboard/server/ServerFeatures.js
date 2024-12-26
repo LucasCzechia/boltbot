@@ -65,6 +65,7 @@ export default function ServerFeatures({
         onSearch={handleSearch}
         filterOptions={filterOptions}
         totalItems={filteredFeatures.length}
+        section="features" 
       />
 
       <div className="dashboard-container">
