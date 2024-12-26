@@ -10,15 +10,18 @@ export default async function handler(req, res) {
     if (session) {
       const safeSession = {
         user: {
-          if (token?.picture?.includes("discord")) {
-          session.user.id = token.sub;
-          }
+          id: session.user.id,
           name: session.user.name,
           globalName: session.user.display_name || session.user.globalName, 
           image: session.user.image,
         },
-        note: "hey there, heh... hacker 🤓" 
+        note: "hey there, heh... hacker 🤓"
       }
+
+      if (session.token?.picture?.includes("discord")) {
+        safeSession.user.id = session.token.sub;
+      }
+      
       return res.json(safeSession)
     }
     
