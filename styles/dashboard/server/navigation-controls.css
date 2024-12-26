@@ -1,4 +1,77 @@
 /* styles/dashboard/server/navigation-controls.css */
+.floating-controls-wrapper {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s var(--transition-curve);
+}
+
+.floating-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.floating-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s var(--transition-curve);
+  border: none;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.floating-button.primary {
+  background: var(--primary);
+  color: var(--dark);
+}
+
+.floating-button.secondary {
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  color: var(--primary);
+  border: 1px solid rgba(255, 204, 0, 0.2);
+}
+
+.floating-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 204, 0, 0.2);
+}
+
+.floating-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.floating-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.floating-button.scroll-top {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+  color: var(--dark);
+}
+
+.floating-button.scroll-top.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
 .back-navigation {
   position: fixed;
   top: calc(var(--header-height) + 1rem);
@@ -38,57 +111,7 @@
   transform: translateX(-4px);
 }
 
-.floating-controls {
-  position: fixed;
-  bottom: 2rem;
-  right: 1.5rem;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.floating-button {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s var(--transition-curve);
-  border: none;
-  cursor: pointer;
-}
-
-.floating-button.primary {
-  background: var(--primary);
-  color: var(--dark);
-}
-
-.floating-button.secondary {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(10px);
-  color: var(--primary);
-  border: 1px solid rgba(255, 204, 0, 0.2);
-}
-
-.floating-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(255, 204, 0, 0.2);
-}
-
-.floating-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.floating-button svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Mobile Navigation */
+/* Mobile Sidebar Toggle */
 .mobile-nav-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -113,7 +136,13 @@
 }
 
 /* Media Queries */
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
+  .floating-controls-wrapper {
+    right: 2rem;
+    bottom: 2rem;
+    margin-right: var(--sidebar-width);
+  }
+  
   .mobile-nav-toggle {
     display: none;
   }
@@ -124,14 +153,56 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .floating-controls-wrapper {
+    bottom: calc(var(--mobile-nav-height) + 1rem);
+  }
+  
+  .floating-button {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .floating-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .back-navigation {
+    max-width: 80%;
+  }
+}
+
 @media (max-width: 768px) {
-  .floating-controls {
-    bottom: 6rem;
+  .floating-controls-wrapper {
+    right: 1rem;
+    bottom: calc(var(--mobile-nav-height) + 0.75rem);
+  }
+  
+  .floating-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .floating-button svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .back-navigation {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  
+  .back-navigation svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+  .floating-controls-wrapper,
   .back-navigation,
   .floating-button,
   .mobile-nav-toggle {
@@ -145,13 +216,21 @@
 
 /* High Contrast */
 @media (prefers-contrast: high) {
-  .back-navigation {
+  .floating-button.secondary {
     border-width: 2px;
     background: var(--dark);
   }
 
-  .floating-button.secondary {
+  .back-navigation {
     border-width: 2px;
     background: var(--dark);
+  }
+}
+
+/* Safe Areas */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .floating-controls-wrapper {
+    bottom: calc(var(--mobile-nav-height) + 1rem + env(safe-area-inset-bottom));
+    right: calc(1.5rem + env(safe-area-inset-right));
   }
 }
