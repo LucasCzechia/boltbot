@@ -238,23 +238,13 @@ export default function ServerDashboard() {
   if (status === 'loading') {
     return (
       <div className="loading-screen">
-        <motion.div
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 360]
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <BoltIcon size={48} className="text-primary" />
-        </motion.div>
+        <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
+          <path d="M13 0L0 13h9v11l13-13h-9z"/>
+        </svg>
       </div>
-    );
+    )
   }
-
+  
   const renderContent = () => {
     const props = {
       settings,
