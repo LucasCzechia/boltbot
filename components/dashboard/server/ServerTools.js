@@ -90,6 +90,7 @@ export default function ServerTools({
         onSearch={handleSearch}
         filterOptions={filterOptions}
         totalItems={filteredTools.length}
+        section="tools" 
       />
 
       <div className="dashboard-container">
