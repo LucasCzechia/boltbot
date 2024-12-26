@@ -96,7 +96,7 @@ export default function ServerTools({
       <div className="dashboard-container">
         <h2 className="container-title">
           <Wrench size={24} />
-          Bot Tools
+          BoltBot⚡ Tools
         </h2>
 
         <div className="tools-grid">
