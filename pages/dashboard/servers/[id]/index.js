@@ -1,5 +1,5 @@
 // pages/dashboard/servers/[id]/index.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
@@ -11,12 +11,13 @@ import {
   Wrench, 
   Zap, 
   Bot, 
-  LayoutGrid, 
+  Menu,
   ChevronLeft,
   Save,
   Undo
 } from 'lucide-react';
 
+// Components
 import DashboardNav from '@/components/dashboard/DashboardNav';
 import DashboardFooter from '@/components/dashboard/DashboardFooter';
 import ServerSidebar from '@/components/dashboard/server/ServerSidebar';
@@ -28,6 +29,7 @@ import ServerPersonality from '@/components/dashboard/server/ServerPersonality';
 import ScrollToTop from '@/components/dashboard/ScrollToTop';
 import Starfield from '@/components/misc/Starfield';
 
+// Constants
 const DEFAULT_SETTINGS = {
   botName: 'BoltBot⚡',
   contextLength: 15,
@@ -50,31 +52,26 @@ const DEFAULT_SETTINGS = {
 };
 
 const TABS = [
-  { id: 'general', label: 'General', icon: Settings2, color: '#3498db' },
-  { id: 'tools', label: 'Tools', icon: Wrench, color: '#2ecc71' },
-  { id: 'features', label: 'Features', icon: Zap, color: '#f1c40f' },
-  { id: 'personality', label: 'Personality', icon: Bot, color: '#e74c3c' }
+  { id: 'general', label: 'General Settings', icon: Settings2 },
+  { id: 'tools', label: 'Bot Tools', icon: Wrench },
+  { id: 'features', label: 'Bot Features', icon: Zap },
+  { id: 'personality', label: 'Bot Personality', icon: Bot }
 ];
 
-const pageTransitionVariants = {
+// Animation Variants
+const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -20 }
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
+const staggerContainer = {
+  animate: {
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.1,
+      delayChildren: 0.3
     }
   }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 }
 };
 
 export default function ServerDashboard() {
@@ -86,7 +83,8 @@ export default function ServerDashboard() {
       router.push('/auth/login');
     },
   });
-  
+
+  // State
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [originalSettings, setOriginalSettings] = useState(DEFAULT_SETTINGS);
   const [activeTab, setActiveTab] = useState('general');
@@ -98,87 +96,78 @@ export default function ServerDashboard() {
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      if (!serverId) return;
+  // Fetch Settings
+  const fetchSettings = useCallback(async () => {
+    if (!serverId) return;
 
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session?.accessToken}`,
-          },
-        });
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.accessToken}`,
+        },
+      });
 
-        if (response.ok) {
-          const data = await response.json();
-          const mergedSettings = {
-            ...DEFAULT_SETTINGS,
-            ...data,
-            tools: {
-              ...DEFAULT_SETTINGS.tools,
-              ...data.tools
-            },
-            features: {
-              ...DEFAULT_SETTINGS.features,
-              ...data.features
-            }
-          };
-          setSettings(mergedSettings);
-          setOriginalSettings(mergedSettings);
-        } else {
-          throw new Error('Failed to fetch settings');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        toast.error('Failed to load settings', {
-          icon: '⚠️'
-        });
-      } finally {
-        setTimeout(() => setLoading(false), 1000);
-      }
-    };
+      if (!response.ok) throw new Error('Failed to fetch settings');
 
-    if (serverId && session?.accessToken) {
-      fetchSettings();
+      const data = await response.json();
+      const mergedSettings = {
+        ...DEFAULT_SETTINGS,
+        ...data,
+        tools: { ...DEFAULT_SETTINGS.tools, ...data.tools },
+        features: { ...DEFAULT_SETTINGS.features, ...data.features }
+      };
+
+      setSettings(mergedSettings);
+      setOriginalSettings(mergedSettings);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to load settings', { 
+        icon: '⚠️',
+        duration: 4000
+      });
+    } finally {
+      setTimeout(() => setLoading(false), 1000);
     }
-  }, [serverId, session?.accessToken]);
+  }, [serverId, session]);
 
-  useEffect(() => {
-    const fetchServerInfo = async () => {
-      if (!serverId) return;
+  // Fetch Server Info
+  const fetchServerInfo = useCallback(async () => {
+    if (!serverId) return;
 
-      try {
-        const response = await fetch(`/api/discord/servers/${serverId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+    try {
+      const response = await fetch(`/api/discord/servers/${serverId}`, {
+        headers: { 'Content-Type': 'application/json' }
+      });
 
-        if (response.ok) {
-          const data = await response.json();
-          setServerInfo(data);
-        }
-      } catch (error) {
-        console.error('Error fetching server info:', error);
-      }
-    };
+      if (!response.ok) throw new Error('Failed to fetch server info');
 
-    if (serverId) {
-      fetchServerInfo();
+      const data = await response.json();
+      setServerInfo(data);
+    } catch (error) {
+      console.error('Error fetching server info:', error);
+      toast.error('Failed to load server information');
     }
   }, [serverId]);
 
-  // Track changes
+  // Initial Load
+  useEffect(() => {
+    if (serverId && session?.accessToken) {
+      fetchSettings();
+      fetchServerInfo();
+    }
+  }, [serverId, session?.accessToken, fetchSettings, fetchServerInfo]);
+
+  // Track Changes
   useEffect(() => {
     const settingsChanged = JSON.stringify(settings) !== JSON.stringify(originalSettings);
     setHasChanges(settingsChanged);
     setIsEditing(settingsChanged);
   }, [settings, originalSettings]);
 
-  // Handle unsaved changes when navigating away
+  // Unsaved Changes Warning
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (hasChanges) {
@@ -191,29 +180,24 @@ export default function ServerDashboard() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasChanges]);
 
+  // Handlers
   const handleSettingChange = (category, setting, value) => {
-    setSettings(prevSettings => {
+    setSettings(prev => {
       if (setting === null) {
-        return {
-          ...prevSettings,
-          [category]: value
-        };
+        return { ...prev, [category]: value };
       }
-      
       return {
-        ...prevSettings,
-        [category]: {
-          ...prevSettings[category],
-          [setting]: value
-        }
+        ...prev,
+        [category]: { ...prev[category], [setting]: value }
       };
     });
   };
 
   const handleReset = () => {
     setSettings(originalSettings);
-    toast.success('Changes reverted', {
-      icon: '↩️'
+    toast.success('Changes reverted', { 
+      icon: '↩️',
+      duration: 2000
     });
   };
 
@@ -224,9 +208,7 @@ export default function ServerDashboard() {
     try {
       const response = await fetch(`/api/discord/servers/${serverId}/settings`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),
       });
 
@@ -234,19 +216,18 @@ export default function ServerDashboard() {
 
       setOriginalSettings(settings);
       toast.success('Settings saved successfully!', {
-        icon: '✨'
+        icon: '✨',
+        duration: 3000
       });
-      setIsEditing(false);
     } catch (error) {
       console.error('Error saving settings:', error);
-      toast.error('Failed to save settings', {
-        icon: '❌'
-      });
+      toast.error('Failed to save settings');
     } finally {
       setIsSaving(false);
     }
   };
 
+  // Loading State
   if (status === 'loading') {
     return (
       <div className="loading-screen">
@@ -261,12 +242,13 @@ export default function ServerDashboard() {
             ease: "easeInOut"
           }}
         >
-          <BoltIcon className="text-primary" size={48} />
+          <BoltIcon size={48} className="text-primary" />
         </motion.div>
       </div>
     );
   }
 
+  // Render Content
   const renderContent = () => {
     const props = {
       settings,
@@ -295,63 +277,66 @@ export default function ServerDashboard() {
   return (
     <>
       <Head>
-        <title>{serverInfo?.name ? `${serverInfo.name} - Settings` : 'Server Settings'} | BoltBot⚡</title>
+        <title>
+          {serverInfo?.name ? `${serverInfo.name} - Settings` : 'Server Settings'} | BoltBot⚡
+        </title>
       </Head>
 
       <Starfield />
-  
       <DashboardNav />
 
       <div className="dashboard-wrapper">
         {/* Back Navigation */}
         <motion.button
-          className="fixed top-20 left-4 z-50 bg-dark/80 backdrop-blur-sm p-2 rounded-full text-primary border border-primary/20 hover:border-primary/40 transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="back-navigation"
           onClick={() => router.push('/dashboard/servers')}
+          initial={fadeInUp.initial}
+          animate={fadeInUp.animate}
+          transition={{ delay: 0.2 }}
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft />
+          <span>Back to Servers</span>
         </motion.button>
 
         {/* Save/Reset Controls */}
-        {hasChanges && (
-          <motion.div 
-            className="fixed bottom-24 right-4 z-50 flex flex-col gap-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-          >
-            <motion.button
-              className="bg-primary text-dark p-3 rounded-full shadow-lg hover:shadow-primary/20 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={saveSettings}
-              disabled={isSaving}
+        <AnimatePresence>
+          {hasChanges && (
+            <motion.div 
+              className="floating-controls"
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              exit={fadeInUp.exit}
             >
-              <Save size={24} />
-            </motion.button>
-            <motion.button
-              className="bg-dark/80 backdrop-blur-sm text-primary p-3 rounded-full shadow-lg border border-primary/20 hover:border-primary/40 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleReset}
-            >
-              <Undo size={24} />
-            </motion.button>
-          </motion.div>
-        )}
+              <motion.button
+                className="floating-button primary"
+                onClick={saveSettings}
+                disabled={isSaving}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Save />
+              </motion.button>
+              <motion.button
+                className="floating-button secondary"
+                onClick={handleReset}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Undo />
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Mobile Navigation Toggle */}
-        <motion.button 
-          className="md:hidden fixed bottom-6 right-6 z-50 bg-primary text-dark p-3 rounded-full shadow-lg"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <button 
+          className="mobile-nav-toggle md:hidden"
           onClick={() => setShowMobileNav(!showMobileNav)}
         >
-          <LayoutGrid size={24} />
-        </motion.button>
+          <Menu />
+        </button>
 
-        {/* Sidebar */}
+        {/* Mobile Navigation Overlay */}
         <AnimatePresence>
           {showMobileNav && (
             <motion.div
@@ -364,31 +349,34 @@ export default function ServerDashboard() {
           )}
         </AnimatePresence>
 
+        {/* Sidebar */}
         <div className={`dashboard-sidebar ${showMobileNav ? 'show' : ''}`}>
           <ServerSidebar 
             activeTab={activeTab} 
-            setActiveTab={setActiveTab}
+            setActiveTab={(tab) => {
+              setActiveTab(tab);
+              setShowMobileNav(false);
+            }}
             tabs={TABS}
-            onTabChange={() => setShowMobileNav(false)}
           />
         </div>
 
         {/* Main Content */}
         <motion.div 
           className="dashboard-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
         >
           <div className="content-container">
-            <motion.div variants={itemVariants}>
+            <motion.div variants={fadeInUp}>
               <ServerHeader serverInfo={serverInfo} loading={loading} />
             </motion.div>
             
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                variants={pageTransitionVariants}
+                variants={fadeInUp}
                 initial="initial"
                 animate="animate"
                 exit="exit"
@@ -403,16 +391,17 @@ export default function ServerDashboard() {
 
       <ScrollToTop />
       <DashboardFooter />
+      
       <Toaster 
         position="top-right"
         toastOptions={{
-          duration: 3000,
           className: '!bg-dark-light !text-light border border-primary/20',
           style: {
             background: '#1a1a1a',
             color: '#fff',
             borderColor: 'rgba(255, 204, 0, 0.1)'
-          }
+          },
+          duration: 3000
         }}
       />
     </>
