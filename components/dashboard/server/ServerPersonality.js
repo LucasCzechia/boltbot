@@ -1,6 +1,6 @@
 // components/dashboard/server/ServerPersonality.js
-import { useState, useEffect } from 'react';
-import { Bot, Brain, Crown, Search, Plus, Star, Sparkles, X, Check } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Bot, Brain, Crown, Search, Plus, Star, Sparkles, X, Check, UserCog } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import ServerSearch from './ServerSearch';
 
@@ -180,48 +180,57 @@ export default function ServerPersonality({
         onSearch={handleSearch}
         filterOptions={filterOptions}
         totalItems={filteredPersonalities.length}
+        section="personality"
       />
 
-      <div className="personality-grid">
-        {filteredPersonalities.map((personality) => {
-          const PersonalityIcon = personality.icon;
-          const isSelected = settings.personality === personality.id;
-          
-          return (
-            <div
-              key={personality.id}
-              className={`personality-card ${isSelected ? 'active' : ''}`}
-              onClick={() => handleSettingChange('personality', null, personality.id)}
-            >
-              <div className="personality-card-content">
-                {isSelected && (
-                  <div className="selected-label">
-                    <Check size={16} />
-                    <span>Selected</span>
-                  </div>
-                )}
-                <div className="personality-header">
-                  <div className="personality-icon-wrapper">
-                    <PersonalityIcon size={24} />
-                  </div>
-                  <div className="personality-info">
-                    <div className="personality-name">{personality.name}</div>
-                    <div className="personality-type">
-                      <span>
-                        {personality.isDefault ? <Bot size={14} /> : <Sparkles size={14} />}
-                        {personality.type}
-                      </span>
+      <div className="dashboard-container">
+        <h2 className="container-title">
+          <UserCog size={24} />
+          Bot Personality
+        </h2>
+        <p className="container-description">
+          Choose or create custom personalities to define how your bot interacts with users. Each personality offers a unique communication style.
+        </p>
+
+        <div className="personality-grid">
+          {filteredPersonalities.map((personality) => {
+            const PersonalityIcon = personality.icon;
+            const isSelected = settings.personality === personality.id;
+            
+            return (
+              <div
+                key={personality.id}
+                className={`personality-card ${isSelected ? 'active' : ''}`}
+                onClick={() => handleSettingChange('personality', null, personality.id)}
+              >
+                <div className="personality-card-content">
+                  {isSelected && (
+                    <div className="selected-label">
+                      <Check size={16} />
+                      <span>Selected</span>
+                    </div>
+                  )}
+                  <div className="personality-header">
+                    <div className="personality-icon-wrapper">
+                      <PersonalityIcon size={24} />
+                    </div>
+                    <div className="personality-info">
+                      <div className="personality-name">{personality.name}</div>
+                      <div className="personality-type">
+                        <span>
+                          {personality.isDefault ? <Bot size={14} /> : <Sparkles size={14} />}
+                          {personality.type}
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  <p className="personality-description">{personality.description}</p>
                 </div>
-                <p className="personality-description">{personality.description}</p>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        <div className="personality-card add-personality" onClick={() => setIsModalOpen(true)}>
-          <div className="personality-card-content">
+          <div className="personality-card add-personality" onClick={() => setIsModalOpen(true)}>
             <div className="personality-icon-wrapper">
               <Plus size={24} />
             </div>
