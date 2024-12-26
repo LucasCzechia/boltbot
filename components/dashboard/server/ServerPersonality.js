@@ -186,7 +186,7 @@ export default function ServerPersonality({
       <div className="dashboard-container">
         <h2 className="container-title">
           <UserCog size={24} />
-          Bot Personality
+          BoltBot⚡ Personality
         </h2>
 
         <div className="personality-grid">
