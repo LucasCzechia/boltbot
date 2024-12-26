@@ -97,9 +97,6 @@ export default function ServerTools({
           <Wrench size={24} />
           Bot Tools
         </h2>
-        <p className="container-description">
-          Configure and manage the tools available to your bot. Enable or disable features based on your server's needs and customize their behavior.
-        </p>
 
         <div className="tools-grid">
           {filteredTools.map(([key, tool]) => (
