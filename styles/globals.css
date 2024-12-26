@@ -37,6 +37,7 @@
 @import './dashboard/server/nav.css';
 @import './dashboard/server/loading.css';
 @import './dashboard/server/navigation-controls.css'; 
+@import './dashboard/server/search.css';
 
 :root {
   /* Base colors */
