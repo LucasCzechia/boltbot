@@ -101,36 +101,34 @@ export default function ServerSearch({ onSearch, filterOptions, totalItems, sect
 
       {filterOptions && (
         <div className="search-filters">
-          {filterOptions.map((filter) => (
-            <button
-              key={filter.id}
-              className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
-              onClick={() => handleFilter(filter.id)}
-            >
-              <filter.icon size={16} />
-              {filter.label}
-            </button>
-          ))}
-          <button
-            ref={infoButtonRef}
-            className="filter-chip info-filter"
-            onClick={() => setShowInfo(!showInfo)}
-            aria-label="Show section information"
-          >
-            <Info size={16} />
-            Info
-          </button>
-          {showInfo && (
-            <div 
-              ref={infoDropdownRef}
-              className="info-dropdown"
-              role="tooltip"
-            >
-              {getSectionInfo(section)}
-            </div>
-          )}
-        </div>
+  {filterOptions.map((filter) => (
+    <button
+      key={filter.id}
+      className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
+      onClick={() => handleFilter(filter.id)}
+    >
+      <filter.icon size={16} />
+      {filter.label}
+    </button>
+  ))}
+  <button
+    ref={infoButtonRef}
+    className="info-button"
+    onClick={() => setShowInfo(!showInfo)}
+    aria-label="Show section information"
+  >
+    <Info size={18} />
+  </button>
+  {showInfo && (
+    <div 
+      ref={infoDropdownRef}
+      className="info-dropdown"
+      role="tooltip"
+    >
+      {getSectionInfo(section)}
+      </div>
       )}
+     </div>
 
       <div className="search-results">
         {query && `Showing ${displayedItems} items`}
