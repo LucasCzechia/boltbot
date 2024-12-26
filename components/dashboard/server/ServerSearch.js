@@ -1,6 +1,32 @@
 // components/dashboard/server/ServerSearch.js 
 import { useState, useEffect } from 'react';
-import { Search as SearchIcon, X } from 'lucide-react';
+import { Search as SearchIcon, X, Info } from 'lucide-react';
+
+const getFilterInfo = (filterId) => {
+  const filterInfo = {
+    // General Settings
+    allSettings: "View all available settings for configuring your bot",
+    customized: "Show only settings that have been modified from their defaults",
+    default: "Show settings that are still using their default values",
+    
+    // Tools
+    allTools: "View all available tools and utilities for your bot",
+    activeTools: "Show tools that are currently enabled",
+    inactiveTools: "Show tools that are currently disabled",
+    
+    // Features
+    allFeatures: "View all available features for your bot",
+    activeFeatures: "Show features that are currently enabled",
+    inactiveFeatures: "Show features that are currently disabled",
+    
+    // Personality
+    allPersonalities: "View all available personality options for your bot",
+    presetPersonalities: "Show pre-created personality options",
+    customPersonalities: "Show your custom-made personalities"
+  };
+
+  return filterInfo[filterId] || "Filter your search results";
+};
 
 export default function ServerSearch({ onSearch, filterOptions, totalItems }) {
   const [query, setQuery] = useState('');
@@ -63,14 +89,21 @@ export default function ServerSearch({ onSearch, filterOptions, totalItems }) {
       {filterOptions && (
         <div className="search-filters">
           {filterOptions.map((filter) => (
-            <button
-              key={filter.id}
-              className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
-              onClick={() => handleFilter(filter.id)}
-            >
-              <filter.icon size={16} />
-              {filter.label}
-            </button>
+            <div key={filter.id} className="filter-chip-wrapper">
+              <button
+                className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
+                onClick={() => handleFilter(filter.id)}
+              >
+                <filter.icon size={16} />
+                {filter.label}
+              </button>
+              <div className="filter-chip-info">
+                <Info className="info-icon" size={16} />
+                <div className="info-tooltip">
+                  {getFilterInfo(filter.id)}
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       )}
