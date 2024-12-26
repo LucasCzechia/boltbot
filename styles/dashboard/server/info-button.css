@@ -1,0 +1,65 @@
+/* styles/dashboard/server/info-button.css */
+.info-button-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.info-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.info-button:hover {
+  color: var(--primary);
+  background: var(--hover-bg);
+}
+
+.info-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 300px;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  z-index: 100;
+  transform-origin: top right;
+  animation: dropdownFadeIn 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Light mode support */
+:root[data-theme="light"] .info-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .info-dropdown {
+    width: 250px;
+    font-size: 0.875rem;
+    padding: 0.875rem;
+  }
+}
