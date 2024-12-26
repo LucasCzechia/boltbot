@@ -1,15 +1,13 @@
 /* styles/dashboard/server/grids.css */
 .features-grid,
-.tools-grid,
-.personality-grid {
+.tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
 .feature-card,
-.tool-card,
-.personality-card {
+.tool-card {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   padding: 1rem;
@@ -18,8 +16,7 @@
 }
 
 .feature-card:hover,
-.tool-card:hover,
-.personality-card:hover {
+.tool-card:hover {
   transform: translateY(-5px);
   border-color: var(--primary);
   box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
@@ -58,8 +55,7 @@
 
 @media (max-width: 1200px) {
   .features-grid,
-  .tools-grid,
-  .personality-grid {
+  .tools-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.25rem;
   }
@@ -67,8 +63,7 @@
 
 @media (max-width: 768px) {
   .features-grid,
-  .tools-grid,
-  .personality-grid {
+  .tools-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
