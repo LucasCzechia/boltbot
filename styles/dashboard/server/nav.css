@@ -1,6 +1,6 @@
 /* styles/dashboard/server/nav.css */
 :root {
-  --nav-item-height: 3.5rem;
+  --nav-item-height: 4rem;
   --nav-indicator-size: 2px;
   --nav-indicator-spacing: 0.75rem;
   --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
@@ -45,13 +45,17 @@
   padding: 0.5rem;
   background: transparent;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   font-size: 0.75rem;
   position: relative;
   overflow: hidden;
   transition: all 0.3s var(--transition-curve);
+}
+
+.nav-item-content {
+  display: none;
 }
 
 .nav-item::before {
@@ -130,6 +134,7 @@
     border-right: 1px solid rgba(255, 204, 0, 0.1);
     border-top: none;
     background: rgba(10, 10, 10, 0.98);
+    padding: 1.5rem;
   }
 
   .sidebar-header {
@@ -143,9 +148,16 @@
     animation: slideIn 0.5s var(--transition-curve) forwards;
   }
 
+  .sidebar-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
   .sidebar-nav {
     flex-direction: column;
-    padding: 0 1rem;
+    padding: 0;
+    gap: 0.75rem;
   }
 
   .nav-item {
@@ -154,15 +166,32 @@
     padding: 1rem 1.25rem;
     font-size: 1rem;
     height: var(--nav-item-height);
-    opacity: 0;
-    transform: translateX(-20px);
-    animation: slideIn 0.5s var(--transition-curve) forwards;
+    border-radius: 12px;
+    gap: 1rem;
   }
 
-  .nav-item:nth-child(1) { animation-delay: 0.1s; }
-  .nav-item:nth-child(2) { animation-delay: 0.2s; }
-  .nav-item:nth-child(3) { animation-delay: 0.3s; }
-  .nav-item:nth-child(4) { animation-delay: 0.4s; }
+  .nav-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .nav-item-label {
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+
+  .nav-item-description {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-item:hover .nav-item-description {
+    opacity: 1;
+  }
 
   .nav-item::after {
     left: 0;
@@ -179,7 +208,7 @@
   }
 
   .nav-item svg {
-    margin-right: 1rem;
+    flex-shrink: 0;
   }
 
   .nav-item:hover {
@@ -191,6 +220,11 @@
     background: rgba(255, 204, 0, 0.1);
     box-shadow: var(--nav-hover-glow);
   }
+
+  /* Mobile-specific styles not needed in desktop */
+  .nav-item span:not(.nav-item-label) {
+    display: none;
+  }
 }
 
 @keyframes slideIn {
@@ -201,51 +235,5 @@
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-/* Safe Area Insets for Notched Devices */
-@supports (padding: env(safe-area-inset-bottom)) {
-  .dashboard-sidebar {
-    padding-bottom: env(safe-area-inset-bottom);
-    height: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom));
-  }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .dashboard-sidebar,
-  .nav-item,
-  .nav-item::before,
-  .nav-item::after,
-  .nav-item svg,
-  .nav-item span {
-    transition: none;
-    animation: none;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .nav-item {
-    border: 1px solid transparent;
-  }
-
-  .nav-item:hover,
-  .nav-item.active {
-    border-color: var(--primary);
-  }
-
-  .nav-item::after {
-    height: var(--nav-indicator-size);
-    background: var(--primary);
-    opacity: 1;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .dashboard-sidebar {
-    display: none;
   }
 }
