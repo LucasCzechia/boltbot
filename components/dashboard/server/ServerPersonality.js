@@ -72,6 +72,18 @@ export default function ServerPersonality({
     setFilteredPersonalities(personalities);
   }, [personalities]);
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
+
   const handleSearch = ({ query, filter }) => {
     let filtered = personalities.filter(personality => {
       const matchesSearch = 
@@ -181,101 +193,107 @@ export default function ServerPersonality({
               className={`personality-card ${isSelected ? 'active' : ''}`}
               onClick={() => handleSettingChange('personality', null, personality.id)}
             >
-              {isSelected && (
-                <div className="selected-label">
-                  <Check />
-                  Selected
-                </div>
-              )}
-              <div className="personality-header">
-                <div className="personality-icon-wrapper">
-                  <PersonalityIcon size={24} />
-                </div>
-                <div className="personality-info">
-                  <div className="personality-name">{personality.name}</div>
-                  <div className="personality-type">
-                    <span>
-                      {personality.isDefault ? <Bot size={14} /> : <Sparkles size={14} />}
-                      {personality.type}
-                    </span>
+              <div className="personality-card-content">
+                {isSelected && (
+                  <div className="selected-label">
+                    <Check size={16} />
+                    <span>Selected</span>
+                  </div>
+                )}
+                <div className="personality-header">
+                  <div className="personality-icon-wrapper">
+                    <PersonalityIcon size={24} />
+                  </div>
+                  <div className="personality-info">
+                    <div className="personality-name">{personality.name}</div>
+                    <div className="personality-type">
+                      <span>
+                        {personality.isDefault ? <Bot size={14} /> : <Sparkles size={14} />}
+                        {personality.type}
+                      </span>
+                    </div>
                   </div>
                 </div>
+                <p className="personality-description">{personality.description}</p>
               </div>
-              <p className="personality-description">{personality.description}</p>
             </div>
           );
         })}
 
         <div className="personality-card add-personality" onClick={() => setIsModalOpen(true)}>
-          <div className="personality-icon-wrapper">
-            <Plus size={24} />
+          <div className="personality-card-content">
+            <div className="personality-icon-wrapper">
+              <Plus size={24} />
+            </div>
+            <h3>Create Custom</h3>
+            <p>Create your own personality with custom behavior</p>
           </div>
-          <h3>Create Custom</h3>
-          <p>Create your own personality with custom behavior</p>
         </div>
       </div>
 
       {isModalOpen && (
-        <div className={`personality-modal ${isModalOpen ? 'open' : ''}`}>
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2 className="modal-title">Create Custom Personality</h2>
-              <button className="modal-close" onClick={closeModal}>
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <div className={`form-group ${errors.name ? 'has-error' : ''}`}>
-                <label htmlFor="name">Personality Name</label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter a name for your personality"
-                  maxLength={MAX_NAME_LENGTH}
-                />
-                <div className="character-count">
-                  {formData.name.length}/{MAX_NAME_LENGTH}
-                </div>
-                {errors.name && <div className="error-message">{errors.name}</div>}
+        <div className="modal-backdrop">
+          <div className={`personality-modal ${isModalOpen ? 'open' : ''}`}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h2 className="modal-title">Create Custom Personality</h2>
+                <button className="modal-close" onClick={closeModal} aria-label="Close modal">
+                  <X size={20} />
+                </button>
               </div>
 
-              <div className={`form-group ${errors.prompt ? 'has-error' : ''}`}>
-                <label htmlFor="prompt">Personality Description & Behavior</label>
-                <textarea
-                  id="prompt"
-                  name="prompt"
-                  value={formData.prompt}
-                  onChange={handleInputChange}
-                  placeholder="Describe how the personality should behave..."
-                  maxLength={MAX_PROMPT_LENGTH}
-                />
-                <div className={`character-count ${formData.prompt.length === MAX_PROMPT_LENGTH ? 'limit' : ''}`}>
-                  {formData.prompt.length}/{MAX_PROMPT_LENGTH}
+              <div className="modal-body">
+                <div className={`form-group ${errors.name ? 'has-error' : ''}`}>
+                  <label htmlFor="name">Personality Name</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter a name for your personality"
+                    maxLength={MAX_NAME_LENGTH}
+                  />
+                  <div className="character-count">
+                    {formData.name.length}/{MAX_NAME_LENGTH}
+                  </div>
+                  {errors.name && <div className="error-message">{errors.name}</div>}
                 </div>
-                {errors.prompt && <div className="error-message">{errors.prompt}</div>}
-              </div>
-            </div>
 
-            <div className="modal-footer">
-              <button
-                className="modal-button secondary"
-                onClick={closeModal}
-                type="button"
-              >
-                Cancel
-              </button>
-              <button
-                className="modal-button primary"
-                onClick={handleSubmit}
-                type="submit"
-                disabled={isSaving}
-              >
-                Create Personality
-              </button>
+                <div className={`form-group ${errors.prompt ? 'has-error' : ''}`}>
+                  <label htmlFor="prompt">Personality Description & Behavior</label>
+                  <textarea
+                    id="prompt"
+                    name="prompt"
+                    value={formData.prompt}
+                    onChange={handleInputChange}
+                    placeholder="Describe how the personality should behave..."
+                    maxLength={MAX_PROMPT_LENGTH}
+                  />
+                  <div className={`character-count ${formData.prompt.length === MAX_PROMPT_LENGTH ? 'limit' : ''}`}>
+                    {formData.prompt.length}/{MAX_PROMPT_LENGTH}
+                  </div>
+                  {errors.prompt && <div className="error-message">{errors.prompt}</div>}
+                </div>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  className="modal-button secondary"
+                  onClick={closeModal}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="modal-button primary"
+                  onClick={handleSubmit}
+                  type="submit"
+                  disabled={isSaving}
+                >
+                  Create Personality
+                </button>
+              </div>
             </div>
           </div>
         </div>
