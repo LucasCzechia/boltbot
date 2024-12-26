@@ -312,13 +312,6 @@ export default function ServerDashboard() {
           )}
         </AnimatePresence>
 
-        <button 
-          className="mobile-nav-toggle md:hidden"
-          onClick={() => setShowMobileNav(!showMobileNav)}
-        >
-          <Menu />
-        </button>
-
         <AnimatePresence>
           {showMobileNav && (
             <motion.div
