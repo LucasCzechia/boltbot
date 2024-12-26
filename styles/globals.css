@@ -20,7 +20,6 @@
 @import './dashboard/scroll-to-top.css';
 @import './dashboard/footer.css';
 @import './dashboard/loading.css';
-@import './dashboard/layout.css';
 
 /* Servers Selection Dashboard Styles */
 @import './dashboard/servers/base.css';
