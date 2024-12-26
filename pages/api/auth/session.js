@@ -10,8 +10,9 @@ export default async function handler(req, res) {
     if (session) {
       const safeSession = {
         user: {
-          id: session.user.id,
+          id: session.user.id || session.id || null,
           name: session.user.name,
+          display_name: session.user.display_name || session.user.globalName, 
           image: session.user.image,
         },
         note: "hey there, heh... hacker 🤓" 
