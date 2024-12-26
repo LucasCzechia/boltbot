@@ -1,5 +1,5 @@
 // components/dashboard/server/ServerFeatures.js
-import { Zap, Camera, FileText, Shield, Power } from 'lucide-react';
+import { Zap, Camera, FileText, CircleSlash, Power } from 'lucide-react';
 import ServerSearch from './ServerSearch';
 import { useState } from 'react';
 
@@ -18,8 +18,8 @@ const FEATURE_INFO = {
 
 const filterOptions = [
   { id: 'all', label: 'All Features', icon: Zap },
-  { id: 'enabled', label: 'Enabled', icon: Power },
-  { id: 'disabled', label: 'Disabled', icon: Shield }
+  { id: 'active', label: 'Enabled Only', icon: Power },
+  { id: 'inactive', label: 'Disabled Only', icon: CircleSlash }
 ];
 
 export default function ServerFeatures({
