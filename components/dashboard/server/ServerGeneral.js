@@ -1,5 +1,5 @@
 // components/dashboard/server/ServerGeneral.js
-import { Settings2, Bot, Globe, Users } from 'lucide-react';
+import { Settings2, Bot, Globe } from 'lucide-react';
 import ServerSearch from './ServerSearch';
 import { useState } from 'react';
 
@@ -64,17 +64,15 @@ export default function ServerGeneral({
         onSearch={handleSearch}
         filterOptions={filterOptions}
         totalItems={filteredSettings.length}
+        section="general"
       />
 
-      <div className="settings-container">
-        <h2 className="settings-title">
+      <div className="dashboard-container">
+        <h2 className="container-title">
           <Settings2 size={24} />
           General Configuration
         </h2>
-        <p className="settings-description">
-          Configure basic bot settings and behavior for your server. These settings affect how the bot interacts and responds to users.
-        </p>
-
+      
         <div className="settings-section">
           {filteredSettings.map(([key, setting]) => (
             <div key={key} className="setting-group">
