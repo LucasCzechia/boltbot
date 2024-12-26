@@ -328,47 +328,13 @@
     grid-template-columns: 1fr;
   }
 
-  .personality-modal {
-    margin: 0.5rem;
-    max-height: calc(100vh - 1rem);
+  .modal-content {
+    margin: 1rem;
   }
 
-  .modal-header {
-    padding: 1.25rem;
-  }
-
-  .modal-body {
-    padding: 1.25rem;
-  }
-
+  .modal-header,
+  .modal-body,
   .modal-footer {
-    padding: 1.25rem;
-  }
-
-  .form-group textarea {
-    min-height: 120px;
-  }
-}
-
-@media (max-width: 480px) {
-  .personality-card {
-    padding: 1.25rem;
-  }
-
-  .personality-header {
-    gap: 0.75rem;
-  }
-
-  .personality-icon-wrapper {
-    width: 40px;
-    height: 40px;
-  }
-
-  .personality-name {
-    font-size: 1rem;
-  }
-
-  .modal-button {
-    padding: 0.75rem 1rem;
+    padding: 1rem;
   }
 }
