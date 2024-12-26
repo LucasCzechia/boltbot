@@ -88,6 +88,7 @@
   gap: 1rem;
   margin-top: 1rem;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .filter-chip {
@@ -120,10 +121,60 @@
   height: 16px;
 }
 
+.filter-chip.info-filter {
+  margin-left: auto;
+  background: transparent;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.filter-chip.info-filter:hover {
+  color: var(--primary);
+  background: var(--hover-bg);
+  border-color: var(--primary);
+}
+
+.info-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 300px;
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  z-index: 100;
+  transform-origin: top right;
+  animation: dropdownFadeIn 0.2s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .search-results {
   margin-top: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-secondary);
+}
+
+/* Light mode support */
+:root[data-theme="light"] .info-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -160,13 +211,34 @@
   .search-results {
     font-size: 0.8rem;
   }
+
+  .info-dropdown {
+    width: 250px;
+    font-size: 0.875rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-dropdown {
+    width: 100%;
+    left: 0;
+  }
+
+  .filter-chip.info-filter {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .search-input,
   .search-clear,
-  .filter-chip {
+  .filter-chip,
+  .info-dropdown {
     transition: none;
+    animation: none;
   }
 }
 
@@ -177,5 +249,10 @@
 
   .filter-chip {
     border-width: 2px;
+  }
+
+  .info-dropdown {
+    border-width: 2px;
+    outline: 2px solid var(--primary);
   }
 }
