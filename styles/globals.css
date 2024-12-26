@@ -40,6 +40,7 @@
 @import './dashboard/server/navigation-controls.css'; 
 @import './dashboard/server/search.css';
 @import './dashboard/server/personality.css';
+@import './dashboard/server/info-button.css';
 
 :root {
   /* Base colors */
