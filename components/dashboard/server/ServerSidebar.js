@@ -7,25 +7,25 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
   const sidebarItems = [
     {
       id: 'general',
-      label: 'General Settings',
+      label: 'General',
       icon: Settings2,
       description: 'Configure basic bot settings and behavior'
     },
     {
       id: 'tools',
-      label: 'Bot Tools',
+      label: 'Tools',
       icon: Wrench,
       description: 'Manage available bot tools and utilities'
     },
     {
       id: 'features',
-      label: 'Bot Features',
+      label: 'Features',
       icon: Zap,
       description: 'Control advanced bot features and capabilities'
     },
     {
       id: 'personality',
-      label: 'Bot Personality',
+      label: 'Personality',
       icon: UserCog,
       description: 'Customize bot personality and behavior'
     }
@@ -56,7 +56,11 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Icon size={20} />
+              <Icon size={24} />
+              {/* This span shows on mobile */}
+              <span className="mobile-label">{item.label}</span>
+              
+              {/* This div only shows on desktop */}
               <div className="nav-item-content">
                 <span className="nav-item-label">{item.label}</span>
                 <span className="nav-item-description">{item.description}</span>
