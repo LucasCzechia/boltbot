@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Moon, Sun, LogOut, ServerIcon, Home, Settings, Bot } from 'lucide-react'
+import { Moon, Sun, LogOut, ServerIcon } from 'lucide-react'
 
 export default function DashboardNav() {
   const { data: session } = useSession()
@@ -12,7 +12,8 @@ export default function DashboardNav() {
   const [showDropdown, setShowDropdown] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(true)
   const isServerDashboard = router.pathname.startsWith('/dashboard/servers/[id]')
-  const isServerList = router.pathname === '/dashboard/servers'
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0)
 
   const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User'
   const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
@@ -23,6 +24,15 @@ export default function DashboardNav() {
     }
     return session.user.image
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCurrentWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     const theme = localStorage.getItem('theme') || 'dark'
@@ -66,26 +76,15 @@ export default function DashboardNav() {
     }
   }, [showDropdown])
 
-  const navItems = [
-    {
-      label: 'Home',
-      icon: Home,
-      href: '/dashboard/servers',
-      active: isServerList
-    },
-    {
-      label: 'Bot Settings',
-      icon: Bot,
-      href: '#',
-      active: isServerDashboard
-    },
-    {
-      label: 'System',
-      icon: Settings,
-      href: '#',
-      active: false
+  const getNavTitle = () => {
+    if (currentWidth <= 768) {
+      return "BoltBot⚡"
     }
-  ]
+    if (isServerDashboard) {
+      return "BoltBot⚡ Dashboard"
+    }
+    return "BoltBot⚡ Dashboard"
+  }
 
   return (
     <nav className="dashboard-nav">
@@ -98,23 +97,8 @@ export default function DashboardNav() {
             height={45}
             priority
           />
-          <span className="logo-text">
-            {isServerDashboard || isServerList ? 'BoltBot⚡ Dashboard' : 'BoltBot⚡'}
-          </span>
+          {getNavTitle()}
         </Link>
-
-        <div className="nav-items desktop-only">
-          {navItems.map((item, index) => (
-            <Link
-              key={index}
-              href={item.href}
-              className={`nav-item ${item.active ? 'active' : ''}`}
-            >
-              <item.icon size={20} />
-              <span>{item.label}</span>
-            </Link>
-          ))}
-        </div>
 
         <div className="user-profile-wrapper">
           <div className="nav-controls">
