@@ -7,7 +7,7 @@
   --nav-hover-glow: 0 0 20px rgba(255, 204, 0, 0.15);
 }
 
-/* Mobile First - Exact Original Styling */
+/* Mobile First Base Styles */
 .dashboard-sidebar {
   position: fixed;
   bottom: 0;
@@ -51,6 +51,22 @@
   transition: all 0.3s var(--transition-curve);
 }
 
+/* Mobile-specific styles */
+.nav-item-icon {
+  display: contents;
+}
+
+.mobile-label {
+  font-size: 0.75rem;
+  transition: all 0.3s var(--transition-curve);
+  z-index: 1;
+}
+
+/* Hide desktop content on mobile */
+.nav-item-content {
+  display: none;
+}
+
 .nav-item::before {
   content: '';
   position: absolute;
@@ -78,18 +94,6 @@
   transition: transform 0.3s var(--transition-curve);
 }
 
-.nav-item svg {
-  width: 24px;
-  height: 24px;
-  transition: all 0.3s var(--transition-curve);
-  z-index: 1;
-}
-
-.nav-item span {
-  transition: all 0.3s var(--transition-curve);
-  z-index: 1;
-}
-
 .nav-item:hover {
   color: rgba(255, 255, 255, 0.9);
 }
@@ -98,7 +102,7 @@
   opacity: 1;
 }
 
-.nav-item:hover svg {
+.nav-item:hover .nav-item-icon svg {
   transform: translateY(-2px);
   filter: drop-shadow(0 2px 4px rgba(255, 204, 0, 0.3));
 }
@@ -111,12 +115,12 @@
   transform: scaleX(1);
 }
 
-.nav-item.active svg {
+.nav-item.active .nav-item-icon svg {
   transform: scale(1.1);
   filter: drop-shadow(0 2px 8px rgba(255, 204, 0, 0.4));
 }
 
-/* Desktop Styles - New Design with Scroll */
+/* Desktop Styles */
 @media (min-width: 1024px) {
   .dashboard-sidebar {
     width: 320px;
@@ -141,7 +145,6 @@
     scrollbar-color: rgba(255, 204, 0, 0.3) transparent;
   }
 
-  /* Custom Scrollbar Styles */
   .sidebar-nav::-webkit-scrollbar {
     width: 5px;
   }
@@ -159,7 +162,7 @@
     background-color: rgba(255, 204, 0, 0.5);
   }
 
-  /* Reset mobile styles */
+  /* Desktop nav item styles */
   .nav-item {
     flex-direction: row;
     height: var(--nav-item-height);
@@ -176,6 +179,12 @@
     display: none;
   }
 
+  /* Hide mobile elements */
+  .mobile-label {
+    display: none;
+  }
+
+  /* Show desktop elements */
   .nav-item-icon {
     display: flex;
     align-items: center;
@@ -186,12 +195,6 @@
     border-radius: 12px;
     color: var(--item-color, var(--primary));
     transition: all 0.3s var(--transition-curve);
-  }
-
-  .nav-item svg {
-    margin: 0;
-    width: 24px;
-    height: 24px;
   }
 
   .nav-item:hover {
@@ -212,11 +215,6 @@
     color: var(--dark);
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(var(--item-color, 255, 204, 0), 0.2);
-  }
-
-  /* Hide mobile span and show desktop content */
-  .nav-item > span {
-    display: none;
   }
 
   .nav-item-content {
@@ -246,7 +244,7 @@
   }
 }
 
-/* Safe Area Insets for Mobile */
+/* Safe Area Insets */
 @supports (padding: env(safe-area-inset-bottom)) {
   .dashboard-sidebar {
     padding-bottom: env(safe-area-inset-bottom);
