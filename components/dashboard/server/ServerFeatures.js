@@ -22,9 +22,9 @@ const FEATURE_INFO = {
 };
 
 const filterOptions = [
-  { id: 'all', label: 'All Features', icon: Search },
-  { id: 'active', label: 'Enabled Only', icon: Power },
-  { id: 'inactive', label: 'Disabled Only', icon: CircleSlash }
+  { id: 'allFeatures', label: 'All Features', icon: Search },
+  { id: 'activeFeatures', label: 'Enabled Only', icon: Power },
+  { id: 'inactiveFeatures', label: 'Disabled Only', icon: CircleSlash }
 ];
 
 export default function ServerFeatures({
@@ -43,10 +43,10 @@ export default function ServerFeatures({
         feature.name.toLowerCase().includes(query.toLowerCase()) ||
         feature.description.toLowerCase().includes(query.toLowerCase());
 
-      if (filter === 'active') {
+      if (filter === 'activeFeatures') {
         return matchesSearch && settings.features[key];
       }
-      if (filter === 'inactive') {
+      if (filter === 'inactiveFeatures') {
         return matchesSearch && !settings.features[key];
       }
       return matchesSearch;
@@ -67,29 +67,39 @@ export default function ServerFeatures({
         totalItems={filteredFeatures.length}
       />
 
-      <div className="features-grid">
-        {filteredFeatures.map(([key, feature]) => {
-          const FeatureIcon = feature.icon;
-          return (
-            <div key={key} className="feature-card">
-              <div className="feature-content">
-                <div className="feature-header">
-                  <FeatureIcon size={24} className="feature-icon" />
-                  <h3>{feature.name}</h3>
+      <div className="dashboard-container">
+        <h2 className="container-title">
+          <Zap size={24} />
+          Bot Features
+        </h2>
+        <p className="container-description">
+          Manage advanced bot features and capabilities. Enable powerful functionalities to enhance your server's experience.
+        </p>
+
+        <div className="features-grid">
+          {filteredFeatures.map(([key, feature]) => {
+            const FeatureIcon = feature.icon;
+            return (
+              <div key={key} className="feature-card">
+                <div className="feature-content">
+                  <div className="feature-header">
+                    <FeatureIcon size={24} className="feature-icon" />
+                    <h3>{feature.name}</h3>
+                  </div>
+                  <p>{feature.description}</p>
+                  <label className="toggle">
+                    <input
+                      type="checkbox"
+                      checked={settings.features[key]}
+                      onChange={(e) => handleSettingChange('features', key, e.target.checked)}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
                 </div>
-                <p>{feature.description}</p>
-                <label className="toggle">
-                  <input
-                    type="checkbox"
-                    checked={settings.features[key]}
-                    onChange={(e) => handleSettingChange('features', key, e.target.checked)}
-                  />
-                  <span className="toggle-slider"></span>
-                </label>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
