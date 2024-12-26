@@ -31,15 +31,6 @@ export default function ScrollButtons() {
 
   return (
     <>
-      {/* Scroll Down Button in Hero Section */}
-      <button 
-        onClick={scrollToContent}
-        className="scroll-down-btn"
-        aria-label="Scroll to content"
-      >
-        <ChevronDown size={30} />
-      </button>
-
       {/* Scroll to Top Button */}
       <button 
         className={`scroll-top-btn ${showScroll ? 'show' : ''}`}
