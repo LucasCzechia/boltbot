@@ -4,13 +4,14 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Moon, Sun, LogOut } from 'lucide-react'
+import { Moon, Sun, LogOut, ServerIcon } from 'lucide-react'
 
 export default function DashboardNav() {
   const { data: session } = useSession()
   const router = useRouter()
   const [showDropdown, setShowDropdown] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(true)
+  const isServerDashboard = router.pathname.startsWith('/dashboard/servers/[id]')
 
   const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User'
   const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
@@ -80,6 +81,15 @@ export default function DashboardNav() {
 
         <div className="user-profile-wrapper">
           <div className="nav-controls">
+            {isServerDashboard && (
+              <button
+                onClick={() => router.push('/dashboard/servers')}
+                className="nav-button"
+                aria-label="Back to servers"
+              >
+                <ServerIcon className="nav-icon" />
+              </button>
+            )}
             <button 
               className="theme-toggle"
               onClick={toggleTheme}
