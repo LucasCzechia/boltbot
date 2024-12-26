@@ -22,14 +22,14 @@
   gap: 1.5rem;
   margin-bottom: 0.75rem;
   position: relative;
-  z-index: 1001;
+  z-index: 1;
 }
 
 .footer-social a {
   color: var(--text-tertiary);
   transition: color 0.3s;
   position: relative;
-  z-index: 1002;
+  z-index: 1;
 }
 
 .footer-social a:hover {
@@ -44,7 +44,7 @@
   color: var(--text-tertiary);
   font-size: 0.875rem;
   position: relative;
-  z-index: 1001;
+  z-index: 1;
 }
 
 .footer-logo {
@@ -57,7 +57,7 @@
   text-decoration: none;
   transition: color 0.3s;
   position: relative;
-  z-index: 1002;
+  z-index: 1;
 }
 
 .footer-logo:hover {
