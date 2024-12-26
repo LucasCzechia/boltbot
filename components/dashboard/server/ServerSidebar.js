@@ -1,14 +1,42 @@
 // components/dashboard/server/ServerSidebar.js
 import Image from 'next/image';
-import { Settings, Wrench, Zap, UserCog } from 'lucide-react';
+import { Settings2, Wrench, Zap, UserCog } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function ServerSidebar({ activeTab, setActiveTab }) {
+  const sidebarItems = [
+    {
+      id: 'general',
+      label: 'General Settings',
+      icon: Settings2,
+      description: 'Configure basic bot settings and behavior'
+    },
+    {
+      id: 'tools',
+      label: 'Bot Tools',
+      icon: Wrench,
+      description: 'Manage available bot tools and utilities'
+    },
+    {
+      id: 'features',
+      label: 'Bot Features',
+      icon: Zap,
+      description: 'Control advanced bot features and capabilities'
+    },
+    {
+      id: 'personality',
+      label: 'Bot Personality',
+      icon: UserCog,
+      description: 'Customize bot personality and behavior'
+    }
+  ];
+
   return (
     <aside className="dashboard-sidebar">
       <div className="sidebar-header">
         <Image
           src="/images/boltbot.webp"
-          alt="Server Icon"
+          alt="BoltBot Logo"
           width={40}
           height={40}
           className="server-icon"
@@ -17,34 +45,25 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
       </div>
 
       <nav className="sidebar-nav">
-        <button
-          className={`nav-item ${activeTab === 'general' ? 'active' : ''}`}
-          onClick={() => setActiveTab('general')}
-        >
-          <Settings size={20} />
-          General
-        </button>
-        <button
-          className={`nav-item ${activeTab === 'tools' ? 'active' : ''}`}
-          onClick={() => setActiveTab('tools')}
-        >
-          <Wrench size={20} />
-          Tools
-        </button>
-        <button
-          className={`nav-item ${activeTab === 'features' ? 'active' : ''}`}
-          onClick={() => setActiveTab('features')}
-        >
-          <Zap size={20} />
-          Features
-        </button>
-        <button
-          className={`nav-item ${activeTab === 'personality' ? 'active' : ''}`}
-          onClick={() => setActiveTab('personality')}
-        >
-          <UserCog size={20} />
-          Personality
-        </button>
+        {sidebarItems.map((item, index) => {
+          const Icon = item.icon;
+          return (
+            <motion.button
+              key={item.id}
+              className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(item.id)}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Icon size={20} />
+              <div className="nav-item-content">
+                <span className="nav-item-label">{item.label}</span>
+                <span className="nav-item-description">{item.description}</span>
+              </div>
+            </motion.button>
+          );
+        })}
       </nav>
     </aside>
   );
