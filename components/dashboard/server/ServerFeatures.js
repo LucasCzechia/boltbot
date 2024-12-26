@@ -71,7 +71,7 @@ export default function ServerFeatures({
       <div className="dashboard-container">
         <h2 className="container-title">
           <Zap size={24} />
-          Bot Features
+          BoltBot⚡ Features
         </h2>
 
         <div className="features-grid">
