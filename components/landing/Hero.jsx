@@ -19,10 +19,10 @@ export default function Hero() {
         <h1>Meet BoltBot⚡</h1>
         <p>Your advanced AI-powered Discord companion with powerful features including text generation, image creation, and real-time tools.</p>
         <Link 
-          href="https://discord.com/oauth2/authorize?client_id=1250114494081007697" 
+          href="https://boltbot.app/dashboard" 
           className="cta-button"
         >
-          Add to Your Server
+          Open Dashboard
         </Link>
       </div>
       <ScrollButtons />
