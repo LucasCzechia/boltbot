@@ -36,7 +36,8 @@ const DEBUG_SETTINGS = {
   },
   features: {
     ImageRecognition: true,
-    FileHandling: false
+    FileHandling: false, 
+    PdfHandling: true
   },
   personality: 'fancy'
 };
@@ -66,7 +67,8 @@ const DEFAULT_SETTINGS = {
   },
   features: {
     ImageRecognition: true,
-    FileHandling: true
+    FileHandling: true, 
+    PdfHandling: true 
   },
   personality: 'default'
 };
