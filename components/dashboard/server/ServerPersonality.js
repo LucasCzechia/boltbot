@@ -188,9 +188,6 @@ export default function ServerPersonality({
           <UserCog size={24} />
           Bot Personality
         </h2>
-        <p className="container-description">
-          Choose or create custom personalities to define how your bot interacts with users. Each personality offers a unique communication style.
-        </p>
 
         <div className="personality-grid">
           {filteredPersonalities.map((personality) => {
