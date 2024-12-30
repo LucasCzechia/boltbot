@@ -42,36 +42,107 @@ export default function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "easeOut", duration: 0.3 }}
-          className="fixed bottom-0 left-0 right-0 z-50 bg-dark border-t border-white/10 backdrop-blur-md"
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 50,
+            background: 'var(--bg-primary)',
+            borderTop: '1px solid var(--border-color)',
+            backdropFilter: 'blur(var(--blur-strength))'
+          }}
         >
-          <div className="max-w-[1400px] mx-auto p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex-1">
-              <p className="text-light/90 text-sm">
+          <div style={{
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ flex: 1, minWidth: '280px' }}>
+              <p style={{ 
+                color: 'var(--text-secondary)',
+                fontSize: '0.925rem',
+                lineHeight: 1.5
+              }}>
                 We use cookies to enhance your experience. By continuing to visit our site, you agree to our use of cookies. 
                 <a 
                   href="/privacy" 
-                  className="text-primary hover:text-primary-dark underline underline-offset-2 ml-1 transition-colors"
+                  style={{
+                    color: 'var(--primary)',
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '2px',
+                    marginLeft: '0.25rem'
+                  }}
+                  onMouseOver={(e) => e.target.style.color = 'var(--primary-dark)'}
+                  onMouseOut={(e) => e.target.style.color = 'var(--primary)'}
                 >
                   Learn more
                 </a>
               </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div style={{ 
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem'
+            }}>
               <button
                 onClick={declineCookies}
-                className="px-4 py-2 text-sm text-light hover:text-primary transition-colors"
+                style={{
+                  padding: '0.625rem 1.25rem',
+                  color: 'var(--text-primary)',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '0.925rem',
+                  transition: 'color 0.2s ease'
+                }}
+                onMouseOver={(e) => e.target.style.color = 'var(--primary)'}
+                onMouseOut={(e) => e.target.style.color = 'var(--text-primary)'}
               >
                 Decline
               </button>
               <button
                 onClick={acceptCookies}
-                className="px-4 py-2 text-sm bg-primary hover:bg-primary-dark text-dark rounded-md transition-all hover:-translate-y-0.5"
+                style={{
+                  padding: '0.625rem 1.25rem',
+                  background: 'var(--primary)',
+                  color: 'var(--dark)',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '0.925rem',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.background = 'var(--primary-dark)';
+                  e.target.style.transform = 'translateY(-2px)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.background = 'var(--primary)';
+                  e.target.style.transform = 'translateY(0)';
+                }}
               >
                 Accept All
               </button>
               <button
                 onClick={() => setShowConsent(false)}
-                className="p-2 text-light hover:text-primary transition-colors sm:hidden"
+                style={{
+                  display: 'none',
+                  padding: '0.5rem',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-primary)',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s ease',
+                  '@media (max-width: 768px)': {
+                    display: 'flex'
+                  }
+                }}
                 aria-label="Close cookie banner"
               >
                 <X size={20} />
