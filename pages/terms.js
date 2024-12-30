@@ -6,7 +6,7 @@ import { FileText, Scroll, Scale, Shield, Bell, Mail, Clock, AlertCircle, ArrowL
 import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter';
 import Starfield from '../components/misc/Starfield';
-import NavigationMenu from '../components/NavigationMenu';
+import NavigationMenu from '../components/misc/NavigationMenu';
 
 export default function TermsOfService() {
   const lastUpdated = '2024-12-30';
