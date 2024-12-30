@@ -6,7 +6,7 @@ import { FileText, Scroll, Scale, Shield, Bell, Mail, Clock, AlertCircle, ArrowL
 import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter';
 import Starfield from '../components/misc/Starfield';
-import UniversalSidebar from '../components/UniversalSidebar';
+import UniversalSidebar from '../components/misc/UniversalSidebar';
 
 const legalItems = [
   {
