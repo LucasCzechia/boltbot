@@ -2,74 +2,60 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FileText, Scroll, Scale, Shield, Bell, Mail, Clock, AlertCircle, ArrowLeft, Users, Home, Lock } from 'lucide-react';
+import { FileText, Scroll, Scale, Shield, Bell, Mail, Clock, AlertCircle, ArrowLeft, Users } from 'lucide-react';
 import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter';
 import Starfield from '../components/misc/Starfield';
-import UniversalSidebar from '../components/misc/UniversalSidebar';
-
-const legalItems = [
-  {
-    id: 'introduction',
-    title: 'Introduction',
-    href: '#introduction',
-    icon: Scroll
-  },
-  {
-    id: 'usage',
-    title: 'Terms of Use',
-    href: '#usage',
-    icon: Users
-  },
-  {
-    id: 'privacy',
-    title: 'Privacy & Data',
-    href: '#privacy',
-    icon: Shield
-  },
-  {
-    id: 'legal',
-    title: 'Legal Rights',
-    href: '#legal',
-    icon: Scale
-  },
-  {
-    id: 'updates',
-    title: 'Updates',
-    href: '#updates',
-    icon: Bell
-  },
-  {
-    id: 'support',
-    title: 'Support',
-    href: '#support',
-    icon: Mail
-  }
-];
-
-const navigationItems = [
-  {
-    id: 'home',
-    title: 'Home',
-    href: '/',
-    icon: Home
-  },
-  {
-    id: 'terms',
-    title: 'Terms',
-    href: '/terms',
-    icon: FileText
-  },
-  {
-    id: 'privacy',
-    title: 'Privacy',
-    href: '/privacy',
-    icon: Lock
-  }
-];
+import NavigationMenu from '../components/NavigationMenu';
 
 export default function TermsOfService() {
   const lastUpdated = '2024-12-30';
+
+  const tableOfContents = [
+    {
+      id: 'introduction',
+      title: 'Introduction',
+      href: '#introduction',
+      icon: Scroll
+    },
+    {
+      id: 'usage',
+      title: 'Terms of Use',
+      href: '#usage',
+      icon: Users
+    },
+    {
+      id: 'privacy',
+      title: 'Privacy & Data',
+      href: '#privacy',
+      icon: Shield
+    },
+    {
+      id: 'legal',
+      title: 'Legal Rights',
+      href: '#legal',
+      icon: Scale
+    },
+    {
+      id: 'updates',
+      title: 'Updates',
+      href: '#updates',
+      icon: Bell
+    },
+    {
+      id: 'support',
+      title: 'Support',
+      href: '#support',
+      icon: Mail
+    }
+  ];
+
+  const handleScroll = (href) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -81,15 +67,37 @@ export default function TermsOfService() {
       <DashboardNav />
       <Starfield />
 
-      <div className="terms-container">
-        <div className="terms-wrapper">
-          <UniversalSidebar
-            title="Navigation"
-            icon={FileText}
-            items={navigationItems}
-            position="left"
-          />
+      <NavigationMenu
+        title="Table of Contents"
+        icon={FileText}
+        items={tableOfContents}
+        onNavigate={handleScroll}
+        footer={
+          <div className="last-updated">
+            <div className="last-updated-header">
+              <Clock size={16} />
+              <span>Last Updated: {lastUpdated}</span>
+            </div>
+          </div>
+        }
+      />
 
+      <div className="terms-container">
+        <motion.main
+          className="terms-main"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="terms-header">
+            <h1 className="terms-title">Terms of Service</h1>
+            <Link href="/" className="back-button">
+              <ArrowLeft size={18} />
+              Back to Home
+            </Link>
+          </div>
+
+          
           <motion.main
             className="terms-main"
             initial={{ opacity: 0, y: 20 }}
@@ -176,23 +184,6 @@ export default function TermsOfService() {
               </section>
             </div>
           </motion.main>
-
-          <UniversalSidebar
-            title="Table of Contents"
-            icon={FileText}
-            items={legalItems}
-            position="right"
-            footer={
-              <div className="last-updated">
-                <div className="last-updated-header">
-                  <Clock size={16} style={{ color: 'var(--primary)' }} />
-                  <span>Last Updated</span>
-                </div>
-                <time dateTime={lastUpdated}>{lastUpdated}</time>
-              </div>
-            }
-          />
-        </div>
       </div>
 
       <DashboardFooter />
