@@ -1,6 +1,6 @@
-// components/NavigationMenu.js
+// components/misc/NavigationMenu.js
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
@@ -9,7 +9,9 @@ export default function NavigationMenu({
   icon: Icon, 
   items, 
   footer,
-  onNavigate 
+  onNavigate,
+  position = 'right',
+  className = ''
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,16 +50,19 @@ export default function NavigationMenu({
   return (
     <>
       <button
-        className="nav-menu-trigger"
+        className={`nav-menu-trigger ${className}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      <div className={`nav-menu-overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)} />
+      <div 
+        className={`nav-menu-overlay ${isOpen ? 'open' : ''}`} 
+        onClick={() => setIsOpen(false)} 
+      />
 
-      <nav className={`nav-menu ${isOpen ? 'open' : ''}`}>
+      <nav className={`nav-menu ${isOpen ? 'open' : ''} ${position}`}>
         <div className="nav-menu-header">
           {Icon && <Icon size={24} />}
           <h2>{title}</h2>
@@ -77,6 +82,7 @@ export default function NavigationMenu({
                 >
                   {ItemIcon && <ItemIcon size={20} />}
                   <span>{item.title}</span>
+                  <ChevronRight className="nav-menu-chevron" size={16} />
                 </Link>
               );
             }
@@ -89,6 +95,7 @@ export default function NavigationMenu({
               >
                 {ItemIcon && <ItemIcon size={20} />}
                 <span>{item.title}</span>
+                <ChevronRight className="nav-menu-chevron" size={16} />
               </button>
             );
           })}
