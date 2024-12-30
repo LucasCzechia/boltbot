@@ -1,22 +1,31 @@
 // pages/terms.js
 import Head from 'next/head';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { FileText, Scroll, Scale, Shield, Bell, Mail, Clock, AlertCircle, ArrowLeft, Users } from 'lucide-react';
+import { FileText, Scroll, Scale, Shield, Bell, Mail, Clock, AlertCircle, ArrowLeft } from 'lucide-react';
 import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter';
 import Starfield from '../components/misc/Starfield';
 
 export default function TermsOfService() {
-  const lastUpdated = '2024-12-30';
-  
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const navHeight = 80; // Height of the fixed navigation
-      const y = element.getBoundingClientRect().top + window.pageYOffset - navHeight;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+  const navigation = {
+    title: "Table of Contents",
+    icon: FileText,
+    items: [
+      { id: 'introduction', title: 'Introduction', href: '#introduction', icon: Scroll },
+      { id: 'usage', title: 'Terms of Use', href: '#usage', icon: Scale },
+      { id: 'privacy', title: 'Privacy & Data', href: '#privacy', icon: Shield },
+      { id: 'legal', title: 'Legal Rights', href: '#legal', icon: Scale },
+      { id: 'updates', title: 'Updates', href: '#updates', icon: Bell },
+      { id: 'support', title: 'Support', href: '#support', icon: Mail }
+    ],
+    footer: (
+      <div className="nav-footer">
+        <div className="nav-footer-header">
+          <Clock size={16} />
+          <span>Last Updated: 2024-12-30</span>
+        </div>
+      </div>
+    )
   };
 
   return (
@@ -26,59 +35,13 @@ export default function TermsOfService() {
         <meta name="description" content="Terms of Service for BoltBot - Read about our terms, conditions, and policies." />
       </Head>
 
-      <DashboardNav />
+      <DashboardNav navigation={navigation} />
       <Starfield />
 
       <div className="terms-container">
-        <aside className="terms-sidebar">
-          <div className="sidebar-content">
-            <div className="sidebar-header">
-              <FileText size={24} />
-              <h2>Table of Contents</h2>
-            </div>
-
-            <nav className="sidebar-nav">
-              <button onClick={() => scrollToSection('introduction')} className="nav-item">
-                <Scroll size={20} />
-                <span>Introduction</span>
-              </button>
-              <button onClick={() => scrollToSection('usage')} className="nav-item">
-                <Users size={20} />
-                <span>Terms of Use</span>
-              </button>
-              <button onClick={() => scrollToSection('privacy')} className="nav-item">
-                <Shield size={20} />
-                <span>Privacy & Data</span>
-              </button>
-              <button onClick={() => scrollToSection('legal')} className="nav-item">
-                <Scale size={20} />
-                <span>Legal Rights</span>
-              </button>
-              <button onClick={() => scrollToSection('updates')} className="nav-item">
-                <Bell size={20} />
-                <span>Updates</span>
-              </button>
-              <button onClick={() => scrollToSection('support')} className="nav-item">
-                <Mail size={20} />
-                <span>Support</span>
-              </button>
-            </nav>
-
-            <div className="sidebar-footer">
-              <div className="last-updated">
-                <div className="last-updated-header">
-                  <Clock size={16} />
-                  <span>Last Updated:</span>
-                </div>
-                <time dateTime={lastUpdated}>{lastUpdated}</time>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <main className="terms-main">
+        <div className="content-wrapper">
           <div className="terms-header">
-            <h1>Terms of Service</h1>
+            <h1 className="terms-title">Terms of Service</h1>
             <Link href="/" className="back-button">
               <ArrowLeft size={18} />
               Back to Home
@@ -134,7 +97,7 @@ export default function TermsOfService() {
             <section id="updates" className="terms-section">
               <h2>Updates to Terms</h2>
               <div className="alert-box">
-                <AlertCircle size={24} />
+                <AlertCircle size={24} className="alert-icon" />
                 <p>We may update these terms at any time. Continued use of the service constitutes acceptance of any changes.</p>
               </div>
             </section>
@@ -156,7 +119,7 @@ export default function TermsOfService() {
               </div>
             </section>
           </div>
-        </main>
+        </div>
       </div>
 
       <DashboardFooter />
