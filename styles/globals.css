@@ -1,6 +1,7 @@
 /* styles/globals.css */
 /* Misc Styles */
 @import './misc/starfield.css';
+@import './misc/UniversalSidebar.css';
 @import './misc/snake.css';
 @import './misc/terms.css';
 @import './misc/404.css';
