@@ -19,7 +19,7 @@ export default function CookieConsent() {
   const acceptCookies = () => {
     localStorage.setItem('cookieConsent', 'accepted');
     setShowConsent(false);
-  };
+   };
 
   const declineCookies = () => {
     localStorage.setItem('cookieConsent', 'declined');
@@ -58,15 +58,11 @@ export default function CookieConsent() {
             padding: '1rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '1.5rem',
-            flexDirection: 'row',
             justifyContent: 'space-between',
-            '@media (max-width: 768px)': {
-              flexDirection: 'column',
-              textAlign: 'center'
-            }
+            gap: '1rem',
+            flexWrap: 'wrap'
           }}>
-            <div style={{ flex: '1 1 auto' }}>
+            <div style={{ flex: 1, minWidth: '280px' }}>
               <p style={{ 
                 color: 'var(--text-secondary)',
                 fontSize: '0.925rem',
@@ -79,8 +75,7 @@ export default function CookieConsent() {
                     color: 'var(--primary)',
                     textDecoration: 'underline',
                     textUnderlineOffset: '2px',
-                    marginLeft: '0.25rem',
-                    transition: 'color 0.2s ease'
+                    marginLeft: '0.25rem'
                   }}
                   onMouseOver={(e) => e.target.style.color = 'var(--primary-dark)'}
                   onMouseOut={(e) => e.target.style.color = 'var(--primary)'}
@@ -92,12 +87,7 @@ export default function CookieConsent() {
             <div style={{ 
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
-              flexShrink: 0,
-              '@media (max-width: 768px)': {
-                width: '100%',
-                justifyContent: 'center'
-              }
+              gap: '0.75rem'
             }}>
               <button
                 onClick={declineCookies}
@@ -105,25 +95,13 @@ export default function CookieConsent() {
                   padding: '0.625rem 1.25rem',
                   color: 'var(--text-primary)',
                   background: 'transparent',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '6px',
+                  border: 'none',
                   cursor: 'pointer',
                   fontSize: '0.925rem',
-                  transition: 'all 0.2s ease',
-                  minWidth: '100px',
-                  '@media (max-width: 768px)': {
-                    flex: '1',
-                    maxWidth: '150px'
-                  }
+                  transition: 'color 0.2s ease'
                 }}
-                onMouseOver={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.target.style.borderColor = 'var(--primary)';
-                }}
-                onMouseOut={(e) => {
-                  e.target.style.background = 'transparent';
-                  e.target.style.borderColor = 'var(--border-color)';
-                }}
+                onMouseOver={(e) => e.target.style.color = 'var(--primary)'}
+                onMouseOut={(e) => e.target.style.color = 'var(--text-primary)'}
               >
                 Decline
               </button>
@@ -137,12 +115,7 @@ export default function CookieConsent() {
                   borderRadius: '6px',
                   cursor: 'pointer',
                   fontSize: '0.925rem',
-                  transition: 'all 0.2s ease',
-                  minWidth: '100px',
-                  '@media (max-width: 768px)': {
-                    flex: '1',
-                    maxWidth: '150px'
-                  }
+                  transition: 'all 0.2s ease'
                 }}
                 onMouseOver={(e) => {
                   e.target.style.background = 'var(--primary-dark)';
@@ -154,6 +127,24 @@ export default function CookieConsent() {
                 }}
               >
                 Accept All
+              </button>
+              <button
+                onClick={() => setShowConsent(false)}
+                style={{
+                  display: 'none',
+                  padding: '0.5rem',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-primary)',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s ease',
+                  '@media (max-width: 768px)': {
+                    display: 'flex'
+                  }
+                }}
+                aria-label="Close cookie banner"
+              >
+                <X size={20} />
               </button>
             </div>
           </div>
