@@ -1,0 +1,245 @@
+/* styles/misc/terms.css */
+.terms-container {
+  min-height: 100vh;
+  padding: 6rem 1rem 2rem;
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary);
+}
+
+.terms-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(250px, 1fr) minmax(0, 3fr);
+  gap: 2rem;
+  position: relative;
+}
+
+.terms-sidebar {
+  position: sticky;
+  top: 7rem;
+  height: fit-content;
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-header h2 {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.sidebar-nav button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav button:hover {
+  background: var(--hover-bg);
+  border-color: var(--border-color);
+}
+
+.sidebar-nav button.active {
+  background: var(--hover-bg);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.last-updated {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.last-updated-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.last-updated time {
+  font-size: 0.925rem;
+  color: var(--text-primary);
+}
+
+.terms-main {
+  background: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.terms-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.terms-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--hover-bg);
+  border-radius: 8px;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  border-color: var(--primary);
+  transform: translateX(-2px);
+}
+
+.terms-section {
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.terms-section h2 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.terms-box {
+  background: var(--bg-tertiary);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.terms-box h3 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.terms-box ul {
+  padding-left: 1.5rem;
+}
+
+.alert-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 204, 0, 0.1);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.terms-link {
+  color: var(--primary);
+  text-decoration: underline;
+  margin: 0 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.terms-link:hover {
+  color: var(--primary-dark);
+}
+
+@media (max-width: 1024px) {
+  .terms-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .terms-sidebar {
+    position: relative;
+    top: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .terms-container {
+    padding: 5rem 1rem 2rem;
+  }
+
+  .terms-main {
+    padding: 1.5rem;
+  }
+
+  .terms-title {
+    font-size: 2rem;
+  }
+
+  .terms-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .back-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms-container {
+    padding: 4rem 0.75rem 1.5rem;
+  }
+
+  .terms-main {
+    padding: 1rem;
+  }
+
+  .terms-title {
+    font-size: 1.75rem;
+  }
+
+  .sidebar-nav button {
+    padding: 0.625rem;
+  }
+
+  .terms-box {
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terms-wrapper,
+  .sidebar-nav button,
+  .back-button {
+    transition: none;
+  }
+}
