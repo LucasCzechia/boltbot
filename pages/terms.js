@@ -7,7 +7,6 @@ import { Shield, Scroll, Scale, Users, Clock, Bell, FileText, Mail, AlertCircle,
 import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter';
 import Starfield from '../components/misc/Starfield';
-import '../styles/misc/terms.css';
 
 export default function TermsOfService() {
   const [activeSection, setActiveSection] = useState('introduction');
