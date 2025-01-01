@@ -72,28 +72,20 @@ const Statistics = () => {
     return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
   };
 
-  if (isLoading) {
-    return (
-      <section className="landing-statistics" id="statistics">
-        <h2 className="section-title">Live Statistics</h2>
-        <div className="flex items-center justify-center p-4">
-          <div className="animate-pulse text-lg">Loading statistics...</div>
+  if (isLoading || error) {
+  return (
+    <div className="stats-loading">
+      <div className="stats-loading-pulse">
+        <span className="stats-loading-text">Awaiting Statistics</span>
+        <div className="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="landing-statistics" id="statistics">
-        <h2 className="section-title">Live Statistics</h2>
-        <div className="bg-red-50 border border-red-200 rounded-md p-4 mt-4">
-          <p className="text-red-700">Unable to load statistics: {error}</p>
-          <p className="text-sm text-red-500 mt-2">Please try again later or contact support if the issue persists.</p>
-        </div>
-      </section>
-    );
-  }
+      </div>
+    </div>
+  );
+}
 
   return (
     <ContentContainer>
