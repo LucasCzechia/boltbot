@@ -1,5 +1,6 @@
 // components/landing/Tools.jsx
 import ContentContainer from './ContentContainer';
+import { Wrench } from 'lucide-react'; // Import the icon
 
 export default function Tools() {
   const tools = [
@@ -14,8 +15,11 @@ export default function Tools() {
 
   return (
     <section className="landing-tools" id="tools">
-      <h2 className="landing-section-title">Powerful Tools</h2>
       <ContentContainer>
+        <h2 className="container-title">
+          <Wrench size={24} />
+          Powerful Tools
+        </h2>
         <div className="landing-tools-grid">
           {tools.map((tool, index) => (
             <div key={index} className="landing-tool-card">
