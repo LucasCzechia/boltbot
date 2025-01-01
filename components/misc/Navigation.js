@@ -19,6 +19,9 @@ import {
   LogOut
 } from 'lucide-react';
 
+const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User'
+const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
+
 const Navigation = ({ 
   config = {}, 
   isDashboard = false,
@@ -206,8 +209,8 @@ const Navigation = ({
                           unoptimized
                         />
                         <div className="user-details">
-                          <div className="user-name">{userProfile.name}</div>
-                          <div className="user-handle">@{userProfile.handle}</div>
+                          <div className="user-name">{displayName}</div>
+                          <div className="user-handle">{handle}</div>
                         </div>
                       </div>
                       <button onClick={onSignOut} className="logout-button">
