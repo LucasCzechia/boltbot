@@ -31,17 +31,17 @@ export default function Hero() {
           </Link>
           
           <Link 
-            href="/plans" 
+            href="/premium" 
             className="hero-button premium"
           >
-            <Sparkles size={20} />
-            <span>Upgrade to Premium</span>
+            <div className="premium-content">
+              <Sparkles size={16} className="sparkle-icon" />
+              <span>Premium</span>
+            </div>
             <div className="premium-shine"></div>
-            <div className="premium-stars">
-              {[...Array(3)].map((_, i) => (
-                <svg key={i} className="premium-star" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 1l3.22 6.979 7.78.533-5.785 5.112 1.944 7.376-7.159-4.035-7.159 4.035 1.944-7.376-5.785-5.112 7.78-.533z"/>
-                </svg>
+            <div className="premium-particles">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="particle"></div>
               ))}
             </div>
           </Link>
