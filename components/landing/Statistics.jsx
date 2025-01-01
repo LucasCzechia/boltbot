@@ -63,10 +63,7 @@ const Statistics = () => {
 
     const uptimeStart = parseInt(localStorage.getItem(UPTIME_KEY) || Date.now());
     const totalUptimeSeconds = Math.floor((currentTime - uptimeStart) / 1000);
-    const totalDowntimeSeconds = Math.max(
-      0,
-      Math.floor(currentTime / 1000) - totalUptimeSeconds
-    );
+    const totalDowntimeSeconds = totalUptimeSeconds;
 
     const days = Math.floor(totalDowntimeSeconds / (24 * 60 * 60));
     const hours = Math.floor((totalDowntimeSeconds % (24 * 60 * 60)) / (60 * 60));
