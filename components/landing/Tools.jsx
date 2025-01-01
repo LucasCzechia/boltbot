@@ -43,7 +43,7 @@ export default function Tools() {
   return (
     <ContentContainer>
       <section className="landing-tools" id="tools">
-        <h2 className="section-title">Powerful Tools</h2>
+        <h2 className="landing-section-title">Powerful Tools</h2>
         <div className="landing-tools-grid">
           {tools.map((tool, index) => (
             <div key={index} className="landing-tool-card">
