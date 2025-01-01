@@ -1,99 +1,183 @@
 // components/misc/Navigation.js
+import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { Moon, Sun, LogOut, Zap, Wrench, BarChart2, Layout, Users } from 'lucide-react'
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Menu, 
+  X, 
+  Zap, 
+  Wrench, 
+  BarChart2, 
+  Layout, 
+  Users, 
+  Bot, 
+  ExternalLink,
+  ChevronDown,
+  Moon,
+  Sun,
+  LogOut
+} from 'lucide-react';
 
-const Navigation = () => {
-  const { data: session } = useSession()
-  const router = useRouter()
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(true)
-  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false
-  const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0)
-
-  const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User'
-  const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown'
-
-  const getUserAvatar = () => {
-    if (!session?.user?.image) {
-      return "https://cdn.discordapp.com/embed/avatars/0.png"
-    }
-    return session.user.image
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setCurrentWidth(window.innerWidth)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  useEffect(() => {
-    const theme = localStorage.getItem('theme') || 'dark'
-    setIsDarkMode(theme === 'dark')
-    document.documentElement.classList.remove('light-mode', 'dark-mode')
-    document.documentElement.classList.add(`${theme}-mode`)
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [])
-
-  const toggleTheme = () => {
-    const newTheme = isDarkMode ? 'light' : 'dark'
-    setIsDarkMode(!isDarkMode)
-    localStorage.setItem('theme', newTheme)
-    document.documentElement.classList.remove('light-mode', 'dark-mode')
-    document.documentElement.classList.add(`${newTheme}-mode`)
-    document.documentElement.setAttribute('data-theme', newTheme)
-  }
+const handleThemeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+  };
 
   const handleSignOut = async () => {
     try {
       await signOut({ 
         callbackUrl: '/auth/login',
         redirect: true
-      })
+      });
     } catch (error) {
-      console.error('Sign out error:', error)
-      router.push('/auth/login')
+      console.error('Sign out error:', error);
     }
-  }
+  };
 
-  const handleClickOutside = (event) => {
-    if (showDropdown && !event.target.closest('.user-profile-wrapper')) {
-      setShowDropdown(false)
+const Navigation = ({ 
+  config = {}, 
+  isDashboard = false,
+  userProfile = null,
+  isDarkMode = true
+}) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const displayName = userProfile?.user?.globalName || userProfile?.user?.name || 'Unknown User'
+  const handle = userProfile?.user?.name ? `@${userProfile?.user?.name}` : '@unknown'
+  
+  const defaultConfig = {
+    logoText: 'BoltBot⚡',
+    logoImage: '/images/boltbot.webp',
+    items: [
+      {
+        name: 'Features',
+        href: '#features',
+        icon: Zap,
+        description: 'Explore powerful AI capabilities'
+      },
+      {
+        name: 'Tools',
+        href: '#tools',
+        icon: Wrench,
+        description: 'Discover utility features'
+      },
+      {
+        name: 'Analytics',
+        href: '#statistics',
+        icon: BarChart2,
+        description: 'View real-time statistics'
+      },
+      {
+        name: 'Dashboard',
+        href: '/dashboard',
+        icon: Layout,
+        description: 'Manage your servers'
+      },
+      {
+        name: 'Community',
+        href: 'https://discord.gg/bolt',
+        icon: Users,
+        description: 'Join our Discord server',
+        external: true
+      }
+    ],
+    ctaButton: {
+      text: 'Add to Discord',
+      href: 'https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot',
+      icon: Zap
     }
-  }
+  };
+
+  const mergedConfig = { ...defaultConfig, ...config };
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
+    const handleClickOutside = (e) => {
+      if (isMenuOpen && !e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
+        setIsMenuOpen(false);
+      }
+      if (showDropdown && !e.target.closest('.user-profile-wrapper')) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    
     return () => {
-      document.removeEventListener('click', handleClickOutside)
-    }
-  }, [showDropdown])
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isMenuOpen, showDropdown]);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const variants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -10 }
+  };
 
   return (
     <nav className="navbar">
       <div className="nav-content">
         <Link href="/" className="logo">
-          <Image 
-            src="/images/boltbot.webp"
-            alt="BoltBot Logo"
+          <Image
+            src={mergedConfig.logoImage}
+            alt="Logo"
             width={45}
             height={45}
             priority
+            className="logo-image"
           />
-          BoltBot⚡
+          <span className="logo-text">{mergedConfig.logoText}</span>
         </Link>
 
-        <div className="user-profile-wrapper">
+        <div className="nav-controls-wrapper">
+          <button 
+            className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
+            onClick={handleMenuClick}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            {mergedConfig.items.map((item, index) => (
+              <div key={item.name} className="nav-item-wrapper">
+                <Link 
+                  href={item.href}
+                  className="nav-link"
+                  target={item.external ? '_blank' : '_self'}
+                  rel={item.external ? 'noopener noreferrer' : ''}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <item.icon size={18} className="nav-icon" />
+                  <span>{item.name}</span>
+                  {item.external && <ExternalLink size={14} className="external-icon" />}
+                </Link>
+              </div>
+            ))}
+
+            {mergedConfig.ctaButton && (
+              <Link 
+                href={mergedConfig.ctaButton.href}
+                className="cta-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <mergedConfig.ctaButton.icon size={18} />
+                <span>{mergedConfig.ctaButton.text}</span>
+              </Link>
+            )}
+          </div>
+
           <div className="nav-controls">
             <button 
               className="theme-toggle"
-              onClick={toggleTheme}
+              onClick={onThemeToggle}
               aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {isDarkMode ? (
@@ -103,48 +187,60 @@ const Navigation = () => {
               )}
             </button>
 
-            <button 
-              className="user-profile-button"
-              onClick={() => setShowDropdown(!showDropdown)}
-              aria-expanded={showDropdown}
-            >
-              <Image 
-                src={getUserAvatar()}
-                alt="User Avatar"
-                width={48}
-                height={48}
-                className="user-avatar"
-                unoptimized
-              />
-            </button>
-          </div>
+            {userProfile && (
+              <div className="user-profile-wrapper">
+                <button 
+                  className="user-profile-button"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  aria-expanded={showDropdown}
+                >
+                  <Image 
+                    src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                    alt="User Avatar"
+                    width={48}
+                    height={48}
+                    className="user-avatar"
+                    unoptimized
+                  />
+                </button>
 
-          {showDropdown && (
-            <div className="user-dropdown">
-              <div className="user-info">
-                <Image 
-                  src={getUserAvatar()}
-                  alt="User Avatar"
-                  width={65}
-                  height={65}
-                  className="dropdown-avatar"
-                  unoptimized
-                />
-                <div className="user-details">
-                  <div className="user-name">{displayName}</div>
-                  <div className="user-handle">{handle}</div>
-                </div>
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div 
+                      className="user-dropdown"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={variants}
+                    >
+                      <div className="user-info">
+                        <Image 
+                          src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                          alt="User Avatar"
+                          width={65}
+                          height={65}
+                          className="dropdown-avatar"
+                          unoptimized
+                        />
+                        <div className="user-details">
+                          <div className="user-name">{displayName}</div>
+                          <div className="user-handle">{handle}</div>
+                        </div>
+                      </div>
+                      <button onClick={onSignOut} className="logout-button">
+                        <LogOut size={20} />
+                        <span>Sign Out</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <button onClick={handleSignOut} className="logout-button">
-                <LogOut size={20} />
-                <span>Sign Out</span>
-              </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;
