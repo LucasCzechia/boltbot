@@ -1,1 +1,73 @@
+/* styles/landing/responsive-utils.css */
+/* Section Spacing */
+.landing-features,
+.landing-tools-section,
+.landing-statistics-section {
+  margin: 1rem 0; 
+}
 
+/* Status Bar Layout */
+.landing-status-bar {
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.landing-status-item {
+  flex: 0 1 auto;
+  min-width: 180px;
+  font-size: 0.9rem;
+}
+
+/* Card Content Spacing */
+.landing-feature-card h3,
+.landing-tool-card h3,
+.landing-stats-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.landing-feature-card p,
+.landing-tool-card p,
+.landing-stats-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .landing-features,
+  .landing-tools-section,
+  .landing-statistics-section {
+    margin: 0.75rem 0;
+  }
+
+  .landing-status-item {
+    min-width: 150px;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-features,
+  .landing-tools-section,
+  .landing-statistics-section {
+    margin: 0.5rem 0;
+  }
+
+  .landing-status-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .landing-status-item {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.625rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+  }
+}
