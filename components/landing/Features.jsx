@@ -38,7 +38,7 @@ export default function Features() {
   return (
     <ContentContainer>
       <section className="landing-features" id="features">
-        <h2 className="section-title">Powerful Features</h2>
+        <h2 className="landing-section-title">Powerful Features</h2>
         <div className="landing-features-grid">
           {features.map((feature, index) => (
             <div key={index} className="landing-feature-card">
