@@ -74,8 +74,8 @@ const Statistics = () => {
 
   if (isLoading) {
     return (
-      <section className="statistics-section" id="statistics">
-        <h2 className="section-title">Live Statistics</h2>
+      <section className="landing-statistics" id="statistics">
+        <h2 className="landing-section-title">Live Statistics</h2>
         <div className="flex items-center justify-center p-4">
           <div className="animate-pulse text-lg">Loading statistics...</div>
         </div>
@@ -85,8 +85,8 @@ const Statistics = () => {
 
   if (error) {
     return (
-      <section className="statistics-section" id="statistics">
-        <h2 className="section-title">Live Statistics</h2>
+      <section className="landing-statistics" id="statistics">
+        <h2 className="landing-section-title">Live Statistics</h2>
         <div className="bg-red-50 border border-red-200 rounded-md p-4 mt-4">
           <p className="text-red-700">Unable to load statistics: {error}</p>
           <p className="text-sm text-red-500 mt-2">Please try again later or contact support if the issue persists.</p>
@@ -97,12 +97,12 @@ const Statistics = () => {
 
   return (
     <ContentContainer>
-      <section className="statistics-section" id="statistics">
-        <h2 className="section-title">Live Statistics</h2>
-        <div className="status-bar">
-          <div className="status-item">
+      <section className="landing-statistics" id="statistics">
+        <h2 className="landing-section-title">Live Statistics</h2>
+        <div className="landing-status-bar">
+          <div className="landing-status-item">
             <div
-              className="status-indicator"
+              className="landing-status-indicator"
               style={{
                 backgroundColor: stats?.status?.state === 'online' 
                   ? 'var(--status-online)'
@@ -125,12 +125,12 @@ const Statistics = () => {
                 : 'Unknown'}
             </span>
           </div>
-          <div className="status-item">
+          <div className="landing-status-item">
             <span>Response Time:</span>
             <div className="w-24">
-              <div className="response-gauge">
+              <div className="landing-response-gauge">
                 <div
-                  className="gauge-fill"
+                  className="landing-gauge-fill"
                   style={{
                     width: `${Math.min(
                       100,
@@ -144,25 +144,25 @@ const Statistics = () => {
               </div>
             </div>
           </div>
-          <div className="status-item">
+          <div className="landing-status-item">
             <span>Uptime:</span>
             <span className="text-primary">{formatUptime()}</span>
           </div>
         </div>
-        <div className="stats-grid">
-          <div className="stats-card">
+        <div className="landing-stats-grid">
+          <div className="landing-stats-card">
             <h3>🌐 Global Reach</h3>
             <p>
               Currently serving{' '}
-              <span className="highlight">{stats?.guilds?.toLocaleString() || 0}</span>{' '}
+              <span className="landing-highlight">{stats?.guilds?.toLocaleString() || 0}</span>{' '}
               servers worldwide
             </p>
           </div>
-          <div className="stats-card">
+          <div className="landing-stats-card">
             <h3>👥 Active Users</h3>
             <p>
               Over{' '}
-              <span className="highlight">{stats?.users?.toLocaleString() || 0}</span>{' '}
+              <span className="landing-highlight">{stats?.users?.toLocaleString() || 0}</span>{' '}
               users and growing
             </p>
           </div>
