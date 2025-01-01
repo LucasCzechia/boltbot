@@ -16,7 +16,7 @@ export default function Features() {
     {
       icon: "🎨",
       title: "Image Generation",
-      description: "Create stunning images using DALL-E 3 with detailed text prompts."
+      description: "Create stunning images using Google Image Translatorwith detailed text prompts."
     },
     {
       icon: "🖼️",
