@@ -29,8 +29,8 @@ const Statistics = () => {
         const data = await response.json();
         
         if (!localStorage.getItem(UPTIME_KEY)) {
-          const totalSeconds = (data.status.uptimeDays * 24 * 60 * 60) + 
-                             (data.status.uptimeHours * 60 * 60);
+          const totalSeconds = (data.status?.uptimeDays || 0) * 24 * 60 * 60 + 
+                             (data.status?.uptimeHours || 0) * 60 * 60;
           const uptimeStart = Date.now() - (totalSeconds * 1000);
           localStorage.setItem(UPTIME_KEY, uptimeStart.toString());
         }
@@ -38,6 +38,7 @@ const Statistics = () => {
         setStats(data);
       } catch (err) {
         console.error('Stats fetch error:', err);
+        // Don't set stats to null on error to maintain last known good state
       } finally {
         setIsLoading(false);
       }
@@ -144,7 +145,7 @@ const Statistics = () => {
                 <h3>🌐 Global Reach</h3>
                 <p>
                   Currently serving{' '}
-                  <span className="highlight">{stats?.guilds?.toLocaleString() || 0}</span>{' '}
+                  <span className="highlight">{stats?.guilds?.toLocaleString() || '0'}</span>{' '}
                   servers worldwide
                 </p>
               </div>
@@ -152,7 +153,7 @@ const Statistics = () => {
                 <h3>👥 Active Users</h3>
                 <p>
                   Over{' '}
-                  <span className="highlight">{stats?.users?.toLocaleString() || 0}</span>{' '}
+                  <span className="highlight">{stats?.users?.toLocaleString() || '0'}</span>{' '}
                   users and growing
                 </p>
               </div>
