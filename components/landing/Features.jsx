@@ -37,11 +37,11 @@ export default function Features() {
 
   return (
     <ContentContainer>
-      <section className="features" id="features">
+      <section className="landing-features" id="features">
         <h2 className="section-title">Powerful Features</h2>
-        <div className="features-grid">
+        <div className="landing-features-grid">
           {features.map((feature, index) => (
-            <div key={index} className="feature-card">
+            <div key={index} className="landing-feature-card">
               <h3>{feature.icon} {feature.title}</h3>
               <p>{feature.description}</p>
             </div>
