@@ -29,7 +29,7 @@ const Statistics = () => {
 
         const data = await response.json();
         
-          if (!localStorage.getItem(UPTIME_KEY)) {
+        if (!localStorage.getItem(UPTIME_KEY)) {
           const totalSeconds = (data.status.uptimeDays * 24 * 60 * 60) + 
                              (data.status.uptimeHours * 60 * 60);
           const uptimeStart = Date.now() - (totalSeconds * 1000);
@@ -96,78 +96,79 @@ const Statistics = () => {
   }
 
   return (
-    <section className="statistics-section" id="statistics">
-      <h2 className="section-title">Live Statistics</h2>
-      <div className="status-bar">
-        <div className="status-item">
-          <div
-            className="status-indicator"
-            style={{
-              backgroundColor: stats?.status?.state === 'online' 
-                ? 'var(--status-online)'
-                : stats?.status?.state === 'idle'
-                ? 'var(--status-idle)'
-                : 'var(--status-offline)',
-              boxShadow: `0 0 10px ${
-                stats?.status?.state === 'online'
+    <ContentContainer>
+      <section className="statistics-section" id="statistics">
+        <h2 className="section-title">Live Statistics</h2>
+        <div className="status-bar">
+          <div className="status-item">
+            <div
+              className="status-indicator"
+              style={{
+                backgroundColor: stats?.status?.state === 'online' 
                   ? 'var(--status-online)'
                   : stats?.status?.state === 'idle'
                   ? 'var(--status-idle)'
-                  : 'var(--status-offline)'
-              }`,
-            }}
-          />
-          <span>
-            System{' '}
-            {stats?.status?.state 
-              ? stats.status.state.charAt(0).toUpperCase() + stats.status.state.slice(1)
-              : 'Unknown'}
-          </span>
-        </div>
-        <div className="status-item">
-          <span>Response Time:</span>
-          <div className="w-24">
-            <div className="response-gauge">
-              <div
-                className="gauge-fill"
-                style={{
-                  width: `${Math.min(
-                    100,
-                    Math.max(0, (200 - (stats?.status?.responseTime || 0)) / 2)
-                  )}%`,
-                }}
-              />
-            </div>
-            <div className="text-right text-sm text-primary">
-              {stats?.status?.responseTime || 0}ms
+                  : 'var(--status-offline)',
+                boxShadow: `0 0 10px ${
+                  stats?.status?.state === 'online'
+                    ? 'var(--status-online)'
+                    : stats?.status?.state === 'idle'
+                    ? 'var(--status-idle)'
+                    : 'var(--status-offline)'
+                }`,
+              }}
+            />
+            <span>
+              System{' '}
+              {stats?.status?.state 
+                ? stats.status.state.charAt(0).toUpperCase() + stats.status.state.slice(1)
+                : 'Unknown'}
+            </span>
+          </div>
+          <div className="status-item">
+            <span>Response Time:</span>
+            <div className="w-24">
+              <div className="response-gauge">
+                <div
+                  className="gauge-fill"
+                  style={{
+                    width: `${Math.min(
+                      100,
+                      Math.max(0, (200 - (stats?.status?.responseTime || 0)) / 2)
+                    )}%`,
+                  }}
+                />
+              </div>
+              <div className="text-right text-sm text-primary">
+                {stats?.status?.responseTime || 0}ms
+              </div>
             </div>
           </div>
+          <div className="status-item">
+            <span>Uptime:</span>
+            <span className="text-primary">{formatUptime()}</span>
+          </div>
         </div>
-        <div className="status-item">
-          <span>Uptime:</span>
-          <span className="text-primary">{formatUptime()}</span>
+        <div className="stats-grid">
+          <div className="stats-card">
+            <h3>🌐 Global Reach</h3>
+            <p>
+              Currently serving{' '}
+              <span className="highlight">{stats?.guilds?.toLocaleString() || 0}</span>{' '}
+              servers worldwide
+            </p>
+          </div>
+          <div className="stats-card">
+            <h3>👥 Active Users</h3>
+            <p>
+              Over{' '}
+              <span className="highlight">{stats?.users?.toLocaleString() || 0}</span>{' '}
+              users and growing
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="stats-grid">
-        <div className="stats-card">
-          <h3>🌐 Global Reach</h3>
-          <p>
-            Currently serving{' '}
-            <span className="highlight">{stats?.guilds?.toLocaleString() || 0}</span>{' '}
-            servers worldwide
-          </p>
-        </div>
-        <div className="stats-card">
-          <h3>👥 Active Users</h3>
-          <p>
-            Over{' '}
-            <span className="highlight">{stats?.users?.toLocaleString() || 0}</span>{' '}
-            users and growing
-          </p>
-        </div>
-      </div>
-    </section>
-   </ContentContainer>
+      </section>
+    </ContentContainer>
   );
 };
 
