@@ -36,10 +36,10 @@ export default function Custom404() {
         <div className="error-content">
           <Image 
             src="/images/boltbot.webp"
-            alt="BoltBot Logo"
-            width={120}
-            height={120}
-            className="error-logo"
+            alt="BoltBot Avatar"
+            width={200}
+            height={200}
+            className="bot-avatar"
             priority
           />
           
