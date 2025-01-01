@@ -1,8 +1,6 @@
 // pages/index.js
 import { useState, useEffect } from 'react';
-import { getServerSession } from "next-auth/next"
-import { authOptions } from './api/auth/[...nextauth]'
-
+import { useSession } from 'next-auth/react';
 import Head from 'next/head'
 import Script from 'next/script'
 import Navigation from '../components/misc/Navigation'
@@ -14,42 +12,60 @@ import DashboardFooter from '../components/dashboard/DashboardFooter'
 import Starfield from '../components/misc/Starfield';
 
 export default function Home() {
+  const { data: session, status } = useSession();
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const handleThemeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut({ 
+        callbackUrl: '/auth/login',
+        redirect: true
+      });
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
   return (
-const session = await getServerSession(authOptions)
-    
     <>
       <Head>
         <title>BoltBot⚡ - Advanced AI Discord Bot</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20'>⚡</text></svg>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-    
+
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
           <path d="M13 0L0 13h9v11l13-13h-9z"/>
         </svg>
       </div>
 
-      if (!session?.user) {
-     <Navigation
-     onThemeToggle={handleThemeToggle}
-     isDarkMode={isDarkMode}
+      <Starfield />
+
+      {!session?.user ? (
+        <Navigation 
+          onThemeToggle={handleThemeToggle}
+          isDarkMode={isDarkMode}
         />
-     } else if (session?.user) {
-     <Navigation 
-     userProfile={session?.user}
-     onThemeToggle={handleThemeToggle}
-     onSignOut={handleSignOut}
-     isDarkMode={isDarkMode}
+      ) : (
+        <Navigation
+          userProfile={session?.user}
+          onThemeToggle={handleThemeToggle}
+          onSignOut={handleSignOut}
+          isDarkMode={isDarkMode}
         />
-       } 
-       
+      )}
+
       <Hero />
       <Features />
       <Tools />
       <Statistics />
       <DashboardFooter />
-      <Starfield />
 
       <Script 
         src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" 
