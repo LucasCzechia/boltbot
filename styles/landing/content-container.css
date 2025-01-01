@@ -84,13 +84,14 @@
 
 /* Apply the dashboard-container styles */
 .container-title {
-    font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    justify-content: center; /* Center the title */
+    font-size: 1.25rem; /* Default mobile size*/
   }
   
   .container-title svg {
@@ -115,14 +116,18 @@
   .landing-tools-grid {
     grid-template-columns: repeat(2, minmax(300px, 1fr));
   }
+    .container-title {
+      font-size: 1.75rem;
+    }
 }
 
 @media (max-width: 1024px) {
     .landing-content-wrapper {
         padding: 1.25rem;
     }
+
   .container-title {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     margin-bottom: 1.25rem;
   }
 
@@ -154,6 +159,9 @@
   .landing-tool-card {
     padding: 1.5rem;
   }
+    .container-title {
+        font-size: 1.25rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -176,6 +184,9 @@
   .landing-tool-card {
     padding: 1.25rem;
   }
+    .container-title {
+        font-size: 1.1rem;
+    }
 }
 
 @media print {
