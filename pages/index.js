@@ -28,8 +28,6 @@ export default function Home() {
         </svg>
       </div>
 
-      <Starfield />
-
       {!session?.user ? (
         <Navigation 
           isDarkMode={isDarkMode}
