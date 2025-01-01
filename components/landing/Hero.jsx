@@ -1,7 +1,7 @@
 // components/landing/Hero.jsx
 import Link from 'next/link';
 import Image from 'next/image';
-import { SlidersHorizontal, Sparkles } from 'lucide-react';
+import { House, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
 
 export default function Hero() {
@@ -25,7 +25,7 @@ export default function Hero() {
             href="https://boltbot.app/dashboard" 
             className="hero-button primary"
           >
-            <SlidersHorizontal size={20} />
+            <House size={20} />
             <span>Open Dashboard</span>
             <div className="button-glow"></div>
           </Link>
