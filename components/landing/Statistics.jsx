@@ -75,7 +75,7 @@ const Statistics = () => {
   if (isLoading) {
     return (
       <section className="landing-statistics" id="statistics">
-        <h2 className="landing-section-title">Live Statistics</h2>
+        <h2 className="section-title">Live Statistics</h2>
         <div className="flex items-center justify-center p-4">
           <div className="animate-pulse text-lg">Loading statistics...</div>
         </div>
