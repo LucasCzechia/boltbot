@@ -1,4 +1,5 @@
 /* styles/landing/content-container.css */
+
 .landing-content-container {
   display: flex;
   justify-content: center;
@@ -9,16 +10,15 @@
 }
 
 .landing-content-wrapper {
-  height: 450px;
   width: fit-content;
   background: rgba(17, 17, 17, 0.6);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 3rem;
+  padding: 1.5rem;
   transition: all 0.3s ease;
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 .landing-content-wrapper:hover {
