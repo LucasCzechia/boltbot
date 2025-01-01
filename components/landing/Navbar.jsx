@@ -1,7 +1,18 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, Zap, Tool, BarChart2, Layout, Users, Bot, ExternalLink, ChevronDown } from 'lucide-react';
+import { 
+  Menu, 
+  X, 
+  Zap, 
+  Wrench, 
+  BarChart2, 
+  Layout, 
+  Users, 
+  Bot, 
+  ExternalLink, 
+  ChevronDown 
+} from 'lucide-react';
 
 const NAV_ITEMS = [
   {
@@ -13,7 +24,7 @@ const NAV_ITEMS = [
   {
     name: 'Tools',
     href: '#tools',
-    icon: Tool,
+    icon: Wrench,
     description: 'Discover utility features'
   },
   {
@@ -39,7 +50,6 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -50,9 +60,6 @@ export default function Navbar() {
     const handleClickOutside = (e) => {
       if (isMenuOpen && !e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
         setIsMenuOpen(false);
-      }
-      if (!e.target.closest('.nav-dropdown')) {
-        setActiveDropdown(null);
       }
     };
 
@@ -67,11 +74,6 @@ export default function Navbar() {
 
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
-    setActiveDropdown(null);
-  };
-
-  const handleDropdownClick = (index) => {
-    setActiveDropdown(activeDropdown === index ? null : index);
   };
 
   return (
@@ -105,7 +107,7 @@ export default function Navbar() {
             <div key={item.name} className="nav-item-wrapper">
               <Link 
                 href={item.href}
-                className={`nav-link ${activeDropdown === index ? 'active' : ''}`}
+                className="nav-link"
                 target={item.external ? '_blank' : '_self'}
                 rel={item.external ? 'noopener noreferrer' : ''}
                 onClick={() => setIsMenuOpen(false)}
@@ -113,16 +115,6 @@ export default function Navbar() {
                 <item.icon size={18} className="nav-icon" />
                 <span>{item.name}</span>
                 {item.external && <ExternalLink size={14} className="external-icon" />}
-                {item.dropdown && (
-                  <ChevronDown 
-                    size={14} 
-                    className={`dropdown-arrow ${activeDropdown === index ? 'active' : ''}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleDropdownClick(index);
-                    }}
-                  />
-                )}
               </Link>
             </div>
           ))}
