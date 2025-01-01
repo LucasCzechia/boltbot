@@ -9,27 +9,10 @@ import Features from '../components/landing/Features'
 import Tools from '../components/landing/Tools'
 import Statistics from '../components/landing/Statistics'
 import DashboardFooter from '../components/dashboard/DashboardFooter'
-import Starfield from '../components/misc/Starfield';
 
 export default function Home() {
   const { data: session, status } = useSession();
   const [isDarkMode, setIsDarkMode] = useState(true);
-
-  const handleThemeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut({ 
-        callbackUrl: '/auth/login',
-        redirect: true
-      });
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
-  };
 
   return (
     <>
@@ -49,14 +32,11 @@ export default function Home() {
 
       {!session?.user ? (
         <Navigation 
-          onThemeToggle={handleThemeToggle}
           isDarkMode={isDarkMode}
         />
       ) : (
         <Navigation
-          userProfile={session?.user}
-          onThemeToggle={handleThemeToggle}
-          onSignOut={handleSignOut}
+          userProfile={session?.user}      
           isDarkMode={isDarkMode}
         />
       )}
