@@ -9,7 +9,7 @@
 }
 
 .landing-content-wrapper {
-  height: fit-content;
+  height: 450px;
   width: fit-content;
   background: rgba(17, 17, 17, 0.6);
   backdrop-filter: blur(10px);
