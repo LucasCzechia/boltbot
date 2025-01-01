@@ -22,20 +22,20 @@ const Statistics = () => {
             'Cache-Control': 'no-cache'
           },
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch stats: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
-        
+
         if (!localStorage.getItem(UPTIME_KEY)) {
           const totalSeconds = (data.status.uptimeDays * 24 * 60 * 60) + 
                              (data.status.uptimeHours * 60 * 60);
           const uptimeStart = Date.now() - (totalSeconds * 1000);
           localStorage.setItem(UPTIME_KEY, uptimeStart.toString());
         }
-        
+
         setStats(data);
         setError(null);
       } catch (err) {
@@ -89,9 +89,9 @@ const Statistics = () => {
   }
 
   return (
-    <ContentContainer>
-      <section className="landing-statistics" id="statistics">
-        <h2 className="landing-section-title">Live Statistics</h2>
+    <section className="landing-statistics" id="statistics">
+      <h2 className="landing-section-title">Live Statistics</h2>
+      <ContentContainer>
         <div className="landing-status-bar">
           <div className="landing-status-item">
             <div
@@ -158,8 +158,8 @@ const Statistics = () => {
             </p>
           </div>
         </div>
-      </section>
-    </ContentContainer>
+      </ContentContainer>
+    </section>
   );
 };
 
