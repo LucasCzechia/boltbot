@@ -20,10 +20,23 @@
 
 .content-wrapper:hover {
   border-color: var(--primary);
-  transform: translateY(-5px);
+  transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .content-container {
+    padding: 0 1.5rem;
+  }
+
+  .content-wrapper {
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+  }
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
   .content-container {
     padding: 0 1rem;
@@ -31,11 +44,104 @@
 
   .content-wrapper {
     padding: 2rem 1rem;
+    border-radius: 16px;
+  }
+
+  .content-wrapper:hover {
+    transform: none;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .content-container {
+    padding: 0 0.75rem;
+  }
+  
+  .content-wrapper {
+    padding: 1.5rem 0.75rem;
+    border-radius: 12px;
+  }
+}
+
+/* Content Section Spacing */
+.features,
+.tools-section,
+.statistics-section {
+  padding: 0;
+}
+
+.section-title {
+  font-size: calc(1.75rem + 1vw);
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Grid Layouts */
+.features-grid,
+.tools-grid,
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .features-grid,
+  .tools-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Card Styles */
+.feature-card,
+.tool-card,
+.stats-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .feature-card,
+  .tool-card,
+  .stats-card {
+    padding: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
+  .feature-card,
+  .tool-card,
+  .stats-card {
+    padding: 1rem;
+  }
+}
+
+/* Safe Area Insets for Modern Mobile Devices */
+@supports (padding: env(safe-area-inset-right)) {
+  .content-container {
+    padding-right: calc(0.75rem + env(safe-area-inset-right));
+    padding-left: calc(0.75rem + env(safe-area-inset-left));
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) {
   .content-wrapper {
-    padding: 1.5rem 0.75rem;
+    transform: none !important;
+    transition: border-color 0.3s ease;
+  }
+  
+  .content-wrapper:hover {
+    transform: none;
+    box-shadow: none;
   }
 }
