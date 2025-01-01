@@ -1,0 +1,81 @@
+/* styles/landing/responsive-utils.css */
+/* Section Spacing */
+.features,
+.tools-section,
+.statistics-section {
+  margin: 3rem 0;
+}
+
+@media (max-width: 768px) {
+  .features,
+  .tools-section,
+  .statistics-section {
+    margin: 2rem 0;
+  }
+}
+
+/* Status Bar Responsive Layout */
+.status-bar {
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.status-item {
+  flex: 0 1 auto;
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .status-item {
+    min-width: 150px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .status-item {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+  }
+}
+
+/* Card Content Spacing */
+.feature-card h3,
+.tool-card h3,
+.stats-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card p,
+.tool-card p,
+.stats-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .feature-card h3,
+  .tool-card h3,
+  .stats-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card p,
+  .tool-card p,
+  .stats-card p {
+    font-size: 0.9rem;
+  }
+}
