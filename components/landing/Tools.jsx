@@ -1,6 +1,6 @@
 // components/landing/Tools.jsx
-import ContentContainer from './ContentContainer';
-import { Wrench } from 'lucide-react'; // Import the icon
+import LandingContentContainer from './LandingContentContainer';
+import { Wrench } from 'lucide-react';
 
 export default function Tools() {
   const tools = [
@@ -15,8 +15,8 @@ export default function Tools() {
 
   return (
     <section className="landing-tools" id="tools">
-      <ContentContainer>
-        <h2 className="container-title">
+      <LandingContentContainer>
+        <h2 className="landing-container-title">
           <Wrench size={24} />
           Powerful Tools
         </h2>
@@ -28,7 +28,7 @@ export default function Tools() {
             </div>
           ))}
         </div>
-      </ContentContainer>
+      </LandingContentContainer>
     </section>
   );
 }
