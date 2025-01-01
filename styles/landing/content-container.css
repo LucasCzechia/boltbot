@@ -1,10 +1,9 @@
 /* styles/landing/content-container.css */
-
 .landing-content-container {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1rem; /* Reduced padding */
   position: relative;
   z-index: 2;
 }
@@ -16,9 +15,9 @@
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.5rem; /* Reduced padding */
   transition: all 0.3s ease;
-  margin: 1rem 0;
+  margin: 1rem 0; /* Reduced margin */
 }
 
 .landing-content-wrapper:hover {
@@ -27,29 +26,26 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-/* Section Title */
 .section-title {
   font-size: 2.5rem;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem; /* Reduced margin-bottom */
   background: linear-gradient(45deg, var(--primary), var(--primary-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Grid Layouts */
 .landing-features-grid,
 .landing-tools-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem; /* Reduced gap */
 }
 
-/* Feature and Tool Cards */
 .landing-feature-card,
 .landing-tool-card {
   background: var(--card-bg);
-  padding: 1.75rem;
+  padding: 1.5rem; /* Reduced padding */
   border-radius: 12px;
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
@@ -63,11 +59,10 @@
   box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
 }
 
-/* Stats Grid */
 .landing-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem; /* Reduced gap */
 }
 
 @media (max-width: 1200px) {
@@ -79,23 +74,23 @@
 
 @media (max-width: 1024px) {
   .landing-content-wrapper {
-    padding: 2.5rem;
+    padding: 1.5rem; /* Reduced padding */
   }
 
   .section-title {
     font-size: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem; /* Reduced margin-bottom */
   }
 }
 
 @media (max-width: 768px) {
   .landing-content-container {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
   }
 
   .landing-content-wrapper {
-    padding: 2rem;
-    margin: 1.5rem 0;
+    padding: 1.5rem;
+    margin: 1rem 0; /* Reduced margin */
   }
 
   .landing-features-grid,
@@ -107,12 +102,12 @@
 
   .landing-feature-card,
   .landing-tool-card {
-    padding: 1.5rem;
+    padding: 1.25rem; /* Reduced padding */
   }
 
   .section-title {
     font-size: 1.75rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Reduced margin-bottom */
   }
 }
 
@@ -122,8 +117,8 @@
   }
 
   .landing-content-wrapper {
-    padding: 1.5rem;
-    margin: 1rem 0;
+    padding: 1.25rem;
+    margin: 1rem 0; /* Reduced margin */
     border-radius: 12px;
     width: 100%;
   }
@@ -141,7 +136,7 @@
 
   .section-title {
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem; /* Reduced margin-bottom */
   }
 }
 
