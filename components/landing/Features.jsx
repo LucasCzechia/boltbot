@@ -9,6 +9,11 @@ export default function Features() {
       description: "Generate human-like text responses across various topics with advanced AI capabilities."
     },
     {
+      icon: "✨",
+      title: "Custom Personality",
+      description: "Create custom pesonalutie's to create your own truly, custom AI Discord chatbot."
+    }, 
+    {
       icon: "🎨",
       title: "Image Generation",
       description: "Create stunning images using DALL-E 3 with detailed text prompts."
@@ -22,11 +27,6 @@ export default function Features() {
       icon: "🌐",
       title: "Internet Browsing",
       description: "Retrieve current information and verify facts in real-time."
-    },
-    {
-      icon: "🐍",
-      title: "Python Code Execution",
-      description: "Run Python code snippets in a secure environment directly in Discord."
     },
     {
       icon: "📄",
