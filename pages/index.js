@@ -18,9 +18,7 @@ export default function Home() {
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20'>⚡</text></svg>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-
-      <Starfield />
-
+    
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
           <path d="M13 0L0 13h9v11l13-13h-9z"/>
@@ -46,6 +44,7 @@ export default function Home() {
       <Tools />
       <Statistics />
       <DashboardFooter />
+      <Starfield />
 
       <Script 
         src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" 
