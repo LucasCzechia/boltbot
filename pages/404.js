@@ -5,7 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HomeIcon, AlertTriangle, GamepadIcon } from 'lucide-react';
-import DashboardNav from '../components/dashboard/DashboardNav';
+import Navigation from '../components/misc/Navigation'
 import DashboardFooter from '../components/dashboard/DashboardFooter'
 import Starfield from '../components/misc/Starfield';
 
