@@ -52,11 +52,11 @@ export default function Tools() {
 
   return (
     <ContentContainer>
-      <section className="tools-section" id="tools">
+      <section className="landing-tools" id="tools">
         <h2 className="section-title">Powerful Tools</h2>
-        <div className="tools-grid">
+        <div className="landing-tools-grid">
           {tools.map((tool, index) => (
-            <div key={index} className="tool-card">
+            <div key={index} className="landing-tool-card">
               <h3>{tool.icon} {tool.title}</h3>
               <p>{tool.description}</p>
             </div>
