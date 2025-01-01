@@ -1,4 +1,5 @@
 // pages/404.js
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
