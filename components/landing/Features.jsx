@@ -11,7 +11,7 @@ export default function Features() {
     {
       icon: "✨",
       title: "Custom Personality",
-      description: "Create custom pesonalutie's to create your own truly, custom AI Discord chatbot."
+      description: "Create custom personalities to create your own truly, custom AI Discord chatbot."
     }, 
     {
       icon: "🎨",
