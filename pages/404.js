@@ -9,11 +9,10 @@ import DashboardFooter from '../components/dashboard/DashboardFooter'
 import Starfield from '../components/misc/Starfield';
 
 export default function Custom404() {
+ const { data: session, status } = useSession();
+ const [isDarkMode, setIsDarkMode] = useState(true);
   
   return (
-    const { data: session, status } = useSession();
-    const [isDarkMode, setIsDarkMode] = useState(true);
-
     <>
       <Head>
         <title>404 - Page Not Found | BoltBot⚡</title>
