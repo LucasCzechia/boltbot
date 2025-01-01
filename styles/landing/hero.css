@@ -32,45 +32,60 @@
 
 .hero-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
   justify-content: center;
+  align-items: center;
   margin-top: 2rem;
-  perspective: 1000px;
 }
 
+/* Primary Button Styles */
 .hero-button {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 12px;
   text-decoration: none;
+  font-weight: 600;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  transform-style: preserve-3d;
+  border-radius: 14px;
 }
 
 .hero-button.primary {
   background: var(--primary);
   color: var(--dark);
-  box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 2px 0 rgba(0, 0, 0, 0.1),
+    0 4px 15px rgba(255, 204, 0, 0.3);
 }
 
 .hero-button.primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(255, 204, 0, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 0 rgba(0, 0, 0, 0.1),
+    0 8px 25px rgba(255, 204, 0, 0.4),
+    0 0 0 2px rgba(255, 204, 0, 0.4);
 }
 
-.hero-button.primary .button-glow {
+.hero-button.primary:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 1px 0 rgba(0, 0, 0, 0.1),
+    0 4px 15px rgba(255, 204, 0, 0.2);
+}
+
+.button-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
     rgba(255, 255, 255, 0.2), 
-    transparent 50%);
+    transparent 50%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -79,17 +94,48 @@
   opacity: 1;
 }
 
+/* Premium Button Styles */
 .hero-button.premium {
-  background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
-  color: white;
-  border: none;
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-  animation: premium-pulse 2s infinite;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  color: var(--light);
+}
+
+.premium-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.sparkle-icon {
+  color: var(--primary);
+  filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
+  animation: sparkle 2s infinite;
 }
 
 .hero-button.premium:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.15), 
+    rgba(255, 255, 255, 0.07)
+  );
+  border-color: var(--primary);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 204, 0, 0.3),
+    0 0 0 1px rgba(255, 204, 0, 0.3);
 }
 
 .premium-shine {
@@ -101,96 +147,77 @@
   background: linear-gradient(
     45deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.1) 45%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(255, 255, 255, 0.1) 55%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 55%,
     transparent 100%
   );
-  transform: translateX(-100%);
-  animation: shine 3s infinite;
+  transform: translateX(-100%) skewX(-15deg);
+  animation: shine 6s infinite;
 }
 
-.premium-stars {
+.premium-particles {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
-.premium-star {
+.particle {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  animation: float-star 3s infinite;
+  width: 3px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 50%;
+  opacity: 0;
 }
 
-.premium-star:nth-child(1) {
-  top: -20%;
-  left: 20%;
-  animation-delay: 0s;
+.hero-button.premium:hover .particle {
+  animation: float-particle 1.5s infinite;
 }
 
-.premium-star:nth-child(2) {
-  top: -30%;
-  left: 50%;
-  animation-delay: 0.4s;
-}
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 30%; animation-delay: 0.2s; }
+.particle:nth-child(3) { left: 50%; animation-delay: 0.4s; }
+.particle:nth-child(4) { left: 70%; animation-delay: 0.6s; }
+.particle:nth-child(5) { left: 90%; animation-delay: 0.8s; }
+.particle:nth-child(6) { left: 20%; animation-delay: 1s; }
 
-.premium-star:nth-child(3) {
-  top: -20%;
-  left: 80%;
-  animation-delay: 0.8s;
-}
-
-@keyframes premium-pulse {
-  0% {
-    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 25px rgba(78, 205, 196, 0.5);
-  }
-  100% {
-    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-  }
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
 }
 
 @keyframes shine {
   0% {
     transform: translateX(-100%) skewX(-15deg);
   }
-  50%, 100% {
+  15%, 100% {
     transform: translateX(200%) skewX(-15deg);
   }
 }
 
-@keyframes float-star {
+@keyframes float-particle {
   0% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(0);
     opacity: 0;
   }
   20% {
     opacity: 1;
   }
-  80% {
-    opacity: 1;
-  }
   100% {
-    transform: translateY(100px) rotate(360deg);
+    transform: translateY(-20px) rotate(360deg);
     opacity: 0;
   }
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   .hero-buttons {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
-  }
-
-  .hero-button {
-    width: 100%;
-    max-width: 300px;
   }
 
   .hero h1 {
@@ -208,16 +235,29 @@
     font-size: 2.5rem;
   }
 
-  .hero-button {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-button.primary {
+    width: 100%;
+    max-width: 280px;
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
+  }
+
+  .hero-button.premium {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-button,
   .premium-shine,
-  .premium-star {
+  .sparkle-icon,
+  .particle {
     animation: none;
   }
 }
