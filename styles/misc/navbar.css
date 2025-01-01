@@ -1,0 +1,229 @@
+/* styles/components/navbar.css */
+.navbar {
+  padding: 0.75rem 1.5rem;
+  background: rgba(10, 10, 10, 0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 204, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.scrolled {
+  padding: 0.5rem 1.5rem;
+  background: rgba(10, 10, 10, 0.98);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.logo-image {
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.logo-icon {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  color: var(--primary);
+  background: rgba(10, 10, 10, 0.8);
+  padding: 4px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.logo:hover .logo-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.logo:hover .logo-image {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.logo-bolt {
+  display: inline-block;
+  transform: translateY(-1px);
+  animation: boltPulse 2s infinite;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.nav-item-wrapper {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+  background: rgba(255, 204, 0, 0.1);
+}
+
+.nav-link.active {
+  color: var(--primary);
+}
+
+.nav-icon {
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-icon {
+  transform: translateY(-1px);
+}
+
+.external-icon {
+  margin-left: 0.25rem;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover .external-icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.dropdown-arrow {
+  margin-left: 0.25rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.active {
+  transform: rotate(180deg);
+}
+
+.cta-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--primary);
+  color: var(--dark);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 204, 0, 0.2);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--primary);
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 101;
+}
+
+@keyframes boltPulse {
+  0% { opacity: 1; transform: translateY(-1px) scale(1); }
+  50% { opacity: 0.7; transform: translateY(-1px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(-1px) scale(1); }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.98);
+    flex-direction: column;
+    padding: 5rem 2rem 2rem;
+    transition: right 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    padding: 5rem 1.5rem 1.5rem;
+  }
+}
