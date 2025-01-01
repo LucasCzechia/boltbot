@@ -1,19 +1,34 @@
 // pages/404.js
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HomeIcon, AlertTriangle, GamepadIcon } from 'lucide-react';
+import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter'
 import Starfield from '../components/misc/Starfield';
 
 export default function Custom404() {
   
   return (
+    const { data: session, status } = useSession();
+    const [isDarkMode, setIsDarkMode] = useState(true);
+
     <>
       <Head>
         <title>404 - Page Not Found | BoltBot⚡</title>
       </Head>
 
+            {!session?.user ? (
+        <Navigation 
+          isDarkMode={isDarkMode}
+        />
+      ) : (
+        <Navigation
+          userProfile={session?.user}      
+          isDarkMode={isDarkMode}
+        />
+      )}
       <Starfield /> 
     
       <div className="error-page">
