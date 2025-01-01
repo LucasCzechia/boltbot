@@ -1,7 +1,7 @@
 // pages/index.js
 import Head from 'next/head'
 import Script from 'next/script'
-import Navbar from '../components/landing/Navbar'
+import Navigation from '../components/misc/Navigation'
 import Hero from '../components/landing/Hero'
 import Features from '../components/landing/Features'
 import Tools from '../components/landing/Tools'
@@ -26,7 +26,7 @@ export default function Home() {
         </svg>
       </div>
 
-      <Navbar />
+      <Navigation />
       <Hero />
       <Features />
       <Tools />
