@@ -1,10 +1,10 @@
 /* styles/landing/tools.css */
-.tools-section {
+.landing-tools {
   padding: 5rem 0;
   position: relative;
 }
 
-.tools-section .section-title {
+.landing-tools .section-title {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
@@ -13,11 +13,15 @@
   -webkit-text-fill-color: transparent;
 }
 
-.tools-grid {
+.landing-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  gap: 2rem;
+  width: fit-content;
   margin: 0 auto;
 }
 
-.tool-card {
+.landing-tool-card {
   background: var(--card-bg);
   padding: 2rem;
   border-radius: 15px;
@@ -28,18 +32,58 @@
   gap: 1rem;
 }
 
-.tool-card:hover {
+.landing-tool-card:hover {
   transform: translateY(-5px);
   border-color: var(--primary);
   box-shadow: 0 10px 20px rgba(255,204,0,0.1);
 }
 
-.tool-card h3 {
+.landing-tool-card h3 {
   color: var(--primary);
   font-size: 1.3rem;
 }
 
-.tool-card p {
+.landing-tool-card p {
   color: rgba(255,255,255,0.8);
   line-height: 1.6;
+}
+
+@media (max-width: 1200px) {
+  .landing-tools-grid {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-tools {
+    padding: 3rem 0;
+  }
+
+  .landing-tools .section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .landing-tools-grid {
+    grid-template-columns: minmax(300px, 1fr);
+    padding: 0 1.5rem;
+  }
+
+  .landing-tool-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-tools {
+    padding: 2rem 0;
+  }
+
+  .landing-tools-grid {
+    padding: 0 1rem;
+  }
+
+  .landing-tool-card {
+    padding: 1.25rem;
+  }
 }
