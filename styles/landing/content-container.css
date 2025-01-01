@@ -1,20 +1,21 @@
 /* styles/landing/content-container.css */
 .landing-content-container {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
   padding: 0 2rem;
   position: relative;
   z-index: 2;
 }
 
 .landing-content-wrapper {
+  width: fit-content;
   background: rgba(17, 17, 17, 0.6);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 3rem 2rem;
+  padding: 3rem;
   transition: all 0.3s ease;
   margin: 2rem 0;
 }
@@ -39,9 +40,8 @@
 .features-grid,
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap: 1.5rem;
-  width: 100%;
 }
 
 /* Feature and Tool Cards */
@@ -65,23 +65,20 @@
 /* Stats Grid */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
 @media (max-width: 1200px) {
-  .landing-content-container {
-    max-width: 960px;
+  .features-grid,
+  .tools-grid {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
   }
 }
 
 @media (max-width: 1024px) {
-  .landing-content-container {
-    max-width: 768px;
-  }
-
   .landing-content-wrapper {
-    padding: 2.5rem 1.5rem;
+    padding: 2.5rem;
   }
 
   .section-title {
@@ -96,15 +93,15 @@
   }
 
   .landing-content-wrapper {
-    padding: 2rem 1rem;
+    padding: 2rem;
     margin: 1.5rem 0;
   }
 
   .features-grid,
   .tools-grid,
   .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+    grid-template-columns: minmax(300px, 1fr);
+    width: 100%;
   }
 
   .feature-card,
@@ -124,9 +121,16 @@
   }
 
   .landing-content-wrapper {
-    padding: 1.5rem 0.875rem;
+    padding: 1.5rem;
     margin: 1rem 0;
     border-radius: 12px;
+    width: 100%;
+  }
+
+  .features-grid,
+  .tools-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 
   .feature-card,
