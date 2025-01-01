@@ -1,4 +1,5 @@
 // pages/index.js
+import { useState, useEffect } from 'react';
 import Head from 'next/head'
 import Script from 'next/script'
 import Navigation from '../components/misc/Navigation'
@@ -26,7 +27,20 @@ export default function Home() {
         </svg>
       </div>
 
-      <Navigation />
+      if (!session?.user) {
+     <Navigation
+     onThemeToggle={handleThemeToggle}
+     isDarkMode={isDarkMode}
+        />
+     } else if (session?.user) {
+     <Navigation 
+     userProfile={session?.user}
+     onThemeToggle={handleThemeToggle}
+     onSignOut={handleSignOut}
+     isDarkMode={isDarkMode}
+        />
+       } 
+       
       <Hero />
       <Features />
       <Tools />
