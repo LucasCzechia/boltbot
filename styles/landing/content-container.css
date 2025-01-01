@@ -1,24 +1,24 @@
 /* styles/landing/content-container.css */
-.content-container {
+.landing-content-container {
   width: 100%;
-  max-width: 1000px; /* Reduced from 1200px */
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
   z-index: 2;
 }
 
-.content-wrapper {
+.landing-content-wrapper {
   background: rgba(17, 17, 17, 0.6);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 2rem 1.5rem; /* Reduced padding */
+  padding: 2rem 1.5rem;
   transition: all 0.3s ease;
 }
 
-.content-wrapper:hover {
+.landing-content-wrapper:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -59,23 +59,23 @@
 
 /* Section Spacing */
 .section-title {
-  margin-bottom: 2rem; /* Reduced from 3rem */
+  margin-bottom: 2rem;
 }
 
 /* Tablet Styles */
 @media (max-width: 1024px) {
-  .content-wrapper {
+  .landing-content-wrapper {
     padding: 1.75rem 1.25rem;
   }
 }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
-  .content-container {
+  .landing-content-container {
     padding: 0 0.75rem;
   }
 
-  .content-wrapper {
+  .landing-content-wrapper {
     padding: 1.5rem 1rem;
     border-radius: 16px;
   }
@@ -99,11 +99,11 @@
 
 /* Small Mobile Styles */
 @media (max-width: 480px) {
-  .content-container {
+  .landing-content-container {
     padding: 0 0.5rem;
   }
 
-  .content-wrapper {
+  .landing-content-wrapper {
     padding: 1.25rem 0.75rem;
     border-radius: 12px;
   }
