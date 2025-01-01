@@ -1,13 +1,13 @@
 /* styles/landing/responsive-utils.css */
 /* Section Spacing */
-.features,
-.tools-section,
-.statistics-section {
+.landing-features,
+.landing-tools-section,
+.landing-statistics-section {
   margin: 1rem 0; 
 }
 
 /* Status Bar Layout */
-.status-bar {
+.landing-status-bar {
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
@@ -15,55 +15,55 @@
   margin-bottom: 1rem;
 }
 
-.status-item {
+.landing-status-item {
   flex: 0 1 auto;
   min-width: 180px;
   font-size: 0.9rem;
 }
 
 /* Card Content Spacing */
-.feature-card h3,
-.tool-card h3,
-.stats-card h3 {
+.landing-feature-card h3,
+.landing-tool-card h3,
+.landing-stats-card h3 {
   font-size: 1.15rem;
   margin-bottom: 0.5rem;
 }
 
-.feature-card p,
-.tool-card p,
-.stats-card p {
+.landing-feature-card p,
+.landing-tool-card p,
+.landing-stats-card p {
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
 }
 
 @media (max-width: 768px) {
-  .features,
-  .tools-section,
-  .statistics-section {
+  .landing-features,
+  .landing-tools-section,
+  .landing-statistics-section {
     margin: 0.75rem 0;
   }
 
-  .status-item {
+  .landing-status-item {
     min-width: 150px;
     font-size: 0.875rem;
   }
 }
 
 @media (max-width: 480px) {
-  .features,
-  .tools-section,
-  .statistics-section {
+  .landing-features,
+  .landing-tools-section,
+  .landing-statistics-section {
     margin: 0.5rem 0;
   }
 
-  .status-bar {
+  .landing-status-bar {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
   }
 
-  .status-item {
+  .landing-status-item {
     width: 100%;
     justify-content: space-between;
     padding: 0.625rem;
