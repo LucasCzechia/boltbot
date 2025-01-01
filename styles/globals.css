@@ -14,6 +14,7 @@
 @import './landing/scroll-buttons.css';
 @import './landing/content-container.css';
 @import './landing/statistics-loading.css';
+@import './landing/responsive-utils.css';
 
 /* Auth Styles */
 @import './auth/auth-login.css';
