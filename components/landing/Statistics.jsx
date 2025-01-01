@@ -1,6 +1,6 @@
 // components/landing/Statistics.jsx
 import { useState, useEffect } from 'react';
-import ContentContainer from './ContentContainer';
+import LandingContentContainer from './LandingContentContainer';
 import { BarChart } from 'lucide-react';
 
 const API_URL = 'https://www.boltbot.app/api/stats';
@@ -91,8 +91,8 @@ const Statistics = () => {
 
   return (
     <section className="landing-statistics" id="statistics">
-      <ContentContainer>
-        <h2 className="container-title">
+      <LandingContentContainer>
+        <h2 className="landing-container-title">
           <BarChart size={24} />
           Live Statistics
         </h2>
@@ -162,7 +162,7 @@ const Statistics = () => {
             </p>
           </div>
         </div>
-      </ContentContainer>
+      </LandingContentContainer>
     </section>
   );
 };
