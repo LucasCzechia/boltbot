@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function ContentContainer({ children, className = '' }) {
   return (
-    <div className={`content-container ${className}`}>
-      <div className="content-wrapper">
+    <div className={`landing-content-container ${className}`}>
+      <div className="landing-content-wrapper">
         {children}
       </div>
     </div>
