@@ -177,7 +177,7 @@ const Navigation = ({
           <div className="nav-controls">
             <button 
               className="theme-toggle"
-              onClick={onThemeToggle}
+              onClick={handleThemeToggle}
               aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {isDarkMode ? (
