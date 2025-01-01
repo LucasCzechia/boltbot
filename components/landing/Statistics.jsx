@@ -1,6 +1,7 @@
 // components/landing/Statistics.jsx
 import { useState, useEffect } from 'react';
 import ContentContainer from './ContentContainer';
+import { BarChart } from 'lucide-react';
 
 const API_URL = 'https://www.boltbot.app/api/stats';
 const UPTIME_KEY = 'bot_uptime_start';
@@ -90,8 +91,11 @@ const Statistics = () => {
 
   return (
     <section className="landing-statistics" id="statistics">
-      <h2 className="landing-section-title">Live Statistics</h2>
       <ContentContainer>
+        <h2 className="container-title">
+          <BarChart size={24} />
+          Live Statistics
+        </h2>
         <div className="landing-status-bar">
           <div className="landing-status-item">
             <div
