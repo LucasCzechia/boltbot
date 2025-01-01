@@ -26,7 +26,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-/* Section Title */
 .landing-section-title {
   font-size: 2.5rem;
   text-align: center;
@@ -36,7 +35,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Grid Layouts */
 .landing-features-grid,
 .landing-tools-grid {
   display: grid;
@@ -44,7 +42,6 @@
   gap: 1.5rem;
 }
 
-/* Feature and Tool Cards */
 .landing-feature-card,
 .landing-tool-card {
   background: var(--card-bg);
@@ -62,13 +59,11 @@
   box-shadow: 0 10px 20px rgba(255, 204, 0, 0.1);
 }
 
-/* Stats Grid */
 .landing-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(300px, 1fr));
   gap: 1.5rem;
 }
-
 
 @media (max-width: 1200px) {
   .landing-features-grid,
@@ -145,7 +140,6 @@
   }
 }
 
-/* Print Styles */
 @media print {
   .landing-content-container {
     padding: 0;
@@ -158,7 +152,6 @@
   }
 }
 
-/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .landing-landing-content-wrapper,
   .landing-feature-card,
@@ -167,7 +160,6 @@
   }
 }
 
-/* High Contrast */
 @media (prefers-contrast: high) {
   .landing-content-wrapper {
     border-width: 2px;
