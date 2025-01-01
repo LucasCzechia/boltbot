@@ -1,5 +1,6 @@
 // components/landing/Features.jsx
 import ContentContainer from './ContentContainer';
+import { Wrench } from 'lucide-react';
 
 export default function Features() {
   const features = [
@@ -13,8 +14,11 @@ export default function Features() {
 
   return (
     <section className="landing-features" id="features">
-      <h2 className="landing-section-title">Powerful Features</h2>
       <ContentContainer>
+         <h2 className="container-title">
+          <Wrench size={24} />
+          Powerful Features
+        </h2>
         <div className="landing-features-grid">
           {features.map((feature, index) => (
             <div key={index} className="landing-feature-card">
