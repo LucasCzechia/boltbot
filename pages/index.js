@@ -7,6 +7,7 @@ import Features from '../components/landing/Features'
 import Tools from '../components/landing/Tools'
 import Statistics from '../components/landing/Statistics'
 import DashboardFooter from '../components/dashboard/DashboardFooter'
+import Starfield from '../components/misc/Starfield';
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20'>⚡</text></svg>" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+
+      <Starfield />
 
       <div className="loading-screen">
         <svg className="lightning" viewBox="0 0 24 24" fill="var(--primary)">
