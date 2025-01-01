@@ -1,5 +1,7 @@
 // pages/index.js
 import { useState, useEffect } from 'react';
+import { getServerSession } from "next-auth/next"
+import { authOptions } from './api/auth/[...nextauth]'
 import Head from 'next/head'
 import Script from 'next/script'
 import Navigation from '../components/misc/Navigation'
@@ -9,6 +11,8 @@ import Tools from '../components/landing/Tools'
 import Statistics from '../components/landing/Statistics'
 import DashboardFooter from '../components/dashboard/DashboardFooter'
 import Starfield from '../components/misc/Starfield';
+
+const session = await getServerSession(req, res, authOptions)
 
 export default function Home() {
   return (
