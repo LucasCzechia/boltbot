@@ -45,10 +45,10 @@ export default function Navbar() {
           <Link href="#tools">Tools</Link>
           <Link href="#statistics">Statistics</Link>
           <Link 
-            href="https://discord.com/oauth2/authorize?client_id=1250114494081007697" 
+            href="https://boltbot.app/dashboard" 
             className="cta-button"
           >
-            Add to Discord
+            Open Dashboard
           </Link>
         </div>
       </div>
