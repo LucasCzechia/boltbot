@@ -127,111 +127,107 @@ const Navigation = ({
         </Link>
 
         <div className="nav-controls-wrapper">
-          {isDashboard ? (
-            <div className="nav-controls">
-              <button 
-                className="theme-toggle"
-                onClick={onThemeToggle}
-                aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {isDarkMode ? (
-                  <Moon className="theme-icon" />
-                ) : (
-                  <Sun className="theme-icon" />
-                )}
-              </button>
+          <button 
+            className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
+            onClick={handleMenuClick}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
 
-              {userProfile && (
-                <div className="user-profile-wrapper">
-                  <button 
-                    className="user-profile-button"
-                    onClick={() => setShowDropdown(!showDropdown)}
-                    aria-expanded={showDropdown}
-                  >
-                    <Image 
-                      src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                      alt="User Avatar"
-                      width={48}
-                      height={48}
-                      className="user-avatar"
-                      unoptimized
-                    />
-                  </button>
-
-                  <AnimatePresence>
-                    {showDropdown && (
-                      <motion.div 
-                        className="user-dropdown"
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={variants}
-                      >
-                        <div className="user-info">
-                          <Image 
-                            src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                            alt="User Avatar"
-                            width={65}
-                            height={65}
-                            className="dropdown-avatar"
-                            unoptimized
-                          />
-                          <div className="user-details">
-                            <div className="user-name">{userProfile.name}</div>
-                            <div className="user-handle">@{userProfile.handle}</div>
-                          </div>
-                        </div>
-                        <button onClick={onSignOut} className="logout-button">
-                          Sign Out
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              <button 
-                className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
-                onClick={handleMenuClick}
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-
-              <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                {mergedConfig.items.map((item, index) => (
-                  <div key={item.name} className="nav-item-wrapper">
-                    <Link 
-                      href={item.href}
-                      className="nav-link"
-                      target={item.external ? '_blank' : '_self'}
-                      rel={item.external ? 'noopener noreferrer' : ''}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <item.icon size={18} className="nav-icon" />
-                      <span>{item.name}</span>
-                      {item.external && <ExternalLink size={14} className="external-icon" />}
-                    </Link>
-                  </div>
-                ))}
-
-                {mergedConfig.ctaButton && (
-                  <Link 
-                    href={mergedConfig.ctaButton.href}
-                    className="cta-button"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <mergedConfig.ctaButton.icon size={18} />
-                    <span>{mergedConfig.ctaButton.text}</span>
-                  </Link>
-                )}
+          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            {mergedConfig.items.map((item, index) => (
+              <div key={item.name} className="nav-item-wrapper">
+                <Link 
+                  href={item.href}
+                  className="nav-link"
+                  target={item.external ? '_blank' : '_self'}
+                  rel={item.external ? 'noopener noreferrer' : ''}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <item.icon size={18} className="nav-icon" />
+                  <span>{item.name}</span>
+                  {item.external && <ExternalLink size={14} className="external-icon" />}
+                </Link>
               </div>
-            </>
-          )}
+            ))}
+
+            {mergedConfig.ctaButton && (
+              <Link 
+                href={mergedConfig.ctaButton.href}
+                className="cta-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <mergedConfig.ctaButton.icon size={18} />
+                <span>{mergedConfig.ctaButton.text}</span>
+              </Link>
+            )}
+          </div>
+
+          <div className="nav-controls">
+            <button 
+              className="theme-toggle"
+              onClick={onThemeToggle}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDarkMode ? (
+                <Moon className="theme-icon" />
+              ) : (
+                <Sun className="theme-icon" />
+              )}
+            </button>
+
+            {userProfile && (
+              <div className="user-profile-wrapper">
+                <button 
+                  className="user-profile-button"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  aria-expanded={showDropdown}
+                >
+                  <Image 
+                    src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                    alt="User Avatar"
+                    width={48}
+                    height={48}
+                    className="user-avatar"
+                    unoptimized
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div 
+                      className="user-dropdown"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={variants}
+                    >
+                      <div className="user-info">
+                        <Image 
+                          src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                          alt="User Avatar"
+                          width={65}
+                          height={65}
+                          className="dropdown-avatar"
+                          unoptimized
+                        />
+                        <div className="user-details">
+                          <div className="user-name">{userProfile.name}</div>
+                          <div className="user-handle">@{userProfile.handle}</div>
+                        </div>
+                      </div>
+                      <button onClick={onSignOut} className="logout-button">
+                        Sign Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
