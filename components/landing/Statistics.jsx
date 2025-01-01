@@ -58,34 +58,38 @@ const Statistics = () => {
     };
   }, []);
 
-  const formatUptime = () => {
+  const formatDowntime = () => {
     if (!stats?.status) return '0d, 0h, 0m, 0s';
-    
+
     const uptimeStart = parseInt(localStorage.getItem(UPTIME_KEY) || Date.now());
-    const totalSeconds = Math.floor((currentTime - uptimeStart) / 1000);
-    
-    const days = Math.floor(totalSeconds / (24 * 60 * 60));
-    const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
-    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
-    const seconds = totalSeconds % 60;
-    
+    const totalUptimeSeconds = Math.floor((currentTime - uptimeStart) / 1000);
+    const totalDowntimeSeconds = Math.max(
+      0,
+      Math.floor(currentTime / 1000) - totalUptimeSeconds
+    );
+
+    const days = Math.floor(totalDowntimeSeconds / (24 * 60 * 60));
+    const hours = Math.floor((totalDowntimeSeconds % (24 * 60 * 60)) / (60 * 60));
+    const minutes = Math.floor((totalDowntimeSeconds % (60 * 60)) / 60);
+    const seconds = totalDowntimeSeconds % 60;
+
     return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
   };
 
   if (isLoading || error) {
-  return (
-    <div className="stats-loading">
-      <div className="stats-loading-pulse">
-        <span className="stats-loading-text">Awaiting Statistics</span>
-        <div className="loading-dots">
-          <span></span>
-          <span></span>
-          <span></span>
+    return (
+      <div className="stats-loading">
+        <div className="stats-loading-pulse">
+          <span className="stats-loading-text">Awaiting Statistics</span>
+          <div className="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
   return (
     <ContentContainer>
@@ -98,21 +102,19 @@ const Statistics = () => {
               style={{
                 backgroundColor: stats?.status?.state === 'online' 
                   ? 'var(--status-online)'
-                  : stats?.status?.state === 'idle'
-                  ? 'var(--status-idle)'
                   : 'var(--status-offline)',
                 boxShadow: `0 0 10px ${
                   stats?.status?.state === 'online'
                     ? 'var(--status-online)'
-                    : stats?.status?.state === 'idle'
-                    ? 'var(--status-idle)'
                     : 'var(--status-offline)'
                 }`,
               }}
             />
             <span>
               System{' '}
-              {stats?.status?.state 
+              {stats?.status?.state === 'idle'
+                ? 'Offline'
+                : stats?.status?.state 
                 ? stats.status.state.charAt(0).toUpperCase() + stats.status.state.slice(1)
                 : 'Unknown'}
             </span>
@@ -137,8 +139,8 @@ const Statistics = () => {
             </div>
           </div>
           <div className="landing-status-item">
-            <span>Uptime:</span>
-            <span className="text-primary">{formatUptime()}</span>
+            <span>Downtime:</span>
+            <span className="text-primary">{formatDowntime()}</span>
           </div>
         </div>
         <div className="landing-stats-grid">
