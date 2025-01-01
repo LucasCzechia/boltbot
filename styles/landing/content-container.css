@@ -1,9 +1,7 @@
 /* styles/landing/content-container.css */
 .landing-content-container {
-  width: 100%;
-  max-width: 1000px;
+  width: fit-content;
   margin: 0 auto;
-  padding: 0 1rem;
   position: relative;
   z-index: 2;
 }
@@ -14,7 +12,7 @@
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 2rem 1.5rem;
+  padding: 2rem;
   transition: all 0.3s ease;
 }
 
@@ -28,14 +26,15 @@
 .features-grid,
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.25rem;
-  width: 100%;
+  grid-template-columns: repeat(3, 300px); /* Fixed width columns */
+  gap: 1.5rem;
+  width: max-content; /* Allow grid to size to content */
 }
 
 /* Feature and Tool Cards */
 .feature-card,
 .tool-card {
+  width: 300px; /* Fixed card width */
   background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 12px;
@@ -53,67 +52,64 @@
 /* Stats Grid */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: max-content;
 }
 
 /* Section Spacing */
 .section-title {
+  text-align: center;
   margin-bottom: 2rem;
 }
 
-/* Tablet Styles */
+/* Mobile Styles */
 @media (max-width: 1024px) {
-  .landing-content-wrapper {
-    padding: 1.75rem 1.25rem;
+  .features-grid,
+  .tools-grid {
+    grid-template-columns: repeat(2, 300px);
   }
 }
 
-/* Mobile Styles */
 @media (max-width: 768px) {
+  .landing-content-container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .landing-content-wrapper {
+    padding: 1.5rem;
+  }
+
+  .features-grid,
+  .tools-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .feature-card,
+  .tool-card {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
   .landing-content-container {
     padding: 0 0.75rem;
   }
 
   .landing-content-wrapper {
-    padding: 1.5rem 1rem;
+    padding: 1.25rem;
     border-radius: 16px;
-  }
-
-  .features-grid,
-  .tools-grid,
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
   }
 
   .feature-card,
   .tool-card {
     padding: 1.25rem;
-  }
-
-  .section-title {
-    margin-bottom: 1.5rem;
-  }
-}
-
-/* Small Mobile Styles */
-@media (max-width: 480px) {
-  .landing-content-container {
-    padding: 0 0.5rem;
-  }
-
-  .landing-content-wrapper {
-    padding: 1.25rem 0.75rem;
-    border-radius: 12px;
-  }
-
-  .feature-card,
-  .tool-card {
-    padding: 1rem;
-  }
-
-  .section-title {
-    margin-bottom: 1.25rem;
   }
 }
