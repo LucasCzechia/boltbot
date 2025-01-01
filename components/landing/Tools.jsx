@@ -11,7 +11,7 @@ export default function Tools() {
     {
       icon: "🎨",
       title: "Generate AI Images",
-      description: "Create stunning, unique images using DALL-E 3."  
+      description: "Create stunning, unique images using Google Image Generator."  
     },
     {
       icon: "💱",
@@ -32,16 +32,6 @@ export default function Tools() {
       icon: "😊",
       title: "React Emojis",
       description: "Add visual expression reactions to messages."
-    },
-    {
-      icon: "📄",
-      title: "File Management",
-      description: "Create and manage text-based files with ease."
-    },
-    {
-      icon: "🐍",
-      title: "Run Python Code",
-      description: "Execute Python snippets in a secure sandbox environment."
     },
     {
       icon: "🖼️",
