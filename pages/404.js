@@ -37,8 +37,8 @@ export default function Custom404() {
           <Image 
             src="/images/boltbot.webp"
             alt="BoltBot Avatar"
-            width={200}
-            height={200}
+            width={120}
+            height={120}
             className="bot-avatar"
             priority
           />
