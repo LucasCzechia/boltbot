@@ -1,5 +1,5 @@
 // components/landing/Features.jsx
-import ContentContainer from './ContentContainer';
+import LandingContentContainer from './LandingContentContainer';
 import { Wrench } from 'lucide-react';
 
 export default function Features() {
@@ -14,8 +14,8 @@ export default function Features() {
 
   return (
     <section className="landing-features" id="features">
-      <ContentContainer>
-         <h2 className="container-title">
+      <LandingContentContainer>
+         <h2 className="landing-container-title">
           <Wrench size={24} />
           Powerful Features
         </h2>
@@ -27,7 +27,7 @@ export default function Features() {
             </div>
           ))}
         </div>
-      </ContentContainer>
+      </LandingContentContainer>
     </section>
   );
 }
