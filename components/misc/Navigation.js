@@ -135,45 +135,6 @@ const Navigation = ({
         </Link>
 
         <div className="nav-controls-wrapper">
-          <button 
-            className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
-            onClick={handleMenuClick}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            {mergedConfig.items.map((item, index) => (
-              <div key={item.name} className="nav-item-wrapper">
-                <Link 
-                  href={item.href}
-                  className="nav-link"
-                  target={item.external ? '_blank' : '_self'}
-                  rel={item.external ? 'noopener noreferrer' : ''}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <item.icon size={18} className="nav-icon" />
-                  <span>{item.name}</span>
-                  {item.external && <ExternalLink size={14} className="external-icon" />}
-                </Link>
-              </div>
-            ))}
-
-            {mergedConfig.ctaButton && (
-              <Link 
-                href={mergedConfig.ctaButton.href}
-                className="cta-button"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <mergedConfig.ctaButton.icon size={18} />
-                <span>{mergedConfig.ctaButton.text}</span>
-              </Link>
-            )}
-          </div>
-
           <div className="nav-controls">
             <button 
               className="theme-toggle"
@@ -235,6 +196,45 @@ const Navigation = ({
                   )}
                 </AnimatePresence>
               </div>
+            )}
+          </div>
+
+          <button 
+            className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
+            onClick={handleMenuClick}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            {mergedConfig.items.map((item, index) => (
+              <div key={item.name} className="nav-item-wrapper">
+                <Link 
+                  href={item.href}
+                  className="nav-link"
+                  target={item.external ? '_blank' : '_self'}
+                  rel={item.external ? 'noopener noreferrer' : ''}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <item.icon size={18} className="nav-icon" />
+                  <span>{item.name}</span>
+                  {item.external && <ExternalLink size={14} className="external-icon" />}
+                </Link>
+              </div>
+            ))}
+
+            {mergedConfig.ctaButton && (
+              <Link 
+                href={mergedConfig.ctaButton.href}
+                className="cta-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <mergedConfig.ctaButton.icon size={18} />
+                <span>{mergedConfig.ctaButton.text}</span>
+              </Link>
             )}
           </div>
         </div>
