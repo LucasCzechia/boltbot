@@ -86,7 +86,7 @@ const Statistics = () => {
   if (error) {
     return (
       <section className="landing-statistics" id="statistics">
-        <h2 className="landing-section-title">Live Statistics</h2>
+        <h2 className="section-title">Live Statistics</h2>
         <div className="bg-red-50 border border-red-200 rounded-md p-4 mt-4">
           <p className="text-red-700">Unable to load statistics: {error}</p>
           <p className="text-sm text-red-500 mt-2">Please try again later or contact support if the issue persists.</p>
@@ -98,7 +98,7 @@ const Statistics = () => {
   return (
     <ContentContainer>
       <section className="landing-statistics" id="statistics">
-        <h2 className="landing-section-title">Live Statistics</h2>
+        <h2 className="section-title">Live Statistics</h2>
         <div className="landing-status-bar">
           <div className="landing-status-item">
             <div
