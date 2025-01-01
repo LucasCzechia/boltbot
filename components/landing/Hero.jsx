@@ -36,7 +36,7 @@ export default function Hero() {
           >
             <div className="premium-content">
               <Sparkles size={16} className="sparkle-icon" />
-              <span>Premium</span>
+              <span>Upgrade to Premium</span>
             </div>
             <div className="premium-shine"></div>
             <div className="premium-particles">
