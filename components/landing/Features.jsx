@@ -19,7 +19,7 @@ export default function Features() {
           <Wrench size={24} />
           Powerful Features
         </h2>
-        <div className="landing-features-grid">
+        <div className="landing-features-grid landing-grid"> 
           {features.map((feature, index) => (
             <div key={index} className="landing-feature-card">
               <h3>{feature.icon} {feature.title}</h3>
