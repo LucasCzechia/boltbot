@@ -1,36 +1,21 @@
 // pages/404.js
-import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HomeIcon, AlertTriangle, GamepadIcon } from 'lucide-react';
 import DashboardFooter from '../components/dashboard/DashboardFooter'
+import Starfield from '../components/misc/Starfield';
 
 export default function Custom404() {
-  useEffect(() => {
-    const generateStarfield = () => {
-      const starfieldContainer = document.getElementById('starfield-background')
-      for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div')
-        star.className = 'star'
-        star.style.left = Math.random() * 100 + '%'
-        star.style.top = Math.random() * 100 + '%'
-        star.style.animationDelay = Math.random() * 2 + 's'
-        starfieldContainer.appendChild(star)
-      }
-    }
-
-    generateStarfield()
-  }, []);
   
   return (
     <>
       <Head>
         <title>404 - Page Not Found | BoltBot⚡</title>
       </Head>
-    
-    <div id="starfield-background" className="starfield-container" />
 
+      <Starfield /> 
+    
       <div className="error-page">
         
         <div className="error-content">
