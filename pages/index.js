@@ -1,5 +1,6 @@
 // pages/index.js
 import { useState, useEffect } from 'react';
+import { getServerSession } from "next-auth/next"
 import { authOptions } from './api/auth/[...nextauth]'
 
 import Head from 'next/head'
