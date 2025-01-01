@@ -27,6 +27,7 @@
     place-items: center; /* Center grid items both horizontally and vertically */
 }
 
+
 .landing-feature-card,
 .landing-tool-card {
   background: var(--card-bg);
@@ -35,6 +36,7 @@
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
   height: 100%;
+    width: 100%; /* Ensure cards take full column width */
 }
 
 .landing-feature-card:hover,
