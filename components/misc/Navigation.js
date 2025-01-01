@@ -15,7 +15,8 @@ import {
   ExternalLink,
   ChevronDown,
   Moon,
-  Sun
+  Sun,
+  LogOut
 } from 'lucide-react';
 
 const Navigation = ({ 
@@ -27,7 +28,6 @@ const Navigation = ({
   isDarkMode = true
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const defaultConfig = {
@@ -76,10 +76,6 @@ const Navigation = ({
   const mergedConfig = { ...defaultConfig, ...config };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
     const handleClickOutside = (e) => {
       if (isMenuOpen && !e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
         setIsMenuOpen(false);
@@ -89,11 +85,9 @@ const Navigation = ({
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
     document.addEventListener('click', handleClickOutside);
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('click', handleClickOutside);
     };
   }, [isMenuOpen, showDropdown]);
@@ -109,20 +103,17 @@ const Navigation = ({
   };
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+    <nav className="navbar">
       <div className="nav-content">
         <Link href="/" className="logo">
-          <div className="logo-wrapper">
-            <Image
-              src={mergedConfig.logoImage}
-              alt="Logo"
-              width={45}
-              height={45}
-              priority
-              className="logo-image"
-            />
-            <Bot className="logo-icon" size={24} />
-          </div>
+          <Image
+            src={mergedConfig.logoImage}
+            alt="Logo"
+            width={45}
+            height={45}
+            priority
+            className="logo-image"
+          />
           <span className="logo-text">{mergedConfig.logoText}</span>
         </Link>
 
@@ -220,7 +211,8 @@ const Navigation = ({
                         </div>
                       </div>
                       <button onClick={onSignOut} className="logout-button">
-                        Sign Out
+                        <LogOut size={20} />
+                        <span>Sign Out</span>
                       </button>
                     </motion.div>
                   )}
