@@ -91,7 +91,7 @@ const Statistics = () => {
   return (
     <ContentContainer>
       <section className="landing-statistics" id="statistics">
-        <h2 className="section-title">Live Statistics</h2>
+        <h2 className="landing-section-title">Live Statistics</h2>
         <div className="landing-status-bar">
           <div className="landing-status-item">
             <div
