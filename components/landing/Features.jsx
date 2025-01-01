@@ -1,4 +1,6 @@
 // components/landing/Features.jsx
+import ContentContainer from './ContentContainer';
+
 export default function Features() {
   const features = [
     {
@@ -34,16 +36,18 @@ export default function Features() {
   ];
 
   return (
-    <section className="features" id="features">
-      <h2 className="section-title">Powerful Features</h2>
-      <div className="features-grid">
-        {features.map((feature, index) => (
-          <div key={index} className="feature-card">
-            <h3>{feature.icon} {feature.title}</h3>
-            <p>{feature.description}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+    <ContentContainer>
+      <section className="features" id="features">
+        <h2 className="section-title">Powerful Features</h2>
+        <div className="features-grid">
+          {features.map((feature, index) => (
+            <div key={index} className="feature-card">
+              <h3>{feature.icon} {feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </ContentContainer>
   );
-} 
+}
