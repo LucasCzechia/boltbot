@@ -96,8 +96,8 @@
 
 /* Premium Button Styles */
 .hero-button.premium {
-  padding: 0.6rem 1.25rem;
-  font-size: 0.95rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
   background: linear-gradient(135deg, 
     rgba(255, 255, 255, 0.1), 
     rgba(255, 255, 255, 0.05)
@@ -114,7 +114,7 @@
 .premium-content {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   position: relative;
   z-index: 2;
 }
@@ -214,10 +214,14 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
   .hero-buttons {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+  }
+
+  .hero-button {
+    width: 100%;
+    max-width: 300px;
   }
 
   .hero h1 {
@@ -235,21 +239,10 @@
     font-size: 2.5rem;
   }
 
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-button.primary {
-    width: 100%;
-    max-width: 280px;
+  .hero-button.primary,
+  .hero-button.premium {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
-  }
-
-  .hero-button.premium {
-    padding: 0.6rem 1.25rem;
-    font-size: 0.9rem;
   }
 }
 
