@@ -1,4 +1,4 @@
-/* styles/dashboard/nav.css */
+/* styles/nav/nav.css */
 :root {
   --header-height: 64px;
   --sidebar-width: 280px;
@@ -281,6 +281,71 @@
   transform: scale(1.05);
 }
 
+/* Login Button */
+.login-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--primary);
+  color: var(--dark);
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--transition-timing);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.login-button:hover::before {
+  opacity: 1;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 16px rgba(255, 204, 0, 0.2),
+    0 0 0 2px rgba(255, 204, 0, 0.3);
+}
+
+.loading-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    var(--nav-border) 25%,
+    var(--hover-bg) 50%,
+    var(--nav-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+} 
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-nav {
@@ -289,6 +354,19 @@
 
   .mobile-menu-btn {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--hover-bg);
+    border: 1px solid var(--nav-border);
+    color: var(--primary);
+  }
+
+  .mobile-menu-btn:hover {
+    background: var(--nav-button-hover);
+    border-color: var(--primary);
   }
 
   .nav-controls {
@@ -304,6 +382,19 @@
   .theme-toggle,
   .nav-button {
     padding: 0.5rem;
+  }
+
+  .login-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-links-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 49;
   }
 }
 
@@ -324,10 +415,33 @@
   .user-dropdown {
     width: calc(100vw - 2rem);
     right: -0.75rem;
+    margin-top: 0.5rem;
   }
 
   .nav-links.mobile {
     width: 100%;
+  }
+
+  .nav-controls {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .theme-toggle,
+  .nav-button {
+    background: var(--hover-bg);
+    border: 1px solid var(--nav-border);
+  }
+
+  .login-button {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .mobile-menu-btn {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -340,6 +454,30 @@
   --text-secondary: rgba(0, 0, 0, 0.7);
   --hover-bg: rgba(0, 0, 0, 0.05);
   --nav-button-hover: rgba(0, 0, 0, 0.1);
+  --overlay-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Safe Area Insets */
+@supports (padding: env(safe-area-inset-top)) {
+  .dashboard-nav {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-nav {
+      padding-right: max(1rem, env(safe-area-inset-right));
+      padding-left: max(1rem, env(safe-area-inset-left));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dashboard-nav {
+      padding-right: max(0.75rem, env(safe-area-inset-right));
+      padding-left: max(0.75rem, env(safe-area-inset-left));
+    }
+  }
 }
 
 /* Scrollbar Styles */
@@ -366,7 +504,77 @@
   .nav-links,
   .nav-item,
   .user-avatar,
-  .logo-image {
+  .logo-image,
+  .mobile-menu-btn,
+  .login-button,
+  .theme-toggle {
     transition: none;
+    animation: none;
+  }
+
+  .nav-links-overlay {
+    backdrop-filter: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .dashboard-nav {
+    border-bottom-width: 2px;
+  }
+
+  .nav-controls {
+    border-width: 2px;
+  }
+
+  .mobile-menu-btn,
+  .theme-toggle,
+  .nav-button {
+    border-width: 2px;
+  }
+
+  .user-avatar {
+    border-width: 2px;
+  }
+
+  .login-button {
+    outline: 2px solid var(--dark);
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) {
+  .nav-controls {
+    gap: 0.75rem;
+  }
+
+  .mobile-menu-btn,
+  .theme-toggle,
+  .nav-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .login-button {
+    min-height: 44px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .dashboard-nav {
+    position: static;
+    background: none;
+    border-bottom: 1px solid #000;
+    padding: 1rem 0;
+  }
+
+  .nav-controls,
+  .mobile-menu-btn {
+    display: none;
+  }
+
+  .logo {
+    color: #000;
   }
 }
