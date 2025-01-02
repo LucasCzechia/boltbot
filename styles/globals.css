@@ -2,6 +2,7 @@
 /* Misc Styles */
 @import './misc/starfield.css';
 @import './misc/nav.css';
+@import './misc/nav-links.css';
 @import './misc/snake.css';
 @import './misc/terms.css';
 @import './misc/404.css';
