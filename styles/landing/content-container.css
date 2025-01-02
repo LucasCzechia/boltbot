@@ -10,23 +10,32 @@
 
 .landing-content-wrapper {
   width: 100%;
+  max-width: 1400px;
 }
 
 .landing-features-grid,
 .landing-tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
 }
 
-/* Add this class to center the grid items */
+/* Center grid items */
 .landing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    place-items: center; /* Center grid items both horizontally and vertically */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: start;
 }
 
+/* Add this to ensure last row is centered */
+.landing-grid::after {
+  content: '';
+  grid-column: 1 / -1;
+  height: 0;
+}
 
 .landing-feature-card,
 .landing-tool-card {
@@ -36,7 +45,9 @@
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
   height: 100%;
-    width: 100%; /* Ensure cards take full column width */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .landing-feature-card:hover,
@@ -52,12 +63,12 @@
   gap: 1.5rem;
 }
 
-/* Apply the landing-container styles */
+/* Apply landing-container styles */
 .landing-content-wrapper {
   background: rgba(17, 17, 17, 0.6);
   border-radius: 16px;
   border: 1px solid var(--border-color);
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -90,16 +101,16 @@
   opacity: 1;
 }
 
-/* Apply the landing-container title styles */
+/* Container title styles */
 .landing-container-title {
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  justify-content: center; /* Center the title */
-  font-size: 1.75rem; /* Default larger size*/
+  justify-content: center;
+  font-size: 1.75rem;
 }
 
 .landing-container-title svg {
@@ -111,6 +122,7 @@
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 /* Light mode support */
@@ -123,19 +135,16 @@
   .landing-tools-grid {
     grid-template-columns: repeat(2, minmax(300px, 1fr));
   }
-    .landing-container-title {
-       font-size: 2rem;
-    }
 }
 
 @media (max-width: 1024px) {
   .landing-content-wrapper {
-        padding: 1.25rem;
-    }
- .landing-container-title {
-     font-size: 1.75rem;
-      margin-bottom: 1.25rem;
-    }
+    padding: 1.5rem;
+  }
+
+  .landing-container-title {
+    font-size: 1.75rem;
+  }
 
   .container-description {
     font-size: 0.9rem;
@@ -156,17 +165,19 @@
   .landing-features-grid,
   .landing-tools-grid,
   .landing-stats-grid {
-    grid-template-columns: minmax(300px, 1fr);
-    width: 100%;
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .landing-feature-card,
   .landing-tool-card {
     padding: 1.5rem;
   }
- .landing-container-title {
-        font-size: 1.5rem;
-    }
+
+  .landing-container-title {
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -179,48 +190,12 @@
     margin-top: 1rem;
   }
 
-  .landing-features-grid,
-  .landing-tools-grid,
-  .landing-stats-grid {
-    grid-template-columns: 1fr;
-  }
-
   .landing-feature-card,
   .landing-tool-card {
     padding: 1.25rem;
   }
-    .landing-container-title {
-        font-size: 1.25rem;
-    }
-}
 
-@media print {
-  .landing-content-container {
-    padding: 0;
-  }
-
-  .landing-content-wrapper {
-    background: none;
-    border: none;
-    box-shadow: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .landing-landing-content-wrapper,
-  .landing-feature-card,
-  .landing-tool-card {
-    transition: none;
-  }
-}
-
-@media (prefers-contrast: high) {
-  .landing-content-wrapper {
-    border-width: 2px;
-  }
-
-  .landing-feature-card,
-  .landing-tool-card {
-    border-width: 2px;
+  .landing-container-title {
+    font-size: 1.25rem;
   }
 }
