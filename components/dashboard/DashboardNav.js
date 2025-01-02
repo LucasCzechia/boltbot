@@ -194,15 +194,69 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
     return (
         <nav className="dashboard-nav">
+           <AnimatePresence>
+                {isSidebarOpen && (
+                     <motion.div
+                         className="dashboard-sidebar"
+                          initial={{ x: -300, opacity: 0 }}
+                         animate={{ x: 0, opacity: 1}}
+                        exit={{ x: -300, opacity: 0 }}
+                       transition={{ duration: 0.2, ease: "easeOut" }}
+                     >
+                           <div className="sidebar-header">
+                               <button 
+                                    className="sidebar-toggle"
+                                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                                    aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+                                >
+                                  {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+                               </button>
+                                <Link href="/" className="logo" onClick={closeMenus}>
+                                    <Image
+                                        src="/images/boltbot.webp"
+                                        alt="BoltBot Logo"
+                                        width={45}
+                                        height={45}
+                                        priority
+                                        className="logo-image"
+                                    />
+                                   <span className="logo-text">{getNavTitle()}</span>
+                                </Link>
+                            </div>
+                          <div className="nav-links-wrapper">
+                            <div className="nav-links">
+                                {navigationItems.map((item) => {
+                                  if (item.requiresAuth && !session) return null;
+
+                                  return (
+                                      <button
+                                        key={item.name}
+                                        className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                                        onClick={(e) => handleNavigation(item, e)}
+                                        role="link"
+                                        >
+                                          {item.icon && <item.icon size={20} className="nav-icon" />}
+                                          <span className="nav-label">{item.name}</span>
+                                          {item.external && <ExternalLink size={16} className="external-icon" />}
+                                      </button>
+                                    );
+                                  })}
+                            </div>
+                           </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
             <div className="nav-content">
-                 <button 
-                    className="sidebar-toggle"
-                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                     aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-                >
-                {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-                </button>
-                <Link href="/" className="logo" onClick={closeMenus}>
+                 {currentWidth > 768 && (
+                     <button 
+                        className="sidebar-toggle"
+                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                         aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+                    >
+                    {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+                    </button>
+                )}
+                 <Link href="/" className="logo" onClick={closeMenus}>
                     <Image
                         src="/images/boltbot.webp"
                         alt="BoltBot Logo"
@@ -306,38 +360,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                 </div>
               </div>
             </div>
-            <AnimatePresence>
-                {isSidebarOpen && (
-                     <motion.div
-                         className="dashboard-sidebar"
-                          initial={{ x: -300, opacity: 0 }}
-                         animate={{ x: 0, opacity: 1}}
-                        exit={{ x: -300, opacity: 0 }}
-                       transition={{ duration: 0.2, ease: "easeOut" }}
-                     >
-                          <div className="nav-links-wrapper">
-                            <div className="nav-links">
-                                {navigationItems.map((item) => {
-                                  if (item.requiresAuth && !session) return null;
-
-                                  return (
-                                      <button
-                                        key={item.name}
-                                        className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                                        onClick={(e) => handleNavigation(item, e)}
-                                        role="link"
-                                        >
-                                          {item.icon && <item.icon size={20} className="nav-icon" />}
-                                          <span className="nav-label">{item.name}</span>
-                                          {item.external && <ExternalLink size={16} className="external-icon" />}
-                                      </button>
-                                    );
-                                  })}
-                            </div>
-                           </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </nav>
     );
 }
