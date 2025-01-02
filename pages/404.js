@@ -1,6 +1,5 @@
 // pages/404.js
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,14 +22,7 @@ export default function Custom404() {
       <div className="error-page">
         
         <div className="error-content">
-          <Image 
-            src="/images/boltbot.webp"
-            alt="BoltBot Avatar"
-            width={120}
-            height={120}
-            className="bot-avatar"
-            priority
-          />
+          
           
           <div className="error-code">
             4<span className="lightning">⚡</span>4
@@ -44,15 +36,14 @@ export default function Custom404() {
               <HomeIcon size={20} />
               Return Home
             </Link>
-            
-            <Link href="/snake" className="play-snake-button">
-              <GamepadIcon size={20} />
-              Play Snake
-            </Link>
-            
+                       
             <Link href="https://discord.gg/bolt" className="support-link" target="_blank">
               <AlertTriangle size={20} />
               Need Help?
+            </Link>
+             <Link href="/snake" className="play-snake-button">
+              <GamepadIcon size={20} />
+              Play Snake
             </Link>
           </div>
         </div>
@@ -60,4 +51,4 @@ export default function Custom404() {
       <DashboardFooter />      
     </>
   );
-              }
+}
