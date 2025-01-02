@@ -15,10 +15,6 @@ import {
     ServerIcon,
 } from 'lucide-react';
 
-import '../../styles/dashboard/nav.css';
-import '../../styles/dashboard/desktopNav.css';
-import '../../styles/dashboard/mobileNav.css';
-
 export default function DashboardNav({ navigationItems = [], customTitle = null }) {
     const { data: session, status } = useSession();
     const router = useRouter();
