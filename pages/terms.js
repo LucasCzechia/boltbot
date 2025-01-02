@@ -28,6 +28,13 @@ export default function TermsOfService() {
     )
   };
 
+  const navigationItems = navigation.items.map(item => ({
+      name: item.title,
+      href: item.href,
+      icon: item.icon,
+  }));
+
+    const customTitle = navigation.title;
   return (
     <>
       <Head>
@@ -35,7 +42,7 @@ export default function TermsOfService() {
         <meta name="description" content="Terms of Service for BoltBot - Read about our terms, conditions, and policies." />
       </Head>
 
-      <DashboardNav navigation={navigation} />
+      <DashboardNav navigationItems={navigationItems} customTitle={customTitle} />
       <Starfield />
 
       <div className="terms-container">
