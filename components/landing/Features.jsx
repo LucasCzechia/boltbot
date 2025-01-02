@@ -15,11 +15,11 @@ export default function Features() {
   return (
     <section className="landing-features" id="features">
       <LandingContentContainer>
-         <h2 className="landing-container-title">
+        <h2 className="landing-container-title">
           <Wrench size={24} />
           Powerful Features
         </h2>
-        <div className="landing-features-grid landing-grid"> 
+        <div className="landing-features-grid">
           {features.map((feature, index) => (
             <div key={index} className="landing-feature-card">
               <h3>{feature.icon} {feature.title}</h3>
