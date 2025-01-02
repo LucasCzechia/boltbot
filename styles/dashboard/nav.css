@@ -65,37 +65,6 @@
   transform: scale(1.05);
 }
 
-/* Mobile Navigation */
-.nav-links-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 98;
-}
-
-.nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.nav-links.mobile {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 280px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-left: 1px solid var(--nav-border);
-  padding: 5rem 1.5rem 2rem;
-  z-index: 99;
-  overflow-y: auto;
-}
-
 /* Navigation Items */
 .nav-item {
   display: flex;
