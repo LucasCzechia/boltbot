@@ -1,6 +1,6 @@
 // components/misc/Navigation.js
-import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -20,46 +20,41 @@ import {
   Bot
 } from 'lucide-react';
 
-export default function Navigation({ 
-  config = {}, 
-  isDarkMode = true,
-  setIsDarkMode = () => {},
-  userProfile = null
-}) {
+export default function Navigation({ isDarkMode = true, setIsDarkMode = () => {} }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  
+  const displayName = session?.user?.global_name || 
+                     session?.user?.name || 
+                     session?.user?.username ||
+                     'Unknown User';
 
-  // Get display name and handle from session
-  const displayName = session?.user?.global_name || session?.user?.name || 'Unknown User';
-  const handle = session?.user?.username ? `@${session.user.username}` : session?.user?.name ? `@${session.user.name}` : '@unknown';
+  const handle = session?.user?.name ? 
+                 `@${session.user.name}` : 
+                 session?.user?.id ? 
+                 `@${session.user.id}` : 
+                 '@unknown';
 
   const navigationItems = [
     {
       name: 'Features',
-      href: '#features',
+      href: '/#features',
       icon: Zap,
       description: 'Explore powerful AI capabilities'
     },
     {
       name: 'Tools',
-      href: '#tools',
+      href: '/#tools',
       icon: Wrench,
       description: 'Discover utility features'
     },
     {
-      name: 'Analytics',
-      href: '#statistics',
+      name: 'Statistics',
+      href: '/#statistics',
       icon: BarChart2,
       description: 'View real-time statistics'
-    },
-    {
-      name: 'Dashboard',
-      href: '/dashboard/servers',
-      icon: Layout,
-      description: 'Manage your servers',
-      isRoute: true
     },
     {
       name: 'Community',
@@ -78,22 +73,68 @@ export default function Navigation({
     }
   ];
 
+  const closeMenus = useCallback(() => {
+    setIsMenuOpen(false);
+    setShowDropdown(false);
+  }, []);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      closeMenus();
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router.events, closeMenus]);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (isMenuOpen && !e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
+      const isNavLink = e.target.closest('.nav-item');
+      const isMenuBtn = e.target.closest('.mobile-menu-btn');
+      const isProfileBtn = e.target.closest('.user-profile-button');
+      
+      if (!isNavLink && !isMenuBtn && isMenuOpen) {
         setIsMenuOpen(false);
       }
-      if (showDropdown && !e.target.closest('.user-profile-wrapper')) {
+      
+      if (!isProfileBtn && showDropdown) {
         setShowDropdown(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isMenuOpen, showDropdown]);
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeMenus();
+      }
+    };
 
-  const handleSignOut = async () => {
+    // Add touch event handling
+    const handleTouchStart = (e) => {
+      const isNavLink = e.target.closest('.nav-item');
+      if (isNavLink) {
+        e.preventDefault();
+        isNavLink.click();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('touchstart', handleTouchStart);
+    };
+  }, [isMenuOpen, showDropdown, closeMenus]);
+
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     try {
+      closeMenus();
       await signOut({ 
         callbackUrl: '/auth/login',
         redirect: true
@@ -103,41 +144,49 @@ export default function Navigation({
     }
   };
 
-  const handleThemeToggle = () => {
+  const handleThemeToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const newTheme = isDarkMode ? 'light' : 'dark';
     setIsDarkMode(!isDarkMode);
     document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
   };
 
-  const handleNavigation = (item, e) => {
-    setIsMenuOpen(false);
-    
+  const handleNavigation = useCallback((item, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    if (item.requiresAuth && !session) {
+      closeMenus();
+      router.push('/auth/login');
+      return;
+    }
+
     if (item.external) {
-      window.open(item.href, '_blank', 'noopener noreferrer');
-      e.preventDefault();
+      window.open(item.href, '_blank', 'noopener,noreferrer');
+      closeMenus();
       return;
     }
 
-    if (item.isRoute) {
-      e.preventDefault();
-      router.push(item.href);
-      return;
-    }
-
-    // Handle hash navigation for same page
-    if (item.href.startsWith('#')) {
-      e.preventDefault();
-      const element = document.getElementById(item.href.substring(1));
+    if (item.href.startsWith('/#')) {
+      const elementId = item.href.replace('/#', '');
+      const element = document.getElementById(elementId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        closeMenus();
       }
+    } else {
+      router.push(item.href);
     }
-  };
+  }, [router, session, closeMenus]);
 
   return (
     <nav className="navbar">
       <div className="nav-content">
-        <Link href="/" className="logo">
+        <Link href="/" className="logo" onClick={closeMenus}>
           <Image
             src="/images/boltbot.webp"
             alt="BoltBot Logo"
@@ -157,24 +206,28 @@ export default function Navigation({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenus}
               />
             )}
           </AnimatePresence>
 
           <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                onClick={(e) => handleNavigation(item, e)}
-              >
-                <item.icon size={20} className="nav-icon" />
-                <span className="nav-label">{item.name}</span>
-                {item.external && <ExternalLink size={16} className="external-icon" />}
-              </Link>
-            ))}
+            {navigationItems.map((item) => {
+              if (item.requiresAuth && !session) return null;
+
+              return (
+                <button
+                  key={item.name}
+                  className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                  onClick={(e) => handleNavigation(item, e)}
+                  role="link"
+                >
+                  <item.icon size={20} className="nav-icon" />
+                  <span className="nav-label">{item.name}</span>
+                  {item.external && <ExternalLink size={16} className="external-icon" />}
+                </button>
+              );
+            })}
           </div>
 
           <div className="nav-controls">
@@ -194,7 +247,11 @@ export default function Navigation({
               <div className="user-profile-wrapper">
                 <button 
                   className="user-profile-button"
-                  onClick={() => setShowDropdown(!showDropdown)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowDropdown(!showDropdown);
+                  }}
                   aria-expanded={showDropdown}
                 >
                   <Image 
@@ -242,7 +299,11 @@ export default function Navigation({
 
             <button
               className="mobile-menu-btn"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsMenuOpen(!isMenuOpen);
+              }}
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
