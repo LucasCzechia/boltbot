@@ -8,8 +8,6 @@ import Starfield from '../components/misc/Starfield';
 
 export default function TermsOfService() {
   const navigation = {
-    title: "Table of Contents",
-    icon: FileText,
     items: [
       { id: 'introduction', title: 'Introduction', href: '#introduction', icon: Scroll },
       { id: 'usage', title: 'Terms of Use', href: '#usage', icon: Scale },
@@ -34,7 +32,8 @@ export default function TermsOfService() {
       icon: item.icon,
   }));
 
-    const customTitle = navigation.title;
+  const customTitle = "BoltBot⚡ Terms";
+
   return (
     <>
       <Head>
