@@ -1,6 +1,5 @@
 // pages/index.js
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import Head from 'next/head'
 import Script from 'next/script'
 import DashboardNav from '../components/dashboard/DashboardNav';
@@ -11,9 +10,6 @@ import Statistics from '../components/landing/Statistics'
 import DashboardFooter from '../components/dashboard/DashboardFooter'
 
 export default function Home() {
-  const { data: session, status } = useSession();
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
   return (
     <>
       <Head>
