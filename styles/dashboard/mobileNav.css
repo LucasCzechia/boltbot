@@ -1,0 +1,83 @@
+/* styles/dashboard/mobileNav.css */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--primary);
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--hover-bg);
+  transform: scale(1.05);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: rgba(17, 17, 17, 0.98);
+    flex-direction: column;
+    padding: 5rem 1.5rem 2rem;
+    gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    border-left: 1px solid rgba(255, 204, 0, 0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile-nav.active {
+    right: 0;
+  }
+
+  .nav-item {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 204, 0, 0.1);
+  }
+
+  .nav-item:hover {
+    background: rgba(255, 204, 0, 0.1);
+    transform: translateX(5px);
+  }
+
+  .nav-item.primary {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-nav {
+    width: 100%;
+    border-left: none;
+  }
+
+  .nav-item {
+    padding: 0.875rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .mobile-nav,
+  .mobile-menu-btn{
+    transition: none;
+  }
+}
