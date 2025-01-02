@@ -1,4 +1,6 @@
 /* styles/dashboard/nav.css */
+
+
 .dashboard-nav {
     padding: 0.75rem 1.5rem;
     background: var(--nav-bg);
@@ -68,6 +70,7 @@
     align-items: center;
     gap: 1.5rem;
 }
+
 .nav-controls {
     display: flex;
     align-items: center;
@@ -77,7 +80,14 @@
     border-radius: 50px;
     border: 1px solid var(--nav-border);
     transition: all 0.3s ease;
+    /* Remove display: flex; from here */
+    /* Remove align-items: center; from here */
 }
+.nav-controls > * {
+    display: flex;
+    align-items: center;
+}
+
 
 .nav-controls:hover {
     border-color: var(--primary);
@@ -238,6 +248,87 @@
     background: rgba(231, 76, 60, 0.1);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(231, 76, 60, 0.1);
+}
+
+.nav-links-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 204, 0, 0.1),
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-item:hover::before {
+    opacity: 1;
+}
+
+.nav-item:hover {
+    color: var(--primary);
+    border-color: rgba(255, 204, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 204, 0, 0.1);
+}
+
+.nav-item.primary {
+    background: var(--primary);
+    color: var(--dark);
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 4px 12px rgba(255, 204, 0, 0.2);
+}
+
+.nav-item.primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 20px rgba(255, 204, 0, 0.3),
+        0 0 0 2px rgba(255, 204, 0, 0.3);
+}
+
+.nav-item .nav-icon {
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover .nav-icon {
+    transform: translateY(-1px);
+    color: var(--primary);
+}
+
+.nav-item.primary:hover .nav-icon {
+    color: var(--dark);
 }
 
 @keyframes slideDown {
