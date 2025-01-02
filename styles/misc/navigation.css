@@ -1,4 +1,4 @@
-/* styles/components/shared/Navigation.css */
+/* styles/misc/navigation.css */
 .navbar {
   padding: 0.75rem 1.5rem;
   background: rgba(10, 10, 10, 0.95);
@@ -259,7 +259,9 @@
 @media (max-width: 768px) {
   .navbar {
     padding: 0.75rem 1rem;
-    .mobile-menu-btn {
+  }
+
+  .mobile-menu-btn {
     display: flex;
     margin-left: 0.5rem;
   }
@@ -388,7 +390,7 @@
   }
 }
 
-/* Accessibility Improvements */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .navbar,
   .logo,
