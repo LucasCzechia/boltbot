@@ -93,7 +93,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     if (isServerDashboard) {
       return "BoltBot⚡ Dashboard";
     }
-    return "BoltBot⚡ Dashboard";
+    return "BoltBot⚡";
   };
 
   const handleNavigation = useCallback((item, e) => {
