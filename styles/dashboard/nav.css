@@ -12,7 +12,7 @@
   --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Top Navigation Bar */
+/* Base Navigation */
 .dashboard-nav {
   padding: 0.75rem 1.5rem;
   background: var(--nav-bg);
@@ -38,7 +38,7 @@
   gap: 1rem;
 }
 
-/* Logo Styles */
+/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
   transform: scale(1.05);
 }
 
-/* Sidebar Toggle Button */
+/* Sidebar Toggle */
 .sidebar-toggle {
   background: none;
   border: none;
@@ -85,7 +85,17 @@
   transform: scale(1.05);
 }
 
-/* Sidebar Navigation */
+/* Mobile Navigation Overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 98;
+}
+
+/* Sidebar */
 .dashboard-sidebar {
   position: fixed;
   top: var(--header-height);
@@ -100,7 +110,12 @@
   flex-direction: column;
   gap: 1.5rem;
   overflow-y: auto;
-  transition: transform 0.3s var(--transition-timing);
+}
+
+.dashboard-sidebar.mobile {
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-header {
@@ -173,7 +188,7 @@
   opacity: 0.5;
 }
 
-/* User Controls */
+/* Controls Section */
 .nav-controls-wrapper {
   margin-left: auto;
   display: flex;
@@ -196,6 +211,7 @@
   border-color: var(--primary);
 }
 
+/* Control Buttons */
 .theme-toggle,
 .nav-button {
   background: none;
@@ -321,16 +337,24 @@
 
 /* Mobile Menu Button */
 .mobile-menu-btn {
-  display: none;
   background: none;
   border: none;
   color: var(--primary);
   padding: 0.5rem;
   cursor: pointer;
-  z-index: 101;
+  transition: all 0.3s ease;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
-/* Responsive Styles */
+.mobile-menu-btn:hover {
+  background: var(--hover-bg);
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
 @media (max-width: 1200px) {
   .dashboard-sidebar {
     width: 260px;
@@ -343,10 +367,6 @@
   }
 
   .sidebar-toggle {
-    display: none;
-  }
-
-  .dashboard-sidebar {
     display: none;
   }
 
@@ -367,6 +387,14 @@
   .theme-toggle,
   .nav-button {
     padding: 0.5rem;
+  }
+
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .dashboard-sidebar.mobile {
+    transform: translateX(0);
   }
 }
 
@@ -419,7 +447,7 @@
   background: var(--primary);
 }
 
-/* Reduce Motion */
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .dashboard-nav,
   .dashboard-sidebar,
