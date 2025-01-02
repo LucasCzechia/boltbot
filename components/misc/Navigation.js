@@ -110,7 +110,6 @@ export default function Navigation({ isDarkMode = true, setIsDarkMode = () => {}
       }
     };
 
-    // Add touch event handling
     const handleTouchStart = (e) => {
       const isNavLink = e.target.closest('.nav-item');
       if (isNavLink) {
@@ -144,14 +143,31 @@ export default function Navigation({ isDarkMode = true, setIsDarkMode = () => {}
     }
   };
 
-  const handleThemeToggle = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const newTheme = isDarkMode ? 'light' : 'dark';
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setCurrentWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'dark'
+    setIsDarkMode(theme === 'dark')
+    document.documentElement.classList.remove('light-mode', 'dark-mode')
+    document.documentElement.classList.add(`${theme}-mode`)
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [])
+
+  const toggleTheme = () => {
+    const newTheme = isDarkMode ? 'light' : 'dark'
+    setIsDarkMode(!isDarkMode)
+    localStorage.setItem('theme', newTheme)
+    document.documentElement.classList.remove('light-mode', 'dark-mode')
+    document.documentElement.classList.add(`${newTheme}-mode`)
+    document.documentElement.setAttribute('data-theme', newTheme)
+  }
 
   const handleNavigation = useCallback((item, e) => {
     if (e) {
