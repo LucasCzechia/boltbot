@@ -1,5 +1,5 @@
 // components/dashboard/DashboardNav.js
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +13,7 @@ import {
   Sun,
   LogOut,
   ServerIcon,
+  LogIn
 } from 'lucide-react';
 
 export default function DashboardNav({ navigationItems = [], customTitle = null }) {
@@ -80,6 +81,17 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     } catch (error) {
       console.error('Sign out error:', error);
       router.push('/auth/login');
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
+      await signIn('discord', {
+        callbackUrl: router.asPath,
+        redirect: true,
+      });
+    } catch (error) {
+      console.error('Sign in error:', error);
     }
   };
 
@@ -166,7 +178,9 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
               )}
             </button>
 
-            {session?.user && (
+            {status === "loading" ? (
+              <div className="loading-avatar" />
+            ) : session?.user ? (
               <div className="user-profile-wrapper">
                 <button
                   className="user-profile-button"
@@ -218,6 +232,11 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                   )}
                 </AnimatePresence>
               </div>
+            ) : (
+              <button onClick={handleSignIn} className="login-button">
+                <LogIn size={20} />
+                <span>Sign In</span>
+              </button>
             )}
 
             <button
@@ -235,7 +254,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
