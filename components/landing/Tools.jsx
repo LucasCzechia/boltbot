@@ -20,7 +20,7 @@ export default function Tools() {
           <Wrench size={24} />
           Powerful Tools
         </h2>
-         <div className="landing-tools-grid landing-grid"> 
+        <div className="landing-tools-grid">
           {tools.map((tool, index) => (
             <div key={index} className="landing-tool-card">
               <h3>{tool.icon} {tool.title}</h3>
