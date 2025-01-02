@@ -75,7 +75,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     try {
       closeMenus();
       await signOut({
-        callbackUrl: '/auth/login',
+        callbackUrl: '/',
         redirect: true,
       });
     } catch (error) {
@@ -86,10 +86,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
   const handleSignIn = async () => {
     try {
-      await signIn('discord', {
-        callbackUrl: router.asPath,
-        redirect: true,
-      });
+      router.push('/auth/login');
     } catch (error) {
       console.error('Sign in error:', error);
     }
