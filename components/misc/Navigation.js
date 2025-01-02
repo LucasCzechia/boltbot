@@ -249,7 +249,7 @@ export default function Navigation({ isDarkMode = true, setIsDarkMode = () => {}
           <div className="nav-controls">
             <button 
               className="theme-toggle"
-              onClick={handleThemeToggle}
+              onClick={toggleTheme}
               aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {isDarkMode ? (
