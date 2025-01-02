@@ -24,51 +24,30 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const [isDarkMode, setIsDarkMode] = useState(true);
   const isServerDashboard = router.pathname.startsWith('/dashboard/servers/[id]');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   const displayName = session?.user?.global_name || 
-                      session?.user?.name || 
-                      session?.user?.username ||
-                      'Unknown User';
+                     session?.user?.name || 
+                     session?.user?.username ||
+                     'Unknown User';
+                     
   const handle = session?.user?.name ? 
-                 `@${session.user.name}` : 
-                 session?.user?.id ? 
-                 `@${session.user.id}` : 
-                 '@unknown';
-
-
-  const getUserAvatar = () => {
-    if (!session?.user?.image) {
-      return 'https://cdn.discordapp.com/embed/avatars/0.png';
-    }
-    return session.user.image;
-  };
-
-    const closeMenus = useCallback(() => {
-        setIsMenuOpen(false);
-        setShowDropdown(false);
-    }, []);
-
-    useEffect(() => {
-        const handleRouteChange = () => {
-            closeMenus();
-        };
-
-        router.events.on('routeChangeStart', handleRouteChange);
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChange);
-        };
-    }, [router.events, closeMenus]);
-
+                `@${session.user.name}` : 
+                session?.user?.id ? 
+                `@${session.user.id}` : 
+                '@unknown';
 
   useEffect(() => {
     const handleResize = () => {
       setCurrentWidth(window.innerWidth);
+      if (window.innerWidth <= 768) {
+        setIsSidebarOpen(false);
+      }
     };
 
     window.addEventListener('resize', handleResize);
+    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -89,277 +68,243 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
+  const closeMenus = useCallback(() => {
+    setIsMenuOpen(false);
+    setShowDropdown(false);
+  }, []);
+
   const handleSignOut = async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
     try {
-        closeMenus();
+      closeMenus();
       await signOut({
         callbackUrl: '/auth/login',
         redirect: true,
       });
     } catch (error) {
       console.error('Sign out error:', error);
-        router.push('/auth/login');
+      router.push('/auth/login');
     }
   };
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      const isNavLink = e.target.closest('.nav-item');
-      const isMenuBtn = e.target.closest('.mobile-menu-btn');
-      const isProfileBtn = e.target.closest('.user-profile-button');
-
-      if (!isNavLink && !isMenuBtn && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-
-      if (!isProfileBtn && showDropdown) {
-        setShowDropdown(false);
-      }
+    const handleRouteChange = () => {
+      closeMenus();
     };
 
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        closeMenus();
-      }
-    };
-
-    const handleTouchStart = (e) => {
-      const isNavLink = e.target.closest('.nav-item');
-        if(isNavLink) {
-            e.preventDefault(); // Prevent default touch behavior
-            isNavLink.click()
-            closeMenus()
-        }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-
+    router.events.on('routeChangeStart', handleRouteChange);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('touchstart', handleTouchStart);
+      router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, [isMenuOpen, showDropdown, closeMenus]);
+  }, [router.events, closeMenus]);
 
-    const getNavTitle = () => {
-        if (currentWidth <= 768) {
-            return "BoltBot⚡";
-        }
-
+  const getNavTitle = () => {
+    if (currentWidth <= 768) {
+      return "BoltBot⚡";
+    }
     if (customTitle) {
-            return customTitle;
-        }
-
-      if (isServerDashboard) {
-          return "BoltBot⚡ Dashboard";
-      }
-        return "BoltBot⚡ Dashboard";
+      return customTitle;
+    }
+    if (isServerDashboard) {
+      return "BoltBot⚡ Dashboard";
+    }
+    return "BoltBot⚡ Dashboard";
   };
 
-   const handleNavigation = useCallback((item, e) => {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+  const handleNavigation = useCallback((item, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
-        if (item.requiresAuth && !session) {
-            closeMenus();
-            router.push('/auth/login');
-            return;
-        }
+    if (item.requiresAuth && !session) {
+      closeMenus();
+      router.push('/auth/login');
+      return;
+    }
 
-        if (item.external) {
-            window.open(item.href, '_blank', 'noopener,noreferrer');
-            closeMenus();
-            return;
-        }
+    if (item.external) {
+      window.open(item.href, '_blank', 'noopener,noreferrer');
+      closeMenus();
+      return;
+    }
 
-        if (item.href.startsWith('/#')) {
-            const elementId = item.href.replace('/#', '');
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-                closeMenus();
-            }
-        } else {
-            closeMenus()
-            router.push(item.href);
-        }
-    }, [router, session, closeMenus]);
+    if (item.href.startsWith('/#')) {
+      const elementId = item.href.replace('/#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        closeMenus();
+      }
+    } else {
+      closeMenus();
+      router.push(item.href);
+    }
+  }, [router, session, closeMenus]);
 
+  return (
+    <nav className="dashboard-nav">
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            className="dashboard-sidebar"
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -300, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <div className="sidebar-header">
+              <Link href="/" className="logo" onClick={closeMenus}>
+                <Image
+                  src="/images/boltbot.webp"
+                  alt="BoltBot Logo"
+                  width={45}
+                  height={45}
+                  priority
+                  className="logo-image"
+                />
+                <span className="logo-text">{getNavTitle()}</span>
+              </Link>
+            </div>
 
-    return (
-        <nav className="dashboard-nav">
-           <AnimatePresence>
-                {isSidebarOpen && (
-                     <motion.div
-                         className="dashboard-sidebar"
-                          initial={{ x: -300, opacity: 0 }}
-                         animate={{ x: 0, opacity: 1}}
-                        exit={{ x: -300, opacity: 0 }}
-                       transition={{ duration: 0.2, ease: "easeOut" }}
-                     >
-                           <div className="sidebar-header">
-                               <button 
-                                    className="sidebar-toggle"
-                                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                                    aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-                                >
-                                  {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-                               </button>
-                                <Link href="/" className="logo" onClick={closeMenus}>
-                                    <Image
-                                        src="/images/boltbot.webp"
-                                        alt="BoltBot Logo"
-                                        width={45}
-                                        height={45}
-                                        priority
-                                        className="logo-image"
-                                    />
-                                   <span className="logo-text">{getNavTitle()}</span>
-                                </Link>
-                            </div>
-                          <div className="nav-links-wrapper">
-                            <div className="nav-links">
-                                {navigationItems.map((item) => {
-                                  if (item.requiresAuth && !session) return null;
+            <div className="nav-links-wrapper">
+              <div className="nav-links">
+                {navigationItems.map((item) => {
+                  if (item.requiresAuth && !session) return null;
 
-                                  return (
-                                      <button
-                                        key={item.name}
-                                        className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                                        onClick={(e) => handleNavigation(item, e)}
-                                        role="link"
-                                        >
-                                          {item.icon && <item.icon size={20} className="nav-icon" />}
-                                          <span className="nav-label">{item.name}</span>
-                                          {item.external && <ExternalLink size={16} className="external-icon" />}
-                                      </button>
-                                    );
-                                  })}
-                            </div>
-                           </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-            <div className="nav-content">
-                 {currentWidth > 768 && (
-                     <button 
-                        className="sidebar-toggle"
-                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                         aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-                    >
-                    {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-                    </button>
-                )}
-                 <Link href="/" className="logo" onClick={closeMenus}>
-                    <Image
-                        src="/images/boltbot.webp"
-                        alt="BoltBot Logo"
-                        width={45}
-                        height={45}
-                        priority
-                        className="logo-image"
-                    />
-                    <span className="logo-text">{getNavTitle()}</span>
-                </Link>
-
-              <div className="nav-controls-wrapper">
-
-
-                <div className="nav-controls">
-                  {isServerDashboard && (
+                  return (
                     <button
-                        onClick={() => router.push('/dashboard/servers')}
-                        className="nav-button"
-                        aria-label="Back to servers"
+                      key={item.name}
+                      className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                      onClick={(e) => handleNavigation(item, e)}
+                      role="link"
                     >
-                      <ServerIcon className="nav-icon" />
+                      {item.icon && <item.icon size={20} className="nav-icon" />}
+                      <span className="nav-label">{item.name}</span>
+                      {item.external && <ExternalLink size={16} className="external-icon" />}
                     </button>
-                  )}
-                  <button
-                    className="theme-toggle"
-                    onClick={toggleTheme}
-                    aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                  >
-                    {isDarkMode ? (
-                      <Moon className="theme-icon" />
-                    ) : (
-                      <Sun className="theme-icon" />
-                    )}
-                  </button>
-
-                  {session?.user && (
-                    <div className="user-profile-wrapper">
-                      <button 
-                        className="user-profile-button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setShowDropdown(!showDropdown);
-                        }}
-                        aria-expanded={showDropdown}
-                      >
-                        <Image 
-                          src={getUserAvatar()}
-                          alt={`${displayName}'s avatar`}
-                          width={48}
-                          height={48}
-                          className="user-avatar"
-                          unoptimized
-                        />
-                      </button>
-
-                      <AnimatePresence>
-                        {showDropdown && (
-                          <motion.div 
-                            className="user-dropdown"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <div className="user-info">
-                              <Image 
-                                src={getUserAvatar()}
-                                alt={`${displayName}'s avatar`}
-                                width={65}
-                                height={65}
-                                className="dropdown-avatar"
-                                unoptimized
-                              />
-                              <div className="user-details">
-                                <div className="user-name">{displayName}</div>
-                                <div className="user-handle">{handle}</div>
-                              </div>
-                            </div>
-                            <button onClick={handleSignOut} className="logout-button">
-                              <LogOut size={20} />
-                              <span>Sign Out</span>
-                            </button>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  )}
-                   <button
-                      className="mobile-menu-btn"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsMenuOpen(!isMenuOpen);
-                      }}
-                      aria-label="Toggle menu"
-                    >
-                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-                </div>
+                  );
+                })}
               </div>
             </div>
-        </nav>
-    );
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="nav-content">
+        <button 
+          className="sidebar-toggle"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+        >
+          {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+        </button>
+
+        <Link href="/" className="logo" onClick={closeMenus}>
+          <Image
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
+            width={45}
+            height={45}
+            priority
+            className="logo-image"
+          />
+          <span className="logo-text">{getNavTitle()}</span>
+        </Link>
+
+        <div className="nav-controls-wrapper">
+          <div className="nav-controls">
+            {isServerDashboard && (
+              <button
+                onClick={() => router.push('/dashboard/servers')}
+                className="nav-button"
+                aria-label="Back to servers"
+              >
+                <ServerIcon className="nav-icon" />
+              </button>
+            )}
+            
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDarkMode ? (
+                <Moon className="theme-icon" />
+              ) : (
+                <Sun className="theme-icon" />
+              )}
+            </button>
+
+            {session?.user && (
+              <div className="user-profile-wrapper">
+                <button 
+                  className="user-profile-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowDropdown(!showDropdown);
+                  }}
+                  aria-expanded={showDropdown}
+                >
+                  <Image 
+                    src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                    alt={`${displayName}'s avatar`}
+                    width={48}
+                    height={48}
+                    className="user-avatar"
+                    unoptimized
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div 
+                      className="user-dropdown"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="user-info">
+                        <Image 
+                          src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                          alt={`${displayName}'s avatar`}
+                          width={65}
+                          height={65}
+                          className="dropdown-avatar"
+                          unoptimized
+                        />
+                        <div className="user-details">
+                          <div className="user-name">{displayName}</div>
+                          <div className="user-handle">{handle}</div>
+                        </div>
+                      </div>
+                      <button onClick={handleSignOut} className="logout-button">
+                        <LogOut size={20} />
+                        <span>Sign Out</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
+            <button
+              className="mobile-menu-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
 }
