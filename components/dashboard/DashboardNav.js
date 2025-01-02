@@ -29,8 +29,6 @@ export default function DashboardNav({ navigationItems = [] }) {
   const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User';
   const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown';
 
-
-
   const getUserAvatar = () => {
     if (!session?.user?.image) {
       return 'https://cdn.discordapp.com/embed/avatars/0.png';
@@ -45,12 +43,12 @@ export default function DashboardNav({ navigationItems = [] }) {
 
   useEffect(() => {
     const handleRouteChange = () => {
-        closeMenus();
+      closeMenus();
     };
 
     router.events.on('routeChangeStart', handleRouteChange);
     return () => {
-        router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off('routeChangeStart', handleRouteChange);
     };
   }, [router.events, closeMenus]);
 
@@ -92,54 +90,54 @@ export default function DashboardNav({ navigationItems = [] }) {
     }
   };
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            const isNavLink = e.target.closest('.nav-item');
-            const isMenuBtn = e.target.closest('.mobile-menu-btn');
-            const isProfileBtn = e.target.closest('.user-profile-button');
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const isNavLink = e.target.closest('.nav-item');
+      const isMenuBtn = e.target.closest('.mobile-menu-btn');
+      const isProfileBtn = e.target.closest('.user-profile-button');
 
-            if (!isNavLink && !isMenuBtn && isMenuOpen) {
-                setIsMenuOpen(false);
-            }
+      if (!isNavLink && !isMenuBtn && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
 
-            if (!isProfileBtn && showDropdown) {
-                setShowDropdown(false);
-            }
-        };
+      if (!isProfileBtn && showDropdown) {
+        setShowDropdown(false);
+      }
+    };
 
-        const handleEscape = (e) => {
-            if (e.key === 'Escape') {
-                closeMenus();
-            }
-        };
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeMenus();
+      }
+    };
 
-        const handleTouchStart = (e) => {
-            const isNavLink = e.target.closest('.nav-item');
-            if (isNavLink) {
-                e.preventDefault();
-                isNavLink.click();
-            }
-        };
+    const handleTouchStart = (e) => {
+      const isNavLink = e.target.closest('.nav-item');
+      if (isNavLink) {
+        e.preventDefault();
+        isNavLink.click();
+      }
+    };
 
-        document.addEventListener('click', handleClickOutside);
-        document.addEventListener('keydown', handleEscape);
-        document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
 
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-            document.removeEventListener('keydown', handleEscape);
-            document.removeEventListener('touchstart', handleTouchStart);
-        };
-    }, [isMenuOpen, showDropdown, closeMenus]);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('touchstart', handleTouchStart);
+    };
+  }, [isMenuOpen, showDropdown, closeMenus]);
 
   const getNavTitle = () => {
-      if (currentWidth <= 768) {
-          return "BoltBot⚡";
-      }
-        if (isServerDashboard) {
-            return "BoltBot⚡ Dashboard";
-      }
-        return "BoltBot⚡ Dashboard";
+    if (currentWidth <= 768) {
+      return "BoltBot⚡";
+    }
+    if (isServerDashboard) {
+      return "BoltBot⚡ Dashboard";
+    }
+    return "BoltBot⚡ Dashboard";
   };
 
   const handleNavigation = useCallback((item, e) => {
@@ -187,22 +185,24 @@ export default function DashboardNav({ navigationItems = [] }) {
           {getNavTitle()}
         </Link>
 
-          <div className="nav-controls-wrapper">
+        <div className="nav-controls-wrapper">
 
-              <AnimatePresence>
-                  {isMenuOpen && (
-                      <motion.div
-                          className="nav-links-overlay"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          onClick={closeMenus}
-                      />
-                  )}
-              </AnimatePresence>
-                <div className="nav-links-wrapper">
-              <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                  {navigationItems.map((item) => {
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        className="nav-links-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={closeMenus}
+                    />
+                )}
+            </AnimatePresence>
+
+          {navigationItems.length > 0 && (
+              <div className="nav-links-wrapper">
+                <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+                    {navigationItems.map((item) => {
                       if (item.requiresAuth && !session) return null;
 
                       return (
@@ -217,11 +217,12 @@ export default function DashboardNav({ navigationItems = [] }) {
                               {item.external && <ExternalLink size={16} className="external-icon" />}
                           </button>
                       );
-                  })}
+                    })}
                 </div>
             </div>
+          )}
 
-              <div className="nav-controls">
+          <div className="nav-controls">
             {isServerDashboard && (
               <button
                 onClick={() => router.push('/dashboard/servers')}
@@ -259,17 +260,18 @@ export default function DashboardNav({ navigationItems = [] }) {
             </button>
           </div>
         </div>
-            <button
-                className="mobile-menu-btn"
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsMenuOpen(!isMenuOpen);
-                }}
-                aria-label="Toggle menu"
-            >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+          <button
+              className="mobile-menu-btn"
+              onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsMenuOpen(!isMenuOpen);
+              }}
+              aria-label="Toggle menu"
+          >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
 
         {showDropdown && (
           <div className="user-dropdown">
