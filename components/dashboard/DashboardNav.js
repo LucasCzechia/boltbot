@@ -45,8 +45,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
       setCurrentWidth(width);
       if (width <= 768) {
         setIsSidebarOpen(false);
-      } else {
-        setIsSidebarOpen(true);
       }
     };
 
@@ -75,31 +73,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const closeMenus = useCallback(() => {
     setIsMenuOpen(false);
     setShowDropdown(false);
-    if (isMobile) {
-      setIsSidebarOpen(false);
-    }
-  }, [isMobile]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (isMobile && !e.target.closest('.dashboard-sidebar') && !e.target.closest('.mobile-menu-btn')) {
-        closeMenus();
-      }
-    };
-
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        closeMenus();
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [closeMenus, isMobile]);
+  }, []);
 
   const handleSignOut = async (e) => {
     e.preventDefault();
@@ -115,17 +89,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
       router.push('/auth/login');
     }
   };
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      closeMenus();
-    };
-
-    router.events.on('routeChangeStart', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [router.events, closeMenus]);
 
   const getNavTitle = () => {
     if (currentWidth <= 768) {
@@ -171,25 +134,20 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     }
   }, [router, session, closeMenus]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
     <>
       <nav className="dashboard-nav">
-        <div className="nav-content">
-          {!isMobile && (
-            <button 
-              className="sidebar-toggle"
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-            >
-              {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-            </button>
-          )}
+        {!isMobile && (
+          <button 
+            className="sidebar-toggle"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+          >
+            {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+          </button>
+        )}
 
+        <div className="nav-content">
           <Link href="/" className="logo" onClick={closeMenus}>
             <Image
               src="/images/boltbot.webp"
@@ -283,7 +241,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
               {isMobile && (
                 <button
                   className="mobile-menu-btn"
-                  onClick={toggleMenu}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
                   aria-label="Toggle menu"
                 >
                   {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -295,63 +253,66 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
       </nav>
 
       <AnimatePresence>
-        {isSidebarOpen && (
-          <>
-            {isMobile && (
-              <motion.div
-                className="mobile-nav-overlay"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onClick={closeMenus}
-              />
-            )}
-            <motion.div
-              className={`dashboard-sidebar ${isMobile ? 'mobile' : ''}`}
-              initial={{ x: isMobile ? '-100%' : -300 }}
+        {isMenuOpen && isMobile && (
+          <motion.div
+            className="nav-links-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <motion.div 
+              className="nav-links mobile"
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: isMobile ? '-100%' : -300 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              exit={{ x: '100%' }}
+              transition={{ type: "tween", duration: 0.3 }}
+              onClick={e => e.stopPropagation()}
             >
-              <div className="sidebar-header">
-                <Link href="/" className="logo" onClick={closeMenus}>
-                  <Image
-                    src="/images/boltbot.webp"
-                    alt="BoltBot Logo"
-                    width={45}
-                    height={45}
-                    priority
-                    className="logo-image"
-                  />
-                  <span className="logo-text">{getNavTitle()}</span>
-                </Link>
-              </div>
+              {navigationItems.map((item) => {
+                if (item.requiresAuth && !session) return null;
 
-              <div className="nav-links-wrapper">
-                <div className="nav-links">
-                  {navigationItems.map((item) => {
-                    if (item.requiresAuth && !session) return null;
-
-                    return (
-                      <button
-                        key={item.name}
-                        className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                        onClick={(e) => handleNavigation(item, e)}
-                        role="link"
-                      >
-                        {item.icon && <item.icon size={20} className="nav-icon" />}
-                        <span className="nav-label">{item.name}</span>
-                        {item.external && <ExternalLink size={16} className="external-icon" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+                return (
+                  <button
+                    key={item.name}
+                    className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                    onClick={(e) => handleNavigation(item, e)}
+                    role="link"
+                  >
+                    {item.icon && <item.icon size={20} className="nav-icon" />}
+                    <span className="nav-label">{item.name}</span>
+                    {item.external && <ExternalLink size={16} className="external-icon" />}
+                  </button>
+                );
+              })}
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
+
+      {!isMobile && (
+        <div className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+          <div className="nav-links-wrapper">
+            {navigationItems.map((item) => {
+              if (item.requiresAuth && !session) return null;
+
+              return (
+                <button
+                  key={item.name}
+                  className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                  onClick={(e) => handleNavigation(item, e)}
+                  role="link"
+                >
+                  {item.icon && <item.icon size={20} className="nav-icon" />}
+                  <span className="nav-label">{item.name}</span>
+                  {item.external && <ExternalLink size={16} className="external-icon" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </>
   );
 }
