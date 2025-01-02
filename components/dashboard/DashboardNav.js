@@ -25,8 +25,16 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
   const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
-  const displayName = session?.user?.globalName || session?.user?.name || 'Unknown User';
-  const handle = session?.user?.name ? `@${session?.user?.name}` : '@unknown';
+  const displayName = session?.user?.global_name || 
+                      session?.user?.name || 
+                      session?.user?.username ||
+                      'Unknown User';
+  const handle = session?.user?.name ? 
+                 `@${session.user.name}` : 
+                 session?.user?.id ? 
+                 `@${session.user.id}` : 
+                 '@unknown';
+
 
   const getUserAvatar = () => {
     if (!session?.user?.image) {
@@ -35,21 +43,22 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     return session.user.image;
   };
 
-  const closeMenus = useCallback(() => {
-    setIsMenuOpen(false);
-    setShowDropdown(false);
-  }, []);
+    const closeMenus = useCallback(() => {
+        setIsMenuOpen(false);
+        setShowDropdown(false);
+    }, []);
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-        closeMenus();
-    };
+    useEffect(() => {
+        const handleRouteChange = () => {
+            closeMenus();
+        };
 
-    router.events.on('routeChangeStart', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [router.events, closeMenus]);
+        router.events.on('routeChangeStart', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange);
+        };
+    }, [router.events, closeMenus]);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,15 +86,18 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
     try {
+        closeMenus();
       await signOut({
         callbackUrl: '/auth/login',
         redirect: true,
       });
     } catch (error) {
       console.error('Sign out error:', error);
-      router.push('/auth/login');
+        router.push('/auth/login');
     }
   };
 
@@ -178,126 +190,139 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     return (
         <nav className="dashboard-nav">
             <div className="nav-content">
-                <Link href="/" className="logo">
+                <Link href="/" className="logo" onClick={closeMenus}>
                     <Image
                         src="/images/boltbot.webp"
                         alt="BoltBot Logo"
                         width={45}
                         height={45}
                         priority
+                        className="logo-image"
                     />
-                    {getNavTitle()}
+                    <span className="logo-text">{getNavTitle()}</span>
                 </Link>
 
-                <div className="nav-controls-wrapper">
-                    <AnimatePresence>
-                        {isMenuOpen && (
-                            <motion.div
-                                className="nav-links-overlay"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                onClick={closeMenus}
-                            />
-                        )}
-                    </AnimatePresence>
+              <div className="nav-controls-wrapper">
+                <AnimatePresence>
+                  {isMenuOpen && (
+                    <motion.div 
+                      className="nav-links-overlay"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onClick={closeMenus}
+                    />
+                  )}
+                </AnimatePresence>
+                <div className="nav-links-wrapper">
+                  <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+                    {navigationItems.map((item) => {
+                      if (item.requiresAuth && !session) return null;
 
-
-                     <div className="nav-controls">
-                       {navigationItems.length > 0 && (
-                           <div className="nav-links-wrapper">
-                             <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                               {navigationItems.map((item) => {
-                                     if (item.requiresAuth && !session) return null;
-
-                                   return (
-                                     <button
-                                       key={item.name}
-                                       className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                                         onClick={(e) => handleNavigation(item, e)}
-                                       role="link"
-                                     >
-                                       {item.icon && <item.icon size={20} className="nav-icon" />}
-                                         <span className="nav-label">{item.name}</span>
-                                       {item.external && <ExternalLink size={16} className="external-icon" />}
-                                     </button>
-                                   );
-                               })}
-                             </div>
-                           </div>
-                       )}
-                     {isServerDashboard && (
-                         <button
-                             onClick={() => router.push('/dashboard/servers')}
-                             className="nav-button"
-                             aria-label="Back to servers"
-                         >
-                             <ServerIcon className="nav-icon" />
-                         </button>
-                     )}
-                     <button
-                         className="theme-toggle"
-                         onClick={toggleTheme}
-                         aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                     >
-                         {isDarkMode ? (
-                             <Moon className="theme-icon" />
-                         ) : (
-                             <Sun className="theme-icon" />
-                         )}
-                     </button>
-
-                     <button
-                         className="user-profile-button"
-                         onClick={() => setShowDropdown(!showDropdown)}
-                         aria-expanded={showDropdown}
-                     >
-                         <Image
-                             src={getUserAvatar()}
-                             alt="User Avatar"
-                             width={48}
-                             height={48}
-                             className="user-avatar"
-                             unoptimized
-                         />
-                     </button>
-                 </div>
-
+                      return (
+                        <button
+                          key={item.name}
+                          className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                          onClick={(e) => handleNavigation(item, e)}
+                          role="link"
+                        >
+                          {item.icon && <item.icon size={20} className="nav-icon" />}
+                          <span className="nav-label">{item.name}</span>
+                          {item.external && <ExternalLink size={16} className="external-icon" />}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <button
-                  className="mobile-menu-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsMenuOpen(!isMenuOpen);
-                  }}
-                  aria-label="Toggle menu"
-                >
-                  {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
 
-                {showDropdown && (
-                    <div className="user-dropdown">
-                        <div className="user-info">
-                            <Image
+                <div className="nav-controls">
+                  {isServerDashboard && (
+                    <button
+                        onClick={() => router.push('/dashboard/servers')}
+                        className="nav-button"
+                        aria-label="Back to servers"
+                    >
+                      <ServerIcon className="nav-icon" />
+                    </button>
+                  )}
+                  <button
+                    className="theme-toggle"
+                    onClick={toggleTheme}
+                    aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                  >
+                    {isDarkMode ? (
+                      <Moon className="theme-icon" />
+                    ) : (
+                      <Sun className="theme-icon" />
+                    )}
+                  </button>
+
+                  {session?.user && (
+                    <div className="user-profile-wrapper">
+                      <button 
+                        className="user-profile-button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setShowDropdown(!showDropdown);
+                        }}
+                        aria-expanded={showDropdown}
+                      >
+                        <Image 
+                          src={getUserAvatar()}
+                          alt={`${displayName}'s avatar`}
+                          width={48}
+                          height={48}
+                          className="user-avatar"
+                          unoptimized
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {showDropdown && (
+                          <motion.div 
+                            className="user-dropdown"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <div className="user-info">
+                              <Image 
                                 src={getUserAvatar()}
-                                alt="User Avatar"
+                                alt={`${displayName}'s avatar`}
                                 width={65}
                                 height={65}
                                 className="dropdown-avatar"
                                 unoptimized
-                            />
-                            <div className="user-details">
+                              />
+                              <div className="user-details">
                                 <div className="user-name">{displayName}</div>
                                 <div className="user-handle">{handle}</div>
+                              </div>
                             </div>
-                        </div>
-                        <button onClick={handleSignOut} className="logout-button">
-                            <LogOut size={20} />
-                            <span>Sign Out</span>
-                        </button>
+                            <button onClick={handleSignOut} className="logout-button">
+                              <LogOut size={20} />
+                              <span>Sign Out</span>
+                            </button>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
-                )}
+                  )}
+                   <button
+                      className="mobile-menu-btn"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsMenuOpen(!isMenuOpen);
+                      }}
+                      aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
+              </div>
             </div>
         </nav>
     );
