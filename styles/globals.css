@@ -21,7 +21,6 @@
 @import './auth/auth-error.css';
 
 /* Dashboard Styles */
-@import './dashboard/nav.css';
 @import './dashboard/scroll-to-top.css';
 @import './dashboard/footer.css';
 @import './dashboard/loading.css';
