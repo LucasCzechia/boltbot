@@ -13,8 +13,6 @@ import {
   Sun,
   LogOut,
   ServerIcon,
-  ChevronLeft,
-  ChevronRight
 } from 'lucide-react';
 
 export default function DashboardNav({ navigationItems = [], customTitle = null }) {
@@ -32,7 +30,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                      session?.user?.name || 
                      session?.user?.username ||
                      'Unknown User';
-                     
+
   const handle = session?.user?.name ? 
                 `@${session.user.name}` : 
                 session?.user?.id ? 
@@ -159,7 +157,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                 <ServerIcon className="nav-icon" />
               </button>
             )}
-            
+
             <button
               className="theme-toggle"
               onClick={toggleTheme}
@@ -174,7 +172,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
             {session?.user && (
               <div className="user-profile-wrapper">
-                <button 
+                <button
                   className="user-profile-button"
                   onClick={(e) => {
                     e.preventDefault();
@@ -183,7 +181,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                   }}
                   aria-expanded={showDropdown}
                 >
-                  <Image 
+                  <Image
                     src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
                     alt={`${displayName}'s avatar`}
                     width={48}
@@ -195,7 +193,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
                 <AnimatePresence>
                   {showDropdown && (
-                    <motion.div 
+                    <motion.div
                       className="user-dropdown"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -203,7 +201,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                       transition={{ duration: 0.2 }}
                     >
                       <div className="user-info">
-                        <Image 
+                        <Image
                           src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
                           alt={`${displayName}'s avatar`}
                           width={65}
@@ -241,9 +239,10 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             className="nav-links-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -251,12 +250,12 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
             onClick={() => setIsMenuOpen(false)}
           >
             <motion.div
-              className="nav-links"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
+              className={`nav-links ${isMenuOpen ? 'active' : ''}`}
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
               transition={{ duration: 0.2 }}
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               {navigationItems.map((item) => {
                 if (item.requiresAuth && !session) return null;
