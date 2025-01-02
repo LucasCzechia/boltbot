@@ -1,4 +1,3 @@
-// components/landing/Statistics.jsx
 import { useState, useEffect } from 'react';
 import LandingContentContainer from './LandingContentContainer';
 import { BarChart } from 'lucide-react';
@@ -59,19 +58,21 @@ const Statistics = () => {
     };
   }, []);
 
-  const formatDowntime = () => {
+  const formatTime = () => {
     if (!stats?.status) return '0d, 0h, 0m, 0s';
 
-    const uptimeStart = parseInt(localStorage.getItem(UPTIME_KEY) || Date.now());
-    const totalUptimeSeconds = Math.floor((currentTime - uptimeStart) / 1000);
-    const totalDowntimeSeconds = totalUptimeSeconds;
+    if (stats.status.state === 'online') {
+        const uptimeStart = parseInt(localStorage.getItem(UPTIME_KEY) || Date.now());
+        const totalUptimeSeconds = Math.floor((currentTime - uptimeStart) / 1000);
+        const days = Math.floor(totalUptimeSeconds / (24 * 60 * 60));
+        const hours = Math.floor((totalUptimeSeconds % (24 * 60 * 60)) / (60 * 60));
+        const minutes = Math.floor((totalUptimeSeconds % (60 * 60)) / 60);
+        const seconds = totalUptimeSeconds % 60;
 
-    const days = Math.floor(totalDowntimeSeconds / (24 * 60 * 60));
-    const hours = Math.floor((totalDowntimeSeconds % (24 * 60 * 60)) / (60 * 60));
-    const minutes = Math.floor((totalDowntimeSeconds % (60 * 60)) / 60);
-    const seconds = totalDowntimeSeconds % 60;
-
-    return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
+        return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
+    } else {
+         return '0d, 0h, 0m, 0s';
+    }
   };
 
   if (isLoading || error) {
@@ -140,8 +141,8 @@ const Statistics = () => {
             </div>
           </div>
           <div className="landing-status-item">
-            <span>Downtime:</span>
-            <span className="text-primary">{formatDowntime()}</span>
+          <span>{stats?.status?.state === 'online' ? 'Uptime' : 'Downtime'}:</span>
+          <span className="text-primary">{formatTime()}</span>
           </div>
         </div>
         <div className="landing-stats-grid">
