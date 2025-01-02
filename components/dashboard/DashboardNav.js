@@ -146,6 +146,28 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
           <span className="logo-text">{getNavTitle()}</span>
         </Link>
 
+        {/* Desktop Navigation */}
+        <div className="nav-links-wrapper">
+          <div className={`desktop-nav ${isMobile ? 'hidden' : ''}`}>
+            {navigationItems.map((item) => {
+              if (item.requiresAuth && !session) return null;
+
+              return (
+                <button
+                  key={item.name}
+                  className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                  onClick={(e) => handleNavigation(item, e)}
+                  role="link"
+                >
+                  {item.icon && <item.icon size={20} className="nav-icon" />}
+                  <span className="nav-label">{item.name}</span>
+                  {item.external && <ExternalLink size={16} className="external-icon" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        
         <div className="nav-controls-wrapper">
           <div className="nav-controls">
             {isServerDashboard && (
@@ -239,18 +261,11 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Navigation */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            className="nav-links-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsMenuOpen(false)}
-          >
             <motion.div
-              className={`nav-links ${isMenuOpen ? 'active' : ''}`}
+              className={`mobile-nav ${isMenuOpen ? 'active' : ''}`}
               initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
@@ -274,7 +289,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                 );
               })}
             </motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     </nav>
