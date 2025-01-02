@@ -1,6 +1,7 @@
 // components/misc/Navigation.js
 import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,11 +26,15 @@ export default function Navigation({
   setIsDarkMode = () => {},
   userProfile = null
 }) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const displayName = userProfile?.user?.globalName || userProfile?.user?.name || 'Unknown User'
-  const handle = userProfile?.user?.name ? `@${userProfile?.user?.name}` : '@unknown'
-  
+
+  // Get display name and handle from session
+  const displayName = session?.user?.global_name || session?.user?.name || 'Unknown User';
+  const handle = session?.user?.username ? `@${session.user.username}` : session?.user?.name ? `@${session.user.name}` : '@unknown';
+
   const navigationItems = [
     {
       name: 'Features',
@@ -53,7 +58,8 @@ export default function Navigation({
       name: 'Dashboard',
       href: '/dashboard/servers',
       icon: Layout,
-      description: 'Manage your servers'
+      description: 'Manage your servers',
+      isRoute: true
     },
     {
       name: 'Community',
@@ -103,6 +109,31 @@ export default function Navigation({
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
+  const handleNavigation = (item, e) => {
+    setIsMenuOpen(false);
+    
+    if (item.external) {
+      window.open(item.href, '_blank', 'noopener noreferrer');
+      e.preventDefault();
+      return;
+    }
+
+    if (item.isRoute) {
+      e.preventDefault();
+      router.push(item.href);
+      return;
+    }
+
+    // Handle hash navigation for same page
+    if (item.href.startsWith('#')) {
+      e.preventDefault();
+      const element = document.getElementById(item.href.substring(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-content">
@@ -137,9 +168,7 @@ export default function Navigation({
                 key={item.name}
                 href={item.href}
                 className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => handleNavigation(item, e)}
               >
                 <item.icon size={20} className="nav-icon" />
                 <span className="nav-label">{item.name}</span>
@@ -161,7 +190,7 @@ export default function Navigation({
               )}
             </button>
 
-            {userProfile && (
+            {session?.user && (
               <div className="user-profile-wrapper">
                 <button 
                   className="user-profile-button"
@@ -169,8 +198,8 @@ export default function Navigation({
                   aria-expanded={showDropdown}
                 >
                   <Image 
-                    src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                    alt="User Avatar"
+                    src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                    alt={`${displayName}'s avatar`}
                     width={48}
                     height={48}
                     className="user-avatar"
@@ -189,8 +218,8 @@ export default function Navigation({
                     >
                       <div className="user-info">
                         <Image 
-                          src={userProfile.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                          alt="User Avatar"
+                          src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                          alt={`${displayName}'s avatar`}
                           width={65}
                           height={65}
                           className="dropdown-avatar"
