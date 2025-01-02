@@ -258,6 +258,7 @@
     padding: 0 1rem;
 }
 
+
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -271,9 +272,9 @@
 
 /* Media Queries */
 @media (max-width: 768px) {
-  .dashboard-sidebar {
-      display: none;
-  }
+    .dashboard-sidebar {
+        display: none;
+    }
     .dashboard-nav {
         padding: 0.75rem 1rem;
     }
@@ -304,30 +305,32 @@
     }
 }
 
+
 @media (min-width: 769px) {
     .nav-content {
-         justify-content: flex-start;
+        justify-content: flex-start;
     }
-    .dashboard-nav {
-      display: flex;
-    }
+     .dashboard-nav {
+         display: flex;
+     }
   .dashboard-nav > .sidebar-toggle {
-        background: none;
-        border: none;
-        color: var(--primary);
+      background: none;
+      border: none;
+      color: var(--primary);
          padding: 0.5rem 0.75rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-         margin-right: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+     margin-right: 0.5rem;
+        order: -1; /* Ensure the toggle comes before the logo */
     }
-    .sidebar-toggle:hover {
+   .sidebar-toggle:hover {
         transform: translateX(-2px);
     }
-   .dashboard-sidebar {
+     .dashboard-sidebar {
         position: fixed;
         top: 0;
         left: 0;
@@ -338,28 +341,40 @@
         padding: 5rem 1rem 2rem;
         z-index: 98;
         transition: all 0.3s ease;
-        display: flex;
+         display: flex;
        flex-direction: column;
     }
-    .sidebar-header {
+   .sidebar-header {
         display: flex;
          align-items: center;
         margin-bottom: 1rem;
       
     }
-
-    .dashboard-sidebar .sidebar-toggle {
+   .dashboard-sidebar .sidebar-toggle {
         margin-right: 0.5rem;
         margin-left: 0.25rem
     }
-  .nav-links-wrapper {
-       flex: 1;
+    .nav-links-wrapper {
+        flex: 1;
     }
-    .nav-links {
-        align-items: flex-start;
+     .nav-links {
+          align-items: flex-start;
         gap: 0.3rem;
     }
 }
+@media (min-width: 992px) {
+    .dashboard-sidebar {
+        width: 280px;
+    }
+
+}
+
+@media (min-width: 1200px) {
+      .dashboard-sidebar {
+        width: 300px;
+    }
+}
+
 
 @media (max-width: 480px) {
     .dashboard-nav {
