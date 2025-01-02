@@ -6,10 +6,8 @@
 @import './misc/404.css';
 
 /* Nav Styles */
-@import './dashboard/nav.css';
-@import './dashboard/desktopNav.css';
-@import './dashboard/mobileNav.css';
-@import './misc/nav-links.css';
+@import './nav/nav.css';
+@import './nav/nav-links.css';
 
 /* Landing Styles */
 @import './landing/hero.css';
