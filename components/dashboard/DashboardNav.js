@@ -124,10 +124,11 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
     const handleTouchStart = (e) => {
       const isNavLink = e.target.closest('.nav-item');
-      if (isNavLink) {
-        e.preventDefault();
-        isNavLink.click();
-      }
+        if(isNavLink) {
+            e.preventDefault(); // Prevent default touch behavior
+            isNavLink.click()
+            closeMenus()
+        }
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -182,6 +183,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                 closeMenus();
             }
         } else {
+            closeMenus()
             router.push(item.href);
         }
     }, [router, session, closeMenus]);
