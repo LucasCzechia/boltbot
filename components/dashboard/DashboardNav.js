@@ -28,24 +28,22 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 768 : false;
   const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
-  const displayName = session?.user?.global_name || 
-                      session?.user?.name || 
-                      session?.user?.username ||
-                      'Unknown User';
-  const handle = session?.user?.name ? 
-                 `@${session.user.name}` : 
-                 session?.user?.id ? 
-                 `@${session.user.id}` : 
-                 '@unknown';
+    const displayName = session?.user?.global_name ||
+        session?.user?.name ||
+        session?.user?.username ||
+        'Unknown User';
+    const handle = session?.user?.name ?
+        `@${session.user.name}` :
+        session?.user?.id ?
+            `@${session.user.id}` :
+            '@unknown';
 
-
-  const getUserAvatar = () => {
-    if (!session?.user?.image) {
-      return 'https://cdn.discordapp.com/embed/avatars/0.png';
-    }
-    return session.user.image;
-  };
-
+    const getUserAvatar = () => {
+        if (!session?.user?.image) {
+            return 'https://cdn.discordapp.com/embed/avatars/0.png';
+        }
+        return session.user.image;
+    };
     const closeMenus = useCallback(() => {
         setIsMenuOpen(false);
         setShowDropdown(false);
@@ -61,7 +59,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
             router.events.off('routeChangeStart', handleRouteChange);
         };
     }, [router.events, closeMenus]);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -89,20 +86,21 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleSignOut = async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    try {
-        closeMenus();
-      await signOut({
-        callbackUrl: '/auth/login',
-        redirect: true,
-      });
-    } catch (error) {
-      console.error('Sign out error:', error);
-        router.push('/auth/login');
-    }
-  };
+    const handleSignOut = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            closeMenus();
+            await signOut({
+                callbackUrl: '/auth/login',
+                redirect: true,
+            });
+        } catch (error) {
+            console.error('Sign out error:', error);
+            router.push('/auth/login');
+        }
+    };
+
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -118,17 +116,16 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
         setShowDropdown(false);
       }
     };
-
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
-        closeMenus();
+          closeMenus();
       }
     };
 
     const handleTouchStart = (e) => {
       const isNavLink = e.target.closest('.nav-item');
         if(isNavLink) {
-            e.preventDefault(); // Prevent default touch behavior
+            e.preventDefault();
             isNavLink.click()
             closeMenus()
         }
@@ -141,7 +138,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     return () => {
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('touchstart', handleTouchStart);
+        document.removeEventListener('touchstart', handleTouchStart);
     };
   }, [isMenuOpen, showDropdown, closeMenus]);
 
@@ -150,17 +147,17 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
             return "BoltBot⚡";
         }
 
-    if (customTitle) {
+        if (customTitle) {
             return customTitle;
         }
 
-      if (isServerDashboard) {
-          return "BoltBot⚡ Dashboard";
-      }
+        if (isServerDashboard) {
+            return "BoltBot⚡ Dashboard";
+        }
         return "BoltBot⚡ Dashboard";
-  };
+    };
 
-   const handleNavigation = useCallback((item, e) => {
+    const handleNavigation = useCallback((item, e) => {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -194,7 +191,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
     return (
         <nav className="dashboard-nav">
-           <AnimatePresence>
+            <AnimatePresence>
                 {isSidebarOpen && currentWidth > 768 &&(
                      <motion.div
                          className="dashboard-sidebar"
@@ -204,7 +201,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                        transition={{ duration: 0.2, ease: "easeOut" }}
                      >
                            <div className="sidebar-header">
-                               <button 
+                               <button
                                     className="sidebar-toggle"
                                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                                     aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
@@ -248,7 +245,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
             </AnimatePresence>
             <div className="nav-content">
                  {currentWidth > 768 && (
-                     <button 
+                     <button
                         className="sidebar-toggle"
                          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                          aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
@@ -295,7 +292,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
                   {session?.user && (
                     <div className="user-profile-wrapper">
-                      <button 
+                      <button
                         className="user-profile-button"
                         onClick={(e) => {
                           e.preventDefault();
@@ -304,7 +301,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                         }}
                         aria-expanded={showDropdown}
                       >
-                        <Image 
+                        <Image
                           src={getUserAvatar()}
                           alt={`${displayName}'s avatar`}
                           width={48}
@@ -316,7 +313,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
                       <AnimatePresence>
                         {showDropdown && (
-                          <motion.div 
+                          <motion.div
                             className="user-dropdown"
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -324,7 +321,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                             transition={{ duration: 0.2 }}
                           >
                             <div className="user-info">
-                              <Image 
+                              <Image
                                 src={getUserAvatar()}
                                 alt={`${displayName}'s avatar`}
                                 width={65}
