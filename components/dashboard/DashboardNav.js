@@ -177,7 +177,123 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   };
 
   return (
-    <nav className="dashboard-nav">
+    <>
+      <nav className="dashboard-nav">
+        <div className="nav-content">
+          {!isMobile && (
+            <button 
+              className="sidebar-toggle"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+            >
+              {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+            </button>
+          )}
+
+          <Link href="/" className="logo" onClick={closeMenus}>
+            <Image
+              src="/images/boltbot.webp"
+              alt="BoltBot Logo"
+              width={45}
+              height={45}
+              priority
+              className="logo-image"
+            />
+            <span className="logo-text">{getNavTitle()}</span>
+          </Link>
+
+          <div className="nav-controls-wrapper">
+            <div className="nav-controls">
+              {isServerDashboard && (
+                <button
+                  onClick={() => router.push('/dashboard/servers')}
+                  className="nav-button"
+                  aria-label="Back to servers"
+                >
+                  <ServerIcon className="nav-icon" />
+                </button>
+              )}
+              
+              <button
+                className="theme-toggle"
+                onClick={toggleTheme}
+                aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDarkMode ? (
+                  <Moon className="theme-icon" />
+                ) : (
+                  <Sun className="theme-icon" />
+                )}
+              </button>
+
+              {session?.user && (
+                <div className="user-profile-wrapper">
+                  <button 
+                    className="user-profile-button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowDropdown(!showDropdown);
+                    }}
+                    aria-expanded={showDropdown}
+                  >
+                    <Image 
+                      src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                      alt={`${displayName}'s avatar`}
+                      width={48}
+                      height={48}
+                      className="user-avatar"
+                      unoptimized
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {showDropdown && (
+                      <motion.div 
+                        className="user-dropdown"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="user-info">
+                          <Image 
+                            src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                            alt={`${displayName}'s avatar`}
+                            width={65}
+                            height={65}
+                            className="dropdown-avatar"
+                            unoptimized
+                          />
+                          <div className="user-details">
+                            <div className="user-name">{displayName}</div>
+                            <div className="user-handle">{handle}</div>
+                          </div>
+                        </div>
+                        <button onClick={handleSignOut} className="logout-button">
+                          <LogOut size={20} />
+                          <span>Sign Out</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
+
+              {isMobile && (
+                <button
+                  className="mobile-menu-btn"
+                  onClick={toggleMenu}
+                  aria-label="Toggle menu"
+                >
+                  {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+
       <AnimatePresence>
         {isSidebarOpen && (
           <>
@@ -236,120 +352,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
           </>
         )}
       </AnimatePresence>
-
-      <div className="nav-content">
-        {!isMobile && (
-          <button 
-            className="sidebar-toggle"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-          >
-            {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-          </button>
-        )}
-
-        <Link href="/" className="logo" onClick={closeMenus}>
-          <Image
-            src="/images/boltbot.webp"
-            alt="BoltBot Logo"
-            width={45}
-            height={45}
-            priority
-            className="logo-image"
-          />
-          <span className="logo-text">{getNavTitle()}</span>
-        </Link>
-
-        <div className="nav-controls-wrapper">
-          <div className="nav-controls">
-            {isServerDashboard && (
-              <button
-                onClick={() => router.push('/dashboard/servers')}
-                className="nav-button"
-                aria-label="Back to servers"
-              >
-                <ServerIcon className="nav-icon" />
-              </button>
-            )}
-            
-            <button
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {isDarkMode ? (
-                <Moon className="theme-icon" />
-              ) : (
-                <Sun className="theme-icon" />
-              )}
-            </button>
-
-            {session?.user && (
-              <div className="user-profile-wrapper">
-                <button 
-                  className="user-profile-button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowDropdown(!showDropdown);
-                  }}
-                  aria-expanded={showDropdown}
-                >
-                  <Image 
-                    src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                    alt={`${displayName}'s avatar`}
-                    width={48}
-                    height={48}
-                    className="user-avatar"
-                    unoptimized
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {showDropdown && (
-                    <motion.div 
-                      className="user-dropdown"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="user-info">
-                        <Image 
-                          src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                          alt={`${displayName}'s avatar`}
-                          width={65}
-                          height={65}
-                          className="dropdown-avatar"
-                          unoptimized
-                        />
-                        <div className="user-details">
-                          <div className="user-name">{displayName}</div>
-                          <div className="user-handle">{handle}</div>
-                        </div>
-                      </div>
-                      <button onClick={handleSignOut} className="logout-button">
-                        <LogOut size={20} />
-                        <span>Sign Out</span>
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )}
-
-            {isMobile && (
-              <button
-                className="mobile-menu-btn"
-                onClick={toggleMenu}
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </nav>
+    </>
   );
 }
