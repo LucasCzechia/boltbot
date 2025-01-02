@@ -5,92 +5,72 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, 
-  X, 
+  Menu,
+  X,
   Zap, 
-  Wrench, 
-  BarChart2, 
-  Layout, 
-  Users, 
-  Bot, 
+  Wrench,
+  BarChart2,
+  Layout,
+  Users,
   ExternalLink,
-  ChevronDown,
   Moon,
   Sun,
-  LogOut
+  LogOut,
+  Bot
 } from 'lucide-react';
 
-const handleThemeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut({ 
-        callbackUrl: '/auth/login',
-        redirect: true
-      });
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
-  };
-
-const Navigation = ({ 
+export default function Navigation({ 
   config = {}, 
-  isDashboard = false,
-  userProfile = null,
-  isDarkMode = true
-}) => {
+  isDarkMode = true,
+  setIsDarkMode = () => {},
+  userProfile = null
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const displayName = userProfile?.user?.globalName || userProfile?.user?.name || 'Unknown User'
   const handle = userProfile?.user?.name ? `@${userProfile?.user?.name}` : '@unknown'
   
-  const defaultConfig = {
-    logoText: 'BoltBot⚡',
-    logoImage: '/images/boltbot.webp',
-    items: [
-      {
-        name: 'Features',
-        href: '#features',
-        icon: Zap,
-        description: 'Explore powerful AI capabilities'
-      },
-      {
-        name: 'Tools',
-        href: '#tools',
-        icon: Wrench,
-        description: 'Discover utility features'
-      },
-      {
-        name: 'Analytics',
-        href: '#statistics',
-        icon: BarChart2,
-        description: 'View real-time statistics'
-      },
-      {
-        name: 'Dashboard',
-        href: '/dashboard',
-        icon: Layout,
-        description: 'Manage your servers'
-      },
-      {
-        name: 'Community',
-        href: 'https://discord.gg/bolt',
-        icon: Users,
-        description: 'Join our Discord server',
-        external: true
-      }
-    ],
-    ctaButton: {
-      text: 'Add to Discord',
+  const navigationItems = [
+    {
+      name: 'Features',
+      href: '#features',
+      icon: Zap,
+      description: 'Explore powerful AI capabilities'
+    },
+    {
+      name: 'Tools',
+      href: '#tools',
+      icon: Wrench,
+      description: 'Discover utility features'
+    },
+    {
+      name: 'Analytics',
+      href: '#statistics',
+      icon: BarChart2,
+      description: 'View real-time statistics'
+    },
+    {
+      name: 'Dashboard',
+      href: '/dashboard/servers',
+      icon: Layout,
+      description: 'Manage your servers'
+    },
+    {
+      name: 'Community',
+      href: 'https://discord.gg/bolt',
+      icon: Users,
+      description: 'Join our Discord server',
+      external: true
+    },
+    {
+      name: 'Add to Discord',
       href: 'https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot',
-      icon: Zap
+      icon: Bot,
+      description: 'Add BoltBot to your server',
+      external: true,
+      isPrimary: true
     }
-  };
-
-  const mergedConfig = { ...defaultConfig, ...config };
+  ];
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -103,20 +83,24 @@ const Navigation = ({
     };
 
     document.addEventListener('click', handleClickOutside);
-    
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [isMenuOpen, showDropdown]);
 
-  const handleMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const handleSignOut = async () => {
+    try {
+      await signOut({ 
+        callbackUrl: '/auth/login',
+        redirect: true
+      });
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   };
 
-  const variants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -10 }
+  const handleThemeToggle = () => {
+    const newTheme = isDarkMode ? 'light' : 'dark';
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.setAttribute('data-theme', newTheme);
   };
 
   return (
@@ -124,17 +108,46 @@ const Navigation = ({
       <div className="nav-content">
         <Link href="/" className="logo">
           <Image
-            src={mergedConfig.logoImage}
-            alt="Logo"
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
             width={45}
             height={45}
             priority
             className="logo-image"
           />
-          <span className="logo-text">{mergedConfig.logoText}</span>
+          <span className="logo-text">BoltBot⚡</span>
         </Link>
 
         <div className="nav-controls-wrapper">
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div 
+                className="nav-links-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMenuOpen(false)}
+              />
+            )}
+          </AnimatePresence>
+
+          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            {navigationItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <item.icon size={20} className="nav-icon" />
+                <span className="nav-label">{item.name}</span>
+                {item.external && <ExternalLink size={16} className="external-icon" />}
+              </Link>
+            ))}
+          </div>
+
           <div className="nav-controls">
             <button 
               className="theme-toggle"
@@ -169,10 +182,10 @@ const Navigation = ({
                   {showDropdown && (
                     <motion.div 
                       className="user-dropdown"
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      variants={variants}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <div className="user-info">
                         <Image 
@@ -188,7 +201,7 @@ const Navigation = ({
                           <div className="user-handle">{handle}</div>
                         </div>
                       </div>
-                      <button onClick={onSignOut} className="logout-button">
+                      <button onClick={handleSignOut} className="logout-button">
                         <LogOut size={20} />
                         <span>Sign Out</span>
                       </button>
@@ -197,50 +210,17 @@ const Navigation = ({
                 </AnimatePresence>
               </div>
             )}
-          </div>
 
-          <button 
-            className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
-            onClick={handleMenuClick}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            {mergedConfig.items.map((item, index) => (
-              <div key={item.name} className="nav-item-wrapper">
-                <Link 
-                  href={item.href}
-                  className="nav-link"
-                  target={item.external ? '_blank' : '_self'}
-                  rel={item.external ? 'noopener noreferrer' : ''}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <item.icon size={18} className="nav-icon" />
-                  <span>{item.name}</span>
-                  {item.external && <ExternalLink size={14} className="external-icon" />}
-                </Link>
-              </div>
-            ))}
-
-            {mergedConfig.ctaButton && (
-              <Link 
-                href={mergedConfig.ctaButton.href}
-                className="cta-button"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <mergedConfig.ctaButton.icon size={18} />
-                <span>{mergedConfig.ctaButton.text}</span>
-              </Link>
-            )}
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
       </div>
     </nav>
   );
-};
-
-export default Navigation;
+}
