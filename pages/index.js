@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head'
 import Script from 'next/script'
-import Navigation from '../components/misc/Navigation'
+import DashboardNav from '../components/dashboard/DashboardNav';
 import Hero from '../components/landing/Hero'
 import Features from '../components/landing/Features'
 import Tools from '../components/landing/Tools'
@@ -28,16 +28,7 @@ export default function Home() {
         </svg>
       </div>
 
-      {!session?.user ? (
-        <Navigation 
-          isDarkMode={isDarkMode}
-        />
-      ) : (
-        <Navigation
-          userProfile={session?.user}      
-          isDarkMode={isDarkMode}
-        />
-      )}
+      <DashboardNav />
 
       <Hero />
       <Features />
