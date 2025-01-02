@@ -15,6 +15,7 @@
   padding: 2rem;
   position: relative;
   overflow: hidden;
+  background: var(--dark-light);
 }
 
 .error-content {
@@ -30,17 +31,6 @@
   position: relative;
 }
 
-.error-logo {
-  width: 180px !important;
-  height: 180px !important;
-  border: 3px solid var(--primary);
-  border-radius: 50%;
-  padding: 0;
-  margin-bottom: 1rem;
-  animation: glow 2s infinite alternate;
-  object-fit: cover;
-  background-color: transparent;
-}
 
 .error-code {
   font-size: 8rem;
@@ -69,9 +59,9 @@
   font-size: 3rem;
   margin-bottom: 0.5rem;
   color: var(--light);
-  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .error-page p {
@@ -91,43 +81,47 @@
 .home-button,
 .play-snake-button,
 .support-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Center content */
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border-radius: 8px; /* Less rounded */
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+     border: 2px solid transparent;
 }
 
 .home-button {
-  background: var(--primary);
+  background-color: var(--primary);
   color: var(--dark);
 }
 
 .play-snake-button {
-  background: var(--primary);
+  background-color: var(--primary);
   color: var(--dark);
 }
 
 .support-link {
-  background: rgba(255, 204, 0, 0.1);
+    background-color: rgba(255, 204, 0, 0.1);
   color: var(--primary);
-  border: 1px solid var(--primary);
+   border: 2px solid var(--primary); /* Add a solid border */
 }
 
 .home-button:hover,
-.play-snake-button:hover,
-.support-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(255, 204, 0, 0.2);
+.play-snake-button:hover {
+      background-color: var(--primary-dark);
+      box-shadow: 0 4px 8px rgba(255, 204, 0, 0.4);
+      border-color: var(--primary-dark);
 }
-
 .support-link:hover {
-  background: var(--primary);
-  color: var(--dark);
+    background-color: var(--primary);
+    color: var(--dark);
+    border-color: var(--primary);
+  box-shadow: 0 4px 8px rgba(255, 204, 0, 0.4);
+
 }
 
 @keyframes fadeIn {
@@ -176,11 +170,6 @@
     padding: 1rem;
   }
 
-  .error-logo {
-    width: 140px !important;
-    height: 140px !important;
-  }
-
   .error-code {
     font-size: 6rem;
   }
@@ -210,10 +199,6 @@
 }
 
 @media (max-width: 480px) {
-  .error-logo {
-    width: 120px !important;
-    height: 120px !important;
-  }
 
   .error-code {
     font-size: 4rem;
@@ -238,6 +223,7 @@
   .play-snake-button,
   .support-link {
     width: 100%;
+     padding: 1rem;
     justify-content: center;
   }
 }
