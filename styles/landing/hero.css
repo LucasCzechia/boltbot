@@ -1,3 +1,4 @@
+/* styles/landing/hero.css */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -39,9 +40,7 @@
 
 .premium-button-wrapper {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: inline-block;
 }
 
 .hero-button {
@@ -112,6 +111,7 @@
     0 4px 15px rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   color: var(--light);
+  z-index: 20;
 }
 
 .premium-content {
@@ -175,6 +175,122 @@
   opacity: 0;
 }
 
+.premium-popup-wrapper {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 19;
+  pointer-events: none;
+  width: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.premium-popup {
+  background: rgba(17, 17, 17, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  pointer-events: auto;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.premium-popup::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-left: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
+  transform: translateX(-50%) rotate(45deg);
+  backdrop-filter: blur(10px);
+}
+
+.premium-popup::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: 16px;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent,
+    var(--primary),
+    transparent,
+    transparent,
+    var(--primary),
+    transparent
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotateBorder 4s linear infinite;
+  pointer-events: none;
+}
+
+.premium-button-wrapper:hover .premium-popup-wrapper {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  50%, 100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes rotateBorder {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
   .hero-buttons {
     flex-direction: column;
@@ -211,13 +327,42 @@
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
   }
+
+  .premium-popup {
+    width: 280px;
+  }
 }
 
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .hero-button,
   .premium-shine,
   .sparkle-icon,
   .particle {
     animation: none;
+  }
+
+  .hero h1,
+  .hero p {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .hero-button {
+    border-width: 2px;
+  }
+
+  .premium-popup {
+    border-width: 2px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .hero-buttons {
+    display: none;
   }
 }
