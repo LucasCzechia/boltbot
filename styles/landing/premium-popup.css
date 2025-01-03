@@ -1,0 +1,115 @@
+.premium-popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(17, 17, 17, 0.95);
+  border-radius: 16px;
+  padding: 1.25rem;
+  width: 320px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 204, 0, 0.1);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.premium-popup::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-left: 1px solid rgba(255, 204, 0, 0.1);
+  border-top: 1px solid rgba(255, 204, 0, 0.1);
+}
+
+.premium-popup-content {
+  position: relative;
+  z-index: 2;
+}
+
+.premium-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.925rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: featureSlideIn 0.5s ease forwards;
+}
+
+.premium-feature .check-icon {
+  color: var(--primary);
+}
+
+.premium-feature .feature-icon {
+  color: var(--primary);
+}
+
+.premium-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 204, 0, 0.06),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.premium-popup:hover .premium-glow {
+  opacity: 1;
+}
+
+.premium-border {
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: 16px;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 204, 0, 0.3),
+    transparent
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@keyframes featureSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .premium-popup {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto 0;
+  }
+
+  .premium-popup::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-popup,
+  .premium-feature {
+    animation: none;
+    transform: none;
+  }
+}
