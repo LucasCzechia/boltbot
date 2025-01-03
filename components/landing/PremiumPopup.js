@@ -4,12 +4,12 @@ import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus } from 'lucide-react
 
 const FEATURES = [
   { icon: Star, text: "Unlimited AI Generations", new: true },
-  { icon: Crown, text: "Priority Support Access" },
   { icon: Bot, text: "Custom AI Personalities" },
+  { icon: Plus, text: "Higher Limits" }
+  { icon: Crown, text: "Priority Support Access" },
   { icon: Lock, text: "Advanced Security Features" },
   { icon: Sparkles, text: "Early Access Features" },
-  { icon: Plus, text: "Extended Message History" }
-];
+  ];
 
 const PremiumPopup = () => {
   const [activeFeature, setActiveFeature] = useState(null);
@@ -34,7 +34,7 @@ const PremiumPopup = () => {
             Premium Perks
           </div>
           <div className="premium-popup-subtitle">
-            Unlock the full potential of AI
+            Unlock the full potential of BoltBot⚡
           </div>
         </div>
 
