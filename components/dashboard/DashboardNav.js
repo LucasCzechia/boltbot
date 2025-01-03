@@ -75,7 +75,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     try {
       closeMenus();
       await signOut({
-        callbackUrl: '/',
+        callbackUrl: '/auth/login',
         redirect: true,
       });
     } catch (error) {
