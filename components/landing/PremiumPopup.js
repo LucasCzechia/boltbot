@@ -1,14 +1,15 @@
 // components/landing/PremiumPopup.js
 import React from 'react';
-import { Sparkles, Check, Star, Zap, Bot, Lock } from 'lucide-react';
+import { Sparkles, Check, Star, Zap, Bot, Lock, Plus, Wrench } from 'lucide-react';
 
 const PremiumPopup = () => {
   const features = [
-    { icon: Star, text: "Unlimited AI" },
-    { icon: Bot, text: "Custom AI" },
-    { icon: Zap, text: "Priority Access" },
+    { icon: Star, text: "Higher Limits" },
+    { icon: Bot, text: "Custom Personality" },
+    { icon: Wrench, text: "Advanced Tools" },
     { icon: Lock, text: "Enhanced Security" },
-    { icon: Sparkles, text: "Early Features" }
+    { icon: Sparkles, text: "Early Features" }, 
+    { icon: Plus, text: "And much more!" }
   ];
 
   return (
