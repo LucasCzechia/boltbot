@@ -105,7 +105,7 @@ export default function Login() {
   }
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Head>
         <title>Login to Dashboard - BoltBot⚡</title>
         <meta name="description" content="Sign in to your BoltBot dashboard to manage your Discord servers and customize bot settings." />
@@ -117,7 +117,7 @@ export default function Login() {
         onLoad={() => window.particlesJS && window.particlesJS('particles-js', particlesConfig)}
       />
 
-      <nav className="auth-nav">
+      <nav className="auth-nav relative z-10">
         <div className="nav-content">
           <Link href="/" className="logo">
             <Image 
@@ -143,12 +143,14 @@ export default function Login() {
         </div>
       </nav>
 
-      <div className="auth-container">
-        <div id="particles-js" className="particles"></div>
-        <div id="starfield-background" className="starfield-container" />
+      <div className="auth-container flex-grow relative">
+        {/* Particles container with fixed positioning */}
+        <div id="particles-js" className="fixed inset-0 z-0" />
+        <div id="starfield-background" className="starfield-container fixed inset-0 z-0" />
         
+        {/* Content container with higher z-index */}
         <motion.div 
-          className="auth-card"
+          className="auth-card relative z-10"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -221,7 +223,7 @@ export default function Login() {
             Continue with Discord
           </motion.button>
 
-           <motion.div 
+          <motion.div 
             className="auth-footer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -232,8 +234,11 @@ export default function Login() {
         </motion.div>
       </div>
       
-      <DashboardFooter />
-    </>
+      {/* Footer with highest z-index */}
+      <div className="relative z-20">
+        <DashboardFooter />
+      </div>
+    </div>
   )
 }
 
