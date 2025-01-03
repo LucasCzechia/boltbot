@@ -15,7 +15,6 @@ export default async function handler(req, res) {
           globalName: session.user.display_name || session.user.globalName, 
           image: session.user.image,
         },
-        note: "hey there, heh... hacker 🤓"
       }
 
       if (session.token?.picture?.includes("discord")) {
