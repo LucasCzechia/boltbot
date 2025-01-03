@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Home, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
+import PremiumPopup from './PremiumPopup';
 
 export default function Hero() {
   return (
@@ -30,21 +31,24 @@ export default function Hero() {
             <div className="button-glow"></div>
           </Link>
           
-          <Link 
-            href="/plans" 
-            className="hero-button premium"
-          >
-            <div className="premium-content">
-              <Sparkles size={16} className="sparkle-icon" />
-              <span>Upgrade to Premium</span>
-            </div>
-            <div className="premium-shine"></div>
-            <div className="premium-particles">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="particle"></div>
-              ))}
-            </div>
-          </Link>
+          <div className="premium-button-wrapper">
+            <Link 
+              href="/plans" 
+              className="hero-button premium"
+            >
+              <div className="premium-content">
+                <Sparkles size={16} className="sparkle-icon" />
+                <span>Upgrade to Premium</span>
+              </div>
+              <div className="premium-shine"></div>
+              <div className="premium-particles">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="particle"></div>
+                ))}
+              </div>
+            </Link>
+            <PremiumPopup />
+          </div>
         </div>
       </div>
       <ScrollButtons />
