@@ -69,19 +69,11 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleSignOut = async (e) => {
+  const handleSignOut = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    try {
-      closeMenus();
-      await signOut({
-        callbackUrl: '/auth/login',
-        redirect: true,
-      });
-    } catch (error) {
-      console.error('Sign out error:', error);
-      router.push('/auth/login');
-    }
+    closeMenus();
+    router.push('/auth/login/logout');
   };
 
   const handleSignIn = async () => {
