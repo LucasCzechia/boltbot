@@ -186,18 +186,39 @@
   box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
 }
 
+/* styles/nav/nav.css */
 /* User Dropdown */
 .user-dropdown {
-  position: absolute;
-  top: calc(100% + 12px);
+  position: fixed;
+  top: auto;
+  bottom: -100%;
+  left: 0;
   right: 0;
   background: var(--dropdown-bg);
   border: 1px solid var(--nav-border);
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
   padding: 1.25rem;
-  width: 280px;
+  width: 100%;
   z-index: 1000;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s var(--transition-timing);
+}
+
+@media (min-width: 769px) {
+  .user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    bottom: auto;
+    right: 0;
+    left: auto;
+    width: 280px;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.user-dropdown.show {
+  bottom: 0;
 }
 
 .user-info {
@@ -210,8 +231,8 @@
 }
 
 .dropdown-avatar {
-  width: 65px;
-  height: 65px;
+  width: 55px;
+  height: 55px;
   border-radius: 14px;
   border: 2px solid var(--primary);
 }
@@ -255,11 +276,17 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .logout-button:hover {
   background: rgba(231, 76, 60, 0.15);
   transform: translateY(-2px);
+}
+
+.logout-button:active {
+  transform: translateY(0);
 }
 
 /* Mobile Menu Button */
@@ -274,6 +301,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  z-index: 1001;
 }
 
 .mobile-menu-btn:hover {
@@ -337,39 +365,21 @@
   animation: shimmer 1.5s infinite;
 } 
 
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* styles/nav/nav.css */
-/* Base login button styles */
-.login-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.25rem;
-  background: var(--primary);
-  color: var(--dark);
-  border: none;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
+/* Dropdown Overlay */
+.dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
   transition: all 0.3s var(--transition-timing);
-  position: relative;
-  overflow: hidden;
+  z-index: 999;
 }
 
-.login-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 8px 16px rgba(255, 204, 0, 0.2),
-    0 0 0 2px rgba(255, 204, 0, 0.3);
+.dropdown-overlay.show {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Responsive Design */
@@ -401,6 +411,15 @@
     padding: 0.5rem 0.875rem;
     font-size: 0.9rem;
   }
+
+  .user-profile-wrapper {
+    position: static;
+  }
+
+  .logout-button {
+    padding: 1rem;
+    margin-bottom: env(safe-area-inset-bottom, 0);
+  }
 }
 
 @media (max-width: 480px) {
@@ -417,11 +436,6 @@
     height: 38px;
   }
 
-  .user-dropdown {
-    width: calc(100vw - 2rem);
-    right: -0.75rem;
-  }
-
   .nav-links.mobile {
     width: 100%;
   }
@@ -433,6 +447,15 @@
 
   .login-button span {
     display: none;
+  }
+
+  .user-dropdown {
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0));
+  }
+
+  .dropdown-avatar {
+    width: 45px;
+    height: 45px;
   }
 }
 
@@ -447,22 +470,17 @@
   --nav-button-hover: rgba(0, 0, 0, 0.1);
 }
 
-/* Scrollbar Styles */
-.nav-links::-webkit-scrollbar {
-  width: 5px;
+/* Animations */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.nav-links::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.nav-links::-webkit-scrollbar-thumb {
-  background: var(--nav-border);
-  border-radius: 20px;
-}
-
-.nav-links::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+/* Safe Area Insets */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .user-dropdown {
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  }
 }
 
 /* Reduced Motion */
@@ -471,7 +489,16 @@
   .nav-links,
   .nav-item,
   .user-avatar,
-  .logo-image {
+  .logo-image,
+  .user-dropdown,
+  .dropdown-overlay {
     transition: none;
+  }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+  .logout-button {
+    border: 2px solid #e74c3c;
   }
 }
