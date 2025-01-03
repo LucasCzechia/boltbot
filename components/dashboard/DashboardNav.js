@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
   X,
@@ -28,16 +27,16 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const displayName = session?.user?.global_name || 
-                     session?.user?.name || 
-                     session?.user?.username ||
-                     'Unknown User';
+    const displayName = session?.user?.global_name ||
+        session?.user?.name ||
+        session?.user?.username ||
+        'Unknown User';
 
-  const handle = session?.user?.name ? 
-                `@${session.user.name}` : 
-                session?.user?.id ? 
-                `@${session.user.id}` : 
-                '@unknown';
+    const handle = session?.user?.name ?
+        `@${session.user.name}` :
+        session?.user?.id ?
+            `@${session.user.id}` :
+            '@unknown';
 
   const closeMenus = useCallback(() => {
     setIsMenuOpen(false);
@@ -45,15 +44,15 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current && 
-        !dropdownRef.current.contains(event.target) &&
-        !buttonRef.current.contains(event.target)
-      ) {
-        setShowDropdown(false);
-      }
-    };
+      const handleClickOutside = (event) => {
+          if (
+              dropdownRef.current &&
+              !dropdownRef.current.contains(event.target) &&
+              !buttonRef.current.contains(event.target)
+          ) {
+              setShowDropdown(false);
+          }
+      };
 
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
@@ -65,10 +64,10 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+}, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -88,16 +87,17 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.setAttribute('data-theme', theme);
   }, []);
 
-  useEffect(() => {
-    if (showDropdown || isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [showDropdown, isMenuOpen]);
+    useEffect(() => {
+        if (showDropdown || isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [showDropdown, isMenuOpen]);
+
 
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
@@ -108,12 +108,12 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleSignOut = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeMenus();
-    router.push('/auth/login/logout');
-  };
+   const handleSignOut = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMenus();
+        router.push('/auth/login/logout');
+    };
 
   const handleSignIn = async () => {
     try {
@@ -136,36 +136,36 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     return "BoltBot⚡";
   };
 
-  const handleNavigation = useCallback((item, e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+   const handleNavigation = useCallback((item, e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
 
-    if (item.requiresAuth && !session) {
-      closeMenus();
-      router.push('/auth/login');
-      return;
-    }
+        if (item.requiresAuth && !session) {
+            closeMenus();
+            router.push('/auth/login');
+            return;
+        }
 
-    if (item.external) {
-      window.open(item.href, '_blank', 'noopener,noreferrer');
-      closeMenus();
-      return;
-    }
+        if (item.external) {
+            window.open(item.href, '_blank', 'noopener,noreferrer');
+            closeMenus();
+            return;
+        }
 
-    if (item.href.startsWith('/#')) {
-      const elementId = item.href.replace('/#', '');
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        closeMenus();
-      }
-    } else {
-      closeMenus();
-      router.push(item.href);
-    }
-  }, [router, session, closeMenus]);
+        if (item.href.startsWith('/#')) {
+            const elementId = item.href.replace('/#', '');
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                closeMenus();
+            }
+        } else {
+            closeMenus();
+            router.push(item.href);
+        }
+    }, [router, session, closeMenus]);
 
   return (
     <nav className="dashboard-nav">
@@ -230,17 +230,10 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                   />
                 </button>
 
-                <AnimatePresence>
-                  {showDropdown && (
-                    <>
-                      <div className={`dropdown-overlay ${showDropdown ? 'show' : ''}`} onClick={() => setShowDropdown(false)} />
-                      <motion.div
-                        ref={dropdownRef}
-                        className={`user-dropdown ${showDropdown ? 'show' : ''}`}
-                        initial={isMobile ? { y: "100%" } : { opacity: 0, y: 10 }}
-                        animate={isMobile ? { y: 0 } : { opacity: 1, y: 0 }}
-                        exit={isMobile ? { y: "100%" } : { opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
+                {showDropdown && (
+                      <div
+                         ref={dropdownRef}
+                          className="user-dropdown show"
                       >
                         <div className="user-info">
                           <Image
@@ -256,14 +249,12 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                             <div className="user-handle">{handle}</div>
                           </div>
                         </div>
-                        <button onClick={handleSignOut} className="logout-button">
-                          <LogOut size={20} />
-                          <span>Sign Out</span>
+                          <button onClick={handleSignOut} className="logout-button">
+                            <LogOut size={20} />
+                            <span>Sign Out</span>
                         </button>
-                      </motion.div>
-                    </>
+                      </div>
                   )}
-                </AnimatePresence>
               </div>
             ) : (
               <button onClick={handleSignIn} className="login-button">
@@ -271,8 +262,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
                 <span>Sign In</span>
               </button>
             )}
-
-            <button
+             <button
               className="mobile-menu-btn"
               onClick={(e) => {
                 e.preventDefault();
@@ -287,43 +277,30 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
         </div>
       </div>
 
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="nav-links-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <motion.div
-              className={`nav-links ${isMenuOpen ? 'active' : ''}`}
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ duration: 0.2 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {navigationItems.map((item) => {
-                if (item.requiresAuth && !session) return null;
 
-                return (
-                  <button
-                    key={item.name}
-                    className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-                    onClick={(e) => handleNavigation(item, e)}
-                    role="link"
-                  >
-                    {item.icon && <item.icon size={20} className="nav-icon" />}
-                    <span className="nav-label">{item.name}</span>
-                    {item.external && <ExternalLink size={16} className="external-icon" />}
-                  </button>
-                );
-              })}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+         {isMenuOpen && (
+              <div
+                  className={`nav-links ${isMenuOpen ? 'active' : ''}`}
+                  onClick={(e) => e.stopPropagation()}
+              >
+                {navigationItems.map((item) => {
+                  if (item.requiresAuth && !session) return null;
+
+                  return (
+                    <button
+                      key={item.name}
+                      className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                      onClick={(e) => handleNavigation(item, e)}
+                      role="link"
+                    >
+                      {item.icon && <item.icon size={20} className="nav-icon" />}
+                      <span className="nav-label">{item.name}</span>
+                      {item.external && <ExternalLink size={16} className="external-icon" />}
+                    </button>
+                  );
+                })}
+              </div>
+          )}
     </nav>
   );
 }
