@@ -189,20 +189,24 @@
 /* styles/nav/nav.css */
 /* User Dropdown */
 .user-dropdown {
-  position: fixed;
-  top: auto;
-  bottom: -100%;
-  left: 0;
-  right: 0;
-  background: var(--dropdown-bg);
-  border: 1px solid var(--nav-border);
-  border-radius: 16px 16px 0 0;
-  padding: 1.25rem;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s var(--transition-timing);
+    position: fixed;
+    top: var(--header-height); /* Position below the header */
+    bottom: auto;
+    left: 0;
+    right: 0;
+    background: var(--dropdown-bg);
+    border: 1px solid var(--nav-border);
+    border-radius: 0 0 16px 16px; /* Rounded corners at the bottom */
+    padding: 1.25rem;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s var(--transition-timing);
+    transform: translateY(-100%); /* Initially hidden */
+    opacity: 0;
+    visibility: hidden; /* Initially hidden */
 }
+
 
 @media (min-width: 769px) {
   .user-dropdown {
@@ -214,11 +218,16 @@
     width: 280px;
     border-radius: 16px;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+     opacity: 1;
+    visibility: visible;
   }
 }
 
 .user-dropdown.show {
-  bottom: 0;
+  transform: translateY(0);
+   opacity: 1;
+  visibility: visible;
 }
 
 .user-info {
