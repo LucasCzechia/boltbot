@@ -4,6 +4,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
+    pointer-events: none;
 }
 
 .premium-popup {
@@ -17,6 +18,7 @@
     overflow: hidden;
     position: relative;
     margin-top: 10px;
+    pointer-events: auto;
 }
 
 .premium-popup::before {
@@ -120,7 +122,7 @@
         width: 100%;
         max-width: 300px;
         margin: 1rem auto 0;
-      }
+    }
     .premium-popup::before {
        display: none;
     }
