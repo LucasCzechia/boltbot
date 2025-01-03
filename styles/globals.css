@@ -11,6 +11,7 @@
 
 /* Landing Styles */
 @import './landing/hero.css';
+@import './landing/premium-popup.css';
 @import './landing/features.css';
 @import './landing/tools.css';
 @import './landing/stats.css';
