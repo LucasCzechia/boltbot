@@ -4,33 +4,11 @@ import Image from 'next/image';
 import { Home, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
 import PremiumPopup from './PremiumPopup';
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
 
 export default function Hero() {
-    const [isOpen, setIsOpen] = useState(false);
     const premiumButtonRef = useRef(null);
-    const popupRef = useRef(null);
 
-
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (
-          popupRef.current &&
-          !popupRef.current.contains(event.target) &&
-          premiumButtonRef.current &&
-          !premiumButtonRef.current.contains(event.target)
-        ) {
-          setIsOpen(false);
-        }
-      };
-  
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, []);
-
-    const togglePopup = () => setIsOpen(!isOpen);
 
   return (
     <section className="hero">
@@ -58,13 +36,11 @@ export default function Hero() {
           </Link>
           
           <div
-              ref={premiumButtonRef}
-              className="premium-button-wrapper"
-              onClick={togglePopup}
+            className="premium-button-wrapper"
+            ref={premiumButtonRef}
           >
-            <Link 
-              href="/plans" 
-              className="hero-button premium"
+            <div
+             className="hero-button premium"
             >
               <div className="premium-content">
                 <Sparkles size={16} className="sparkle-icon" />
@@ -76,12 +52,10 @@ export default function Hero() {
                   <div key={i} className="particle"></div>
                 ))}
               </div>
-            </Link>
-            {isOpen && (
-              <div ref={popupRef} className="premium-popup-wrapper">
-                 <PremiumPopup/>
-              </div>
-            )}
+            </div>
+            <div className="premium-popup-wrapper">
+                <PremiumPopup/>
+            </div>
           </div>
         </div>
       </div>
