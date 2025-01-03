@@ -28,6 +28,16 @@ const PremiumPopup = () => {
   return (
     <div className="premium-popup-wrapper">
       <div className="premium-popup">
+        <div className="premium-popup-header">
+          <div className="premium-popup-title">
+            <Crown size={24} />
+            Premium Perks
+          </div>
+          <div className="premium-popup-subtitle">
+            Unlock the full potential of AI
+          </div>
+        </div>
+
         <div className="premium-popup-content">
           {FEATURES.map((Feature, index) => (
             <div 
@@ -45,15 +55,11 @@ const PremiumPopup = () => {
               <Feature.icon size={16} className="feature-icon" />
               <span>{Feature.text}</span>
               {Feature.new && (
-                <span className="ml-auto text-xs text-primary font-medium px-2 py-0.5 rounded-full bg-primary/10">
-                  NEW
-                </span>
+                <span className="feature-badge">NEW</span>
               )}
-              <div className="feature-shine" />
             </div>
           ))}
         </div>
-        <div className="premium-glow" />
       </div>
     </div>
   );
