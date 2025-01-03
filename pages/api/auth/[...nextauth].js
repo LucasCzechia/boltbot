@@ -1,7 +1,7 @@
 // pages/api/auth/[...nextauth].js
 import NextAuth from 'next-auth'
 import DiscordProvider from 'next-auth/providers/discord'
-import { logger } from '../../utils/logger';
+import { logger } from '../../../utils/logger';
 
 export const authOptions = {
   providers: [
