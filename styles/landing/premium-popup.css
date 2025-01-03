@@ -45,8 +45,11 @@
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+    /* Changed animation to spin around the border itself */
     animation: rotateBorder 4s linear infinite;
+    animation-timing-function: linear; /* Ensure smooth animation */
 }
+
 
 /* Arrow pointer */
 .premium-popup::after {
@@ -166,10 +169,10 @@
 
 @keyframes rotateBorder {
     0% {
-        transform: rotate(0deg);
+       transform: rotate(0deg);
     }
     100% {
-        transform: rotate(360deg);
+       transform: rotate(360deg);
     }
 }
 
@@ -194,8 +197,9 @@
         margin: 1rem auto 0;
     }
 
+    /* Display the arrow on mobile */
     .premium-popup::after {
-        display: none;
+        display: block;
     }
 
     .premium-popup {
