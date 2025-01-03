@@ -1,11 +1,12 @@
 /* styles/landing/premium-popup.css */
 .premium-popup-wrapper {
     position: absolute;
-    top: calc(100% + 15px);
+    top: calc(100% + 25px);
     left: 50%;
     transform: translateX(-50%);
-    z-index: 50;
+    z-index: 20;
     pointer-events: none;
+    margin-bottom: 50px;
 }
 
 .premium-popup {
@@ -13,44 +14,41 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 16px;
-    border: 1px solid rgba(255, 204, 0, 0.1);
     padding: 1.5rem;
     width: 360px;
-    z-index: 10;
-    overflow: hidden;
     position: relative;
     pointer-events: auto;
+    border: 1px solid transparent;
 }
 
+/* Magical border effect */
 .premium-popup::before {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: -2px;
     border-radius: 16px;
     padding: 2px;
-    background: linear-gradient(90deg, 
-        var(--primary), 
-        rgba(255, 204, 0, 0.5), 
-        var(--primary)
+    background: conic-gradient(
+        from 0deg,
+        transparent,
+        var(--primary),
+        transparent,
+        transparent,
+        var(--primary),
+        transparent
     );
     -webkit-mask: 
-        linear-gradient(#000 0 0) content-box, 
-        linear-gradient(#000 0 0);
-    mask: 
-        linear-gradient(#000 0 0) content-box, 
-        linear-gradient(#000 0 0);
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    background-size: 300% 100%;
-    animation: borderMove 3s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    animation: rotateBorder 4s linear infinite;
 }
 
-.premium-popup:hover::before {
-    opacity: 1;
-}
-
+/* Arrow pointer */
 .premium-popup::after {
     content: '';
     position: absolute;
@@ -60,8 +58,8 @@
     width: 12px;
     height: 12px;
     background: rgba(17, 17, 17, 0.98);
-    border-left: 1px solid rgba(255, 204, 0, 0.1);
-    border-top: 1px solid rgba(255, 204, 0, 0.1);
+    border-left: 1px solid var(--primary);
+    border-top: 1px solid var(--primary);
 }
 
 .premium-popup-header {
@@ -166,9 +164,13 @@
     font-weight: 500;
 }
 
-@keyframes borderMove {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 300% 0%; }
+@keyframes rotateBorder {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes featureSlideIn {
