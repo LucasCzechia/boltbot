@@ -1,115 +1,138 @@
+.premium-popup-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
 .premium-popup {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(17, 17, 17, 0.95);
-  border-radius: 16px;
-  padding: 1.25rem;
-  width: 320px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 204, 0, 0.1);
-  z-index: 10;
-  overflow: hidden;
+    background: rgba(17, 17, 17, 0.98);
+    border-radius: 16px;
+    padding: 1.25rem;
+    width: 300px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 204, 0, 0.2);
+    z-index: 10;
+    overflow: hidden;
+    position: relative;
+    margin-top: 10px;
 }
 
 .premium-popup::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 12px;
-  height: 12px;
-  background: inherit;
-  border-left: 1px solid rgba(255, 204, 0, 0.1);
-  border-top: 1px solid rgba(255, 204, 0, 0.1);
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 16px;
+    height: 16px;
+    background: inherit;
+    border-left: 1px solid rgba(255, 204, 0, 0.2);
+    border-top: 1px solid rgba(255, 204, 0, 0.2);
 }
 
 .premium-popup-content {
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 
 .premium-feature {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  color: var(--text-primary);
-  font-size: 0.925rem;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: featureSlideIn 0.5s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.925rem;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    animation: featureSlideIn 0.4s ease forwards;
+    position: relative;
+    overflow: hidden; /* Clip the shine */
 }
 
 .premium-feature .check-icon {
-  color: var(--primary);
+    color: var(--primary);
 }
 
 .premium-feature .feature-icon {
-  color: var(--primary);
+    color: var(--primary);
 }
+
+.feature-shine {
+    position: absolute;
+    top: 0;
+    left: -150%; /* Start off screen to the left */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+    transform: skewX(-45deg);
+    animation: shine 3s linear infinite; /* Shorter time for faster shine */
+    pointer-events: none; /* Ensure it doesn't interfere with hovers */
+}
+
 
 .premium-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(255, 204, 0, 0.06),
-    transparent 40%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.premium-popup:hover .premium-glow {
-  opacity: 1;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle,
+        rgba(255, 204, 0, 0.05),
+        transparent 35%
+    );
+    pointer-events: none;
 }
 
 .premium-border {
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  border-radius: 16px;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 204, 0, 0.3),
-    transparent
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 16px;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 204, 0, 0.2),
+        transparent
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
 }
 
 @keyframes featureSlideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes shine {
+    to {
+        left: 150%; /* Move to the right and disappear off screen */
+    }
 }
 
 @media (max-width: 768px) {
-  .premium-popup {
-    position: static;
-    transform: none;
-    width: 100%;
-    max-width: 300px;
-    margin: 1rem auto 0;
-  }
-
-  .premium-popup::before {
-    display: none;
-  }
+    .premium-popup-wrapper {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 300px;
+        margin: 1rem auto 0;
+      }
+    .premium-popup::before {
+       display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .premium-popup,
-  .premium-feature {
-    animation: none;
-    transform: none;
-  }
+    .premium-popup,
+    .premium-feature {
+        animation: none;
+        transform: none;
+    }
+    .feature-shine {
+        display: none;
+    }
 }
