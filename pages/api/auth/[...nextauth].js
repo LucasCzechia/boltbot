@@ -24,15 +24,19 @@ export const authOptions = {
     error: '/auth/login/error'
   },
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token
+    async jwt({ token, account, user }) {
+      if (account && user) {
+        token.accessToken = account.access_token;
+        token.global_name = user.global_name;
+        token.username = user.username;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken
-      return session
+      session.accessToken = token.accessToken;
+      session.user.global_name = token.global_name;
+      session.user.username = token.username;
+      return session;
     },
     async redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) return url
