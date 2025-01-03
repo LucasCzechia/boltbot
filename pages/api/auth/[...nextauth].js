@@ -7,7 +7,7 @@ export const authOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      authorization: {
+        authorization: {
         params: {
           scope: 'identify email guilds'
         }
@@ -26,6 +26,7 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, account, user }) {
       if (account && user) {
+        console.log("JWT Callback - User Data:", user); // Log the user object
         token.accessToken = account.access_token;
         token.global_name = user.global_name;
         token.username = user.username;
