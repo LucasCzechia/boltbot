@@ -4,8 +4,34 @@ import Image from 'next/image';
 import { Home, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
 import PremiumPopup from './PremiumPopup';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Hero() {
+    const [isOpen, setIsOpen] = useState(false);
+    const premiumButtonRef = useRef(null);
+    const popupRef = useRef(null);
+
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          popupRef.current &&
+          !popupRef.current.contains(event.target) &&
+          premiumButtonRef.current &&
+          !premiumButtonRef.current.contains(event.target)
+        ) {
+          setIsOpen(false);
+        }
+      };
+  
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+
+    const togglePopup = () => setIsOpen(!isOpen);
+
   return (
     <section className="hero">
       <div id="particles-js" className="particles"></div>
@@ -31,7 +57,11 @@ export default function Hero() {
             <div className="button-glow"></div>
           </Link>
           
-          <div className="premium-button-wrapper">
+          <div
+              ref={premiumButtonRef}
+              className="premium-button-wrapper"
+              onClick={togglePopup}
+          >
             <Link 
               href="/plans" 
               className="hero-button premium"
@@ -47,7 +77,11 @@ export default function Hero() {
                 ))}
               </div>
             </Link>
-            <PremiumPopup />
+            {isOpen && (
+              <div ref={popupRef} className="premium-popup-wrapper">
+                 <PremiumPopup/>
+              </div>
+            )}
           </div>
         </div>
       </div>
