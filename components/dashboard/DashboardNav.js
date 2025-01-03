@@ -3,7 +3,7 @@ import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -25,6 +25,8 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const isMobile = currentWidth <= 768;
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const displayName = session?.user?.global_name || 
                      session?.user?.name || 
@@ -40,6 +42,32 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
   const closeMenus = useCallback(() => {
     setIsMenuOpen(false);
     setShowDropdown(false);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current && 
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setShowDropdown(false);
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
 
   useEffect(() => {
@@ -59,6 +87,17 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.classList.add(`${theme}-mode`);
     document.documentElement.setAttribute('data-theme', theme);
   }, []);
+
+  useEffect(() => {
+    if (showDropdown || isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showDropdown, isMenuOpen]);
 
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
@@ -172,6 +211,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
             ) : session?.user ? (
               <div className="user-profile-wrapper">
                 <button
+                  ref={buttonRef}
                   className="user-profile-button"
                   onClick={(e) => {
                     e.preventDefault();
@@ -192,32 +232,36 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
 
                 <AnimatePresence>
                   {showDropdown && (
-                    <motion.div
-                      className="user-dropdown"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="user-info">
-                        <Image
-                          src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                          alt={`${displayName}'s avatar`}
-                          width={65}
-                          height={65}
-                          className="dropdown-avatar"
-                          unoptimized
-                        />
-                        <div className="user-details">
-                          <div className="user-name">{displayName}</div>
-                          <div className="user-handle">{handle}</div>
+                    <>
+                      <div className={`dropdown-overlay ${showDropdown ? 'show' : ''}`} onClick={() => setShowDropdown(false)} />
+                      <motion.div
+                        ref={dropdownRef}
+                        className={`user-dropdown ${showDropdown ? 'show' : ''}`}
+                        initial={isMobile ? { y: "100%" } : { opacity: 0, y: 10 }}
+                        animate={isMobile ? { y: 0 } : { opacity: 1, y: 0 }}
+                        exit={isMobile ? { y: "100%" } : { opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="user-info">
+                          <Image
+                            src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                            alt={`${displayName}'s avatar`}
+                            width={65}
+                            height={65}
+                            className="dropdown-avatar"
+                            unoptimized
+                          />
+                          <div className="user-details">
+                            <div className="user-name">{displayName}</div>
+                            <div className="user-handle">{handle}</div>
+                          </div>
                         </div>
-                      </div>
-                      <button onClick={handleSignOut} className="logout-button">
-                        <LogOut size={20} />
-                        <span>Sign Out</span>
-                      </button>
-                    </motion.div>
+                        <button onClick={handleSignOut} className="logout-button">
+                          <LogOut size={20} />
+                          <span>Sign Out</span>
+                        </button>
+                      </motion.div>
+                    </>
                   )}
                 </AnimatePresence>
               </div>
