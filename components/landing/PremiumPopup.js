@@ -5,7 +5,7 @@ import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus } from 'lucide-react
 const FEATURES = [
   { icon: Star, text: "Unlimited AI Generations", new: true },
   { icon: Bot, text: "Custom AI Personalities" },
-  { icon: Plus, text: "Higher Limits" }
+  { icon: Plus, text: "Higher Limits" }, 
   { icon: Crown, text: "Priority Support Access" },
   { icon: Lock, text: "Advanced Security Features" },
   { icon: Sparkles, text: "Early Access Features" },
