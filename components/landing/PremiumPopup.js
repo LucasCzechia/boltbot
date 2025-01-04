@@ -1,33 +1,25 @@
 // components/landing/PremiumPopup.js
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus, ArrowRight, Gift } from 'lucide-react';
+import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 const FEATURES = [
-  { icon: Star, text: "Unlimited AI Generations", new: true, highlight: true },
-  { icon: Bot, text: "Custom AI Personalities", popular: true },
-  { icon: Plus, text: "Higher Message Limits", comingSoon: true },
+  { icon: Star, text: "Unlimited AI Generations", new: true },
+  { icon: Bot, text: "Custom AI Personalities", highlight: true },
+  { icon: Plus, text: "Higher Message Limits", pro: true }, 
   { icon: Crown, text: "Priority Support Access" },
-  { icon: Lock, text: "Advanced Security Features" },
-  { icon: Gift, text: "Exclusive Discord Role", new: true },
-  { icon: Sparkles, text: "Early Access Features" },
-  { icon: Zap, text: "Faster Response Times" }
+  { icon: Lock, text: "Advanced Security Features", highlight: true },
+  { icon: Sparkles, text: "Early Access Features", new: true }
 ];
 
 const PremiumPopup = ({ onClose, triggerRef }) => {
   const [activeFeature, setActiveFeature] = useState(null);
-  const [isClosing, setIsClosing] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const popupRef = useRef(null);
-  const timeoutRef = useRef(null);
-
-  const handleClose = () => {
-    setIsClosing(true);
-    timeoutRef.current = setTimeout(() => {
-      onClose?.();
-    }, 200);
-  };
 
   useEffect(() => {
+    setIsVisible(true);
+    
     const handleClickOutside = (event) => {
       if (
         popupRef.current && 
@@ -58,19 +50,19 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
       clearInterval(interval);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [onClose, triggerRef]);
+  }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose?.();
+    }, 200);
+  };
 
   return (
-    <div className={`premium-popup-wrapper ${isClosing ? 'closing' : ''}`}>
-      <div 
-        className="premium-popup" 
-        ref={popupRef}
-        style={{
-          '--feature-count': FEATURES.length,
-        }}
-      >
+    <div className={`premium-popup-wrapper ${isVisible ? 'visible' : ''}`}>
+      <div className="premium-popup" ref={popupRef}>
         <div className="premium-popup-header">
           <div className="premium-popup-title">
             <Crown className="crown-icon" size={24} />
@@ -85,12 +77,8 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
           {FEATURES.map((Feature, index) => (
             <div 
               key={index}
-              className={`premium-feature ${activeFeature === index ? 'active' : ''} 
-                ${Feature.highlight ? 'highlight' : ''} 
-                ${Feature.popular ? 'popular' : ''}`}
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-              }}
+              className={`premium-feature ${activeFeature === index ? 'active' : ''} ${Feature.highlight ? 'highlight' : ''} ${Feature.pro ? 'pro' : ''}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
               onMouseEnter={() => setActiveFeature(index)}
               onMouseLeave={() => setActiveFeature(null)}
             >
@@ -98,13 +86,10 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
               <Feature.icon size={16} className="feature-icon" />
               <span>{Feature.text}</span>
               {Feature.new && (
-                <span className="feature-badge new">NEW</span>
+                <span className="feature-badge pulse">NEW</span>
               )}
-              {Feature.comingSoon && (
-                <span className="feature-badge soon">SOON</span>
-              )}
-              {Feature.popular && (
-                <span className="feature-badge popular">POPULAR</span>
+              {Feature.pro && (
+                <span className="feature-badge pro">PRO</span>
               )}
             </div>
           ))}
@@ -112,8 +97,8 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
 
         <Link href="/plans" className="upgrade-button">
           <span>Upgrade Now</span>
-          <ArrowRight size={16} />
-          <div className="upgrade-shine"></div>
+          <ChevronRight size={16} />
+          <div className="upgrade-button-shine"></div>
         </Link>
       </div>
     </div>
