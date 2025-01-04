@@ -2,14 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
-export default function PlanToggle({ onPlanTypeChange }) {
+export default function PlanToggle({ onPlanTypeChange, isDarkMode }) {
   const [planType, setPlanType] = useState('user');
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  useEffect(() => {
-    const theme = localStorage.getItem('theme') || 'dark';
-    setIsDarkMode(theme === 'dark');
-  }, []);
 
   const handleToggle = (type) => {
     setPlanType(type);
@@ -17,7 +11,7 @@ export default function PlanToggle({ onPlanTypeChange }) {
   };
 
   return (
-    <div className="plan-toggle-container">
+    <div className={`plan-toggle-container ${isDarkMode ? 'dark' : 'light'}`}>
       <button
         className={`plan-toggle-button ${planType === 'user' ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}
         onClick={() => handleToggle('user')}
