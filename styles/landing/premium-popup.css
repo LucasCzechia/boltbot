@@ -1,172 +1,152 @@
 /* styles/landing/premium-popup.css */
 .premium-popup-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 20;
+    pointer-events: none;
     width: 320px;
-    opacity: 1;
-    transition: all 0.2s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.premium-popup-wrapper.closing {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
+.premium-popup-wrapper.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .premium-popup {
     background: rgba(17, 17, 17, 0.98);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 20px;
-    padding: 1.75rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
     width: 100%;
     position: relative;
+    pointer-events: auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.premium-popup::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 16px;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        var(--primary) 0deg,
+        #FFB800 60deg,
+        var(--primary) 120deg,
+        #FFB800 180deg,
+        var(--primary) 240deg,
+        #FFB800 300deg,
+        var(--primary) 360deg
+    );
+    z-index: -1;
+    animation: rotateBorder 4s linear infinite;
+    opacity: 0.5;
 }
 
 .premium-popup-header {
     text-align: center;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .premium-popup-title {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: var(--primary);
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 
 .crown-icon {
     filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
-    animation: floating 3s ease-in-out infinite;
+    animation: float 3s ease-in-out infinite;
 }
 
 .premium-popup-subtitle {
-    font-size: 1.1rem;
-    background: linear-gradient(135deg, var(--primary), #FF8C00);
+    font-size: 1rem;
+    text-align: center;
+    background: linear-gradient(45deg, var(--primary), #FFB800);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 600;
-}
-
-.premium-popup-content {
-    max-height: calc(100vh - 300px);
-    overflow-y: auto;
-    padding-right: 4px;
-    margin-right: -4px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) transparent;
-}
-
-.premium-popup-content::-webkit-scrollbar {
-    width: 4px;
-}
-
-.premium-popup-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.premium-popup-content::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 4px;
+    font-weight: 500;
 }
 
 .premium-feature {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem;
+    padding: 0.75rem;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
+    border-radius: 8px;
     border: 1px solid transparent;
     color: var(--text-primary);
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-bottom: 0.625rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: featureSlideIn 0.4s ease forwards;
+    font-size: 0.925rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
     position: relative;
+    overflow: hidden;
 }
 
 .premium-feature.active {
-    border-color: var(--primary);
-    background: rgba(255, 204, 0, 0.08);
-    transform: scale(1.02);
+    border-color: rgba(255, 204, 0, 0.3);
+    background: rgba(255, 204, 0, 0.05);
+    transform: translateX(4px);
 }
 
-.premium-feature.highlight {
-    background: linear-gradient(135deg, rgba(255, 204, 0, 0.1), rgba(255, 165, 0, 0.05));
+.premium-feature.highlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(255, 204, 0, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.premium-feature.highlight:hover::before {
+    opacity: 1;
 }
 
 .feature-badge {
     position: absolute;
     right: 0.75rem;
     padding: 0.25rem 0.5rem;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 0.7rem;
     font-weight: 600;
-    text-transform: uppercase;
-}
-
-.feature-badge.new {
-    background: rgba(0, 255, 0, 0.15);
-    color: #00FF00;
-}
-
-.feature-badge.soon {
-    background: rgba(147, 51, 234, 0.15);
-    color: #9333EA;
-}
-
-.feature-badge.popular {
-    background: rgba(255, 204, 0, 0.15);
+    background: rgba(255, 204, 0, 0.1);
     color: var(--primary);
+    border: 1px solid rgba(255, 204, 0, 0.2);
 }
 
-.check-icon {
-    color: var(--primary);
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.3s ease;
+.feature-badge.pulse {
+    animation: pulse 2s infinite;
 }
 
-.premium-feature:hover .check-icon {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.feature-icon {
-    color: var(--primary);
-    transition: transform 0.3s ease;
-}
-
-.premium-feature:hover .feature-icon {
-    transform: scale(1.2);
+.feature-badge.pro {
+    background: linear-gradient(45deg, #FF4B4B, #FF8F00);
+    color: white;
+    border: none;
 }
 
 .upgrade-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     width: 100%;
-    padding: 1rem;
-    margin-top: 1.5rem;
-    background: linear-gradient(135deg, var(--primary), #FF8C00);
-    border-radius: 12px;
-    color: #000;
+    padding: 0.875rem;
+    margin-top: 1rem;
+    background: var(--primary);
+    border-radius: 8px;
+    color: var(--dark);
     font-weight: 600;
-    font-size: 1rem;
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -174,71 +154,51 @@
 
 .upgrade-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 204, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
 }
 
-.upgrade-shine {
+.upgrade-button-shine {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
-        45deg,
-        transparent 45%,
-        rgba(255, 255, 255, 0.4) 50%,
-        transparent 55%
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
     );
     transform: translateX(-100%);
     animation: shine 3s infinite;
 }
 
-@keyframes floating {
+@keyframes rotateBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 @keyframes shine {
-    0% { transform: translateX(-100%); }
-    20%, 100% { transform: translateX(100%); }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes featureSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .premium-popup,
+    .premium-popup::after,
     .crown-icon,
-    .upgrade-shine {
+    .feature-badge,
+    .upgrade-button-shine {
         animation: none;
     }
-}
-
-/* Create a backdrop when popup is open */
-.premium-popup::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    z-index: -1;
 }
