@@ -36,8 +36,12 @@
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
+    flex-direction: column; /* Stack buttons on top of each other */
 }
-
+.hero-buttons > * {
+    width: 100%;
+    max-width: 300px;
+}
 .hero-button {
   position: relative;
   display: flex;
