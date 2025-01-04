@@ -36,15 +36,9 @@
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  position: relative;
-  z-index: 100;
 }
 
-.premium-button-wrapper {
-  position: relative;
-  display: inline-flex;
-}
-
+/* Primary Button Styles */
 .hero-button {
   position: relative;
   display: flex;
@@ -56,7 +50,6 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   border-radius: 14px;
-  white-space: nowrap;
 }
 
 .hero-button.primary {
@@ -78,6 +71,30 @@
     0 0 0 2px rgba(255, 204, 0, 0.4);
 }
 
+.hero-button.primary:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 1px 0 rgba(0, 0, 0, 0.1),
+    0 4px 15px rgba(255, 204, 0, 0.2);
+}
+
+.button-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(255, 255, 255, 0.2), 
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-button.primary:hover .button-glow {
+  opacity: 1;
+}
+
+/* Premium Button Styles */
 .hero-button.premium {
   padding: 1rem 2rem;
   font-size: 1.1rem;
@@ -86,6 +103,7 @@
     rgba(255, 255, 255, 0.05)
   );
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
     0 4px 15px rgba(0, 0, 0, 0.1),
@@ -120,71 +138,119 @@
     0 0 0 1px rgba(255, 204, 0, 0.3);
 }
 
-/* Animations */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+.premium-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: shine 6s infinite;
+}
+
+.premium-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.hero-button.premium:hover .particle {
+  animation: float-particle 1.5s infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 30%; animation-delay: 0.2s; }
+.particle:nth-child(3) { left: 50%; animation-delay: 0.4s; }
+.particle:nth-child(4) { left: 70%; animation-delay: 0.6s; }
+.particle:nth-child(5) { left: 90%; animation-delay: 0.8s; }
+.particle:nth-child(6) { left: 20%; animation-delay: 1s; }
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  15%, 100% {
+    transform: translateX(200%) skewX(-15deg);
   }
 }
 
-@keyframes sparkle {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
+@keyframes float-particle {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
   }
-  50% {
-    opacity: 0.6;
-    transform: scale(0.95);
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px) rotate(360deg);
+    opacity: 0;
   }
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .hero {
-    padding: 4rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero p {
-    font-size: 1rem;
-    padding: 0;
-  }
-
   .hero-buttons {
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
-    width: 100%;
-    max-width: 300px;
-    margin: 2rem auto 0;
-  }
-
-  .premium-button-wrapper {
-    width: 100%;
   }
 
   .hero-button {
     width: 100%;
+    max-width: 300px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2.5rem;
   }
 
   .hero-button.primary,
   .hero-button.premium {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
-    justify-content: center;
   }
 }
 
-/* Print Styles */
-@media print {
-  .hero-buttons {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .hero-button,
+  .premium-shine,
+  .sparkle-icon,
+  .particle {
+    animation: none;
   }
 }
