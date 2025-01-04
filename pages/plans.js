@@ -11,13 +11,7 @@ import { USER_PLANS, SERVER_PLANS } from '../data/plan-data';
 export default function PlansPage() {
   const [planType, setPlanType] = useState('user');
   const [selectedPlans, setSelectedPlans] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const [currentPlans, setCurrentPlans] = useState([]);
-
-  useEffect(() => {
-    const theme = localStorage.getItem('theme') || 'dark';
-    setIsDarkMode(theme === 'dark');
-  }, []);
 
   useEffect(() => {
     if (planType === 'user') {
@@ -25,19 +19,19 @@ export default function PlansPage() {
     } else if (planType === 'server') {
       setCurrentPlans(SERVER_PLANS);
     }
-    setSelectedPlans([]); // Clear selected plans when plan type changes
+    setSelectedPlans([]);
   }, [planType]);
 
   const handlePlanTypeChange = (newPlanType) => {
     setPlanType(newPlanType);
   };
 
-  const toggleSelectPlan = (planId) => {
-    setSelectedPlans(currentSelected => {
-      if (currentSelected.includes(planId)) {
-        return currentSelected.filter(id => id !== planId);
+   const handlePlanSelect = (planId) => {
+    setSelectedPlans((prevSelected) => {
+      if (prevSelected.includes(planId)) {
+        return prevSelected.filter((id) => id !== planId);
       } else {
-        return [...currentSelected, planId];
+        return [...prevSelected, planId];
       }
     });
   };
@@ -45,7 +39,7 @@ export default function PlansPage() {
   const plansForComparison = currentPlans.filter(plan => selectedPlans.includes(plan.id));
 
   return (
-    <div className={`plans-page ${isDarkMode ? 'dark' : 'light'}`}>
+    <div className="plans-page">
       <Head>
         <title>Explore Plans - BoltBot⚡</title>
         <meta name="description" content="Compare different BoltBot plans to find the best fit for your needs." />
@@ -55,8 +49,10 @@ export default function PlansPage() {
 
       <main className="plans-content">
         <div className="plans-header">
-          <h1>Explore Our Plans</h1>
-          <PlanToggle onPlanTypeChange={handlePlanTypeChange} isDarkMode={isDarkMode} />
+            <h1 className="main-title">Upgrade to Premium</h1>
+            <p className="sub-title">BoltBot⚡ Premium is an AI service</p>
+            <h2 className="plans-title">Explore BoltBot⚡ plans</h2>
+            <PlanToggle onPlanTypeChange={handlePlanTypeChange} />
         </div>
 
         <div className="pricing-cards-container">
@@ -64,22 +60,24 @@ export default function PlansPage() {
             <PricingCard
               key={plan.id}
               plan={plan}
-              isDarkMode={isDarkMode}
-              onSelect={() => toggleSelectPlan(plan.id)}
+              onSelect={() => handlePlanSelect(plan.id)}
               isSelected={selectedPlans.includes(plan.id)}
             />
           ))}
         </div>
 
         {plansForComparison.length > 0 && (
-          <div className="plan-comparison-wrapper">
-            <h2>Comparing Plans</h2>
-            <PlanComparison plans={plansForComparison} isDarkMode={isDarkMode} />
-          </div>
+           <div className="plan-comparison-wrapper">
+            <h2 className="comparison-title">Comparing Plans</h2>
+            <PlanComparison
+              plans={plansForComparison}
+              onSelect={handlePlanSelect}
+             />
+        </div>
         )}
 
-        {plansForComparison.length === 0 && selectedPlans.length > 0 && (
-          <p className={`no-comparison ${isDarkMode ? 'dark' : 'light'}`}>
+         {plansForComparison.length === 0 && selectedPlans.length > 0 && (
+          <p className="no-comparison">
             No common features to compare for the selected plans.
           </p>
         )}
