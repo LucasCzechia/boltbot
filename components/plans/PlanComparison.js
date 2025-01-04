@@ -1,10 +1,11 @@
-// components/plans/PlanComparison.js
 import { Check, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export default function PlanComparison({ plans, isDarkMode }) {
+export default function PlanComparison({ plans, onSelect }) {
   const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const isMobile = currentWidth <= 768;
+  const [selectedPlanIds, setSelectedPlanIds] = useState([]);
+  const allPlans = [...USER_PLANS, ...SERVER_PLANS]
 
   useEffect(() => {
     const handleResize = () => {
@@ -17,8 +18,20 @@ export default function PlanComparison({ plans, isDarkMode }) {
   }, []);
 
   if (!plans || plans.length === 0) {
-    return <p className={`no-plans ${isDarkMode ? 'dark' : 'light'}`}>No plans selected for comparison.</p>;
+    return <p className="no-plans">No plans selected for comparison.</p>;
   }
+
+   const handleSelect = (planId) => {
+    setSelectedPlanIds(prevSelected => {
+      if (prevSelected.includes(planId)) {
+        return prevSelected.filter(id => id !== planId);
+      } else {
+        return [...prevSelected, planId];
+      }
+    });
+    onSelect(planId);
+  };
+
 
   // Extract all unique features from the selected plans
   const allFeatures = plans.reduce((acc, plan) => {
@@ -31,7 +44,21 @@ export default function PlanComparison({ plans, isDarkMode }) {
   }, []);
 
   return (
-    <div className={`plan-comparison-container ${isDarkMode ? 'dark' : 'light'}`}>
+    <div className="plan-comparison-container">
+        <div className="comparison-dropdown-wrapper">
+          <select
+              className="comparison-dropdown"
+             value={selectedPlanIds}
+             onChange={(e) => handleSelect(e.target.value)}
+           >
+           <option value="">Select a plan to compare</option>
+              {allPlans.map((plan) => (
+                <option key={plan.id} value={plan.id}>
+                    {plan.name}
+               </option>
+              ))}
+           </select>
+        </div>
       <div className="comparison-header">
         <div className="header-feature">Features</div>
         {plans.map(plan => (
