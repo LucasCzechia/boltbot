@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 export default function Hero() {
     const [showPopup, setShowPopup] = useState(false);
     const premiumButtonRef = useRef(null);
+    const popupContainerRef = useRef(null); // Ref for the popup container
 
     return (
         <section className="hero">
@@ -47,16 +48,18 @@ export default function Hero() {
                             </div>
                             <div className="premium-shine"></div>
                         </button>
-                         
-                        
+
                     </div>
-                     {showPopup && (
-                            <PremiumPopup 
-                                onClose={() => setShowPopup(false)}
-                                triggerRef={premiumButtonRef}
-                            />
-                        )}
                 </div>
+                 {/* Container for the desktop popup */}
+                 <div className="premium-popup-container" ref={popupContainerRef}>
+                  {showPopup && (
+                       <PremiumPopup 
+                         onClose={() => setShowPopup(false)}
+                         triggerRef={premiumButtonRef}
+                       />
+                     )}
+                  </div>
             </div>
             <ScrollButtons />
         </section>
