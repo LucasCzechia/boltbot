@@ -11,13 +11,6 @@ export default function Hero() {
     const premiumButtonRef = useRef(null);
     const popupContainerRef = useRef(null); // Ref for the popup container
 
-    const togglePopup = () => {
-        setShowPopup(!showPopup);
-        if (popupContainerRef.current) {
-            popupContainerRef.current.classList.toggle('active')
-        }
-    }
-
     return (
         <section className="hero">
             <div id="particles-js" className="particles"></div>
@@ -46,7 +39,7 @@ export default function Hero() {
                     <div className="premium-button-wrapper" ref={premiumButtonRef}>
                         <button
                             className="hero-button premium"
-                            onClick={togglePopup}
+                            onClick={() => setShowPopup(!showPopup)}
                             aria-expanded={showPopup}
                         >
                             <div className="premium-content">
@@ -62,7 +55,7 @@ export default function Hero() {
                  <div className="premium-popup-container" ref={popupContainerRef}>
                   {showPopup && (
                        <PremiumPopup 
-                         onClose={() => togglePopup}
+                         onClose={() => setShowPopup(false)}
                          triggerRef={premiumButtonRef}
                        />
                      )}
