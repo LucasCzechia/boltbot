@@ -36,12 +36,8 @@
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-    flex-direction: column; /* Stack buttons on top of each other */
 }
-.hero-buttons > * {
-    width: 100%;
-    max-width: 300px;
-}
+
 .hero-button {
   position: relative;
   display: flex;
@@ -185,6 +181,22 @@
 .particle:nth-child(5) { left: 90%; animation-delay: 0.8s; }
 .particle:nth-child(6) { left: 20%; animation-delay: 1s; }
 
+
+.premium-popup-container {
+    margin-top: 1rem; /* Space from the button */
+    position: relative;
+    width: 100%; /* Occupy full width */
+    display: flex;
+    justify-content: center;
+
+}
+.premium-popup-container .premium-popup-wrapper {
+  position: static;
+  transform: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @keyframes sparkle {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.2); opacity: 0.8; }
@@ -235,6 +247,13 @@
     font-size: 1.1rem;
     padding: 0 1rem;
   }
+   .premium-popup-container {
+        margin-top: 1rem; /* Space from the button */
+    }
+    .premium-popup-container .premium-popup-wrapper {
+       margin-left: 0;
+       margin-right: 0;
+    }
 }
 
 @media (max-width: 480px) {
