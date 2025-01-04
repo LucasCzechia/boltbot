@@ -50,8 +50,7 @@ export default function PlansPage() {
       <main className="plans-content">
         <div className="plans-header">
             <h1 className="main-title">Upgrade to Premium</h1>
-            <p className="sub-title">BoltBot⚡ Premium is an AI service</p>
-            <h2 className="plans-title">Explore BoltBot⚡ plans</h2>
+             <h2 className="plans-title">Explore BoltBot⚡ plans</h2>
             <PlanToggle onPlanTypeChange={handlePlanTypeChange} />
         </div>
 
