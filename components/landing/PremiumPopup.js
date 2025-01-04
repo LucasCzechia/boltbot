@@ -1,5 +1,5 @@
 // components/landing/PremiumPopup.js
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus } from 'lucide-react';
 
 const FEATURES = [
@@ -11,10 +11,47 @@ const FEATURES = [
   { icon: Sparkles, text: "Early Access Features" }
 ];
 
-const PremiumPopup = () => {
+const PremiumPopup = ({ onClose, triggerRef }) => {
+  const [activeFeature, setActiveFeature] = useState(null);
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        popupRef.current && 
+        !popupRef.current.contains(event.target) &&
+        !triggerRef.current.contains(event.target)
+      ) {
+        onClose?.();
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+
+    const interval = setInterval(() => {
+      setActiveFeature(prev => {
+        if (prev === null || prev >= FEATURES.length - 1) return 0;
+        return prev + 1;
+      });
+    }, 3000);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      clearInterval(interval);
+    };
+  }, [onClose, triggerRef]);
+
   return (
     <div className="premium-popup-wrapper">
-      <div className="premium-popup">
+      <div className="premium-popup" ref={popupRef}>
         <div className="premium-popup-header">
           <div className="premium-popup-title">
             <Crown size={24} />
@@ -30,6 +67,13 @@ const PremiumPopup = () => {
             <div 
               key={index}
               className="premium-feature"
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                borderColor: activeFeature === index ? 'rgba(255, 204, 0, 0.3)' : undefined,
+                background: activeFeature === index ? 'rgba(255, 204, 0, 0.05)' : undefined
+              }}
+              onMouseEnter={() => setActiveFeature(index)}
+              onMouseLeave={() => setActiveFeature(null)}
             >
               <Check size={16} className="check-icon" />
               <Feature.icon size={16} className="feature-icon" />
