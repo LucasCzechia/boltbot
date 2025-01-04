@@ -2,7 +2,7 @@
 import { Check, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export default function PricingCard({ plan, isDarkMode, onSelect, isSelected }) {
+export default function PricingCard({ plan, onSelect, isSelected }) {
   const [currentWidth, setCurrentWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const isMobile = currentWidth <= 768;
 
@@ -17,7 +17,7 @@ export default function PricingCard({ plan, isDarkMode, onSelect, isSelected }) 
   }, []);
 
   return (
-    <div className={`pricing-card ${isDarkMode ? 'dark' : 'light'}`}>
+    <div className="pricing-card">
       <h3 className="plan-name">{plan.name}</h3>
       <p className="plan-description">{plan.description}</p>
       <div className="plan-price">
