@@ -58,7 +58,7 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
             Premium Perks
           </div>
           <div className="premium-popup-subtitle">
-            Unlock the full potential of BoltBotâšˇ
+            Unlock the full potential of BoltBot⚡
           </div>
         </div>
 
