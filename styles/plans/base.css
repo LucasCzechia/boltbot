@@ -1,11 +1,9 @@
 /* styles/plans/base.css */
 .pricing-page {
-  position: relative;
   min-height: 100vh;
   padding: 6rem 2rem 2rem;
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
+  position: relative;
+  overflow: hidden;
 }
 
 .pricing-content {
@@ -13,7 +11,6 @@
   margin: 0 auto;
   position: relative;
   z-index: 2;
-  padding-bottom: 4rem; /* Space for footer */
 }
 
 .pricing-header {
@@ -40,35 +37,49 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-top: 2rem;
-  position: relative;
-  z-index: 2;
+  perspective: 1000px;
 }
 
-.dashboard-wrapper {
-  position: relative;
-  min-height: 100vh;
+.pricing-tabs {
   display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
+  justify-content: center;
+  margin-bottom: 3rem;
 }
 
-/* Fix for mobile */
-@media (max-width: 768px) {
-  .pricing-page {
-    padding: 5rem 1rem 1rem;
-  }
-
-  .pricing-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .pricing-content {
-    padding-bottom: 2rem;
-  }
+.tabs-container {
+  display: inline-flex;
+  background: var(--bg-secondary);
+  padding: 0.5rem;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
 }
 
-/* Ensure footer stays at bottom */
-.dashboard-footer {
-  margin-top: auto;
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-button.active {
+  background: var(--primary);
+  color: var(--dark);
+}
+
+.savings-badge {
+  padding: 0.25rem 0.5rem;
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
