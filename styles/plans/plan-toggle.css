@@ -4,6 +4,7 @@
   border-radius: 0.5rem;
   overflow: hidden;
   border: 1px solid #ccc; /* Default border */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .plan-toggle-button {
