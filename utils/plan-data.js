@@ -1,4 +1,4 @@
-// data/plan-data.js
+// utils/plan-data.js
 export const USER_PLANS = [
   {
     id: 'user-free',
