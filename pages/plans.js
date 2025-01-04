@@ -6,7 +6,7 @@ import DashboardFooter from '../components/dashboard/DashboardFooter';
 import PlanToggle from '../components/plans/PlanToggle';
 import PricingCard from '../components/plans/PricingCard';
 import PlanComparison from '../components/plans/PlanComparison';
-import { USER_PLANS, SERVER_PLANS } from '../data/plan-data';
+import { USER_PLANS, SERVER_PLANS } from '../utils/plan-data';
 
 export default function PlansPage() {
   const [planType, setPlanType] = useState('user');
