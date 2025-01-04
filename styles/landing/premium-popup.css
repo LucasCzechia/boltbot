@@ -63,9 +63,9 @@
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: rotateBorder 4s linear infinite;
     z-index: -1;
 }
+
 
 .premium-popup-header {
     text-align: center;
@@ -110,16 +110,28 @@
     animation: featureSlideIn 0.4s ease forwards;
     position: relative;
     overflow: hidden;
+    
 }
 
-@keyframes rotateBorder {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+.premium-feature span {
+  flex: 1; /* Allow text to take up available space */
 }
+
+.feature-badge {
+    background: var(--primary);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    margin-left: 0.5em;
+    white-space: nowrap;
+}
+.feature-badge.popular {
+    background: #3498db;
+    color: #fff;
+}
+
 
 @keyframes fadeInUp {
     from {
