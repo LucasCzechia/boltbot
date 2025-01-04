@@ -183,23 +183,13 @@
 
 
 .premium-popup-container {
-  position: absolute; /* Changed to absolute */
-  top: 100%; /* Position below the button group */
-  left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 3; /* Ensure it's above other elements */
-  pointer-events: none; /*Initially let clicks through*/
-  opacity: 0; /* Initially hide */
-}
+    margin-top: 1rem; /* Space from the button */
+    position: relative;
+    width: 100%; /* Occupy full width */
+    display: flex;
+    justify-content: center;
 
-.premium-popup-container.active {
-  pointer-events: auto;/*When active accept clicks*/
-  opacity: 1; /* Show popup */
 }
-
 .premium-popup-container .premium-popup-wrapper {
   position: static;
   transform: none;
@@ -258,13 +248,7 @@
     padding: 0 1rem;
   }
    .premium-popup-container {
-        margin-top: 1rem;
-        position: relative;
-        top: initial;
-        left: initial;
-        transform: none;
-        pointer-events: auto;
-        opacity: 1;
+        margin-top: 1rem; /* Space from the button */
     }
     .premium-popup-container .premium-popup-wrapper {
        margin-left: 0;
