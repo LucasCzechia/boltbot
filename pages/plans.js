@@ -1,103 +1,85 @@
 // pages/plans.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import DashboardNav from '../components/dashboard/DashboardNav';
 import DashboardFooter from '../components/dashboard/DashboardFooter';
-import PlanFeatures from '../components/plans/PlanFeatures';
-import PricingTabs from '../components/plans/PricingTabs';
-import Starfield from '../components/misc/Starfield';
+import PlanToggle from '../components/plans/PlanToggle';
+import PricingCard from '../components/plans/PricingCard';
+import PlanComparison from '../components/plans/PlanComparison';
+import { USER_PLANS, SERVER_PLANS } from '../data/plan-data';
 
 export default function PlansPage() {
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [planType, setPlanType] = useState('user');
+  const [selectedPlans, setSelectedPlans] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [currentPlans, setCurrentPlans] = useState([]);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'dark';
+    setIsDarkMode(theme === 'dark');
+  }, []);
+
+  useEffect(() => {
+    if (planType === 'user') {
+      setCurrentPlans(USER_PLANS);
+    } else if (planType === 'server') {
+      setCurrentPlans(SERVER_PLANS);
+    }
+    setSelectedPlans([]); // Clear selected plans when plan type changes
+  }, [planType]);
+
+  const handlePlanTypeChange = (newPlanType) => {
+    setPlanType(newPlanType);
+  };
+
+  const toggleSelectPlan = (planId) => {
+    setSelectedPlans(currentSelected => {
+      if (currentSelected.includes(planId)) {
+        return currentSelected.filter(id => id !== planId);
+      } else {
+        return [...currentSelected, planId];
+      }
+    });
+  };
+
+  const plansForComparison = currentPlans.filter(plan => selectedPlans.includes(plan.id));
 
   return (
-    <>
+    <div className={`plans-page ${isDarkMode ? 'dark' : 'light'}`}>
       <Head>
-        <title>Premium Plans - BoltBot⚡</title>
-        <meta name="description" content="Upgrade to BoltBot Premium for enhanced features and capabilities." />
+        <title>Explore Plans - BoltBot⚡</title>
+        <meta name="description" content="Compare different BoltBot plans to find the best fit for your needs." />
       </Head>
 
-      <div className="dashboard-wrapper">
-        <DashboardNav />
-        <Starfield />
-        
-        <main className="pricing-page">
-          <div className="pricing-content">
-            <div className="pricing-header">
-              <h1>Upgrade to Premium</h1>
-              <p>Unlock the full potential of BoltBot⚡</p>
-            </div>
+      <DashboardNav />
 
-            <PricingTabs 
-              activeCycle={billingCycle}
-              onCycleChange={setBillingCycle}
+      <main className="plans-content">
+        <div className="plans-header">
+          <h1>Explore Our Plans</h1>
+          <PlanToggle onPlanTypeChange={handlePlanTypeChange} />
+        </div>
+
+        <div className="pricing-cards-container">
+          {currentPlans.map(plan => (
+            <PricingCard
+              key={plan.id}
+              plan={plan}
+              isDarkMode={isDarkMode}
+              onSelect={() => toggleSelectPlan(plan.id)}
+              isSelected={selectedPlans.includes(plan.id)}
             />
-            
-            <div className="pricing-grid">
-              {/* Free Plan */}
-              <div className="pricing-card free">
-                <div className="pricing-card-header">
-                  <h2>Free</h2>
-                  <p>Perfect for getting started</p>
-                  <div className="pricing-amount">
-                    <span className="currency">$</span>
-                    <span className="amount">0</span>
-                    <span className="period">/mo</span>
-                  </div>
-                </div>
+          ))}
+        </div>
 
-                <PlanFeatures plan="free" />
-
-                <button className="pricing-button current">
-                  Current Plan
-                </button>
-              </div>
-
-              {/* Premium Plan */}
-              <div className="pricing-card premium featured">
-                <div className="featured-badge">Most Popular</div>
-                <div className="pricing-card-header">
-                  <h2>Premium</h2>
-                  <p>For power users and growing communities</p>
-                  <div className="pricing-amount">
-                    <span className="currency">$</span>
-                    <span className="amount">{billingCycle === 'monthly' ? '10' : '8'}</span>
-                    <span className="period">/mo</span>
-                    {billingCycle === 'annual' && (
-                      <span className="savings">Save 20%</span>
-                    )}
-                  </div>
-                </div>
-
-                <PlanFeatures plan="premium" />
-
-                <button className="pricing-button premium">
-                  Upgrade to Premium
-                </button>
-              </div>
-
-              {/* Enterprise Plan */}
-              <div className="pricing-card enterprise">
-                <div className="pricing-card-header">
-                  <h2>Enterprise</h2>
-                  <p>Custom solutions for large communities</p>
-                  <div className="pricing-amount">
-                    <span className="contact">Contact Us</span>
-                  </div>
-                </div>
-
-                <PlanFeatures plan="enterprise" />
-
-                <button className="pricing-button enterprise">
-                  Contact Sales
-                </button>
-              </div>
-            </div>
+        {plansForComparison.length > 0 && (
+          <div className="plan-comparison-wrapper">
+            <h2>Comparing Plans</h2>
+            <PlanComparison plans={plansForComparison} isDarkMode={isDarkMode} />
           </div>
-        </main>
-        
-        <DashboardFooter />
-      </div>
-    </>
+        )}
+      </main>
+
+      <DashboardFooter />
+    </div>
   );
 }
