@@ -7,6 +7,10 @@ import PlanToggle from '../components/plans/PlanToggle';
 import PricingCard from '../components/plans/PricingCard';
 import PlanComparison from '../components/plans/PlanComparison';
 import { USER_PLANS, SERVER_PLANS } from '../data/plan-data';
+import '../../styles/plans/plans-page.css';
+import '../../styles/plans/plan-toggle.css';
+import '../../styles/plans/pricing-card.css';
+import '../../styles/plans/plan-comparison.css';
 
 export default function PlansPage() {
   const [planType, setPlanType] = useState('user');
@@ -56,7 +60,7 @@ export default function PlansPage() {
       <main className="plans-content">
         <div className="plans-header">
           <h1>Explore Our Plans</h1>
-          <PlanToggle onPlanTypeChange={handlePlanTypeChange} />
+          <PlanToggle onPlanTypeChange={handlePlanTypeChange} isDarkMode={isDarkMode} />
         </div>
 
         <div className="pricing-cards-container">
@@ -76,6 +80,12 @@ export default function PlansPage() {
             <h2>Comparing Plans</h2>
             <PlanComparison plans={plansForComparison} isDarkMode={isDarkMode} />
           </div>
+        )}
+
+        {plansForComparison.length === 0 && selectedPlans.length > 0 && (
+          <p className={`no-comparison ${isDarkMode ? 'dark' : 'light'}`}>
+            No common features to compare for the selected plans.
+          </p>
         )}
       </main>
 
