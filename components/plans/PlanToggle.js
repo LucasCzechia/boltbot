@@ -1,8 +1,7 @@
 // components/plans/PlanToggle.js
-import { useState, useEffect } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { useState } from 'react';
 
-export default function PlanToggle({ onPlanTypeChange, isDarkMode }) {
+export default function PlanToggle({ onPlanTypeChange }) {
   const [planType, setPlanType] = useState('user');
 
   const handleToggle = (type) => {
@@ -11,15 +10,15 @@ export default function PlanToggle({ onPlanTypeChange, isDarkMode }) {
   };
 
   return (
-    <div className={`plan-toggle-container ${isDarkMode ? 'dark' : 'light'}`}>
+    <div className="plan-toggle-container">
       <button
-        className={`plan-toggle-button ${planType === 'user' ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}
+        className={`plan-toggle-button ${planType === 'user' ? 'active' : ''}`}
         onClick={() => handleToggle('user')}
       >
         User Plans
       </button>
       <button
-        className={`plan-toggle-button ${planType === 'server' ? 'active' : ''} ${isDarkMode ? 'dark' : 'light'}`}
+        className={`plan-toggle-button ${planType === 'server' ? 'active' : ''}`}
         onClick={() => handleToggle('server')}
       >
         Server Plans
