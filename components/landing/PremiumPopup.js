@@ -1,5 +1,6 @@
 // components/landing/PremiumPopup.js
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus } from 'lucide-react';
 
 const FEATURES = [
@@ -13,28 +14,50 @@ const FEATURES = [
 
 const PremiumPopup = ({ onClose, triggerRef }) => {
   const [activeFeature, setActiveFeature] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const popupRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        popupRef.current && 
-        !popupRef.current.contains(event.target) &&
-        !triggerRef.current.contains(event.target)
-      ) {
-        onClose?.();
-      }
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
     };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        onClose?.();
-      }
-    };
+  useEffect(() => {
+    if (!isMobile) {
+      const handleClickOutside = (event) => {
+        if (
+          popupRef.current && 
+          !popupRef.current.contains(event.target) &&
+          !triggerRef?.current?.contains(event.target)
+        ) {
+          onClose?.();
+        }
+      };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
+      const handleEscape = (event) => {
+        if (event.key === 'Escape') {
+          onClose?.();
+        }
+      };
 
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscape);
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleEscape);
+      };
+    }
+  }, [onClose, triggerRef, isMobile]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setActiveFeature(prev => {
         if (prev === null || prev >= FEATURES.length - 1) return 0;
@@ -42,15 +65,15 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
       });
     }, 3000);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-      clearInterval(interval);
-    };
-  }, [onClose, triggerRef]);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleUpgradeClick = () => {
+    router.push('/plans');
+  };
 
   return (
-    <div className="premium-popup-wrapper">
+    <div className={`premium-popup-wrapper ${isMobile ? 'mobile' : ''}`}>
       <div className="premium-popup" ref={popupRef}>
         <div className="premium-popup-header">
           <div className="premium-popup-title">
@@ -84,6 +107,11 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
             </div>
           ))}
         </div>
+
+        <button onClick={handleUpgradeClick} className="premium-upgrade-button">
+          <Sparkles size={16} />
+          Upgrade Now
+        </button>
       </div>
     </div>
   );
