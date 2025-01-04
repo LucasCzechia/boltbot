@@ -4,6 +4,7 @@
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin-bottom: 1rem;
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .plan-name {
@@ -89,11 +90,15 @@
   font-size: 0.9rem;
   width: 100%;
   text-align: center;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .select-plan-button:hover {
   background-color: #333;
+}
+
+.select-plan-button.selected {
+  background-color: #666;
 }
 
 /* Dark Mode */
@@ -128,6 +133,11 @@
   background-color: #eee;
 }
 
+.pricing-card.dark .select-plan-button.selected {
+  background-color: #888;
+  color: #000;
+}
+
 /* Light Mode */
 .pricing-card.light {
   background-color: #fff;
@@ -141,6 +151,14 @@
 
 .pricing-card.light .plan-price .price-period {
   color: #777;
+}
+
+.pricing-card.light .feature-item svg.lucide-check {
+  color: #000;
+}
+
+.pricing-card.light .feature-item svg.lucide-x {
+  color: #000;
 }
 
 /* Responsive Styles */
