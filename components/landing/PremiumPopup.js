@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Star, Crown, Zap, Bot, Lock, Sparkles, Check, Plus } from 'lucide-react';
 
 const FEATURES = [
-  { icon: Star, text: "Unlimited AI Generations", new: true },
-  { icon: Bot, text: "Custom AI Personalities" },
+  { icon: Star, text: "Unlimited AI Generations", type: "new" },
+  { icon: Bot, text: "Custom AI Personalities", type: "popular" },
   { icon: Plus, text: "Higher Limits" }, 
   { icon: Crown, text: "Priority Support Access" },
   { icon: Lock, text: "Advanced Security Features" },
@@ -78,9 +78,11 @@ const PremiumPopup = ({ onClose, triggerRef }) => {
               <Check size={16} className="check-icon" />
               <Feature.icon size={16} className="feature-icon" />
               <span>{Feature.text}</span>
-              {Feature.new && (
-                <span className="feature-badge">NEW</span>
-              )}
+              {Feature.type && (
+                  <span className={`feature-badge ${Feature.type}`}>
+                      {Feature.type.toUpperCase()}
+                    </span>
+                  )}
             </div>
           ))}
         </div>
