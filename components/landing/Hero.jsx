@@ -47,14 +47,15 @@ export default function Hero() {
                             </div>
                             <div className="premium-shine"></div>
                         </button>
+                         
                         
-                        {showPopup && (
+                    </div>
+                     {showPopup && (
                             <PremiumPopup 
                                 onClose={() => setShowPopup(false)}
                                 triggerRef={premiumButtonRef}
                             />
                         )}
-                    </div>
                 </div>
             </div>
             <ScrollButtons />
