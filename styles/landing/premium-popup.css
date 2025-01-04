@@ -22,6 +22,11 @@
     animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.crown-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
+    animation: float 3s ease-in-out infinite;
+}
+
 /* Arrow pointer */
 .premium-popup::before {
     content: '';
@@ -167,6 +172,11 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
 }
 
 /* High contrast mode */
