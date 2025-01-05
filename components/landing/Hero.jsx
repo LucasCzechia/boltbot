@@ -36,7 +36,6 @@ export default function Hero() {
   };
 
   useEffect(() => {
-    // Always show popup on mobile
     if (isMobile) {
       setShowPopup(true);
     }
@@ -84,7 +83,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Container for desktop popup */}
         <div className="premium-popup-container" ref={popupContainerRef}>
           {showPopup && (
             <PremiumPopup 
