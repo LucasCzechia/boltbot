@@ -22,23 +22,13 @@ export default function ScrollButtons() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const scrollToContent = () => {
-    const featuresSection = document.getElementById('features');
-    if (featuresSection) {
-      featuresSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <>
-      {/* Scroll to Top Button */}
-      <button 
-        className={`scroll-top-btn ${showScroll ? 'show' : ''}`}
-        onClick={scrollTop}
-        aria-label="Scroll to top"
-      >
-        <ChevronUp size={24} />
-      </button>
-    </>
+    <button
+      className={`scroll-top-btn ${showScroll ? 'show' : ''}`}
+      onClick={scrollTop}
+      aria-label="Scroll to top"
+    >
+      <ChevronUp size={24} />
+    </button>
   );
 }
