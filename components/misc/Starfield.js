@@ -19,7 +19,7 @@ const LandingStarfield = () => {
 
     const createStars = () => {
       stars = [];
-      const numStars = 150;
+      const numStars = 100;
 
       for (let i = 0; i < numStars; i++) {
         stars.push({
