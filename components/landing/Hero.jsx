@@ -64,32 +64,32 @@ export default function Hero() {
             <div className="button-glow"></div>
           </Link>
           
-          <div className="premium-button-wrapper">
-            <button
-              ref={premiumButtonRef}
-              className={`hero-button premium ${isDarkMode ? 'dark' : 'light'}`}
-              onClick={handlePremiumClick}
-            >
-              <div className="premium-content">
-                <Sparkles size={16} className="sparkle-icon" />
-                <span>Upgrade to Premium</span>
-              </div>
-              <div className={`premium-shine ${isDarkMode ? 'dark' : 'light'}`}></div>
-              <div className="premium-particles">
-                {[...Array(6)].map((_, i) => (
-                  <span key={i} className={`particle ${isDarkMode ? 'dark' : 'light'}`} />
-                ))}
-              </div>
-            </button>
+      <div className="premium-button-wrapper">
+  <button
+    ref={premiumButtonRef}
+    className={`hero-button premium ${isDarkMode ? 'dark' : 'light'}`}
+    onClick={handlePremiumClick}
+  >
+    <div className="premium-content">
+      <Sparkles size={16} className="sparkle-icon" />
+      <span>Upgrade to Premium</span>
+    </div>
+    <div className={`premium-shine ${isDarkMode ? 'dark' : 'light'}`}></div>
+    <div className="premium-particles">
+      {[...Array(6)].map((_, i) => (
+        <span key={i} className={`particle ${isDarkMode ? 'dark' : 'light'}`} />
+      ))}
+    </div>
+  </button>
 
-            {showPremiumPopup && (
-              <PremiumPopup
-                onClose={() => setShowPremiumPopup(false)}
-                triggerRef={premiumButtonRef}
-              />
-            )}
-          </div>
-        </div>
+  {showPremiumPopup && (
+    <PremiumPopup
+      onClose={() => setShowPremiumPopup(false)}
+      triggerRef={premiumButtonRef}
+           />
+          )}
+        </div>   
+       </div>
       </div>
       <ScrollButtons />
     </section>
