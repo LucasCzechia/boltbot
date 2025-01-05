@@ -1,11 +1,10 @@
 // utils/animation.js
-let animationsInitialized = false; // Track if initial animations have run
+let animationsInitialized = false;
 
 export const initializeAnimations = () => {
-    if (animationsInitialized) return () => {}; // Return an empty cleanup if already initialized
+    if (animationsInitialized) return () => {};
     animationsInitialized = true;
 
-    // Ensure loading screen shows for minimum time
     const MINIMUM_LOADING_TIME = 1500;
     const loadStart = Date.now();
 
@@ -14,7 +13,6 @@ export const initializeAnimations = () => {
         const timeElapsed = Date.now() - loadStart;
         const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - timeElapsed);
 
-        // Delay hiding loading screen to ensure minimum display time
         setTimeout(() => {
             const loadingScreen = document.querySelector('.loading-screen');
             const contentWrapper = document.querySelector('.content-wrapper');
@@ -27,14 +25,12 @@ export const initializeAnimations = () => {
                 contentWrapper.classList.add('loaded');
             }
 
-            // Start hero animations with extended logo pop
+
             setTimeout(() => {
                 const botAvatar = document.querySelector('.bot-avatar');
                 if (botAvatar) {
-                    // Add pop animation class
                     botAvatar.style.animation = 'popAnimation 1s cubic-bezier(0.16, 1, 0.3, 1) forwards';
 
-                    // Add keyframes if they don't exist
                     if (!document.querySelector('#pop-keyframes')) {
                         const style = document.createElement('style');
                         style.id = 'pop-keyframes';
@@ -70,7 +66,6 @@ export const initializeAnimations = () => {
                         document.head.appendChild(style);
                     }
 
-                    // Start other hero animations after logo appears
                     setTimeout(() => {
                         document.querySelector('.hero-content')?.classList.add('animate');
                         document.querySelector('.hero h1')?.classList.add('animate');
@@ -82,8 +77,6 @@ export const initializeAnimations = () => {
         }, remainingTime);
     };
 
-
-    // Handle mouse movement for container glow effects
     const handleMouseMove = (e) => {
         const containers = document.querySelectorAll('.landing-content-wrapper');
         containers.forEach(container => {
@@ -97,7 +90,6 @@ export const initializeAnimations = () => {
 
     document.addEventListener('mousemove', handleMouseMove);
 
-    // Initialize intersection observer for scroll animations
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -109,11 +101,8 @@ export const initializeAnimations = () => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('in-view');
 
-                // Add animation for content wrappers
                 if (entry.target.classList.contains('landing-content-wrapper')) {
                     entry.target.classList.add('animate');
-
-                    // Animate nested content wrappers with delay
                     const nestedWrappers = entry.target.querySelectorAll('.landing-content-wrapper');
                     nestedWrappers.forEach((wrapper, index) => {
                         setTimeout(() => {
@@ -122,11 +111,9 @@ export const initializeAnimations = () => {
                     });
                 }
 
-                // Handle statistics animations specifically
                 if (entry.target.classList.contains('landing-status-bar') ||
                     entry.target.classList.contains('landing-stats-grid')) {
 
-                    // Animate status indicators
                     const indicators = entry.target.querySelectorAll('.landing-status-indicator');
                     indicators.forEach((indicator, index) => {
                         setTimeout(() => {
@@ -134,7 +121,6 @@ export const initializeAnimations = () => {
                         }, index * 200);
                     });
 
-                    // Animate response gauge
                     const gauge = entry.target.querySelector('.landing-gauge-fill');
                     if (gauge) {
                         setTimeout(() => {
@@ -142,7 +128,6 @@ export const initializeAnimations = () => {
                         }, 300);
                     }
 
-                    // Animate stat numbers with counting effect
                     const numbers = entry.target.querySelectorAll('.landing-highlight');
                     numbers.forEach((number, index) => {
                         const finalValue = parseInt(number.textContent.replace(/,/g, ''));
@@ -152,7 +137,6 @@ export const initializeAnimations = () => {
                     });
                 }
 
-                // Animate cards with stagger effect
                 const cards = entry.target.querySelectorAll('.landing-feature-card, .landing-tool-card');
                 cards.forEach((card, index) => {
                     card.style.animationDelay = `${index * 100}ms`;
@@ -191,7 +175,6 @@ export const initializeAnimations = () => {
         requestAnimationFrame(step);
     };
 
-    // Easing functions
     const easeOutExpo = (x) => {
         return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
     };
@@ -204,7 +187,6 @@ export const initializeAnimations = () => {
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-    // Observe all animated elements
     document.querySelectorAll(`
     .landing-feature-card, 
     .landing-tool-card, 
@@ -216,14 +198,12 @@ export const initializeAnimations = () => {
         observer.observe(element);
     });
 
-    // Start animations after page loads
     if (document.readyState === 'complete') {
         startLoadingAnimations();
     } else {
         window.addEventListener('load', startLoadingAnimations);
     }
 
-    // Cleanup function
     return () => {
         observer.disconnect();
         window.removeEventListener('load', startLoadingAnimations);
