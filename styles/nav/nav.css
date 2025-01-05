@@ -233,6 +233,48 @@
   box-shadow: 0 4px 12px rgba(231, 76, 60, 0.1);
 }
 
+/* Login Button */
+.login-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--primary);
+  color: var(--dark);
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--transition-timing);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.login-button:hover::before {
+  opacity: 1;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 16px rgba(255, 204, 0, 0.2),
+    0 0 0 2px rgba(255, 204, 0, 0.3);
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -270,6 +312,11 @@
     height: 18px;
   }
 
+  .login-button {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.9rem;
+  }
+
   .user-dropdown {
     width: 260px;
     right: -20px;
@@ -299,6 +346,11 @@
   .nav-icon {
     width: 16px;
     height: 16px;
+  }
+
+  .login-button {
+    padding: 0.5rem;
+    font-size: 0.875rem;
   }
 
   .user-avatar {
