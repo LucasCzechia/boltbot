@@ -1,5 +1,5 @@
 // pages/index.js
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
 import { Zap, Wrench, BarChart2, Users, Bot } from 'lucide-react';
@@ -14,7 +14,6 @@ import { initializeAnimations } from '../utils/animation';
 export default function Home() {
     const [theme, setTheme] = useState('dark');
     const [particlesLoaded, setParticlesLoaded] = useState(false);
-    const particlesRef = useRef(null);
 
 
     useEffect(() => {
@@ -28,23 +27,47 @@ export default function Home() {
         return () => cleanup();
     }, []);
 
-
-    const updateParticles = useCallback(() => {
-          if(particlesRef.current && particlesRef.current.pJSDom && particlesRef.current.pJSDom.length > 0){
-            const particlesColor = theme === 'light' ? '#000000' : '#ffcc00';
-            particlesRef.current.pJSDom[0].pJS.particles.color.value = particlesColor;
-            particlesRef.current.pJSDom[0].pJS.particles.line_linked.color = particlesColor;
-            particlesRef.current.pJSDom[0].pJS.fn.particlesRefresh();
-          }
-
-    }, [theme]);
-
-
     useEffect(() => {
-        if (particlesLoaded) {
-           updateParticles()
+        if (window.particlesJS && particlesLoaded) {
+            const particlesColor = theme === 'light' ? '#000000' : '#ffcc00';
+
+            window.particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: particlesColor },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.5, random: false },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: particlesColor,
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 6,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: { enable: true, mode: 'repulse' },
+                        onclick: { enable: true, mode: 'push' },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
         }
-    }, [theme, particlesLoaded, updateParticles]);
+    }, [theme, particlesLoaded]);
+
 
 
     const navigationItems = [
@@ -84,7 +107,7 @@ export default function Home() {
     ];
 
     const handleThemeChange = (newTheme) => {
-      setTheme(newTheme);
+        setTheme(newTheme);
     };
 
     return (
@@ -100,7 +123,7 @@ export default function Home() {
                 </svg>
             </div>
 
-            <div id="particles-js" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }} ref={particlesRef}></div>
+            <div id="particles-js" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}></div>
 
             <div className="content-wrapper">
                 <DashboardNav navigationItems={navigationItems} onThemeChange={handleThemeChange} />
@@ -117,47 +140,7 @@ export default function Home() {
                 src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"
                 strategy="lazyOnload"
                 onLoad={() => {
-                    setParticlesLoaded(true);
-                     if (window.particlesJS) {
-                           const particlesColor = theme === 'light' ? '#000000' : '#ffcc00';
-                            window.particlesJS('particles-js', {
-                                particles: {
-                                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                                    color: { value: particlesColor },
-                                    shape: { type: 'circle' },
-                                    opacity: { value: 0.5, random: false },
-                                    size: { value: 3, random: true },
-                                    line_linked: {
-                                        enable: true,
-                                        distance: 150,
-                                        color: particlesColor,
-                                        opacity: 0.4,
-                                        width: 1
-                                    },
-                                    move: {
-                                        enable: true,
-                                        speed: 6,
-                                        direction: 'none',
-                                        random: false,
-                                        straight: false,
-                                        out_mode: 'out',
-                                        bounce: false
-                                    }
-                                },
-                                interactivity: {
-                                    detect_on: 'canvas',
-                                    events: {
-                                        onhover: { enable: true, mode: 'repulse' },
-                                        onclick: { enable: true, mode: 'push' },
-                                        resize: true
-                                    }
-                                },
-                                retina_detect: true
-                            },
-                             () => {
-                               updateParticles();
-                            });
-                     }
+                  setParticlesLoaded(true);
                 }}
             />
         </div>
