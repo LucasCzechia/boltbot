@@ -6,6 +6,7 @@
 @import './misc/404.css';
 
 /* Nav Styles */
+@import './nav/dashboard-navigation.css';
 @import './nav/nav.css';
 @import './nav/nav-links.css';
 
