@@ -10,6 +10,7 @@
 @import './nav/nav-links.css';
 
 /* Landing Styles */
+@import './landing/landing-page.css';
 @import './landing/hero.css';
 @import './landing/premium-popup.css';
 @import './landing/features.css';
