@@ -1,4 +1,4 @@
-// components/landing/LandingStarfield.js
+// components/misc/Starfield.js
 import { useEffect, useRef } from 'react';
 
 const LandingStarfield = () => {
