@@ -20,7 +20,7 @@
 @import './landing/content-container.css';
 @import './landing/statistics-loading.css';
 @import './landing/responsive-utils.css';
-/*@import './landing/animation.css';*/ 
+@import './landing/animation.css';
 
 /* Auth Styles */
 @import './auth/auth-login.css';
