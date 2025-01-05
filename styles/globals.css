@@ -5,6 +5,7 @@
 @import './misc/terms.css';
 @import './misc/404.css';
 @import './misc/cookie-consent.css';
+@import './misc/scroll-to-top.css';
 
 /* Nav Styles */
 @import './nav/nav.css';
@@ -18,7 +19,6 @@
 @import './landing/features.css';
 @import './landing/tools.css';
 @import './landing/stats.css';
-@import './landing/scroll-buttons.css';
 @import './landing/content-container.css';
 @import './landing/statistics-loading.css';
 @import './landing/responsive-utils.css';
@@ -29,7 +29,6 @@
 @import './auth/auth-error.css';
 
 /* Dashboard Styles */
-@import './dashboard/scroll-to-top.css';
 @import './dashboard/footer.css';
 @import './dashboard/loading.css';
 
