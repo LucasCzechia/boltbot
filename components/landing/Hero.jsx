@@ -57,13 +57,13 @@ export default function Hero() {
 
         <div className="hero-buttons">
           <Link
-            href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot"
+            href="https://boltbot.app/dashboard"
             className="hero-button primary"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Home size={20} />
-            <span>Add to Discord</span>
+            <span>Open Dashboard</span>
             <div className="button-glow"></div>
           </Link>
 
