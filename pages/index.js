@@ -66,13 +66,12 @@ export default function Home() {
         </svg>
       </div>
 
-      <DashboardNav navigationItems={navigationItems} />
-
-      <Hero />
+      <LandingStarfield />
 
       <div className="content-wrapper">
-          <main>
-          <LandingStarfield /> 
+        <DashboardNav navigationItems={navigationItems} />
+        <main>
+          <Hero />
           <Features />
           <Tools />
           <Statistics />
