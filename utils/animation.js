@@ -1,15 +1,16 @@
 // utils/animation.js
+let animationsInitialized = false; // Track if initial animations have run
+
 export const initializeAnimations = () => {
+    if (animationsInitialized) return () => {}; // Return an empty cleanup if already initialized
+    animationsInitialized = true;
+
     // Ensure loading screen shows for minimum time
     const MINIMUM_LOADING_TIME = 1500;
     const loadStart = Date.now();
-    let animationsInitialized = false;
 
 
     const startLoadingAnimations = () => {
-        if (animationsInitialized) return;
-        animationsInitialized = true;
-
         const timeElapsed = Date.now() - loadStart;
         const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - timeElapsed);
 
@@ -80,6 +81,7 @@ export const initializeAnimations = () => {
             }, 300);
         }, remainingTime);
     };
+
 
     // Handle mouse movement for container glow effects
     const handleMouseMove = (e) => {
