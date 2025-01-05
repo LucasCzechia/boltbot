@@ -1,5 +1,5 @@
 // pages/index.js
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
 import { Zap, Wrench, BarChart2, Users, Bot } from 'lucide-react';
@@ -27,8 +27,9 @@ export default function Home() {
         return () => cleanup();
     }, []);
 
-    useEffect(() => {
-        if (window.particlesJS && particlesLoaded) {
+
+    const updateParticles = useCallback(() => {
+        if (window.particlesJS) {
             const particlesColor = theme === 'light' ? '#000000' : '#ffcc00';
 
             window.particlesJS('particles-js', {
@@ -66,8 +67,14 @@ export default function Home() {
                 retina_detect: true
             });
         }
-    }, [theme, particlesLoaded]);
+    }, [theme]);
 
+
+    useEffect(() => {
+        if (particlesLoaded) {
+           updateParticles()
+        }
+    }, [theme, particlesLoaded, updateParticles]);
 
 
     const navigationItems = [
@@ -107,7 +114,7 @@ export default function Home() {
     ];
 
     const handleThemeChange = (newTheme) => {
-        setTheme(newTheme);
+      setTheme(newTheme);
     };
 
     return (
@@ -140,7 +147,8 @@ export default function Home() {
                 src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"
                 strategy="lazyOnload"
                 onLoad={() => {
-                  setParticlesLoaded(true);
+                    setParticlesLoaded(true);
+                    updateParticles()
                 }}
             />
         </div>
