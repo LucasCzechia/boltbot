@@ -199,6 +199,7 @@
     justify-content: center;
 
 }
+
 .premium-popup-container .premium-popup-wrapper {
   position: static;
   transform: none;
@@ -206,6 +207,14 @@
   margin-right: auto;
 }
 
+/* Add to Discord Button Light Mode Styles */
+.hero-button.primary.light {
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+  color: #333;
+  border: 2px solid #333;
+}
+
+/* Premium Button Light Mode Styles */
 .hero-button.premium.light {
   background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
   color: #333;
@@ -218,6 +227,11 @@
 
 .particle.light {
   background-color: #333;
+}
+
+/* Sparkles Icon Light Mode Styles */
+.sparkle-icon.light {
+  color: #333;
 }
 
 @keyframes sparkle {
