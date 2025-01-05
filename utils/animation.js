@@ -1,5 +1,7 @@
 // utils/animation.js
 let animationsInitialized = false;
+let observer; // Declare observer outside the initializeAnimations function
+
 
 export const initializeAnimations = () => {
     if (animationsInitialized) return () => {};
@@ -7,9 +9,12 @@ export const initializeAnimations = () => {
 
     const MINIMUM_LOADING_TIME = 1500;
     const loadStart = Date.now();
-
+    let initialAnimationsRun = false;
 
     const startLoadingAnimations = () => {
+         if (initialAnimationsRun) return;
+            initialAnimationsRun = true;
+
         const timeElapsed = Date.now() - loadStart;
         const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - timeElapsed);
 
@@ -24,7 +29,6 @@ export const initializeAnimations = () => {
             if (contentWrapper) {
                 contentWrapper.classList.add('loaded');
             }
-
 
             setTimeout(() => {
                 const botAvatar = document.querySelector('.bot-avatar');
@@ -77,6 +81,7 @@ export const initializeAnimations = () => {
         }, remainingTime);
     };
 
+
     const handleMouseMove = (e) => {
         const containers = document.querySelectorAll('.landing-content-wrapper');
         containers.forEach(container => {
@@ -90,16 +95,18 @@ export const initializeAnimations = () => {
 
     document.addEventListener('mousemove', handleMouseMove);
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.2
-    };
+
+     const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
 
     const observerCallback = (entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('in-view');
+
 
                 if (entry.target.classList.contains('landing-content-wrapper')) {
                     entry.target.classList.add('animate');
@@ -110,6 +117,7 @@ export const initializeAnimations = () => {
                         }, 300 + (index * 200));
                     });
                 }
+
 
                 if (entry.target.classList.contains('landing-status-bar') ||
                     entry.target.classList.contains('landing-stats-grid')) {
@@ -137,6 +145,7 @@ export const initializeAnimations = () => {
                     });
                 }
 
+
                 const cards = entry.target.querySelectorAll('.landing-feature-card, .landing-tool-card');
                 cards.forEach((card, index) => {
                     card.style.animationDelay = `${index * 100}ms`;
@@ -146,6 +155,8 @@ export const initializeAnimations = () => {
             }
         });
     };
+
+
 
     const animateNumber = (element, final, duration, delay) => {
         const start = 0;
@@ -185,7 +196,7 @@ export const initializeAnimations = () => {
         return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    observer = new IntersectionObserver(observerCallback, observerOptions);
 
     document.querySelectorAll(`
     .landing-feature-card, 
@@ -204,8 +215,9 @@ export const initializeAnimations = () => {
         window.addEventListener('load', startLoadingAnimations);
     }
 
+
     return () => {
-        observer.disconnect();
+        if(observer) observer.disconnect();
         window.removeEventListener('load', startLoadingAnimations);
         document.removeEventListener('mousemove', handleMouseMove);
     };
