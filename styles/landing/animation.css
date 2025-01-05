@@ -1,0 +1,179 @@
+/* styles/landing/animations.css */
+:root {
+  --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --slide-distance: 30px;
+  --fade-start: 0;
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s var(--animation-timing),
+              visibility 0.5s var(--animation-timing);
+}
+
+.loading-screen.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-screen .lightning {
+  width: 100px;
+  height: 100px;
+  animation: pulse 1.2s infinite;
+}
+
+/* Hide content until loaded */
+.content-wrapper {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.content-wrapper.loaded {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hero Animations */
+.hero-content {
+  opacity: 0;
+  transform: translateY(var(--slide-distance));
+}
+
+.hero-content.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1s var(--animation-timing);
+}
+
+.hero-content .bot-avatar {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.hero-content .bot-avatar.animate {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.8s var(--animation-timing) 0.3s;
+}
+
+.hero h1 {
+  opacity: 0;
+  transform: translateY(var(--slide-distance));
+}
+
+.hero h1.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s var(--animation-timing) 0.5s;
+}
+
+.hero p {
+  opacity: 0;
+  transform: translateY(var(--slide-distance));
+}
+
+.hero p.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s var(--animation-timing) 0.7s;
+}
+
+.hero-buttons {
+  opacity: 0;
+  transform: translateY(var(--slide-distance));
+}
+
+.hero-buttons.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s var(--animation-timing) 0.9s;
+}
+
+/* Card Animations */
+.landing-feature-card,
+.landing-tool-card,
+.landing-stats-card {
+  opacity: 0;
+  transform: translateY(var(--slide-distance));
+  transition: all 0.6s var(--animation-timing);
+}
+
+.landing-feature-card.in-view,
+.landing-tool-card.in-view,
+.landing-stats-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card hover effects */
+.landing-feature-card:hover,
+.landing-tool-card:hover,
+.landing-stats-card:hover {
+  transform: translateY(-5px) !important;
+  border-color: var(--primary);
+  box-shadow: 0 12px 24px rgba(255, 204, 0, 0.15);
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0% { 
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px var(--primary));
+  }
+  50% { 
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 12px var(--primary));
+  }
+  100% { 
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px var(--primary));
+  }
+}
+
+/* Card Stagger Delays */
+.landing-feature-card.in-view:nth-child(1),
+.landing-tool-card.in-view:nth-child(1) { transition-delay: 0.1s; }
+.landing-feature-card.in-view:nth-child(2),
+.landing-tool-card.in-view:nth-child(2) { transition-delay: 0.2s; }
+.landing-feature-card.in-view:nth-child(3),
+.landing-tool-card.in-view:nth-child(3) { transition-delay: 0.3s; }
+.landing-feature-card.in-view:nth-child(4),
+.landing-tool-card.in-view:nth-child(4) { transition-delay: 0.4s; }
+.landing-feature-card.in-view:nth-child(5),
+.landing-tool-card.in-view:nth-child(5) { transition-delay: 0.5s; }
+.landing-feature-card.in-view:nth-child(6),
+.landing-tool-card.in-view:nth-child(6) { transition-delay: 0.6s; }
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .loading-screen,
+  .hero-content,
+  .hero-content .bot-avatar,
+  .hero h1,
+  .hero p,
+  .hero-buttons,
+  .landing-feature-card,
+  .landing-tool-card,
+  .landing-stats-card {
+    opacity: 1;
+    transform: none;
+  }
+}
