@@ -19,14 +19,16 @@ export default function Features() {
           <Wrench size={24} />
           Powerful Features
         </h2>
-        <div className="landing-features-grid">
-          {features.map((feature, index) => (
-            <div key={index} className="landing-feature-card">
-              <h3>{feature.icon} {feature.title}</h3>
-              <p>{feature.description}</p>
-            </div>
-          ))}
-        </div>
+        <LandingContentContainer>
+          <div className="landing-features-grid">
+            {features.map((feature, index) => (
+              <div key={index} className="landing-feature-card">
+                <h3>{feature.icon} {feature.title}</h3>
+                <p>{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </LandingContentContainer>
       </LandingContentContainer>
     </section>
   );
