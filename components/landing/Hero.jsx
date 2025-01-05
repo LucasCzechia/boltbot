@@ -18,10 +18,10 @@ export default function Hero() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -46,15 +46,18 @@ export default function Hero() {
             height={200}
             className="bot-avatar"
             priority={true}
-            style={{ opacity: 1 }} 
+            style={{ opacity: 1 }}
           />
         </div>
         <h1>Meet BoltBot⚡</h1>
-        <p>Your advanced AI-powered Discord companion with powerful features including text generation, image creation, and real-time tools.</p>
-        
+        <p>
+          Your advanced AI-powered Discord companion with powerful features
+          including text generation, image creation, and real-time tools.
+        </p>
+
         <div className="hero-buttons">
-          <Link 
-            href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
+          <Link
+            href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot"
             className="hero-button primary"
             target="_blank"
             rel="noopener noreferrer"
@@ -63,33 +66,36 @@ export default function Hero() {
             <span>Add to Discord</span>
             <div className="button-glow"></div>
           </Link>
-          
-      <div className="premium-button-wrapper">
-  <button
-    ref={premiumButtonRef}
-    className={`hero-button premium ${isDarkMode ? 'dark' : 'light'}`}
-    onClick={handlePremiumClick}
-  >
-    <div className="premium-content">
-      <Sparkles size={16} className="sparkle-icon" />
-      <span>Upgrade to Premium</span>
-    </div>
-    <div className={`premium-shine ${isDarkMode ? 'dark' : 'light'}`}></div>
-    <div className="premium-particles">
-      {[...Array(6)].map((_, i) => (
-        <span key={i} className={`particle ${isDarkMode ? 'dark' : 'light'}`} />
-      ))}
-    </div>
-  </button>
 
-  {showPremiumPopup && (
-    <PremiumPopup
-      onClose={() => setShowPremiumPopup(false)}
-      triggerRef={premiumButtonRef}
-           />
-          )}
-        </div>   
-       </div>
+          <div className="premium-button-wrapper">
+            <button
+              ref={premiumButtonRef}
+              className={`hero-button premium ${isDarkMode ? 'dark' : 'light'}`}
+              onClick={handlePremiumClick}
+            >
+              <div className="premium-content">
+                <Sparkles size={16} className="sparkle-icon" />
+                <span>Upgrade to Premium</span>
+              </div>
+              <div className={`premium-shine ${isDarkMode ? 'dark' : 'light'}`}></div>
+              <div className="premium-particles">
+                {[...Array(6)].map((_, i) => (
+                  <span
+                    key={i}
+                    className={`particle ${isDarkMode ? 'dark' : 'light'}`}
+                  />
+                ))}
+              </div>
+            </button>
+
+            {showPremiumPopup && (
+              <PremiumPopup
+                onClose={() => setShowPremiumPopup(false)}
+                triggerRef={premiumButtonRef}
+              />
+            )}
+          </div>
+        </div>
       </div>
       <ScrollButtons />
     </section>
