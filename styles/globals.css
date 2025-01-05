@@ -52,12 +52,6 @@
 @import './dashboard/server/personality.css';
 @import './dashboard/server/info-button.css';
 
-/* Plans Styles */
-@import './plans/plans-page.css';
-@import './plans/plan-toggle.css';
-@import './plans/pricing-card.css';
-@import './plans/plan-comparison.css';
-
 :root {
   /* Base colors */
   --primary: #ffcc00;
