@@ -21,12 +21,12 @@ export const initializeAnimations = () => {
         contentWrapper.classList.add('loaded');
       }
 
-      // Start hero animations with new logo pop
+      // Start hero animations with extended logo pop
       setTimeout(() => {
         const botAvatar = document.querySelector('.bot-avatar');
         if (botAvatar) {
           // Add pop animation class
-          botAvatar.style.animation = 'popAnimation 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+          botAvatar.style.animation = 'popAnimation 1s cubic-bezier(0.16, 1, 0.3, 1) forwards';
           
           // Add keyframes if they don't exist
           if (!document.querySelector('#pop-keyframes')) {
@@ -34,22 +34,61 @@ export const initializeAnimations = () => {
             style.id = 'pop-keyframes';
             style.textContent = `
               @keyframes popAnimation {
-                0% { transform: scale(0); }
-                60% { transform: scale(1.2); }
-                100% { transform: scale(1); }
+                0% { transform: scale(0); opacity: 0; }
+                50% { transform: scale(1.2); opacity: 1; }
+                75% { transform: scale(0.9); opacity: 1; }
+                100% { transform: scale(1); opacity: 1; }
+              }
+
+              @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+              }
+
+              @keyframes fadeInUp {
+                from { 
+                  opacity: 0;
+                  transform: translateY(30px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+
+              @keyframes shimmer {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(100%); }
               }
             `;
             document.head.appendChild(style);
           }
-        }
 
-        document.querySelector('.hero-content')?.classList.add('animate');
-        document.querySelector('.hero h1')?.classList.add('animate');
-        document.querySelector('.hero p')?.classList.add('animate');
-        document.querySelector('.hero-buttons')?.classList.add('animate');
+          // Start other hero animations after logo appears
+          setTimeout(() => {
+            document.querySelector('.hero-content')?.classList.add('animate');
+            document.querySelector('.hero h1')?.classList.add('animate');
+            document.querySelector('.hero p')?.classList.add('animate');
+            document.querySelector('.hero-buttons')?.classList.add('animate');
+          }, 400);
+        }
       }, 300);
     }, remainingTime);
   };
+
+  // Handle mouse movement for container glow effects
+  const handleMouseMove = (e) => {
+    const containers = document.querySelectorAll('.landing-content-wrapper');
+    containers.forEach(container => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      container.style.setProperty('--mouse-x', `${x}px`);
+      container.style.setProperty('--mouse-y', `${y}px`);
+    });
+  };
+
+  document.addEventListener('mousemove', handleMouseMove);
 
   // Initialize intersection observer for scroll animations
   const observerOptions = {
@@ -62,6 +101,19 @@ export const initializeAnimations = () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in-view');
+        
+        // Add animation for content wrappers
+        if (entry.target.classList.contains('landing-content-wrapper')) {
+          entry.target.classList.add('animate');
+
+          // Animate nested content wrappers with delay
+          const nestedWrappers = entry.target.querySelectorAll('.landing-content-wrapper');
+          nestedWrappers.forEach((wrapper, index) => {
+            setTimeout(() => {
+              wrapper.classList.add('animate');
+            }, 300 + (index * 200));
+          });
+        }
         
         // Handle statistics animations specifically
         if (entry.target.classList.contains('landing-status-bar') || 
@@ -92,6 +144,14 @@ export const initializeAnimations = () => {
             }
           });
         }
+
+        // Animate cards with stagger effect
+        const cards = entry.target.querySelectorAll('.landing-feature-card, .landing-tool-card');
+        cards.forEach((card, index) => {
+          card.style.animationDelay = `${index * 100}ms`;
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        });
       }
     });
   };
@@ -124,9 +184,15 @@ export const initializeAnimations = () => {
     requestAnimationFrame(step);
   };
 
-  // Easing function for smoother number animation
+  // Easing functions
   const easeOutExpo = (x) => {
     return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+  };
+
+  const easeOutBack = (x) => {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
   };
 
   const observer = new IntersectionObserver(observerCallback, observerOptions);
@@ -137,9 +203,10 @@ export const initializeAnimations = () => {
     .landing-tool-card, 
     .landing-stats-card,
     .landing-status-bar,
-    .landing-stats-grid
-  `).forEach(card => {
-    observer.observe(card);
+    .landing-stats-grid,
+    .landing-content-wrapper
+  `).forEach(element => {
+    observer.observe(element);
   });
 
   // Start animations after page loads
@@ -153,5 +220,6 @@ export const initializeAnimations = () => {
   return () => {
     observer.disconnect();
     window.removeEventListener('load', startLoadingAnimations);
+    document.removeEventListener('mousemove', handleMouseMove);
   };
 };
