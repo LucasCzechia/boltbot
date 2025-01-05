@@ -31,6 +31,9 @@ export default function Hero() {
   const handlePremiumClick = () => {
     router.push('/plans'); // Redirect to /plans
   };
+  const handleDashboardClick = () => {
+    router.push('/dashboard'); // Redirect to /dashboard
+  };
 
   return (
     <section className="hero">
@@ -51,17 +54,15 @@ export default function Hero() {
         <p>Your advanced AI-powered Discord companion with powerful features including text generation, image creation, and real-time tools.</p>
         
         <div className="hero-buttons">
-          <Link 
-            href="https://boltbot.app/dashboard" 
+            <button 
+              onClick={handleDashboardClick}
             className={`hero-button primary ${isDarkMode ? 'dark' : 'light'}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Home size={20} />
-            <span>Open Dashboard</span>
-            <div className="button-glow"></div>
-          </Link>
-          
+            >
+                <Home size={20} />
+                <span>Open Dashboard</span>
+                <div className="button-glow"></div>
+              </button>
+
           <div className="premium-button-wrapper">
             <button
               ref={premiumButtonRef}
