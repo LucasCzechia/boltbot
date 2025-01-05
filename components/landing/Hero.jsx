@@ -5,10 +5,13 @@ import { useRouter } from 'next/router';
 import { Home, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
 import { useRef, useState, useEffect } from 'react';
+import PremiumPopup from './PremiumPopup';
 
 export default function Hero() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+  const [showPremiumPopup, setShowPremiumPopup] = useState(false);
+  const premiumButtonRef = useRef();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -21,40 +24,43 @@ export default function Hero() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-
   const handlePremiumClick = () => {
-    router.push('/plans');
+    setShowPremiumPopup(!showPremiumPopup);
   };
-
-
 
   return (
     <section className="hero">
       <div id="particles-js" className="particles"></div>
       <div className="hero-content">
-        <Image
-          src="/images/boltbot.webp"
-          alt="BoltBot Avatar"
-          width={200}
-          height={200}
-          className="bot-avatar"
-          priority
-        />
+        <div className="logo-wrapper">
+          <Image
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
+            width={200}
+            height={200}
+            className="bot-avatar"
+            priority={true}
+            style={{ opacity: 1 }} // Ensure the image is visible
+          />
+        </div>
         <h1>Meet BoltBot⚡</h1>
         <p>Your advanced AI-powered Discord companion with powerful features including text generation, image creation, and real-time tools.</p>
         
         <div className="hero-buttons">
           <Link 
-            href="https://boltbot.app/dashboard" 
+            href="https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot" 
             className="hero-button primary"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <Home size={20} />
-            <span>Open Dashboard</span>
+            <span>Add to Discord</span>
             <div className="button-glow"></div>
           </Link>
           
           <div className="premium-button-wrapper">
             <button
+              ref={premiumButtonRef}
               className="hero-button premium"
               onClick={handlePremiumClick}
             >
@@ -63,11 +69,21 @@ export default function Hero() {
                 <span>Upgrade to Premium</span>
               </div>
               <div className="premium-shine"></div>
+              <div className="premium-particles">
+                {[...Array(6)].map((_, i) => (
+                  <span key={i} className="particle" />
+                ))}
+              </div>
             </button>
+
+            {showPremiumPopup && (
+              <PremiumPopup
+                onClose={() => setShowPremiumPopup(false)}
+                triggerRef={premiumButtonRef}
+              />
+            )}
           </div>
         </div>
-
-
       </div>
       <ScrollButtons />
     </section>
