@@ -79,48 +79,51 @@ export default function Home() {
         <DashboardFooter />
       </div>
 
-       <Script 
-          src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" 
-          strategy="lazyOnload" 
-          onLoad={() => {
-            if (window.particlesJS) {
-              window.particlesJS('particles-js', {
-                particles: {
-                  number: { value: 80, density: { enable: true, value_area: 800 } },
-                  color: { value: '#ffcc00' },
-                  shape: { type: 'circle' },
-                  opacity: { value: 0.5, random: false },
-                  size: { value: 3, random: true },
-                  line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#ffcc00',
-                    opacity: 0.4,
-                    width: 1
-                  },
-                  move: {
-                    enable: true,
-                    speed: 6,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                  }
-                },
-                interactivity: {
-                  detect_on: 'canvas',
-                  events: {
-                    onhover: { enable: true, mode: 'repulse' },
-                    onclick: { enable: true, mode: 'push' },
-                    resize: true
-                  }
-                },
-                retina_detect: true
-              });
-            }
-          }}
-        />
+<Script 
+  src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" 
+  strategy="lazyOnload" 
+  onLoad={() => {
+    if (window.particlesJS) {
+      const theme = localStorage.getItem('theme') || 'dark';
+      const particlesColor = theme === 'light' ? '#000000' : '#ffcc00';
+
+      window.particlesJS('particles-js', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: particlesColor },
+          shape: { type: 'circle' },
+          opacity: { value: 0.5, random: false },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: particlesColor,
+            opacity: 0.4,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 6,
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false
+          }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: {
+            onhover: { enable: true, mode: 'repulse' },
+            onclick: { enable: true, mode: 'push' },
+            resize: true
+          }
+        },
+        retina_detect: true
+         });
+        }
+      }}
+     />
     </div>
   );
 }
