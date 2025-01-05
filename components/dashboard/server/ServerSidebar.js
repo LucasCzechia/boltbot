@@ -35,14 +35,14 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
   ];
 
   return (
-    <aside className="dashboard-sidebar">
-      <nav className="sidebar-nav">
+    <aside className="server-settings-sidebar">
+      <nav className="server-settings-nav">
         {sidebarItems.map((item, index) => {
           const Icon = item.icon;
           return (
             <motion.button
               key={item.id}
-              className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+              className={`server-nav-item ${activeTab === item.id ? 'active' : ''}`}
               onClick={() => setActiveTab(item.id)}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -55,18 +55,15 @@ export default function ServerSidebar({ activeTab, setActiveTab }) {
                 '--item-color': item.color
               }}
             >
-              {/* Icon shows in both views */}
-              <div className="nav-item-icon">
+              <div className="server-nav-icon">
                 <Icon size={24} />
               </div>
 
-              {/* Mobile label */}
-              <span className="mobile-label">{item.label}</span>
+              <span className="server-nav-mobile-label">{item.label}</span>
               
-              {/* Desktop-only content */}
-              <div className="nav-item-content">
-                <span className="nav-item-label">{item.label}</span>
-                <span className="nav-item-description">{item.description}</span>
+              <div className="server-nav-content">
+                <span className="server-nav-label">{item.label}</span>
+                <span className="server-nav-description">{item.description}</span>
               </div>
             </motion.button>
           );
