@@ -1,0 +1,22 @@
+/* styles/landing/content.css */
+.main-content {
+  position: relative;
+  min-height: 100vh;
+}
+
+.main-content .canvas-starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.landing-features,
+.landing-tools,
+.landing-statistics {
+  position: relative;
+  z-index: 1;
+}
