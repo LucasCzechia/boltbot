@@ -28,6 +28,7 @@
   pointer-events: none;
 }
 
+/* Dark Theme Stars */
 :root[data-theme="dark"] .star:nth-child(3n) {
   width: 2px;
   height: 2px;
@@ -46,22 +47,23 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+/* Light Theme Stars */
 :root[data-theme="light"] .star:nth-child(3n) {
   width: 2px;
   height: 2px;
-  background-color: rgba(255, 204, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 :root[data-theme="light"] .star:nth-child(3n+1) {
   width: 3px;
   height: 3px;
-  background-color: rgba(255, 153, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme="light"] .star:nth-child(3n+2) {
   width: 1px;
   height: 1px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 @keyframes twinkle {
@@ -75,10 +77,20 @@
   }
 }
 
+/* Dark Theme Opacity Adjustments */
+:root[data-theme="dark"] .star {
+  --base-opacity: 0.8;
+}
+
+/* Light Theme Opacity Adjustments */
+:root[data-theme="light"] .star {
+  --base-opacity: 0.4;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .star {
     animation: none;
-    opacity: 0.5;
+    opacity: var(--base-opacity);
   }
 }
 
