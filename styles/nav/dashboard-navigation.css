@@ -7,8 +7,8 @@
   --nav-hover-glow: 0 0 20px rgba(255, 204, 0, 0.15);
 }
 
-/* Mobile First Base Styles */
-.dashboard-sidebar {
+/* Scoped Dashboard Sidebar */
+.dashboard-wrapper .dashboard-sidebar {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -22,7 +22,7 @@
   transition: all 0.3s var(--transition-curve);
 }
 
-.sidebar-nav {
+.dashboard-wrapper .sidebar-nav {
   height: 100%;
   display: flex;
   justify-content: space-around;
@@ -31,7 +31,7 @@
   position: relative;
 }
 
-.nav-item {
+.dashboard-wrapper .sidebar-nav .nav-item {
   flex: 1;
   height: 100%;
   display: flex;
@@ -52,22 +52,22 @@
 }
 
 /* Mobile-specific styles */
-.nav-item-icon {
+.dashboard-wrapper .nav-item-icon {
   display: contents;
 }
 
-.mobile-label {
+.dashboard-wrapper .mobile-label {
   font-size: 0.75rem;
   transition: all 0.3s var(--transition-curve);
   z-index: 1;
 }
 
 /* Hide desktop content on mobile */
-.nav-item-content {
+.dashboard-wrapper .nav-item-content {
   display: none;
 }
 
-.nav-item::before {
+.dashboard-wrapper .nav-item::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -80,7 +80,7 @@
   transition: opacity 0.3s var(--transition-curve);
 }
 
-.nav-item::after {
+.dashboard-wrapper .nav-item::after {
   content: '';
   position: absolute;
   left: var(--nav-indicator-spacing);
@@ -94,36 +94,36 @@
   transition: transform 0.3s var(--transition-curve);
 }
 
-.nav-item:hover {
+.dashboard-wrapper .nav-item:hover {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.nav-item:hover::before {
+.dashboard-wrapper .nav-item:hover::before {
   opacity: 1;
 }
 
-.nav-item:hover .nav-item-icon svg {
+.dashboard-wrapper .nav-item:hover .nav-item-icon svg {
   transform: translateY(-2px);
   filter: drop-shadow(0 2px 4px rgba(255, 204, 0, 0.3));
 }
 
-.nav-item.active {
+.dashboard-wrapper .nav-item.active {
   color: var(--primary);
 }
 
-.nav-item.active::after {
+.dashboard-wrapper .nav-item.active::after {
   transform: scaleX(1);
 }
 
-.nav-item.active .nav-item-icon svg {
+.dashboard-wrapper .nav-item.active .nav-item-icon svg {
   transform: scale(1.1);
   filter: drop-shadow(0 2px 8px rgba(255, 204, 0, 0.4));
 }
 
 /* Desktop Styles */
 @media (min-width: 1024px) {
-  .dashboard-sidebar {
-    width: 280px; /* Reduced from 320px */
+  .dashboard-wrapper .dashboard-sidebar {
+    width: 280px;
     height: 100vh;
     position: fixed;
     top: var(--header-height);
@@ -133,39 +133,39 @@
     border-top: none;
     background: rgba(17, 17, 17, 0.98);
     padding: 1rem;
-    overflow-y: auto; /* Added to enable scrolling */
+    overflow-y: auto;
   }
 
-  .sidebar-nav {
+  .dashboard-wrapper .sidebar-nav {
     flex-direction: column;
     gap: 0.75rem;
     padding: 0 0.25rem;
     min-height: 100%;
-    overflow-y: visible; /* Changed from auto since parent now scrolls */
+    overflow-y: visible;
   }
 
-  .sidebar-nav::-webkit-scrollbar {
+  .dashboard-wrapper .sidebar-nav::-webkit-scrollbar {
     width: 5px;
   }
 
-  .sidebar-nav::-webkit-scrollbar-track {
+  .dashboard-wrapper .sidebar-nav::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  .sidebar-nav::-webkit-scrollbar-thumb {
+  .dashboard-wrapper .sidebar-nav::-webkit-scrollbar-thumb {
     background-color: rgba(255, 204, 0, 0.3);
     border-radius: 20px;
   }
 
-  .sidebar-nav::-webkit-scrollbar-thumb:hover {
+  .dashboard-wrapper .sidebar-nav::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 204, 0, 0.5);
   }
 
   /* Desktop nav item styles */
-  .nav-item {
+  .dashboard-wrapper .nav-item {
     flex-direction: row;
     height: var(--nav-item-height);
-    min-height: 4.5rem; /* Reduced from 5rem */
+    min-height: 4.5rem;
     padding: 1rem;
     gap: 1rem;
     border-radius: 12px;
@@ -174,49 +174,49 @@
     font-size: 0.875rem;
   }
 
-  .nav-item::after {
+  .dashboard-wrapper .nav-item::after {
     display: none;
   }
 
   /* Hide mobile elements */
-  .mobile-label {
+  .dashboard-wrapper .mobile-label {
     display: none;
   }
 
   /* Show desktop elements */
-  .nav-item-icon {
+  .dashboard-wrapper .nav-item-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px; /* Reduced from 48px */
-    height: 40px; /* Reduced from 48px */
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     color: var(--item-color, var(--primary));
     transition: all 0.3s var(--transition-curve);
   }
 
-  .nav-item:hover {
+  .dashboard-wrapper .nav-item:hover {
     transform: translateX(5px);
     background: rgba(255, 255, 255, 0.05);
     border-color: var(--item-color, var(--primary));
   }
 
-  .nav-item.active {
+  .dashboard-wrapper .nav-item.active {
     background: rgba(255, 255, 255, 0.07);
     border-color: var(--item-color, var(--primary));
     transform: translateX(5px);
   }
 
-  .nav-item:hover .nav-item-icon,
-  .nav-item.active .nav-item-icon {
+  .dashboard-wrapper .nav-item:hover .nav-item-icon,
+  .dashboard-wrapper .nav-item.active .nav-item-icon {
     background: var(--item-color, var(--primary));
     color: var(--dark);
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(var(--item-color, 255, 204, 0), 0.2);
   }
 
-  .nav-item-content {
+  .dashboard-wrapper .nav-item-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -224,34 +224,34 @@
     flex: 1;
   }
 
-  .nav-item-label {
-    font-size: 0.875rem; /* Reduced from 1rem */
+  .dashboard-wrapper .nav-item-label {
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
   }
 
-  .nav-item-description {
-    font-size: 0.75rem; /* Reduced from 0.813rem */
+  .dashboard-wrapper .nav-item-description {
+    font-size: 0.75rem;
     color: var(--text-secondary);
     opacity: 0.8;
     transition: opacity 0.3s var(--transition-curve);
     line-height: 1.4;
   }
 
-  .nav-item:hover .nav-item-description {
+  .dashboard-wrapper .nav-item:hover .nav-item-description {
     opacity: 1;
   }
 }
 
 /* Safe Area Insets */
 @supports (padding: env(safe-area-inset-bottom)) {
-  .dashboard-sidebar {
+  .dashboard-wrapper .dashboard-sidebar {
     padding-bottom: env(safe-area-inset-bottom);
     height: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom));
   }
 
   @media (min-width: 1024px) {
-    .dashboard-sidebar {
+    .dashboard-wrapper .dashboard-sidebar {
       padding-bottom: 1rem;
       height: calc(100vh - var(--header-height));
     }
