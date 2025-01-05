@@ -5,12 +5,10 @@ import { useRouter } from 'next/router';
 import { Home, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
 import { useRef, useState, useEffect } from 'react';
-import { useParticles } from 'react-particles-js';
 
 export default function Hero() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
-  const particlesRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -23,48 +21,16 @@ export default function Hero() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  useParticles(particlesRef, {
-    particles: {
-      number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: '#ffcc00' },
-      shape: { type: 'circle' },
-      opacity: { value: 0.5, random: false },
-      size: { value: 3, random: true },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: '#ffcc00',
-        opacity: 0.4,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 6,
-        direction: 'none',
-        random: false,
-        straight: false,
-        out_mode: 'out',
-        bounce: false
-      }
-    },
-    interactivity: {
-      detect_on: 'canvas',
-      events: {
-        onhover: { enable: true, mode: 'repulse' },
-        onclick: { enable: true, mode: 'push' },
-        resize: true
-      }
-    },
-    retina_detect: true
-  });
 
   const handlePremiumClick = () => {
     router.push('/plans');
   };
 
+
+
   return (
     <section className="hero">
-      <div ref={particlesRef} className="particles"></div>
+      <div id="particles-js" className="particles"></div>
       <div className="hero-content">
         <Image
           src="/images/boltbot.webp"
@@ -100,6 +66,8 @@ export default function Hero() {
             </button>
           </div>
         </div>
+
+
       </div>
       <ScrollButtons />
     </section>
