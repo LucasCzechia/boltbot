@@ -11,6 +11,14 @@
 .landing-content-wrapper {
   width: 100%;
   max-width: 1400px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-content-wrapper.animate {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .landing-features-grid,
@@ -111,6 +119,14 @@
   gap: 0.75rem;
   justify-content: center;
   font-size: 1.75rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-content-wrapper.animate .landing-container-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .landing-container-title svg {
