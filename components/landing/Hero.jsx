@@ -12,6 +12,7 @@ export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
   const [showPremiumPopup, setShowPremiumPopup] = useState(false);
   const premiumButtonRef = useRef();
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -22,6 +23,11 @@ export default function Hero() {
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'dark';
+    setIsDarkMode(theme === 'dark');
   }, []);
 
   const handlePremiumClick = () => {
@@ -40,7 +46,7 @@ export default function Hero() {
             height={200}
             className="bot-avatar"
             priority={true}
-            style={{ opacity: 1 }} // Ensure the image is visible
+            style={{ opacity: 1 }} 
           />
         </div>
         <h1>Meet BoltBot⚡</h1>
@@ -61,17 +67,17 @@ export default function Hero() {
           <div className="premium-button-wrapper">
             <button
               ref={premiumButtonRef}
-              className="hero-button premium"
+              className={`hero-button premium ${isDarkMode ? 'dark' : 'light'}`}
               onClick={handlePremiumClick}
             >
               <div className="premium-content">
                 <Sparkles size={16} className="sparkle-icon" />
                 <span>Upgrade to Premium</span>
               </div>
-              <div className="premium-shine"></div>
+              <div className={`premium-shine ${isDarkMode ? 'dark' : 'light'}`}></div>
               <div className="premium-particles">
                 {[...Array(6)].map((_, i) => (
-                  <span key={i} className="particle" />
+                  <span key={i} className={`particle ${isDarkMode ? 'dark' : 'light'}`} />
                 ))}
               </div>
             </button>
