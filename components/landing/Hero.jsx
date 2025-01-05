@@ -4,13 +4,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Home, Sparkles } from 'lucide-react';
 import ScrollButtons from './ScrollButtons';
-import PremiumPopup from './PremiumPopup';
 import { useRef, useState, useEffect } from 'react';
 
 export default function Hero() {
-  const [showPopup, setShowPopup] = useState(false);
-  const premiumButtonRef = useRef(null);
-  const popupContainerRef = useRef(null);
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -25,21 +21,12 @@ export default function Hero() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+
   const handlePremiumClick = () => {
     router.push('/plans');
   };
 
-  const handlePremiumHover = (isHovering) => {
-    if (!isMobile) {
-      setShowPopup(isHovering);
-    }
-  };
 
-  useEffect(() => {
-    if (isMobile) {
-      setShowPopup(true);
-    }
-  }, [isMobile]);
 
   return (
     <section className="hero">
@@ -66,13 +53,10 @@ export default function Hero() {
             <div className="button-glow"></div>
           </Link>
           
-          <div className="premium-button-wrapper" ref={premiumButtonRef}>
+          <div className="premium-button-wrapper">
             <button
               className="hero-button premium"
               onClick={handlePremiumClick}
-              onMouseEnter={() => handlePremiumHover(true)}
-              onMouseLeave={() => handlePremiumHover(false)}
-              aria-expanded={showPopup}
             >
               <div className="premium-content">
                 <Sparkles size={16} className="sparkle-icon" />
@@ -83,15 +67,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="premium-popup-container" ref={popupContainerRef}>
-          {showPopup && (
-            <PremiumPopup 
-              onClose={() => !isMobile && setShowPopup(false)}
-              triggerRef={premiumButtonRef}
-              isMobile={isMobile}
-            />
-          )}
-        </div>
+
       </div>
       <ScrollButtons />
     </section>
