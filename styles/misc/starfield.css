@@ -28,41 +28,35 @@
   pointer-events: none;
 }
 
-/* Dark Theme Stars */
-:root[data-theme="dark"] .star:nth-child(3n) {
+/* Dark Theme (default) */
+.star:nth-child(3n) {
   width: 2px;
   height: 2px;
   background-color: rgba(255, 204, 0, 0.8);
 }
 
-:root[data-theme="dark"] .star:nth-child(3n+1) {
+.star:nth-child(3n+1) {
   width: 3px;
   height: 3px;
   background-color: rgba(255, 153, 0, 0.8);
 }
 
-:root[data-theme="dark"] .star:nth-child(3n+2) {
+.star:nth-child(3n+2) {
   width: 1px;
   height: 1px;
   background-color: rgba(255, 255, 255, 0.8);
 }
 
-/* Light Theme Stars */
+/* Light Theme */
 :root[data-theme="light"] .star:nth-child(3n) {
-  width: 2px;
-  height: 2px;
   background-color: rgba(0, 0, 0, 0.6);
 }
 
 :root[data-theme="light"] .star:nth-child(3n+1) {
-  width: 3px;
-  height: 3px;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme="light"] .star:nth-child(3n+2) {
-  width: 1px;
-  height: 1px;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -77,25 +71,15 @@
   }
 }
 
-/* Dark Theme Opacity Adjustments */
-:root[data-theme="dark"] .star {
-  --base-opacity: 0.8;
-}
-
-/* Light Theme Opacity Adjustments */
-:root[data-theme="light"] .star {
-  --base-opacity: 0.4;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .star {
     animation: none;
-    opacity: var(--base-opacity);
+    opacity: 0.5;
   }
 }
 
 @media (prefers-contrast: high) {
-  :root[data-theme="dark"] .star {
+  .star {
     opacity: 1;
   }
 
