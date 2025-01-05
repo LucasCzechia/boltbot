@@ -1,7 +1,6 @@
 // utils/animation.js
 let animationsInitialized = false;
-let observer; // Declare observer outside the initializeAnimations function
-
+let observer; 
 
 export const initializeAnimations = () => {
     if (animationsInitialized) return () => {};
