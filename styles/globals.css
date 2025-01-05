@@ -6,9 +6,9 @@
 @import './misc/404.css';
 
 /* Nav Styles */
-@import './nav/dashboard-navigation.css';
 @import './nav/nav.css';
 @import './nav/nav-links.css';
+@import './nav/dashboard-sidebar.css';
 
 /* Landing Styles */
 @import './landing/landing-page.css';
