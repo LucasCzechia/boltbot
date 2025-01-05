@@ -1,81 +1,57 @@
 // components/misc/Starfield.js
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
 
-const LandingStarfield = () => {
-  const canvasRef = useRef(null);
+const Starfield = () => {
+  const [stars, setStars] = useState([]);
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let stars = [];
-
-    const setCanvasSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    const createStars = () => {
-      stars = [];
-      const numStars = 150;
-
-      for (let i = 0; i < numStars; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 2,
-          opacity: Math.random(),
-          speed: Math.random() * 0.2,
-          color: i % 3 === 0 ? '#ffcc00' : i % 3 === 1 ? '#ff9900' : '#ffffff'
-        });
-      }
-    };
-
-    const drawStars = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.fillStyle = star.color;
-        ctx.globalAlpha = star.opacity;
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        star.y = (star.y + star.speed) % canvas.height;
-        star.opacity = Math.sin(Date.now() * 0.001 * star.speed) * 0.5 + 0.5;
-      });
-
-      animationFrameId = requestAnimationFrame(drawStars);
-    };
-
-    setCanvasSize();
-    createStars();
-    drawStars();
-
-    const handleResize = () => {
-      setCanvasSize();
-      createStars();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
-    };
+    setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (!mounted) return;
+
+    const generateStars = () => {
+      const starCount = 150;
+      const newStars = [];
+
+      for (let i = 0; i < starCount; i++) {
+        const star = {
+          id: i,
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          duration: `${2 + Math.random() * 3}s`,
+          type: i % 3
+        };
+        newStars.push(star);
+      }
+
+      setStars(newStars);
+    };
+
+    generateStars();
+  }, [mounted]);
+
+  if (!mounted) return null;
+
   return (
-    <canvas
-      ref={canvasRef}
-      className="landing-starfield"
-      style={{
-        background: 'transparent'
-      }}
-    />
+    <div className="starfield-container">
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className={`star star-type-${star.type}`}
+          style={{
+            left: star.left,
+            top: star.top,
+            '--duration': star.duration,
+          }}
+        />
+      ))}
+    </div>
   );
 };
 
-export default LandingStarfield;
+export default Starfield;
