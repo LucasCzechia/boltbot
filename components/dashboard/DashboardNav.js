@@ -15,7 +15,7 @@ import {
   LogIn
 } from 'lucide-react';
 
-export default function DashboardNav({ navigationItems = [], customTitle = null }) {
+export default function DashboardNav({ navigationItems = [], customTitle = null, onThemeChange }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -106,6 +106,9 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
     document.documentElement.classList.remove('light-mode', 'dark-mode');
     document.documentElement.classList.add(`${newTheme}-mode`);
     document.documentElement.setAttribute('data-theme', newTheme);
+      if (onThemeChange) {
+          onThemeChange(newTheme);
+      }
   };
 
    const handleSignOut = (e) => {
@@ -303,4 +306,4 @@ export default function DashboardNav({ navigationItems = [], customTitle = null 
           )}
     </nav>
   );
-}
+              }
