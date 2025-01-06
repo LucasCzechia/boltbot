@@ -266,19 +266,20 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                                 <span>Sign In</span>
                             </button>
                         )}
-                        <button
-                            className="mobile-menu-btn"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setIsMenuOpen(!isMenuOpen);
-                            }}
-                            aria-label="Toggle menu"
-                        >
-                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
+
                     </div>
                 </div>
+                <button
+                     className="mobile-menu-btn"
+                     onClick={(e) => {
+                         e.preventDefault();
+                         e.stopPropagation();
+                        setIsMenuOpen(!isMenuOpen);
+                         }}
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
             <div
               className={`menu-overlay ${isMenuOpen ? 'active' : ''}`}
