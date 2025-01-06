@@ -1,4 +1,5 @@
 /* styles/nav/nav-links.css */
+
 /* Mobile Menu Button */
 .mobile-menu-btn {
   display: none;
@@ -115,6 +116,7 @@
 .mobile-menu-btn:hover {
   transform: rotate(90deg);
 }
+
 /* Mobile Navigation */
 @media (max-width: 768px) {
  .mobile-menu-btn {
@@ -169,6 +171,7 @@
    padding: 0.875rem;
  }
 }
+
 /* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
  .nav-item,
