@@ -312,6 +312,10 @@
     height: 18px;
   }
 
+  .mobile-menu-btn {
+    display: flex;
+  }
+
   .login-button {
     padding: 0.5rem 0.875rem;
     font-size: 0.9rem;
@@ -340,6 +344,10 @@
   .theme-toggle,
   .nav-button {
     padding: 0.5rem;
+  }
+
+  .nav-links.mobile {
+    width: 100%;
   }
 
   .theme-icon,
