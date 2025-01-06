@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  z-index: 1001;
+  z-index: 1002; /* Increased z-index */
 }
 
 .mobile-menu-btn:hover {
@@ -109,7 +109,7 @@
   color: var(--primary);
   padding: 0.5rem;
   cursor: pointer;
-  z-index: 101;
+  z-index: 1002; /* Increased z-index */
   transition: all 0.3s ease;
 }
 
@@ -132,13 +132,13 @@
 
 .menu-overlay.active {
   display: block;
-  z-index: 102; /* Increased z-index for overlay */
 }
 
 /* Mobile Navigation */
 @media (max-width: 768px) {
  .mobile-menu-btn {
      display: flex;
+     z-index: 1002; /*Ensures button is above menu*/
  }
  .nav-links {
    position: fixed;
@@ -151,15 +151,13 @@
    padding: 5rem 1.5rem 2rem;
    gap: 0.75rem;
    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 100; /* Keep nav-links z-index lower than overlay */
+   z-index: 100;
    border-left: 1px solid rgba(255, 204, 0, 0.1);
    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
  }
 
  .nav-links.active {
    right: 0;
-    z-index: 101; /* Ensure nav-links are above overlay */
-
  }
 
  .nav-item {
