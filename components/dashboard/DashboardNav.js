@@ -25,7 +25,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
     const isMobile = currentWidth <= 768;
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null);
-    const menuButtonRef = useRef(null);
 
     const displayName = session?.user?.global_name ||
         session?.user?.name ||
@@ -260,18 +259,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                                         </button>
                                     </div>
                                 )}
-                                 <button
-                                  ref={menuButtonRef}
-                                    className="mobile-menu-btn"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        setIsMenuOpen(!isMenuOpen);
-                                    }}
-                                    aria-label="Toggle menu"
-                                >
-                                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                                </button>
                             </div>
                         ) : (
                             <button onClick={handleSignIn} className="login-button">
@@ -279,8 +266,20 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                                 <span>Sign In</span>
                             </button>
                         )}
+
                     </div>
                 </div>
+                <button
+                     className="mobile-menu-btn"
+                     onClick={(e) => {
+                         e.preventDefault();
+                         e.stopPropagation();
+                        setIsMenuOpen(!isMenuOpen);
+                         }}
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
             <div
               className={`menu-overlay ${isMenuOpen ? 'active' : ''}`}
