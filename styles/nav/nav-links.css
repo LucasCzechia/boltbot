@@ -1,4 +1,24 @@
 /* styles/nav/nav-links.css */
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--primary);
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1001;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--hover-bg);
+  transform: scale(1.05);
+}
+
 .nav-links-wrapper {
   display: flex;
   align-items: center;
