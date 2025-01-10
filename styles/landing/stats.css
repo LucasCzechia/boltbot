@@ -150,9 +150,7 @@
 .landing-stats-card h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
 }
 
 .landing-highlight {
@@ -171,21 +169,10 @@
 
 /* Loading States */
 .stats-loading {
-  min-height: 400px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-secondary);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  margin: 2rem 0;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-[data-theme="light"] .stats-loading {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .stats-loading-pulse {
@@ -193,24 +180,17 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 2rem;
-  background: rgba(255, 204, 0, 0.1);
-  border: 1px solid var(--primary);
-  border-radius: 12px;
   animation: loadingPulse 2s infinite;
 }
 
-[data-theme="light"] .stats-loading-pulse {
-  background: rgba(255, 204, 0, 0.15);
-}
-
 .stats-loading-text {
-  color: var(--primary);
+  color: var(--text-secondary);
   font-size: 1.125rem;
   font-weight: 500;
 }
 
 [data-theme="light"] .stats-loading-text {
-  color: var(--primary-dark);
+  color: var(--dark);
 }
 
 .loading-dots {
@@ -222,14 +202,14 @@
 .loading-dots span {
   width: 6px;
   height: 6px;
-  background-color: var(--primary);
+  background-color: var(--text-secondary);
   border-radius: 50%;
   animation: loadingDots 1.4s infinite;
   opacity: 0;
 }
 
 [data-theme="light"] .loading-dots span {
-  background-color: var(--primary-dark);
+  background-color: var(--dark);
 }
 
 /* Animations */
@@ -272,12 +252,10 @@
 
 @keyframes loadingPulse {
   0%, 100% {
-    transform: scale(1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.05);
-    opacity: 0.8;
+    opacity: 0.5;
   }
 }
 
@@ -358,6 +336,14 @@
   .landing-status-item {
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
+  }
+
+  .stats-loading {
+    min-height: 150px;
+  }
+
+  .stats-loading-text {
+    font-size: 1rem;
   }
 }
 
