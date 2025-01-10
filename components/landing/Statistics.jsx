@@ -1,9 +1,34 @@
+// components/landing/Statistics.jsx
 import { useState, useEffect } from 'react';
 import LandingContentContainer from './LandingContentContainer';
 import { BarChart } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const API_URL = 'https://www.boltbot.app/api/stats';
 const UPTIME_KEY = 'bot_uptime_start';
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3
+    }
+  }
+};
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
@@ -93,76 +118,117 @@ const Statistics = () => {
   return (
     <section className="landing-statistics" id="statistics">
       <LandingContentContainer>
-        <h2 className="landing-container-title">
-          <BarChart size={24} />
-          Live Statistics
-        </h2>
-        <div className="landing-status-bar">
-          <div className="landing-status-item">
-            <div
-              className="landing-status-indicator"
-              style={{
-                backgroundColor: stats?.status?.state === 'online' 
-                  ? 'var(--status-online)'
-                  : 'var(--status-offline)',
-                boxShadow: `0 0 10px ${
-                  stats?.status?.state === 'online'
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.h2 variants={fadeInUp} className="landing-container-title">
+            <BarChart size={24} />
+            Live Statistics
+          </motion.h2>
+
+          <motion.div 
+            className="landing-status-bar"
+            variants={fadeInUp}
+          >
+            <div className="landing-status-item">
+              <div
+                className="landing-status-indicator"
+                style={{
+                  backgroundColor: stats?.status?.state === 'online' 
                     ? 'var(--status-online)'
-                    : 'var(--status-offline)'
-                }`,
-              }}
-            />
-            <span>
-              System{' '}
-              {stats?.status?.state === 'idle'
-                ? 'Offline'
-                : stats?.status?.state 
-                ? stats.status.state.charAt(0).toUpperCase() + stats.status.state.slice(1)
-                : 'Unknown'}
-            </span>
-          </div>
-          <div className="landing-status-item">
-            <span>Response Time:</span>
-            <div className="w-24">
-              <div className="landing-response-gauge">
-                <div
-                  className="landing-gauge-fill"
-                  style={{
-                    width: `${Math.min(
-                      100,
-                      Math.max(0, (200 - (stats?.status?.responseTime || 0)) / 2)
-                    )}%`,
-                  }}
-                />
-              </div>
-              <div className="text-right text-sm text-primary">
-                {stats?.status?.responseTime || 0}ms
+                    : 'var(--status-offline)',
+                  boxShadow: `0 0 10px ${
+                    stats?.status?.state === 'online'
+                      ? 'var(--status-online)'
+                      : 'var(--status-offline)'
+                  }`,
+                }}
+              />
+              <span>
+                System{' '}
+                {stats?.status?.state === 'idle'
+                  ? 'Offline'
+                  : stats?.status?.state 
+                  ? stats.status.state.charAt(0).toUpperCase() + stats.status.state.slice(1)
+                  : 'Unknown'}
+              </span>
+            </div>
+            <div className="landing-status-item">
+              <span>Response Time:</span>
+              <div className="w-24">
+                <div className="landing-response-gauge">
+                  <motion.div
+                    className="landing-gauge-fill"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${Math.min(100, Math.max(0, (200 - (stats?.status?.responseTime || 0)) / 2))}%` }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                  />
+                </div>
+                <div className="text-right text-sm text-primary">
+                  {stats?.status?.responseTime || 0}ms
+                </div>
               </div>
             </div>
-          </div>
-          <div className="landing-status-item">
-          <span>{stats?.status?.state === 'online' ? 'Uptime' : 'Downtime'}:</span>
-          <span className="text-primary">{formatTime()}</span>
-          </div>
-        </div>
-        <div className="landing-stats-grid">
-          <div className="landing-stats-card">
-            <h3>🌐 Global Reach</h3>
-            <p>
-              Currently serving{' '}
-              <span className="landing-highlight">{stats?.guilds?.toLocaleString() || 0}</span>{' '}
-              servers worldwide
-            </p>
-          </div>
-          <div className="landing-stats-card">
-            <h3>👥 Active Users</h3>
-            <p>
-              Over{' '}
-              <span className="landing-highlight">{stats?.users?.toLocaleString() || 0}</span>{' '}
-              users and growing
-            </p>
-          </div>
-        </div>
+            <div className="landing-status-item">
+              <span>{stats?.status?.state === 'online' ? 'Uptime' : 'Downtime'}:</span>
+              <span className="text-primary">{formatTime()}</span>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            className="landing-stats-grid"
+            variants={containerVariants}
+          >
+            <motion.div 
+              className="landing-stats-card"
+              variants={fadeInUp}
+            >
+              <h3>🌐 Global Reach</h3>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Currently serving{' '}
+                <motion.span 
+                  className="landing-highlight"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  {stats?.guilds?.toLocaleString() || 0}
+                </motion.span>{' '}
+                servers worldwide
+              </motion.p>
+            </motion.div>
+
+            <motion.div 
+              className="landing-stats-card"
+              variants={fadeInUp}
+            >
+              <h3>👥 Active Users</h3>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Over{' '}
+                <motion.span 
+                  className="landing-highlight"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  {stats?.users?.toLocaleString() || 0}
+                </motion.span>{' '}
+                users and growing
+              </motion.p>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </LandingContentContainer>
     </section>
   );
