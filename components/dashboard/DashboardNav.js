@@ -210,8 +210,8 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
           <Image
             src="/images/boltbot.webp"
             alt="BoltBot Logo"
-            width={45}
-            height={45}
+            width={55}
+            height={55}
             priority
             className="logo-image"
           />
