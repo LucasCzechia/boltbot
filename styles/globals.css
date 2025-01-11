@@ -11,6 +11,8 @@
 @import './nav/nav.css';
 @import './nav/nav-links.css';
 @import './nav/dashboard-sidebar.css';
+@import './nav/nav-buttons.css';
+@import './nav/nav-profile.css';
 
 /* Landing Styles */
 @import './landing/landing-page.css';
