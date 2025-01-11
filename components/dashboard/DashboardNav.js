@@ -21,6 +21,10 @@ import {
   Bot
 } from 'lucide-react';
 
+import '../../styles/dashboard/nav.css';
+import '../../styles/dashboard/nav-buttons.css';
+import '../../styles/dashboard/nav-profile.css';
+
 const defaultNavigationItems = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, requiresAuth: true },
@@ -298,9 +302,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                 <span>Sign In</span>
               </button>
             )}
-          </div>
-        </div>
-           <button
+             <button
               className="mobile-menu-btn"
               onClick={(e) => {
                 e.preventDefault();
@@ -311,6 +313,8 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
+          </div>
+        </div>
       </div>
 
          {isMenuOpen && (
