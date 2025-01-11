@@ -1,5 +1,5 @@
 // components/dashboard/DashboardNav.js
-import { useSession, signIn } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,8 +12,37 @@ import {
   Sun,
   LogOut,
   ServerIcon,
-  LogIn
+  LogIn,
+  Home,
+  LayoutDashboard,
+  Shield,
+  FileText,
+  Users,
+  Bot
 } from 'lucide-react';
+
+const defaultNavigationItems = [
+    { name: 'Home', href: '/', icon: Home },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, requiresAuth: true },
+    { name: 'Terms of Service', href: '/tos', icon: FileText, external: true },
+    { name: 'Privacy Policy', href: '/privacy', icon: Shield, external: true },
+    {
+        name: 'Community',
+        href: 'https://discord.gg/bolt',
+        icon: Users,
+        description: 'Join our Discord server',
+        external: true
+    },
+    {
+        name: 'Add to Discord',
+        href: 'https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot',
+        icon: Bot,
+        description: 'Add BoltBot to your server',
+        external: true,
+        isPrimary: true
+    },
+];
+
 
 export default function DashboardNav({ navigationItems = [], customTitle = null, onThemeChange }) {
   const { data: session, status } = useSession();
@@ -26,6 +55,8 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
   const isMobile = currentWidth <= 768;
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+    const finalNavigationItems = navigationItems.length > 0 ? navigationItems : defaultNavigationItems;
+
 
     const displayName = session?.user?.global_name ||
         session?.user?.name ||
@@ -115,10 +146,12 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
         e.preventDefault();
         e.stopPropagation();
         closeMenus();
-        router.push('/auth/login/logout');
+        signOut();
     };
 
+
   const handleSignIn = async () => {
+        closeMenus();
     try {
       router.push('/auth/login');
     } catch (error) {
@@ -285,7 +318,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                   className={`nav-links ${isMenuOpen ? 'active' : ''}`}
                   onClick={(e) => e.stopPropagation()}
               >
-                {navigationItems.map((item) => {
+                {finalNavigationItems.map((item) => {
                   if (item.requiresAuth && !session) return null;
 
                   return (
