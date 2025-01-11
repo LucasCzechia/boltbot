@@ -6,11 +6,7 @@
 :root.light-mode {
     --nav-button-hover: rgba(0, 0, 0, 0.1);
 }
-.nav-controls-wrapper-outer {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
+
 .nav-controls {
   display: flex;
   align-items: center;
@@ -124,7 +120,6 @@
 
 
 /* Mobile Menu Button */
-
 .mobile-menu-btn {
     background: none;
     border: none;
@@ -161,9 +156,6 @@
     padding: 0.5rem 0.875rem;
     font-size: 0.9rem;
   }
-    .nav-controls-wrapper-outer {
-        gap: 0.5rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -186,9 +178,6 @@
     padding: 0.3rem;
     gap: 0.5rem;
   }
-      .nav-controls-wrapper-outer {
-          gap: 0.3rem;
-      }
 }
 @media (min-width: 769px) {
   .mobile-menu-btn {
