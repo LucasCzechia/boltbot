@@ -298,7 +298,9 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                 <span>Sign In</span>
               </button>
             )}
-             <button
+          </div>
+        </div>
+           <button
               className="mobile-menu-btn"
               onClick={(e) => {
                 e.preventDefault();
@@ -309,8 +311,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-          </div>
-        </div>
       </div>
 
          {isMenuOpen && (
