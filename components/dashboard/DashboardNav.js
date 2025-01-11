@@ -218,89 +218,90 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
           <span className="logo-text">{getNavTitle()}</span>
         </Link>
 
-        <div className="nav-controls-wrapper">
-          <div className="nav-controls">
-            {isServerDashboard && (
-              <button
-                onClick={() => router.push('/dashboard/servers')}
-                className="nav-button"
-                aria-label="Back to servers"
-              >
-                <ServerIcon className="nav-icon" />
-              </button>
-            )}
+         <div className="nav-controls-wrapper-outer">
+              <div className="nav-controls-wrapper">
+                <div className="nav-controls">
+                    {isServerDashboard && (
+                    <button
+                        onClick={() => router.push('/dashboard/servers')}
+                        className="nav-button"
+                        aria-label="Back to servers"
+                    >
+                        <ServerIcon className="nav-icon" />
+                    </button>
+                    )}
 
-            <button
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {isDarkMode ? (
-                <Moon className="theme-icon" />
-              ) : (
-                <Sun className="theme-icon" />
-              )}
-            </button>
+                    <button
+                    className="theme-toggle"
+                    onClick={toggleTheme}
+                    aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                    >
+                    {isDarkMode ? (
+                        <Moon className="theme-icon" />
+                    ) : (
+                        <Sun className="theme-icon" />
+                    )}
+                    </button>
 
-            {status === "loading" ? (
-              <div className="loading-avatar" />
-            ) : session?.user ? (
-              <div className="user-profile-wrapper">
-                <button
-                  ref={buttonRef}
-                  className="user-profile-button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowDropdown(!showDropdown);
-                  }}
-                  aria-expanded={showDropdown}
-                >
-                  <Image
-                    src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
-                    alt={`${displayName}'s avatar`}
-                    width={48}
-                    height={48}
-                    className="user-avatar"
-                    unoptimized
-                  />
-                </button>
-
-                {showDropdown && (
-                      <div
-                         ref={dropdownRef}
-                          className="user-dropdown show"
-                      >
-                        <div className="user-info">
-                          <Image
+                    {status === "loading" ? (
+                    <div className="loading-avatar" />
+                    ) : session?.user ? (
+                    <div className="user-profile-wrapper">
+                        <button
+                        ref={buttonRef}
+                        className="user-profile-button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowDropdown(!showDropdown);
+                        }}
+                        aria-expanded={showDropdown}
+                        >
+                        <Image
                             src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
                             alt={`${displayName}'s avatar`}
-                            width={65}
-                            height={65}
-                            className="dropdown-avatar"
+                            width={48}
+                            height={48}
+                            className="user-avatar"
                             unoptimized
-                          />
-                          <div className="user-details">
-                            <div className="user-name">{displayName}</div>
-                            <div className="user-handle">{handle}</div>
-                          </div>
-                        </div>
-                          <button onClick={handleSignOut} className="logout-button">
-                            <LogOut size={20} />
-                            <span>Sign Out</span>
+                        />
                         </button>
-                      </div>
-                  )}
-              </div>
-            ) : (
-              <button onClick={handleSignIn} className="login-button">
-                <LogIn size={20} />
-                <span>Sign In</span>
-              </button>
-            )}
-          </div>
-        </div>
-           <button
+
+                        {showDropdown && (
+                            <div
+                            ref={dropdownRef}
+                                className="user-dropdown show"
+                            >
+                            <div className="user-info">
+                                <Image
+                                src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                                alt={`${displayName}'s avatar`}
+                                width={65}
+                                height={65}
+                                className="dropdown-avatar"
+                                unoptimized
+                                />
+                                <div className="user-details">
+                                <div className="user-name">{displayName}</div>
+                                <div className="user-handle">{handle}</div>
+                                </div>
+                            </div>
+                                <button onClick={handleSignOut} className="logout-button">
+                                <LogOut size={20} />
+                                <span>Sign Out</span>
+                            </button>
+                            </div>
+                        )}
+                    </div>
+                    ) : (
+                    <button onClick={handleSignIn} className="login-button">
+                        <LogIn size={20} />
+                        <span>Sign In</span>
+                    </button>
+                    )}
+                </div>
+            </div>
+            <button
               className="mobile-menu-btn"
               onClick={(e) => {
                 e.preventDefault();
@@ -311,8 +312,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-      </div>
-
+        </div>
          {isMenuOpen && (
               <div
                   className={`nav-links ${isMenuOpen ? 'active' : ''}`}
