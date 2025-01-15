@@ -11,7 +11,7 @@ const PLAN_FEATURES = {
       feature: "Voting Privileges:",
       included: true,
       subFeatures: [
-        "Increase Message Limit:",
+        "Increased Message Limit:",
         "(30 -> 50 Messages)", 
         "Unlock a Single Premium Tool"
       ]
@@ -28,10 +28,17 @@ const PLAN_FEATURES = {
     { feature: "AI Model Selection (Gemini or GPT; GPT incurs a 50-message reduction)", included: true },
     { feature: "Full Tool Availability", included: true },
     { feature: "Full Feature Availability", included: true },
+    {
+      feature: "Voting Privileges:",
+      included: true,
+      subFeatures: [
+        "Increased Message Limit:",
+        "(100 -> 125 Messages)", 
+      ]
+    },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: true },
     { feature: "Custom Personality", included: true},
-    { feature: "Voting for Increased Message Limit", included: true }
-  ],
+    ],
   custom: [
     { feature: "Custom Message Limit", included: true },
     { feature: "Personalized Bot Behavior & Functionality", included: true },
