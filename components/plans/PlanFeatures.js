@@ -14,7 +14,7 @@ const PLAN_FEATURES = {
         "Unlock a Single Premium Tool"
       ]
     },
-    { feature: "Extended Message Allotment", included: false },
+    { feature: "Extended Message Limit", included: false },
     { feature: "AI Model Selection", included: false },
     { feature: "Comprehensive Tool Access", included: false},
     { feature: "Full Feature Availability", included: false },
@@ -22,7 +22,7 @@ const PLAN_FEATURES = {
     { feature: "Custom Personality", included: false},
   ],
   premium: [
-    { feature: "Extended Message Allotment (100 Every 3 Hours)", included: true },
+    { feature: "Extended Message Limit (100 Every 3 Hours)", included: true },
     { feature: "AI Model Selection (Gemini or GPT; GPT incurs a 50-message reduction)", included: true },
     { feature: "Comprehensive Tool Access", included: true },
     { feature: "Full Feature Availability", included: true },
@@ -31,12 +31,12 @@ const PLAN_FEATURES = {
     { feature: "Voting for Increased Message Allotment", included: true }
   ],
   custom: [
-    { feature: "Custom Message Allotment", included: true },
+    { feature: "Custom Message Limit", included: true },
     { feature: "Personalized Bot Behavior & Functionality", included: true },
-    { feature: "Tailored Tool Selection", included: true },
+    { feature: "Customizable Tool Selection", included: true },
     { feature: "Customizable Feature Set", included: true },
-    { feature: "Dedicated Support & Account Management", included: true },
-    { feature: "Integration with Existing Systems", included: true },
+    { feature: "Dedicated & Priority Support", included: true },
+    { feature: "Integration with Existing System", included: true },
   ]
 };
 
