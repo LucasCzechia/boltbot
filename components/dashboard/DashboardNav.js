@@ -315,11 +315,27 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
 
          {isMenuOpen && (
               <div
-                  className={`dashboard-nav-links ${isMenuOpen ? 'active' : ''}`}
+                  className={`dashboard-nav-links ${isMenuOpen ? 'active' : ''}`} // Changed class name
                   onClick={(e) => e.stopPropagation()}
               >
+                {finalNavigationItems.map((item) => {
+                  if (item.requiresAuth && !session) return null;
+
+                  return (
+                    <button
+                      key={item.name}
+                      className={`dashboard-nav-item ${item.isPrimary ? 'primary' : ''}`} // Changed class name
+                      onClick={(e) => handleNavigation(item, e)}
+                      role="link"
+                    >
+                      {item.icon && <item.icon size={20} className="dashboard-nav-icon" />} {/* Changed class name */}
+                      <span className="nav-label">{item.name}</span>
+                      {item.external && <ExternalLink size={16} className="external-icon" />}
+                    </button>
+                  );
+                })}
                  <button
-                    className="dashboard-nav-close-btn"
+                    className="dashboard-nav-close-btn" // Changed class name
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -329,23 +345,6 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                     >
                       <X size={24} />
                 </button>
-                {finalNavigationItems.map((item) => {
-                  if (item.requiresAuth && !session) return null;
-
-                  return (
-                    <button
-                      key={item.name}
-                      className={`dashboard-nav-item ${item.isPrimary ? 'primary' : ''}`}
-                      onClick={(e) => handleNavigation(item, e)}
-                      role="link"
-                    >
-                      {item.icon && <item.icon size={20} className="dashboard-nav-icon" />}
-                      <span className="nav-label">{item.name}</span>
-                      {item.external && <ExternalLink size={16} className="external-icon" />}
-                    </button>
-                  );
-                })}
-
               </div>
           )}
     </nav>
