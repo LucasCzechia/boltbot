@@ -4,19 +4,20 @@ import { Check, X } from 'lucide-react';
 const PLAN_FEATURES = {
   free: [
     { feature: "30 Messages Every 3 Hours", included: true },
-    { feature: "Access to Select Tools", included: true },
+    { feature: "Limited AI Model Selection (Gemini)", included: true },
+    { feature: "Limited Tools Set (e.g., Weather, Current Time)", included: true },
     { feature: "Limited Feature Set (e.g., Image, Vision)", included: true },
     {
       feature: "Voting Privileges:",
       included: true,
       subFeatures: [
-        "Increase Message Allotment",
+        "Increase Message Limit (30 -> 50)",
         "Unlock a Single Premium Tool"
       ]
     },
     { feature: "Extended Message Limit", included: false },
     { feature: "AI Model Selection", included: false },
-    { feature: "Comprehensive Tool Access", included: false},
+    { feature: "Full Tool Availability", included: false},
     { feature: "Full Feature Availability", included: false },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: false},
     { feature: "Custom Personality", included: false},
@@ -24,7 +25,7 @@ const PLAN_FEATURES = {
   premium: [
     { feature: "100 Messages Every 3 Hours", included: true },
     { feature: "AI Model Selection (Gemini or GPT; GPT incurs a 50-message reduction)", included: true },
-    { feature: "Comprehensive Tool Access", included: true },
+    { feature: "Full Tool Availability", included: true },
     { feature: "Full Feature Availability", included: true },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: true },
     { feature: "Custom Personality", included: true},
