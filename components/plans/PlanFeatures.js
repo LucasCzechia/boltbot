@@ -43,7 +43,7 @@ const PLAN_FEATURES = {
 export default function PlanFeatures({ plan }) {
   return (
     <ul className="plan-features">
-      {PLAN_FEATURES[plan].map((item, index) => (
+      {PLAN_FEATURES[plan]?.map((item, index) => (
         <li 
           key={index}
           className={`feature-item ${!item.included ? 'disabled' : ''}`}
