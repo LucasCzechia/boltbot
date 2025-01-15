@@ -190,6 +190,24 @@
  .dashboard-nav-item.primary { /* Changed class name */
    margin-top: 0.5rem;
  }
+
+ /* Close button for mobile menu */
+ .dashboard-nav-links .dashboard-nav-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 1003;
+    border-radius: 50%;
+  }
+  
+  .dashboard-nav-links .dashboard-nav-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
 
 @media (max-width: 480px) {
@@ -220,4 +238,15 @@
  .dashboard-nav-item.primary { /* Changed class name */
    border: 2px solid var(--dark);
  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  .dashboard-nav-item:hover {
+    transform: none;
+  }
+  
+  .dashboard-nav-item:active {
+    background: rgba(255, 204, 0, 0.1);
+  }
 }
