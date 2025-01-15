@@ -18,8 +18,6 @@ const PLAN_FEATURES = {
     },
     { feature: "Extended Message Limit", included: false },
     { feature: "AI Model Selection", included: false },
-    { feature: "Full Tool Availability", included: false},
-    { feature: "Full Feature Availability", included: false },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: false},
     { feature: "Custom Personalities & Behavior", included: false},
   ],
