@@ -29,7 +29,7 @@ const PLAN_FEATURES = {
     { feature: "Full Feature Availability", included: true },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: true },
     { feature: "Custom Personality", included: true},
-    { feature: "Voting for Increased Message Allotment", included: true }
+    { feature: "Voting for Increased Message Limit", included: true }
   ],
   custom: [
     { feature: "Custom Message Limit", included: true },
