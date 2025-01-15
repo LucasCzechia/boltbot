@@ -241,7 +241,7 @@
   .dashboard-nav-item {
     border-width: 2px;
   }
-  
+
   .dashboard-nav-item.primary {
     border: 2px solid var(--dark);
   }
@@ -252,7 +252,7 @@
   .dashboard-nav-item:hover {
     transform: none;
   }
-  
+
   .dashboard-nav-item:active {
     background: rgba(255, 204, 0, 0.1);
   }
