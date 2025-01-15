@@ -1,5 +1,5 @@
 // components/dashboard/DashboardNav.js
-import { useSession, signIn } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,7 +13,36 @@ import {
   LogOut,
   ServerIcon,
   LogIn,
+  Home,
+  LayoutDashboard,
+  Shield,
+  FileText,
+  Users,
+  Bot
 } from 'lucide-react';
+
+const defaultNavigationItems = [
+    { name: 'Home', href: '/', icon: Home },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, requiresAuth: true },
+    { name: 'Terms of Service', href: '/tos', icon: FileText, external: true },
+    { name: 'Privacy Policy', href: '/privacy', icon: Shield, external: true },
+    {
+        name: 'Community',
+        href: 'https://discord.gg/bolt',
+        icon: Users,
+        description: 'Join our Discord server',
+        external: true
+    },
+    {
+        name: 'Add to Discord',
+        href: 'https://discord.com/oauth2/authorize?client_id=1250114494081007697&permissions=8&scope=bot',
+        icon: Bot,
+        description: 'Add BoltBot to your server',
+        external: true,
+        isPrimary: true
+    },
+];
+
 
 export default function DashboardNav({ navigationItems = [], customTitle = null, onThemeChange }) {
   const { data: session, status } = useSession();
@@ -26,66 +55,60 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
   const isMobile = currentWidth <= 768;
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
-  const menuRef = useRef(null);
+    const finalNavigationItems = navigationItems.length > 0 ? navigationItems : defaultNavigationItems;
+
+
+    const displayName = session?.user?.global_name ||
+        session?.user?.name ||
+        session?.user?.username ||
+        'Unknown User';
+
+    const handle = session?.user?.name ?
+        `@${session.user.name}` :
+        session?.user?.id ?
+            `@${session.user.id}` :
+            '@unknown';
 
   const closeMenus = useCallback(() => {
-    if (isMenuOpen) {
-      document.body.classList.remove('menu-open');
-      const overlay = document.querySelector('.menu-overlay');
-      if (overlay) {
-        overlay.classList.remove('active');
-      }
-    }
     setIsMenuOpen(false);
     setShowDropdown(false);
-  }, [isMenuOpen]);
+  }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        !buttonRef.current?.contains(event.target)
-      ) {
-        setShowDropdown(false);
-      }
-
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        !event.target.closest('.mobile-menu-btn')
-      ) {
-        closeMenus();
-      }
-    };
+      const handleClickOutside = (event) => {
+          if (
+              dropdownRef.current &&
+              !dropdownRef.current.contains(event.target) &&
+              !buttonRef.current.contains(event.target)
+          ) {
+              setShowDropdown(false);
+          }
+      };
 
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
-        closeMenus();
+        setShowDropdown(false);
+        setIsMenuOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
-    
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleEscape);
     };
-  }, [closeMenus]);
+}, []);
 
   useEffect(() => {
     const handleResize = () => {
       setCurrentWidth(window.innerWidth);
-      if (window.innerWidth > 768) {
-        closeMenus();
-      }
     };
 
     window.addEventListener('resize', handleResize);
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
-  }, [closeMenus]);
+  }, []);
 
   useEffect(() => {
     const theme = localStorage.getItem('theme') || 'dark';
@@ -95,23 +118,17 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
     document.documentElement.setAttribute('data-theme', theme);
   }, []);
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.classList.add('menu-open');
-      const overlay = document.createElement('div');
-      overlay.className = 'menu-overlay';
-      document.body.appendChild(overlay);
-      setTimeout(() => overlay.classList.add('active'), 0);
+    useEffect(() => {
+        if (showDropdown || isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [showDropdown, isMenuOpen]);
 
-      overlay.addEventListener('click', closeMenus);
-
-      return () => {
-        document.body.classList.remove('menu-open');
-        overlay.removeEventListener('click', closeMenus);
-        overlay.remove();
-      };
-    }
-  }, [isMenuOpen, closeMenus]);
 
   const toggleTheme = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
@@ -120,24 +137,21 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
     document.documentElement.classList.remove('light-mode', 'dark-mode');
     document.documentElement.classList.add(`${newTheme}-mode`);
     document.documentElement.setAttribute('data-theme', newTheme);
-    if (onThemeChange) {
-      onThemeChange(newTheme);
-    }
+      if (onThemeChange) {
+          onThemeChange(newTheme);
+      }
   };
 
-  const handleSignOut = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeMenus();
-    try {
-      await router.push('/auth/login/logout');
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
-  };
+   const handleSignOut = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMenus();
+        signOut();
+    };
+
 
   const handleSignIn = async () => {
-    closeMenus();
+        closeMenus();
     try {
       router.push('/auth/login');
     } catch (error) {
@@ -145,46 +159,183 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
     }
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const getNavTitle = () => {
+    if (currentWidth <= 768) {
+      return "BoltBot⚡";
+    }
+    if (customTitle) {
+      return customTitle;
+    }
+    if (isServerDashboard) {
+      return "BoltBot⚡ Dashboard";
+    }
+    return "BoltBot⚡";
   };
+
+   const handleNavigation = useCallback((item, e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        if (item.requiresAuth && !session) {
+            closeMenus();
+            router.push('/auth/login');
+            return;
+        }
+
+        if (item.external) {
+            window.open(item.href, '_blank', 'noopener,noreferrer');
+            closeMenus();
+            return;
+        }
+
+        if (item.href.startsWith('/#')) {
+            const elementId = item.href.replace('/#', '');
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                closeMenus();
+            }
+        } else {
+            closeMenus();
+            router.push(item.href);
+        }
+    }, [router, session, closeMenus]);
 
   return (
     <nav className="dashboard-nav">
-      {/* Rest of the component implementation remains the same... */}
       <div className="nav-content">
-        {/* ... existing nav content ... */}
+        <Link href="/" className="logo" onClick={closeMenus}>
+          <Image
+            src="/images/boltbot.webp"
+            alt="BoltBot Logo"
+            width={55}
+            height={55}
+            priority
+            className="logo-image"
+          />
+          <span className="logo-text">{getNavTitle()}</span>
+        </Link>
 
-        <button
-          className="mobile-menu-btn"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-          aria-expanded={isMenuOpen}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="nav-controls-wrapper">
+          <div className="nav-controls">
+            {isServerDashboard && (
+              <button
+                onClick={() => router.push('/dashboard/servers')}
+                className="nav-button"
+                aria-label="Back to servers"
+              >
+                <ServerIcon className="nav-icon" />
+              </button>
+            )}
 
-        <div
-          ref={menuRef}
-          className={`nav-links ${isMenuOpen ? 'active' : ''}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {navigationItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
-              onClick={closeMenus}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noopener noreferrer' : undefined}
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              {item.icon && <item.icon size={20} className="nav-icon" />}
-              <span>{item.name}</span>
-              {item.external && <ExternalLink size={16} className="external-icon" />}
-            </Link>
-          ))}
+              {isDarkMode ? (
+                <Moon className="theme-icon" />
+              ) : (
+                <Sun className="theme-icon" />
+              )}
+            </button>
+
+            {status === "loading" ? (
+              <div className="loading-avatar" />
+            ) : session?.user ? (
+              <div className="user-profile-wrapper">
+                <button
+                  ref={buttonRef}
+                  className="user-profile-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowDropdown(!showDropdown);
+                  }}
+                  aria-expanded={showDropdown}
+                >
+                  <Image
+                    src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                    alt={`${displayName}'s avatar`}
+                    width={48}
+                    height={48}
+                    className="user-avatar"
+                    unoptimized
+                  />
+                </button>
+
+                {showDropdown && (
+                      <div
+                         ref={dropdownRef}
+                          className="user-dropdown show"
+                      >
+                        <div className="user-info">
+                          <Image
+                            src={session.user.image || "https://cdn.discordapp.com/embed/avatars/0.png"}
+                            alt={`${displayName}'s avatar`}
+                            width={65}
+                            height={65}
+                            className="dropdown-avatar"
+                            unoptimized
+                          />
+                          <div className="user-details">
+                            <div className="user-name">{displayName}</div>
+                            <div className="user-handle">{handle}</div>
+                          </div>
+                        </div>
+                          <button onClick={handleSignOut} className="logout-button">
+                            <LogOut size={20} />
+                            <span>Sign Out</span>
+                        </button>
+                      </div>
+                  )}
+              </div>
+            ) : (
+              <button onClick={handleSignIn} className="login-button">
+                <LogIn size={20} />
+                <span>Sign In</span>
+              </button>
+            )}
+             <button
+              className="mobile-menu-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
+
+         {isMenuOpen && (
+              <div
+                  className={`nav-links ${isMenuOpen ? 'active' : ''}`}
+                  onClick={(e) => e.stopPropagation()}
+              >
+                {finalNavigationItems.map((item) => {
+                  if (item.requiresAuth && !session) return null;
+
+                  return (
+                    <button
+                      key={item.name}
+                      className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                      onClick={(e) => handleNavigation(item, e)}
+                      role="link"
+                    >
+                      {item.icon && <item.icon size={20} className="nav-icon" />}
+                      <span className="nav-label">{item.name}</span>
+                      {item.external && <ExternalLink size={16} className="external-icon" />}
+                    </button>
+                  );
+                })}
+              </div>
+          )}
     </nav>
   );
-}
+                }
