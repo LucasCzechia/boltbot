@@ -334,7 +334,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                     </button>
                   );
                 })}
-                <button
+                  <button
                     className="dashboard-nav-close-btn"
                     onClick={(e) => {
                         e.preventDefault();
