@@ -38,9 +38,9 @@ const PLAN_FEATURES = {
     { feature: "Custom Personalities & Behavior", included: true},
     ],
   custom: [
+    { feature: "Personalized Custom Bot", included: true },
     { feature: "Custom Message Limit", included: true },
-    { feature: "Personalized Bot Behavior & Functionality", included: true },
-    { feature: "Customizable Tool Selection", included: true },
+    { feature: "Customizable Tool Set", included: true },
     { feature: "Customizable Feature Set", included: true },
     { feature: "Dedicated & Priority Support", included: true },
     { feature: "Integration with Existing System", included: true },
