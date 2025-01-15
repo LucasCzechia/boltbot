@@ -21,13 +21,13 @@ const PLAN_FEATURES = {
     { feature: "Full Tool Availability", included: false},
     { feature: "Full Feature Availability", included: false },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: false},
-    { feature: "Custom Personality", included: false},
+    { feature: "Custom Personalities & Behavior", included: false},
   ],
   premium: [
     { feature: "100 Messages Every 3 Hours", included: true },
     { feature: "AI Model Selection (Gemini or GPT; GPT incurs a 50-message reduction)", included: true },
-    { feature: "Full Tool Availability", included: true },
-    { feature: "Full Feature Availability", included: true },
+    { feature: "Unlock All Tools", included: true },
+    { feature: "Unlock All Features", included: true },
     {
       feature: "Voting Privileges:",
       included: true,
@@ -37,7 +37,7 @@ const PLAN_FEATURES = {
       ]
     },
     { feature: "Direct Bot Interaction (DM) & Slash Commands", included: true },
-    { feature: "Custom Personality", included: true},
+    { feature: "Custom Personalities & Behavior", included: true},
     ],
   custom: [
     { feature: "Custom Message Limit", included: true },
