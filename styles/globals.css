@@ -54,12 +54,7 @@
 @import './dashboard/server/info-button.css';
 
 /* Plans Styles */
-@import './plans/base.css';
-@import './plans/cards.css';
-@import './plans/features.css';
-@import './plans/animations.css';
-@import './plans/responsive.css';
-@import './plans/utilities.css';
+@import './plans/combined.css';
 
 :root {
   /* Base colors */
