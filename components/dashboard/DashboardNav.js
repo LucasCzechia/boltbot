@@ -315,7 +315,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
 
          {isMenuOpen && (
               <div
-                  className={`nav-links ${isMenuOpen ? 'active' : ''}`}
+                  className={`dashboard-nav-links ${isMenuOpen ? 'active' : ''}`}
                   onClick={(e) => e.stopPropagation()}
               >
                 {finalNavigationItems.map((item) => {
@@ -324,18 +324,29 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                   return (
                     <button
                       key={item.name}
-                      className={`nav-item ${item.isPrimary ? 'primary' : ''}`}
+                      className={`dashboard-nav-item ${item.isPrimary ? 'primary' : ''}`}
                       onClick={(e) => handleNavigation(item, e)}
                       role="link"
                     >
-                      {item.icon && <item.icon size={20} className="nav-icon" />}
+                      {item.icon && <item.icon size={20} className="dashboard-nav-icon" />}
                       <span className="nav-label">{item.name}</span>
                       {item.external && <ExternalLink size={16} className="external-icon" />}
                     </button>
                   );
                 })}
+                <button
+                    className="dashboard-nav-close-btn"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsMenuOpen(false)
+                    }}
+                    aria-label="Close menu"
+                    >
+                      <X size={24} />
+                </button>
               </div>
           )}
     </nav>
   );
-                }
+}
