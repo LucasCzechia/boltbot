@@ -11,7 +11,8 @@ const PLAN_FEATURES = {
       feature: "Voting Privileges:",
       included: true,
       subFeatures: [
-        "Increase Message Limit (30 -> 50)",
+        "Increase Message Limit:",
+        "(30 -> 50 Messages)", 
         "Unlock a Single Premium Tool"
       ]
     },
