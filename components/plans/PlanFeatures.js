@@ -3,34 +3,40 @@ import { Check, X } from 'lucide-react';
 
 const PLAN_FEATURES = {
   free: [
-    { feature: "1,000 AI messages per month", included: true },
-    { feature: "10 Image generations per month", included: true },
-    { feature: "Basic file operations", included: true },
-    { feature: "Standard support", included: true },
-    { feature: "Custom personalities", included: false },
-    { feature: "Priority support access", included: false },
-    { feature: "Advanced security features", included: false },
-    { feature: "Early access features", included: false }
+    { feature: "30 Messages Every 3 Hours", included: true },
+    { feature: "Access to Select Tools", included: true },
+    { feature: "Limited Feature Set (e.g., Image, Vision)", included: true },
+    {
+      feature: "Voting Privileges:",
+      included: true,
+      subFeatures: [
+        "Increase Message Allotment",
+        "Unlock a Single Tool (Cumulative; Non-participation results in re-locking all unlocked tools)"
+      ]
+    },
+    { feature: "Extended Message Allotment", included: false },
+    { feature: "AI Model Selection", included: false },
+    { feature: "Comprehensive Tool Access", included: false},
+    { feature: "Full Feature Availability", included: false },
+    { feature: "Direct Bot Interaction (DM) & Slash Commands", included: false},
+    { feature: "Custom Personality", included: false},
   ],
   premium: [
-    { feature: "Unlimited AI messages", included: true },
-    { feature: "100 Image generations per month", included: true },
-    { feature: "Advanced file operations", included: true },
-    { feature: "Priority support", included: true },
-    { feature: "Custom personalities", included: true },
-    { feature: "Advanced security features", included: true },
-    { feature: "Early access features", included: true },
-    { feature: "API access", included: true }
+    { feature: "Extended Message Allotment (100 Every 3 Hours)", included: true },
+    { feature: "AI Model Selection (Gemini or GPT; GPT incurs a 50-message reduction)", included: true },
+    { feature: "Comprehensive Tool Access", included: true },
+    { feature: "Full Feature Availability", included: true },
+    { feature: "Direct Bot Interaction (DM) & Slash Commands", included: true },
+    { feature: "Custom Personality", included: true},
+    { feature: "Voting for Increased Message Allotment", included: true }
   ],
-  enterprise: [
-    { feature: "Unlimited everything", included: true },
-    { feature: "Dedicated support team", included: true },
-    { feature: "Custom integrations", included: true },
-    { feature: "SLA guarantees", included: true },
-    { feature: "Advanced analytics", included: true },
-    { feature: "Custom deployment", included: true },
-    { feature: "Enterprise security", included: true },
-    { feature: "Training & onboarding", included: true }
+  custom: [
+    { feature: "Custom Message Allotment", included: true },
+    { feature: "Personalized Bot Behavior & Functionality", included: true },
+    { feature: "Tailored Tool Selection", included: true },
+    { feature: "Customizable Feature Set", included: true },
+    { feature: "Dedicated Support & Account Management", included: true },
+    { feature: "Integration with Existing Systems", included: true },
   ]
 };
 
@@ -48,6 +54,15 @@ export default function PlanFeatures({ plan }) {
             <X className="feature-icon not-included" />
           )}
           <span>{item.feature}</span>
+          {item.subFeatures && (
+            <ul className="sub-features">
+              {item.subFeatures.map((subFeature, subIndex) => (
+                <li key={subIndex} className="sub-feature-item">
+                  {subFeature}
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
       ))}
     </ul>
