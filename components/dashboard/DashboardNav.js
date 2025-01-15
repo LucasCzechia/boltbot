@@ -318,6 +318,17 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                   className={`dashboard-nav-links ${isMenuOpen ? 'active' : ''}`}
                   onClick={(e) => e.stopPropagation()}
               >
+                 <button
+                    className="dashboard-nav-close-btn"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsMenuOpen(false)
+                    }}
+                    aria-label="Close menu"
+                    >
+                      <X size={24} />
+                </button>
                 {finalNavigationItems.map((item) => {
                   if (item.requiresAuth && !session) return null;
 
@@ -334,17 +345,7 @@ export default function DashboardNav({ navigationItems = [], customTitle = null,
                     </button>
                   );
                 })}
-                  <button
-                    className="dashboard-nav-close-btn"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsMenuOpen(false)
-                    }}
-                    aria-label="Close menu"
-                    >
-                      <X size={24} />
-                </button>
+
               </div>
           )}
     </nav>
