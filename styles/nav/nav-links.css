@@ -192,22 +192,25 @@
  }
 
   /* Close button for mobile menu */
-  .dashboard-nav-links .dashboard-nav-close-btn {
-        background: none;
-        border: none;
-        color: var(--text-primary);
-        padding: 0.6rem;
-        cursor: pointer;
-        z-index: 1003;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-    }
-  
+ .dashboard-nav-links .dashboard-nav-close-btn {
+    position: absolute;
+    top: 1rem; /* Changed from previous response */
+    right: 1rem; /* Changed from previous response */
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 0.6rem;
+    cursor: pointer;
+    z-index: 1003;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
     .dashboard-nav-links .dashboard-nav-close-btn:hover {
       color: var(--primary);
         background: var(--nav-button-hover);
@@ -222,11 +225,10 @@
       opacity: 0;
       transition: opacity 0.3s ease;
   }
-  
+
     .dashboard-nav-links .dashboard-nav-close-btn:hover::before {
       opacity: 1;
     }
-    
 }
 
 @media (max-width: 480px) {
@@ -258,6 +260,7 @@
    border: 2px solid var(--dark);
  }
 }
+
 /* Touch Device Optimizations */
 @media (hover: none) {
     .dashboard-nav-item:hover {
