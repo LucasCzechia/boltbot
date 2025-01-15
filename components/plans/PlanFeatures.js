@@ -11,7 +11,7 @@ const PLAN_FEATURES = {
       included: true,
       subFeatures: [
         "Increase Message Allotment",
-        "Unlock a Single Tool (Cumulative; Non-participation results in re-locking all unlocked tools)"
+        "Unlock a Single Premium Tool"
       ]
     },
     { feature: "Extended Message Allotment", included: false },
