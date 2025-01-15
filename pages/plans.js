@@ -20,7 +20,7 @@ export default function PlansPage() {
       <div className="dashboard-wrapper">
         <DashboardNav />
         <Starfield />
-        
+
         <main className="pricing-page">
           <div className="pricing-content">
             <div className="pricing-header">
@@ -28,11 +28,11 @@ export default function PlansPage() {
               <p>Unlock the full potential of BoltBot⚡</p>
             </div>
 
-            <PricingTabs 
+            <PricingTabs
               activeCycle={billingCycle}
               onCycleChange={setBillingCycle}
             />
-            
+
             <div className="pricing-grid">
               {/* Free Plan */}
               <div className="pricing-card free">
@@ -76,28 +76,28 @@ export default function PlansPage() {
                 </button>
               </div>
 
-              {/* Enterprise Plan */}
-              <div className="pricing-card enterprise">
+              {/* Custom Plan */}
+              <div className="pricing-card custom"> {/* Changed 'enterprise' to 'custom' */}
                 <div className="pricing-card-header">
-                  <h2>Enterprise</h2>
+                  <h2>Custom</h2> {/* Changed 'Enterprise' to 'Custom' */}
                   <p>Custom solutions for large communities</p>
                   <div className="pricing-amount">
                     <span className="contact">Contact Us</span>
                   </div>
                 </div>
 
-                <PlanFeatures plan="enterprise" />
+                <PlanFeatures plan="custom" /> {/* Changed 'enterprise' to 'custom' */}
 
-                <button className="pricing-button enterprise">
+                <button className="pricing-button custom">  {/* Changed 'enterprise' to 'custom' */}
                   Contact Sales
                 </button>
               </div>
             </div>
           </div>
         </main>
-        
+
         <DashboardFooter />
       </div>
     </>
   );
-                }
+}
