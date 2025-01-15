@@ -22,7 +22,7 @@ const PLAN_FEATURES = {
     { feature: "Custom Personality", included: false},
   ],
   premium: [
-    { feature: "Extended Message Limit (100 Every 3 Hours)", included: true },
+    { feature: "100 Messages Every 3 Hours", included: true },
     { feature: "AI Model Selection (Gemini or GPT; GPT incurs a 50-message reduction)", included: true },
     { feature: "Comprehensive Tool Access", included: true },
     { feature: "Full Feature Availability", included: true },
