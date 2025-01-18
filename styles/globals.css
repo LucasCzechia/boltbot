@@ -1,7 +1,6 @@
 /* styles/globals.css */
 /* Misc Styles */
 @import './misc/starfield.css';
-@import './misc/snake.css';
 @import './misc/terms.css';
 @import './misc/404.css';
 @import './misc/cookie-consent.css';
@@ -10,7 +9,7 @@
 /* Nav Styles */
 @import './nav/nav.css';
 @import './nav/nav-links.css';
-@import './nav/dashboard-sidebar.css';
+@import './nav/server-sidebar.css';
 @import './nav/nav-buttons.css';
 @import './nav/nav-profile.css';
 
@@ -52,9 +51,6 @@
 @import './dashboard/server/search.css';
 @import './dashboard/server/personality.css';
 @import './dashboard/server/info-button.css';
-
-/* Plans Styles */
-@import './plans/combined.css';
 
 :root {
   /* Base colors */
