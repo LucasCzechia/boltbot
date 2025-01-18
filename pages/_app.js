@@ -9,7 +9,8 @@ const CookieConsent = dynamic(() => import('../components/misc/CookieConsent'), 
 });
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
-  const shouldShowAnalytics = typeof window !== 'undefined' && 
+  const shouldShowAnalytics = 
+    typeof window !== 'undefined' && 
     localStorage.getItem('cookieConsent') === 'accepted';
 
   return (
