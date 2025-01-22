@@ -9,8 +9,6 @@ const CookieConsent = dynamic(() => import('../components/misc/CookieConsent'), 
   ssr: false
 });
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
-
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const shouldShowAnalytics = typeof window !== 'undefined' && 
     localStorage.getItem('cookieConsent') === 'accepted';
@@ -19,7 +17,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     <SessionProvider session={session}>
       {shouldShowAnalytics && (
         <>
-          <GoogleAnalytics GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
+          <GoogleAnalytics />
           <Analytics />
         </>
       )}
