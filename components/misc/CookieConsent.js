@@ -1,4 +1,4 @@
-/* components/CookieConsent.js */
+// components/CookieConsent.js 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
@@ -19,17 +19,36 @@ export default function CookieConsent() {
   const acceptCookies = () => {
     localStorage.setItem('cookieConsent', 'accepted');
     setShowConsent(false);
+    
+    // Initialize GA after consent
+    if (window.gtag) {
+      window.gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+      });
+    }
+    
+    // Reload to enable analytics
+    window.location.reload();
   };
 
   const declineCookies = () => {
     localStorage.setItem('cookieConsent', 'declined');
     setShowConsent(false);
+    
+    // Clear existing cookies
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i];
       const eqPos = cookie.indexOf('=');
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+    }
+
+    // Disable GA if it exists
+    if (window.gtag) {
+      window.gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
     }
   };
 
@@ -46,7 +65,7 @@ export default function CookieConsent() {
           <div className="cookie-consent-content">
             <div className="cookie-consent-text">
               <p>
-                We use cookies to enhance your experience. By continuing to visit our site, you agree to our use of cookies.
+                We use cookies and Google Analytics to enhance your experience and analyze site traffic. By continuing to visit our site, you agree to our use of cookies.
                 <a href="/privacy">
                   Learn more
                 </a>
