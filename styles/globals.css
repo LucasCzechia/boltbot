@@ -52,6 +52,15 @@
 @import './dashboard/server/personality.css';
 @import './dashboard/server/info-button.css';
 
+/* Removes Blue Area */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
 :root {
   /* Base colors */
   --primary: #ffcc00;
